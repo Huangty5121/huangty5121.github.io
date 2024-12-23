@@ -367,7 +367,7 @@ table.imgtable, table.imgtable td {
 }
 
 /* 引用段落样式 */
-blockquote {
+div.blockquote {
     margin: 1.5em 0; /* 增加上下边距，与页面内容分隔开 */
     padding: 1.2em 20px; /* 内部留白 */
     background: #969696; /* 使用浅灰色背景 */
@@ -376,9 +376,5 @@ blockquote {
     color: #333; /* 字体颜色 */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 添加阴影效果 */
     border-radius: 4px; /* 让边角更圆润 */
-}
-
-blockquote cite:before {
-    content: "— "; /* 添加短横线 */
 }
 
