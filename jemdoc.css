@@ -369,9 +369,9 @@ table.imgtable, table.imgtable td {
 /* 引用段落样式 */
 div.blockquote {
     margin: 0.5em 0; /* 增加上下边距，与页面内容分隔开 */
-    padding: 1em 20px; /* 内部留白 */
+    padding: 1em 15px; /* 内部留白 */
     background: #e6e5e5; /* 使用浅灰色背景 */
-    border-left: 5px solid #527bbd; /* 左侧蓝色边框 */
+    border-left: 7px solid #527bbd; /* 左侧蓝色边框 */
     font-style: italic; /* 斜体显示 */
     color: #333; /* 字体颜色 */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 添加阴影效果 */
