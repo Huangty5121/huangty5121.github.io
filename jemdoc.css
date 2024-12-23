@@ -367,28 +367,32 @@ table.imgtable, table.imgtable td {
     text-align: left;
 }
 
-/* 清除 blockquote 默认样式 */
+/* 全局重置 blockquote 默认样式 */
 blockquote {
-    margin: 0; /* 清除默认上下边距 */
-    padding: 0; /* 清除默认内边距 */
+    margin-block: 0; /* 重置上下外边距 */
+    margin-inline: 0; /* 重置左右外边距（可选） */
+    padding: 0; /* 重置内边距 */
 }
 
-/* 适用于 #layout-content 中的 .blockquote */
+/* 针对 #layout-content 中的 .blockquote */
 #layout-content .blockquote {
-    padding: 0.1em 14px; /* 内部留白 */
-    background: #f7f7f7; /* 浅灰色背景 */
-    border-left: 5px solid #527bbd; /* 精致的蓝色左边框 */
-    font-style: italic; /* 斜体显示 */
-    color: #444; /* 更深的字体颜色，提升可读性 */
-    border-radius: 6px; /* 圆角更加平滑 */
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* 轻微阴影效果，增加立体感 */
-    line-height: 1.6; /* 调整行高，确保文字更易读 */
+    margin: 0; /* 确保上下外边距清零 */
+    padding: 0.1em 14px; /* 左右留白，适当的内部间距 */
+    background: #f7f7f7; /* 浅灰背景 */
+    border-left: 5px solid #527bbd; /* 左边框 */
+    font-style: italic; /* 斜体 */
+    color: #444; /* 字体颜色 */
+    border-radius: 6px; /* 圆角 */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* 阴影 */
+    line-height: 1.6; /* 行高 */
     white-space: pre-line; /* 保留换行符 */
     overflow: hidden; /* 防止 margin collapse */
 }
 
-/* 针对 #layout-content 中的 blockquote 元素 */
+/* 针对 blockquote 内部上下间距 */
 #layout-content .blockquote blockquote {
-    margin: 0; /* 清除 blockquote 的默认上下边距 */
+    margin-block-start: 0.2em; /* 与上方内容的间距 */
+    margin-block-end: 0.2em; /* 与下方内容的间距 */
+    padding: 0; /* 内部无额外留白 */
 }
 
