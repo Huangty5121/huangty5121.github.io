@@ -119,6 +119,7 @@ strong {
 h1, h2, h3 {
 	color: #527bbd;
 	margin-top: 0.7em;
+	padding-right: 0.1em;
 	margin-bottom: 0.3em;
 	padding-bottom: 0.2em;
 	line-height: 1.0;
