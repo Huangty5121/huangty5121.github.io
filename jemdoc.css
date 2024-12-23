@@ -366,25 +366,24 @@ table.imgtable, table.imgtable td {
     text-align: left;
 }
 
-/* 引用段落样式 */
-div.blockquote {
-    margin: 0em 0; /* 更小的上下边距，使引用段落与页面内容更紧凑 */
-    padding: 0.4em 15px; /* 内部留白适度，确保文字不拥挤 */
-    background: #f7f7f7; /* 轻微的浅灰色背景，更加柔和 */
-    border-left: 5px solid #527bbd; /* 精细的蓝色左边框 */
-    font-style: italic; /* 斜体显示，保持优雅 */
+#layout-content .blockquote {
+    margin: 0.2em 0; /* 减少上下外边距 */
+    padding: 0.4em 16px; /* 内部留白，确保文字不拥挤 */
+    background: #f7f7f7; /* 浅灰色背景 */
+    border-left: 5px solid #527bbd; /* 精致的蓝色左边框 */
+    font-style: italic; /* 斜体显示 */
     color: #444; /* 更深的字体颜色，提升可读性 */
     border-radius: 6px; /* 圆角更加平滑 */
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* 轻微阴影效果，增加立体感 */
-    line-height: 1.6; /* 调整行高，确保文字不会显得拥挤 */
-    white-space: pre-line; /* 自动换行 */
+    line-height: 1.6; /* 调整行高，确保文字更易读 */
+    white-space: pre-line; /* 保留换行符 */
 }
 
 /* 小屏幕下的响应式样式 */
 @media (max-width: 768px) {
     div.blockquote {
         padding: 0.2em 10px; /* 在小屏设备上适当减小内边距 */
-        margin: 0em 0; /* 在小屏幕上保持紧凑的上下边距 */
+        margin: 0.2em 0; /* 在小屏幕上保持紧凑的上下边距 */
     }
 }
 
