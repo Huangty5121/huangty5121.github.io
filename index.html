@@ -169,7 +169,8 @@ CV Download: <a href="cv/HUANG Tin Yeh CV.pdf">English</a>.<br />
                                 String(lastUpdated.getMonth() + 1).padStart(2, '0') + "." +
                                 String(lastUpdated.getDate()).padStart(2, '0') + " " +
                                 String(lastUpdated.getHours()).padStart(2, '0') + ":" +
-                                String(lastUpdated.getMinutes()).padStart(2, '0');
+                                String(lastUpdated.getMinutes()).padStart(2, '0') + ":" +
+                                String(lastUpdated.getSeconds()).padStart(2, '0');
           document.getElementById("lastUpdated").innerText = formattedDate;
       }
   }
