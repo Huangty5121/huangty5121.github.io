@@ -375,7 +375,6 @@ table.imgtable, table.imgtable td {
     color: #444; /* 更深的字体颜色，提升可读性 */
     border-radius: 6px; /* 圆角更加平滑 */
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* 轻微阴影效果，增加立体感 */
-    line-height: 1.6; /* 调整行高，确保文字更易读 */
     white-space: pre-line; /* 保留换行符 */
 }
 
