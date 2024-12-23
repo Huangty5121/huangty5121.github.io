@@ -367,12 +367,13 @@ table.imgtable, table.imgtable td {
     text-align: left;
 }
 
-#layout-content .blockquote {
+div.blockquote {
     padding: 14px; /* 左右留白，适当的内部间距 */
 	padding-left: 2em;
 	padding-right: 2em;
-	padding-top: 0em;
-	padding-bottom: 0em;
+	padding-top: 2em;
+	padding-bottom: 2em;
+	margin: 0;
     background: #f7f7f7; /* 浅灰背景 */
     border-left: 5px solid #527bbd; /* 左边框 */
     font-style: italic; /* 斜体 */
