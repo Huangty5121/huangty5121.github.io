@@ -368,8 +368,8 @@ table.imgtable, table.imgtable td {
 
 /* 引用段落样式 */
 div.blockquote {
-    margin: 0.4em 0; /* 减少上下边距，使引用段落与页面内容的分隔更紧凑 */
-    padding: 0.8em 20px; /* 内部留白适度，确保文字不拥挤 */
+    margin: 0.2em 0; /* 更小的上下边距，使引用段落与页面内容更紧凑 */
+    padding: 0.4em 16px; /* 内部留白适度，确保文字不拥挤 */
     background: #f7f7f7; /* 轻微的浅灰色背景，更加柔和 */
     border-left: 5px solid #527bbd; /* 精细的蓝色左边框 */
     font-style: italic; /* 斜体显示，保持优雅 */
@@ -383,7 +383,8 @@ div.blockquote {
 /* 小屏幕下的响应式样式 */
 @media (max-width: 768px) {
     div.blockquote {
-        padding: 0.6em 15px; /* 在小屏设备上适当减小内边距 */
+        padding: 0.2em 12px; /* 在小屏设备上适当减小内边距 */
+        margin: 0.1em 0; /* 在小屏幕上保持紧凑的上下边距 */
     }
 }
 
