@@ -366,6 +366,7 @@ table.imgtable, table.imgtable td {
     text-align: left;
 }
 
+/* 引用段落样式 */
 div.blockquote {
     margin: 0.4em 0; /* 减少上下边距，使引用段落与页面内容的分隔更紧凑 */
     padding: 0.8em 20px; /* 内部留白适度，确保文字不拥挤 */
@@ -376,8 +377,10 @@ div.blockquote {
     border-radius: 6px; /* 圆角更加平滑 */
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* 轻微阴影效果，增加立体感 */
     line-height: 1.6; /* 调整行高，确保文字不会显得拥挤 */
+    white-space: pre-line; /* 自动换行 */
 }
 
+/* 小屏幕下的响应式样式 */
 @media (max-width: 768px) {
     div.blockquote {
         padding: 0.6em 15px; /* 在小屏设备上适当减小内边距 */
