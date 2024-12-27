@@ -372,8 +372,8 @@ div.blockquote {
 	padding-left: 2em;
 	padding-right: 2em;
 	padding-top: 0;
-	padding-bottom: 0.5em;
-	margin-top: 0.5em;
+	padding-bottom: 0em;
+	margin: 0;
     background: #f7f7f7; /* 浅灰背景 */
     border-left: 5px solid #527bbd; /* 左边框 */
     font-style: italic; /* 斜体 */
