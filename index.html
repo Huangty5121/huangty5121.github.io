@@ -215,8 +215,8 @@ Pui Kiu College, Hong Kong SAR, China</p>
         // Get the date from the latest commit affecting index.html
         const lastCommitDate = new Date(data[0].commit.committer.date);
         
-        // Format using UTC time
-        const options = {
+        // Format based on user's local timezone
+        const userOptions = {
           year: 'numeric',
           month: '2-digit',
           day: '2-digit',
@@ -224,19 +224,20 @@ Pui Kiu College, Hong Kong SAR, China</p>
           minute: '2-digit',
           second: '2-digit',
           hour12: false,
-          timeZone: 'UTC'
+          timeZoneName: 'short'
         };
         
-        // Format the date in UTC
-        const formattedDate = new Intl.DateTimeFormat('en-GB', options).format(lastCommitDate);
+        // Format the date based on user's timezone
+        const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+        const formattedDate = new Intl.DateTimeFormat('en-GB', userOptions).format(lastCommitDate);
         
-        document.getElementById("lastUpdated").textContent = `${formattedDate} (UTC)`;
+        document.getElementById("lastUpdated").textContent = `${formattedDate} (${userTimezone})`;
       } else {
         throw new Error('No commit data found');
       }
     } catch (error) {
       console.error("Error fetching GitHub commit data:", error);
-      // Fallback to show current time in UTC
+      // Fallback to show current time in user's timezone
       const now = new Date();
       const fallbackOptions = {
         year: 'numeric', 
@@ -246,10 +247,10 @@ Pui Kiu College, Hong Kong SAR, China</p>
         minute: '2-digit', 
         second: '2-digit',
         hour12: false,
-        timeZone: 'UTC'
+        timeZoneName: 'UTC'
       };
       document.getElementById("lastUpdated").textContent = 
-        `${new Intl.DateTimeFormat('en-GB', fallbackOptions).format(now)} (UTC)`;
+        `${new Intl.DateTimeFormat('en-GB', fallbackOptions).format(now)} (local time)`;
     }
   }
 
