@@ -199,56 +199,63 @@ Pui Kiu College, Hong Kong SAR, China</p>
 
 <p><br/>
   Last updated: <span id="lastUpdated"></span><br />
-  CV Download: <a href="cv/HTY_CV">English</a>.<br />
+  CV Download: <a href="cv/HTY_CV.pdf">English</a>.<br />
 </p>
 
 <script>
-  async function fetchLastPull() {
-      try {
-          // Using WorldTimeAPI to get current time in Hong Kong timezone
-          const response = await fetch("https://worldtimeapi.org/api/timezone/Asia/Hong_Kong");
-          if (!response.ok) {
-              throw new Error(`HTTP error! status: ${response.status}`);
-          }
-          const data = await response.json();
-          // Parse the ISO 8601 datetime string
-          const lastUpdated = new Date(data.datetime);
-
-          // Get user's local timezone for display comparison if needed, but display in HK Time
-          // const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-
-          // Format the date and time according to Hong Kong Time (UTC+8)
-          const options = {
-              year: 'numeric',
-              month: '2-digit',
-              day: '2-digit',
-              hour: '2-digit',
-              minute: '2-digit',
-              second: '2-digit',
-              timeZone: 'Asia/Hong_Kong', // Explicitly set timezone
-              hour12: false // Use 24-hour format
-          };
-
-          // Using 'en-GB' locale for DD/MM/YYYY format, adjust if needed
-          const formattedDate = new Intl.DateTimeFormat('en-GB', options).format(lastUpdated);
-          // Append the timezone information
-          document.getElementById("lastUpdated").textContent = `${formattedDate} (HKT UTC+8)`;
-
-      } catch (error) {
-          console.error("Error fetching time data:", error);
-          // Display a fallback message or the last known good time
-          const now = new Date();
-           const fallbackOptions = {
-              year: 'numeric', month: '2-digit', day: '2-digit',
-              hour: '2-digit', minute: '2-digit', second: '2-digit',
-              hour12: false
-          };
-          document.getElementById("lastUpdated").textContent = `Update time unavailable (Current local time: ${new Intl.DateTimeFormat('en-GB', fallbackOptions).format(now)})`;
+  async function fetchLastModifiedTime() {
+    try {
+      // Fetch the last commit information from GitHub API for this repository
+      const response = await fetch('https://api.github.com/repos/Huangty5121/huangty5121.github.io/commits?path=index.html&per_page=1');
+      if (!response.ok) {
+        throw new Error(`GitHub API error: ${response.status}`);
       }
+      const data = await response.json();
+      if (data && data.length > 0) {
+        // Get the date from the latest commit affecting index.html
+        const lastCommitDate = new Date(data[0].commit.committer.date);
+        
+        // Format based on user's local timezone
+        const userOptions = {
+          year: 'numeric',
+          month: '2-digit',
+          day: '2-digit',
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit',
+          hour12: false,
+          timeZoneName: 'short'
+        };
+        
+        // Format the date based on user's timezone
+        const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+        const formattedDate = new Intl.DateTimeFormat('en-GB', userOptions).format(lastCommitDate);
+        
+        document.getElementById("lastUpdated").textContent = `${formattedDate} (${userTimezone})`;
+      } else {
+        throw new Error('No commit data found');
+      }
+    } catch (error) {
+      console.error("Error fetching GitHub commit data:", error);
+      // Fallback to show current time in user's timezone
+      const now = new Date();
+      const fallbackOptions = {
+        year: 'numeric', 
+        month: '2-digit', 
+        day: '2-digit',
+        hour: '2-digit', 
+        minute: '2-digit', 
+        second: '2-digit',
+        hour12: false,
+        timeZoneName: 'short'
+      };
+      document.getElementById("lastUpdated").textContent = 
+        `${new Intl.DateTimeFormat('en-GB', fallbackOptions).format(now)} (local time)`;
+    }
   }
 
   // Call the function when the page loads
-  fetchLastPull();
+  document.addEventListener('DOMContentLoaded', fetchLastModifiedTime);
 </script>
 
 </td>
