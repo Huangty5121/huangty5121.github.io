@@ -345,7 +345,7 @@ td {
     padding: 2px;
     padding-left: 0.5em;
     padding-right: 0.5em;
-    text-align: center;
+    text-align: center; /* Note: This centers text in ALL table cells */
     border: 1px solid gray;
 }
 
@@ -362,9 +362,11 @@ img {
     border: none;
 }
 
+/* Override default table styles for image table if still used elsewhere */
 table.imgtable, table.imgtable td {
     border: none;
     text-align: left;
+    padding: 0; /* Reset padding */
 }
 
 div.blockquote {
@@ -382,3 +384,61 @@ div.blockquote {
     overflow: hidden; /* 防止 margin collapse */
 }
 
+/* --- START: Added styles for Profile Section --- */
+.profile-container {
+  display: flex; /* Enable Flexbox layout */
+  align-items: flex-start; /* Align items to the top */
+  gap: 25px; /* Space between image and text */
+  margin-bottom: 1.5em; /* Add space below the profile section */
+  padding-top: 1em; /* Add some space above */
+}
+
+.profile-image {
+  flex-shrink: 0; /* Prevent the image container from shrinking */
+}
+
+.profile-image img {
+  display: block; /* Remove potential extra space below the image */
+  max-width: 100%; /* Ensure image is responsive if container shrinks */
+  height: auto; /* Maintain aspect ratio */
+  /* Explicit width/height should be set in HTML for initial load */
+}
+
+.profile-details {
+  flex-grow: 1; /* Allow text container to take remaining space */
+  text-align: left; /* Ensure text aligns left, overriding any potential parent centering */
+}
+
+.profile-details h4 {
+  margin-top: 0; /* Remove top margin for the first heading in this block */
+  margin-bottom: 0.4em; /* Space below heading */
+  font-size: 1.1em; /* Slightly larger heading */
+  color: #333; /* Darker heading color */
+  border-bottom: none; /* Remove the default h3/h4 border if present */
+  padding-bottom: 0; /* Remove padding from default h styles */
+}
+
+/* Adjust spacing for subsequent headings within profile details */
+.profile-details h4 + h4 {
+    margin-top: 1em;
+}
+
+
+.profile-details p {
+  margin-top: 0;
+  margin-bottom: 1em; /* Space between paragraphs/blocks */
+  line-height: 1.5; /* Improve readability */
+  font-size: 0.95em; /* Adjust text size if needed */
+}
+
+/* Style links within the details */
+.profile-details a {
+  color: #0056b3; /* Example link color */
+  text-decoration: none;
+}
+
+.profile-details a:hover {
+  text-decoration: underline;
+  border-bottom: none; /* Remove dotted border from general link hover */
+}
+/* --- END: Added styles for Profile Section --- */
