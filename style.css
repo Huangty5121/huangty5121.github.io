@@ -99,15 +99,23 @@ html {
 }
 
 body {
-  font-family: 'Inter', sans-serif !important;
+  font-family: 'Inter', 'PingFang SC', 'Microsoft YaHei', sans-serif !important;
+  font-size: 1.05rem; /* Slightly increased base font size */
+  font-weight: 400; /* Ensuring a consistent normal weight */
   background: var(--bg-color) !important;
   color: var(--text-color) !important;
-  line-height: 1.6;
+  line-height: 1.7; /* Slightly increased line height for better readability with larger font */
   transition: all 0.3s ease;
   margin: 0;
   padding: 0;
   min-height: 100vh;
   overflow-x: hidden;
+}
+
+p, li, td, dd {
+  font-size: 1rem; /* Ensure paragraph-like elements inherit or have a good base size */
+  font-weight: 400;
+  line-height: 1.7;
 }
 
 /* Override jemdoc.css background settings */
@@ -262,7 +270,7 @@ a:hover {
   border-bottom: 1px solid var(--border-color);
   z-index: 1000;
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   align-items: center;
   padding: 0 25px;
   box-shadow: 0 4px 20px rgba(0,0,0,0.08);
@@ -273,13 +281,23 @@ a:hover {
   font-size: 1.1rem;
   font-weight: 600;
   color: var(--text-color);
-  margin-right: auto; /* Pushes other items to the right */
   text-decoration: none;
+  flex: 1;
+  text-align: center;
 }
 
 .nav-left, .nav-right {
   display: flex;
   align-items: center;
+  min-width: 120px; /* Ensure consistent spacing */
+}
+
+.nav-left {
+  justify-content: flex-start;
+}
+
+.nav-right {
+  justify-content: flex-end;
   gap: 12px;
 }
 
@@ -297,11 +315,12 @@ a:hover {
   cursor: pointer;
   width: 36px;
   height: 36px;
-  display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   z-index: 1001; /* Ensure it's above other elements */
+  gap: 4px;
 }
 
 #menu-toggle-btn:hover {
@@ -323,10 +342,17 @@ a:hover {
   box-shadow: 0 6px 20px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.15);
 }
 
-#menu-toggle-btn svg {
-  width: 20px;
-  height: 20px;
-  fill: var(--text-color);
+#menu-toggle-btn span {
+  display: block;
+  height: 2px;
+  width: 18px;
+  background: linear-gradient(90deg, #6c757d, #495057);
+  border-radius: 1px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+[data-theme="dark"] #menu-toggle-btn span {
+  background: linear-gradient(90deg, #adb5bd, #dee2e6);
 }
 
 #menu-close-btn {
@@ -907,6 +933,10 @@ html:not([data-theme='dark']) .theme-toggle .moon-icon {
   #layout-menu.active {
     left: 0; /* Slide in */
   }
+  
+  .menu-open #layout-menu {
+    left: 0; /* Also slide in for menu-open class */
+  }
 
   #layout-content {
     margin-left: 20px; /* Adjust for smaller screens */
@@ -920,7 +950,7 @@ html:not([data-theme='dark']) .theme-toggle .moon-icon {
   }
 
   #menu-toggle-btn {
-    display: flex; /* Show toggle button on small screens */
+    display: flex; /* Show toggle button on screens <= 1340px */
   }
 
   #menu-close-btn {
@@ -1188,7 +1218,7 @@ body.menu-open #page-overlay {
 }
 
 /* ===== DESKTOP LAYOUT (DEFAULT) ===== */
-@media (min-width: 769px) {
+@media (min-width: 1341px) {
   #layout-menu {
     transform: translateX(0) !important;
     position: fixed !important;
@@ -1201,11 +1231,12 @@ body.menu-open #page-overlay {
 }
 
 /* ===== MOBILE LAYOUT ===== */
-@media (max-width: 768px) {
+@media (max-width: 1340px) {
   #layout-menu {
     transform: translateX(-100%);
   }
   
+  #layout-menu.active,
   .menu-open #layout-menu {
     transform: translateX(0);
   }
@@ -1217,40 +1248,6 @@ body.menu-open #page-overlay {
   
   #menu-toggle-btn {
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 36px;
-    height: 36px;
-    background: rgba(255, 255, 255, 0.8);
-    backdrop-filter: blur(15px) saturate(1.2);
-    -webkit-backdrop-filter: blur(15px) saturate(1.2);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    border-radius: 12px;
-    cursor: pointer;
-    padding: 0;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.5);
-    gap: 4px;
-  }
-  
-  #menu-toggle-btn span {
-    display: block;
-    height: 2px;
-    width: 18px;
-    background: linear-gradient(90deg, #6c757d, #495057);
-    border-radius: 1px;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-  
-  [data-theme="dark"] #menu-toggle-btn {
-    background: rgba(45, 45, 45, 0.8);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.1);
-  }
-  
-  [data-theme="dark"] #menu-toggle-btn span {
-    background: linear-gradient(90deg, #adb5bd, #dee2e6);
   }
 }
 

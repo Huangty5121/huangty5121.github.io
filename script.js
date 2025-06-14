@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     if (menuToggleBtn && layoutMenu) {
         menuToggleBtn.addEventListener('click', function() {
+            document.body.classList.toggle('menu-open');
             layoutMenu.classList.toggle('active');
             if (pageOverlay) {
                 pageOverlay.classList.toggle('active'); // Toggle overlay if it exists
@@ -15,6 +16,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     if (menuCloseBtn && layoutMenu) {
         menuCloseBtn.addEventListener('click', function() {
+            document.body.classList.remove('menu-open');
             layoutMenu.classList.remove('active');
             if (pageOverlay) {
                 pageOverlay.classList.remove('active'); // Hide overlay
@@ -26,6 +28,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (pageOverlay && layoutMenu) {
         pageOverlay.addEventListener('click', function() {
             if (layoutMenu.classList.contains('active')) {
+                document.body.classList.remove('menu-open');
                 layoutMenu.classList.remove('active');
                 pageOverlay.classList.remove('active');
             }
