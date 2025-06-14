@@ -1,277 +1,470 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
   "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" data-theme="light">
 <head>
-<meta name="generator" content="jemdoc, see http://jemdoc.jaboc.net/" />
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-V3NDD3YDYH"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-V3NDD3YDYH');
+</script>
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="keywords" content="Tin Yeh Huang (Heaven), 黃天野">
 <link rel="stylesheet" href="jemdoc.css" type="text/css" />
+<link rel="stylesheet" href="style.css" type="text/css" />
 <link rel="shortcut icon" href="favicon.ico" />
 <link rel="bookmark" href="favicon.ico" type="image/x-icon" />
-<title>HUANG Tin Yeh 黃天野</title>
-<style>
-  /* Optional: Add some basic styling for clarity */
-  h3 { margin-top: 1em; margin-bottom: 0.5em; }
-  ul, ol { margin-top: 0.5em; margin-bottom: 0.5em; }
-  li p { margin: 0.3em 0; }
-</style>
+<title>黄天野的个人主页 | Tianye Huang's Homepage</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
+<div id="page-overlay"></div>
+<!-- Top Navigation Bar -->
+<div class="top-nav-bar">
+    <a href="index.html" class="nav-title">黄天野的个人主页 | Tianye Huang's Homepage</a>
+  <div class="nav-left">
+    <div id="menu-toggle-btn">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </div>
+    <div class="nav-right">
+    <div class="language-switch">
+      <a href="en.html">English</a>
+    </div>
+    <div class="theme-toggle" id="theme-toggle">
+      <svg class="sun-icon" viewBox="0 0 24 24">
+        <path d="M12 18C8.68629 18 6 15.3137 6 12C6 8.68629 8.68629 6 12 6C15.3137 6 18 8.68629 18 12C18 15.3137 15.3137 18 12 18ZM12 16C14.2091 16 16 14.2091 16 12C16 9.79086 14.2091 8 12 8C9.79086 8 8 9.79086 8 12C8 14.2091 9.79086 16 12 16ZM11 1H13V4H11V1ZM11 20H13V23H11V20ZM3.51472 4.92893L4.92893 3.51472L7.05025 5.63604L5.63604 7.05025L3.51472 4.92893ZM16.9497 18.364L18.364 16.9497L20.4853 19.0711L19.0711 20.4853L16.9497 18.364ZM19.0711 3.51472L20.4853 4.92893L18.364 7.05025L16.9497 5.63604L19.0711 3.51472ZM5.63604 16.9497L7.05025 18.364L4.92893 20.4853L3.51472 19.0711L5.63604 16.9497ZM23 11V13H20V11H23ZM4 11V13H1V11H4Z"/>
+      </svg>
+      <svg class="moon-icon" viewBox="0 0 24 24">
+        <path d="M10 7C10 10.866 13.134 14 17 14C18.9584 14 20.729 13.1957 21.9995 11.8995C22 11.933 22 11.9665 22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C12.0335 2 12.067 2 12.1005 2.00049C10.8043 3.27098 10 5.04157 10 7Z"/>
+      </svg>
+    </div>
+  </div>
+</div>
+
 <table summary="Table for page layout." id="tlayout">
 <tr valign="top">
 <td id="layout-menu">
-<div class="menu-category">Menu</div>
-<div class="menu-item"><a href="index.html" class="current">Home</a></div>
-
-<div class="menu-category">Personal</div>
-<div class="menu-item"><a href="https://scholar.google.com/citations?user=zrVCdOkAAAAJ&hl=en">Google Scholar</a></div>
-<div class="menu-item"><a href="https://orcid.org/0009-0004-1417-1692">ORCID</a></div>
-<div class="menu-item"><a href="https://github.com/Huangty5121">GitHub</a></div>
-
-<div class="menu-category">Organizations</div>
-<div class="menu-item"><a href="https://www.polyu.edu.hk/">PolyU</a></div>
-<div class="menu-item"><a href="https://www.x-institute.edu.cn/">X-Institute</a></div>
-<div class="menu-item"><a href="https://polysmartgroup.github.io">PolySmart</a></div>
-
-<div class="menu-category">Co-author</div> 
-<div class="menu-item"><a href="https://wyqmath.cn/">Yiquan Wang</a></div> 
+<!-- Modified menu category to be clickable -->
+<div class="menu-category">
+  <span>Menu</span>
+  <span id="menu-close-btn">&times;</span>
+    </div>
+<!-- Added a wrapper div for menu items, now including co-authors -->
+    <div id="menu-items">
+    <div class="menu-item"><a href="index.html" class="current"><img src="favicon.ico" alt="home icon" class="menu-icon">Home</a></div>
+    <div class="menu-item"><a href="https://github.com/huangty5121"><svg t="1749451911580" class="icon menu-icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="9423"><path d="M512 85.333333C276.266667 85.333333 85.333333 276.266667 85.333333 512a426.410667 426.410667 0 0 0 291.754667 404.821333c21.333333 3.712 29.312-9.088 29.312-20.309333 0-10.112-0.554667-43.690667-0.554667-79.445333-107.178667 19.754667-134.912-26.112-143.445333-50.133334-4.821333-12.288-25.6-50.133333-43.733333-60.288-14.933333-7.978667-36.266667-27.733333-0.554667-28.245333 33.621333-0.554667 57.6 30.933333 65.621333 43.733333 38.4 64.512 99.754667 46.378667 124.245334 35.2 3.754667-27.733333 14.933333-46.378667 27.221333-57.045333-94.933333-10.666667-194.133333-47.488-194.133333-210.688 0-46.421333 16.512-84.778667 43.733333-114.688-4.266667-10.666667-19.2-54.4 4.266667-113.066667 0 0 35.712-11.178667 117.333333 43.776a395.946667 395.946667 0 0 1 106.666667-14.421333c36.266667 0 72.533333 4.778667 106.666666 14.378667 81.578667-55.466667 117.333333-43.690667 117.333334-43.690667 23.466667 58.666667 8.533333 102.4 4.266666 113.066667 27.178667 29.866667 43.733333 67.712 43.733334 114.645333 0 163.754667-99.712 200.021333-194.645334 210.688 15.445333 13.312 28.8 38.912 28.8 78.933333 0 57.045333-0.554667 102.912-0.554666 117.333334 0 11.178667 8.021333 24.490667 29.354666 20.224A427.349333 427.349333 0 0 0 938.666667 512c0-235.733333-190.933333-426.666667-426.666667-426.666667z" fill="#000000" p-id="9424"></path></svg>GitHub</a></div>
+    <div class="menu-item"><a href="https://scholar.google.com/citations?user=zrVCdOkAAAAJ&hl=en"><svg t="1749452075490" class="icon menu-icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="11407"><path d="M512 822.24L0 405.334 512 0z" fill="#4285F4" p-id="11408"></path><path d="M512 822.24l512-416.906L512 0z" fill="#356AC3" p-id="11409"></path><path d="M512 725.334m-298.666 0a298.666 298.666 0 1 0 597.332 0 298.666 298.666 0 1 0-597.332 0Z" fill="#A0C3FF" p-id="11410"></path><path d="M242.074 597.334c47.936-100.906 150.784-170.668 269.926-170.668s221.99 69.762 269.926 170.668H242.074z" fill="#76A7FA" p-id="11411"></path></svg>Google Scholar</a></div>
+    <div class="menu-item"><a href="https://orcid.org/0009-0004-1417-1692"><svg t="1749452117253" class="icon menu-icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2342"><path d="M575.7 373.2h-65.9v277.6h65.9c48.1 0 83.2-11.3 105.3-33.5 21.6-22.7 32.4-57.8 32.4-105.3 0-48.6-10.8-84.2-32.4-105.8-22.1-22.2-57.2-33-105.3-33z" fill="#A1C837" p-id="2343"></path><path d="M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zM371.1 704.8h-63.2V319.2h63.2v385.6z m358.5-51.9c-32.4 34.6-79.4 51.8-142 51.8H446.7V319.2h140.9c62.6 0 109.6 17.3 142 51.8 30.8 32.4 46.4 79.4 46.4 140.9 0.1 61.1-15.6 108.1-46.4 141z" fill="#A1C837" p-id="2344"></path></svg>ORCID</a></div>
+    <div class="menu-item"><a href="https://openreview.net/profile?id=%7ETin-Yeh_Huang2"><img src="photos\openreview.png" alt="openreview icon" class="menu-icon">openreview</a></div>
+    <div class="menu-item"><a href="https://arxiv.org/a/huang_t_3.html"><svg t="1749452238040" class="icon menu-icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4238"><path d="M0 750.933333V273.066667a273.066667 273.066667 0 0 1 273.066667-273.066667h477.866666a273.066667 273.066667 0 0 1 273.066667 273.066667v477.866666a273.066667 273.066667 0 0 1-273.066667 273.066667H273.066667a273.066667 273.066667 0 0 1-273.066667-273.066667z" fill="#FFFFFF" p-id="4239"></path><path d="M0 750.933333V273.066667a273.066667 273.066667 0 0 1 273.066667-273.066667h477.866666a273.066667 273.066667 0 0 1 273.066667 273.066667v477.866666a273.066667 273.066667 0 0 1-273.066667 273.066667H273.066667a273.066667 273.066667 0 0 1-273.066667-273.066667z m34.133333 0q0 98.986667 69.973334 168.96Q174.08 989.866667 273.066667 989.866667h477.866666q98.986667 0 168.96-69.973334Q989.866667 849.92 989.866667 750.933333V273.066667q0-98.986667-69.973334-168.96Q849.92 34.133333 750.933333 34.133333H273.066667Q174.08 34.133333 104.106667 104.106667 34.133333 174.08 34.133333 273.066667v477.866666z" fill="#F0F0F0" p-id="4240"></path><path d="M433.425067 417.621333l77.346133 93.457067 227.805867-267.605333c12.049067-16.042667 17.749333-24.4736 12.049066-38.126934a41.5744 41.5744 0 0 0-36.215466-25.531733 32.529067 32.529067 0 0 0-24.302934 8.942933l-256.682666 228.864z" fill="#BDB9B4" p-id="4241"></path><path d="M637.405867 462.301867L275.387733 115.029333a48.2304 48.2304 0 0 0-28.4672-17.066666 37.205333 37.205333 0 0 0-35.054933 22.528c-5.700267 13.653333-1.604267 23.2448 10.888533 41.1648l288.085334 349.5936-214.4256 263.3728c-11.3664 11.741867-15.5648 28.672-11.025067 44.373333 5.905067 14.370133 19.968 23.688533 35.498667 23.552a33.860267 33.860267 0 0 0 25.531733-12.458667l290.781867-270.336c28.910933-26.0096 29.013333-71.338667 0.2048-97.450666z" fill="#B31B1B" p-id="4242"></path><path d="M801.0752 861.218133l-290.986667-350.72-77.312-93.422933-47.445333 42.8032a70.417067 70.417067 0 0 0 0 101.205333l369.083733 355.669334c6.5536 6.826667 15.872 10.3424 25.326934 9.591466 14.472533-0.238933 27.3408-9.216 32.529066-22.766933a43.008 43.008 0 0 0-11.195733-42.325333z" fill="#BDB9B4" p-id="4243"></path></svg>arxiv</a></div>
+    <div class="menu-item"><a href="https://www.researchgate.net/profile/Tin-Yeh-Huang"><svg t="1749452257035" class="icon menu-icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="5315"><path d="M334.624 587.104a612.576 612.576 0 0 1-58.88-2.208v-216.224c11.232-0.768 24.8-1.152 41.856-1.28l25.216-0.096c73.568 0 114.976 37.92 114.976 106.24 0 69.216-47.008 113.536-123.136 113.536zM896.032 0h-768a128 128 0 0 0-128 128v768a128 128 0 0 0 128 128h768a128 128 0 0 0 128-128V128a128 128 0 0 0-128-128z m-249.6 888.8l-3.808 5.76c-10.752 4.896-27.872 7.84-44.288 7.84-52.48 0-96.672-20.224-126.24-55.808-35.2-40.576-87.52-118.144-136.704-205.824-28.32 0-38.912-0.224-52.608-0.896l-6.912-0.512v144.8c0 48.768 7.84 61.92 31.616 65.504l47.104 6.4 5.536 6.4v26.336l-6.656 6.4a3323.68 3323.68 0 0 0-115.712-2.688c-24.448 0-49.888 0.64-79.584 1.632l-29.792 1.12-6.56-6.4v-26.368l5.248-6.272 34.4-6.4c24.064-4.576 32-17.44 32-65.408V426.272c0-47.968-7.936-60.896-31.872-65.44l-34.464-6.432-5.504-6.176v-26.368l6.656-6.4c52.512 1.504 105.088 1.312 157.568-0.48 31.616-0.928 50.56-1.312 73.312-1.312 114.464 0 188.544 55.68 188.544 155.392 0 70.4-53.376 138.656-124.544 159.456 39.296 68.512 88.672 135.84 132.768 184.192 26.208 28.288 56.704 46.08 84.096 46.08l6.4 6.4z m223.616-586.464c0 19.36-0.352 28.576-1.44 38.816a172.384 172.384 0 0 1-5.76 30.688c-7.936 24.576-20.608 42.24-39.904 55.424-19.2 13.088-43.808 20.192-70.4 20.192-27.232 0-50.4-6.272-69.376-18.912-19.104-12.672-32.8-31.584-40.96-56.32a104.288 104.288 0 0 1-3.84-14.688 283.872 283.872 0 0 1-4.096-40.672 1036.544 1036.544 0 0 1 0-64.64c0.48-13.6 1.824-27.232 4.192-40.608a99.84 99.84 0 0 1 3.808-14.688c8.192-24.8 21.888-43.648 40.992-56.32 18.976-12.672 42.24-18.944 69.472-18.944 13.984 0 26.656 1.664 38.048 4.96 11.36 3.328 21.504 7.84 30.432 13.728s16.512 12.672 22.912 20.48c6.304 7.68 11.52 16 15.456 24.352 3.104 5.536 1.92 11.52-4.48 15.36l-32.416 13.28c-5.984 3.328-12.032 1.152-14.976-4.736-7.936-14.56-13.568-21.536-22.016-26.88a55.232 55.232 0 0 0-32.896-8.672c-14.72 0-21.504 2.272-32.384 9.952a53.504 53.504 0 0 0-21.152 28.704c-2.4 7.296-3.84 14.848-4.352 22.528a824.832 824.832 0 0 0 0 99.84c0.512 7.68 1.952 15.232 4.352 22.528 2.784 10.592 9.472 19.712 18.688 25.6a58.56 58.56 0 0 0 34.912 10.016c12.448 0.352 24.704-3.104 35.2-9.856 8.576-5.792 14.88-14.368 17.824-24.32l1.792-6.24c1.12-3.968 2.016-8.032 2.656-12.128 0.896-5.536 1.12-10.24 1.12-22.56h-49.376l-0.128-0.224c-6.528 0-10.88-4.352-10.88-10.88v-30.08c0-6.432 4.352-10.88 10.88-10.88h97.28c6.432 0 10.88 4.448 10.88 10.88z" fill="#00CCBB" p-id="5316"></path></svg>ResearchGate</a></div>
+    <div class="menu-category-title">Co-author</div>
+    <div class="menu-item"><a href="https://wyqmath.cn/">Yiquan Wang 王一權</a></div>
+    <div class="menu-item"><a href="https://jlu-wangxu.github.io/">Xu Wang 王旭</a></div>
+    <div class="menu-category-title">Organizations</div>
+    <div class="menu-item"><a href="https://www.polyu.edu.hk/">香港理工大學（PolyU）</a></div>
+    <div class="menu-item"><a href="https://www.tsinghua.edu.cn/">清華大學（THU）</a></div>
+    <div class="menu-item"><a href="https://www.x-institute.edu.cn/">深圳零一學院（清華錢班）</a></div>
+    <div class="menu-item"><a href="https://polysmartgroup.github.io">深圳醫學科學院（SMART）</a></div>
+    </div>
 </td>
 <td id="layout-content">
 <div id="toptitle">
-<h1><b>HUANG Tin Yeh (Heaven)</span></b></h1>
+<h1>Tin Yeh Huang 黃天野</h1>
 </div>
+
 <table class="imgtable"><tr><td>
-  <img src="photos/hty.png" alt="alt text" width="143px" height="209px" />
+  <img src="photos\hty.png" alt="alt text" width="143px" height="209px" />
   </td>
 <td align="left">
-<p><br />
-The Hong Kong Polytechnic University<br />
-Faculty of Engineering, Department of Industrial and Systems Engineering<br />
-BEng (Hons) Product Engineering with a Second Major in IE (Innovation and Entrepreneurship)<br />
-Research Centre for Data Sciences & Artificial Intelligence (RC-DSAI)<br />
-Student Research Intern, PolySmart Research Group<br />
-<br />
-Tsinghua University Shenzhen - X-Institute<br />
-Joint Training: Social Innovation<br />
-<br />
+  <div class="personal-info-wrapper">
+    <p>香港理工大學（中國-香港）<br />
+    工程學院 · 工業及系統工程系<br />
+    產品工程兼創新創業第二主修（榮譽）工學士<br />
+    清華大學錢學森力學班-深圳零一學院(中國-廣東深圳)<br />
+    零一學者<br />
+    Hong Kong Institution of Engineers, Studnet Member<br /><br />
 E-mail: <a href="mailto:tin-yeh.huang@connect.polyu.hk">tin-yeh.huang@connect.polyu.hk</a><br />
 E-mail: <a href="mailto:hty25@mails.tsinghua.edu.cn">hty25@mails.tsinghua.edu.cn</a><br />
 E-mail: <a href="mailto:huangtianye@mails.x-institute.edu.cn">huangtianye@mails.x-institute.edu.cn</a><br />
-Phone: +852 94498934 / +86 19896555044<br />
-Address: Department of Industrial and Systems Engineering, Faculty of Engineering, The Hong Kong Polytechnic University, Hong Kong SAR, China, 999077</p>
+
+        <div class="keywords-container">
+        <span class="keyword-pill">CS.AI</span>
+        <span class="keyword-pill">Mathematics</span>
+        <span class="keyword-pill">Neuroscience</span>
+        <span class="keyword-pill">Computational Biology</span>
+        <span class="keyword-pill">Bioinformatics</span>
+        <span class="keyword-pill">Industrial Engineering</span>
+        <span class="keyword-pill">Quality Engineering</span>
+        <span class="keyword-pill">Automation</span>
+    </div>
+  </div>
 </td></tr></table>
+<br/>
 
-<div class="blockquote">
-<p>The name "Tin Yeh" (天野) signifies the boundless sky and vast wilderness.
-The sky is endless, the wilderness infinite.
-Between heaven and earth lies the realm of human existence. — The Dao of Three Powers
-I look up to the stars, contemplating the unknown and the future; I look down to the fields, embracing responsibility for the present and society.
-I walk between Heaven (the void of science) and Earth (the expanse of society), questioning the meaning of life through reflection, and seeking the possibilities of the future through exploration.
-In the space between the void and reality, I question, explore, and act, writing the unfinished chapter of my life.
-</p></div>
+<div class="content-card">
+<h2>個人簡介</h2>
+<p>我是黃天野，現為香港理工大學工業及系統工程系產品工程兼創新創業（榮譽）工學士學生，同時擔任清華大學錢學森力學班-深圳零一學院零一學者。我的研究興趣橫跨人工智慧、數學、神經科學、計算生物學等多個前沿領域，致力於探索跨學科融合的創新可能。</p>
 
-<h2>Education</h2>
-<p><b>B.Eng. Creative Design and Intelligent Engineer-ing (CDIE)</b> (Sep. 2025 – Jan. 2026)<br />
-<img src="photos/thu-logo.jpg" alt="Tsinghua Logo" height="20" style="vertical-align: middle;"> <a href="https://www.xyc.tsinghua.edu.cn/index.htm">Xinya College</a>, <a href="https://www.tsinghua.edu.cn">Tsinghua University</a>, Beijing, China</p>
-</ul>
+<p>在學術研究方面，我專注於將人工智慧技術應用於生物醫學和社會創新領域，參與多項國家級科研專案，包括基於多模態BERT模型的全球熱浪災害適應性要素提取與分析，以及人工智慧數位分身技術在老齡人親情陪伴問題中的應用研究。</p>
 
-<p><b>Visiting Studnet (Xuming HU's Group)</b> (Jun. 2025 – Jul. 2025)<br />
-<img src="photos/smart-logo.png" alt="SMART Logo" height="20" style="vertical-align: middle;"> Institute of Bio-Architecture and Bio-Interactions (IBABI), <a href="https://smart.org.cn">The Shenzhen Medical Academy of Research and Translation (SMART)</a>, Shenzhen, China</p>
-</ul>
+<p>我堅信科技應當服務於人類福祉，通過跨學科的研究方法，探索人工智慧在解決實際社會問題中的潛力，期望為推動科技創新與社會進步貢獻一份力量。</p>
+</div>
+</div>
+<div class="content-card">
+<h2>研究興趣</h2>
+<span class="keyword-pill">認知湧現</span>
+<span class="keyword-pill">生命湧現</span>
+<span class="keyword-pill">計算世界</span>
+<span class="keyword-pill">神經網絡</span>
+<span class="keyword-pill">集體智能 (CI)</span>
+<span class="keyword-pill">社會網絡分析 (SNA)</span>
+        <span class="keyword-pill">機器學習與深度學習</span>
+        <span class="keyword-pill">多智能體系統 (MAS)</span>
+<span class="keyword-pill">空間與生態數據科學</span>
+        <span class="keyword-pill">生物啟發式算法</span>
+        <span class="keyword-pill">基於主體的建模 (ABM)</span>
+<p> </p>
 
-<p><b>B.Eng. (Hons) Product Engineering with a Second Major in IE (Innovation and Entrepreneurship)</b> (Sep. 2025 – Aug. 2028)<br />
-<b>B.Eng. (Hons) Scheme in Product and Industrial Engineering</b> (Sep. 2024 – Aug. 2025)<br />
-<img src="photos/polyu-logo.jpg" alt="PolyU Logo" height="20" style="vertical-align: middle;"> <a href="https://www.polyu.edu.hk/ise/">Department of Industrial and Systems Engineering</a>, <a href="https://www.polyu.edu.hk/">The Hong Kong Polytechnic University</a>, Hong Kong SAR, China</p>
+<h2>教育經歷</h2>
+
+<div class="education-item">
+<p><b>本科學位</b>：<img src="photos\polyu-logo.jpg" alt="PolyU Logo" height="30"> <a href="https://www.polyu.edu.hk/tc/">香港理工大學</a> · <a href="https://www.polyu.edu.hk/feng/">工程學院</a> · <a href="https://www.polyu.edu.hk/ise/">工業及系統工程系</a></p>
+<p><b>產品工程兼創新創業第二主修（榮譽）工學士</b> | 2025.09 - 2028.05<br/>
+<b>產品及工業工程（榮譽）工學士</b> | 2024.09 - 2028.05</p>
+
+<div class="course-categories">
+<p><b>核心課程領域：</b></p>
 <ul>
-<li><p>Major Courses: Product Engineering and Design, Programming for Scientist and Engineer, Engineering Economics, Engineering Management, University Physics, Advanced Mathematics, Materials Science and Engineering, Engineering Drawing, Computer-Aided Design and Engineering, Engineering Laws and Ethics</p></li>
-<li><p>Position: Student Research Intern, RC-DSAI (Oct. 2024 – Now); Student Representative (2024/2025 Sem 1 & 2)</p></li>
+<li><b>工程與設計：</b>產品工程、逆向工程、增材製造、工程設計、材料科學、工程製圖</li>
+<li><b>商業與策略：</b>工程經濟學、工程管理、工程法規與倫理、創新與創業</li>
+<li><b>數理與分析：</b>高等數學、大學物理、運籌學、統計學</li>
+<li><b>數位工具與技術：</b>電腦輔助設計（CAD）、電腦輔助工程（CAE）、程式設計</li>
 </ul>
+</div>
 
-<p><b>Joint Training: Social Innovation</b> (Sep. 2024 – Aug. 2028)<br />
-<img src="photos/thu-logo.jpg" alt="Tsinghua Logo" height="20" style="vertical-align: middle;"> <a href="https://www.x-institute.edu.cn/">X-Institute</a>, Tsinghua SIGS & TEEP, Shenzhen, China</p>
+<p class="reference-links">詳情請參見：<a href="pdf\45498-PRD-2024.pdf">產品及工業工程專業要求文件（Programme Requirement Document）</a> 及 <a href="https://www.polyu.edu.hk/mm/study/undergraduate-programmes/secondary-major-in-innovation-and-entrepreneurship/?sc_lang=en">創新及創業第二主修介紹</a></p>
+</div>
+
+<div class="education-item">
+<p><b>交換學習</b>：<img src="photos\thu-logo.png" alt="THU Logo" height="30"> <a href="https://www.tsinghua.edu.cn/">清華大學</a> · <a href="https://www.tsinghua.edu.cn/">新雅書院</a></p>
+<p><b>智能工程與創意設計（CDIE）工學士</b> <i>（秋季學期交換生）</i> | 2025.09 - 2026.01</p>
+<p><i>課程內容待更新</i></p>
+</div>
+
+<div class="education-item">
+<p><b>聯合培養</b>：<img src="photos/thu-logo.png" alt="THU Logo" height="30"> <a href="https://www.x-institute.edu.cn/">清華大學錢學森力學班-深圳零一學院</a></p>
+<p><b>社會創新方向 · 零一學者</b> | 2024.06 - 2028.06</p>
 <ul>
-<li><p>Supervisor: Dr. Tang Ming (Former Counselor of the State Council, China)</p></li>
-<li><p>Collaborate: ByteDance Ltd., Accenture Co. Ltd.</p></li>
+<li><b>核心課程：</b>增強型學生研究訓練（ESRT）、開放創新挑戰研究（ORIC）、高年級本科生研究員（SURF）</li>
 </ul>
+<p class="reference-links">詳情請參見：<a href="https://www.x-institute.edu.cn/accompany">清華大學錢學森力學班暨深圳零一學院階梯式培養方案</a></p>
+</div>
 
-<p><b>Associate in Statistics and Data Science</b> (Sep. 2023 – Aug. 2024)<br />
-<img src="photos/hkcc-logo.jpg" alt="HKCC Logo" height="20" style="vertical-align: middle;"> <a href="https://www.hkcc-polyu.edu.hk/en/home/index.html">Hong Kong Community College</a>, The Hong Kong Polytechnic University, Hong Kong SAR, China</p>
+<div class="education-item">
+<p><b>訪問研究</b>：<img src="photos/smart-logo.png" alt="SMART Logo" height="30"> <a href="https://smart.org.cn/">深圳醫學科學院</a> · 生物結構與互作研究所（IBABI）</p>
+<p><a href="https://smart.org.cn/science/principal-investigators/profile/post_1134653.html">胡名旭課題組</a> · 訪問學生 | 2025.06 - 2025.07</p>
 <ul>
-<li><p>Position: Student Ambassador (Oct. 2023 – Oct. 2024); Student Representative (2023/2024 Sem 1 & 2)</p></li>
+<li><b>研究方向：</b>冷凍電鏡、生物結構、時空序列、多模態深度學習</li>
 </ul>
+</div>
 
-<p><b>Hong Kong Diploma of Secondary Education Examination (HKDSE)</b> (Sep. 2018 – Aug. 2023)<br />
-  <img src="photos/pkc-logo.png" alt="PKC Logo" height="20" style="vertical-align: middle;"> <a href="https://www.puikiu.edu.hk">Pui Kiu College</a>, Hong Kong SAR, China</p>
+<div class="education-item">
+<p><b>副學士學位</b>：<img src="photos/hkcc-logo.png" alt="HKCC Logo" height="30"> <a href="http://cpce-polyu.edu.hk/">香港理工大學持續教育學院</a> · 科學、工程及健康學部</p>
+<p><b>統計與數據科學副學士</b> | 2023.09 - 2024.08</p>
+</div>
 
-<h2>Exchange Study Experience</h2>
+<div class="education-item">
+<p><b>中學教育</b>：<img src="photos/pkc-logo.png" alt="PKC Logo" height="30"> <a href="https://www.puikiu.edu.hk/">培僑書院</a> | 2018.09 - 2023.08</p>
+</div>
+
+</div>
+<div class="content-card">
+<h2>研究經歷</h2>
+
+<div class="research-section">
+<h3>📄 學術論文發表</h3>
+<div class="publication-list">
+<div class="publication-item">
+<p><strong>Yiquan Wang*</strong>, Minnuo Cai, <strong>Tin-Yeh Huang</strong>. (2025). AI for disease prediction: Performance insights and key limitations. <em>Journal of Clinical Neuroscience</em>.</p>
+<div class="publication-links">
+<a href="https://doi.org/10.1016/j.jocn.2025.111360" class="link-btn">📖 期刊連結</a>
+<a href="https://pubmed.ncbi.nlm.nih.gov/40466238/" class="link-btn">🔗 PubMed</a>
+</div>
+</div>
+
+<div class="publication-item">
+<p><strong>Yiquan Wang*</strong>, Jiaying Wang, <strong>Tin-Yeh Huang</strong>, et al. (2025). STGCN-LSTM for Olympic Medal Prediction: Dynamic Power Modeling and Causal Policy Optimization. <em>ICML 2025 Workshop</em>.</p>
+<div class="publication-links">
+<a href="pub\OLYMPIC MEDAL PREDICTION.pdf" class="link-btn">📄 PDF</a>
+<a href="https://openreview.net/forum?id=4glpuzacyp" class="link-btn">🔗 OpenReview</a>
+<a href="https://www.sci-hub.ru/10.48550/arXiv.2501.17711" class="link-btn">📚 arXiv</a>
+</div>
+</div>
+
+<div class="publication-item">
+<p><strong>Xu Wang*</strong>, <strong>Yiquan Wang*</strong>, <strong>Tin-Yeh Huang*</strong>. (2025). Crypto-ncRNA: Non-coding RNA (ncRNA) Based Encryption Algorithm. <em>ICLR 2025 Workshop</em>. <span class="co-author-note">(共同第一作者)</span></p>
+<div class="publication-links">
+<a href="pub\iclr2025_ai4na_tiny_paper.pdf" class="link-btn">📄 PDF</a>
+<a href="https://openreview.net/forum?id=j6ODUDw4vN" class="link-btn">🔗 OpenReview</a>
+<a href="https://doi.org/10.48550/arXiv.2504.17878" class="link-btn">📚 arXiv</a>
+</div>
+</div>
+</div>
+<p class="note"><strong>註：</strong>*表示通訊作者</p>
+</div>
+<div class="research-section">
+<h3>🎓 學術參與</h3>
+<div class="academic-participation">
+<h4>期刊審稿人</h4>
+<ul>
+<li>F1000 Research <a href="https://f1000research.com/articles/14-245/v1" class="link-btn">🔗 審稿記錄</a></li>
+</ul>
+</div>
+</div>
+
+<div class="research-section">
+<h3>🔬 科研專案（可公開）</h3>
+<div class="project-list">
+<div class="project-item">
+<h4>基於耦合突觸器件的湧現智能硬體系統研究</h4>
+<p class="project-info"><strong>專案類型：</strong>香港理工大學本科生研究與創新計劃 | <strong>時間：</strong>2025.09 - 進行中</p>
+<p><strong>研究內容：</strong>研究基於耦合憶阻器等新型突觸器件的智能硬體系統，探索其在神經形態計算和人工智慧領域的應用潛力，旨在實現更高效、低功耗的智能計算。</p>
+<p><strong>指導教師：</strong>韓素婷副教授（香港理工大學）</p>
+<div class="keywords">
+<span class="keyword-pill">神經形態計算</span>
+<span class="keyword-pill">憶阻器</span>
+<span class="keyword-pill">智能硬體</span>
+</div>
+</div>
+
+<div class="project-item">
+<h4>基於多模態BERT模型進行全球熱浪災害適應性要素提取與分析</h4>
+<p class="project-info"><strong>專案類型：</strong>2024年中科院大學生創新實踐訓練計畫（國家級專案） | <strong>時間：</strong>2024.11 - 進行中</p>
+<p><strong>研究內容：</strong>本研究基於多模態BERT模型整合文本、圖像及結構化數據，能夠精準識別影響熱浪適應的關鍵因素。研究結果將為制定科學的全球熱浪應對策略提供堅實的理論和數據支持，提升社會整體的災害適應能力。</p>
+<p><strong>指導教師：</strong>葛詠研究員（中科院地理所，傑青）</p>
+<div class="keywords">
+<span class="keyword-pill">大語言模型</span>
+<span class="keyword-pill">空間分析</span>
+<span class="keyword-pill">BERT</span>
+<span class="keyword-pill">災害管理</span>
+</div>
+</div>
+
+<div class="project-item">
+<h4>基於人工智慧數位分身技術的老齡人親情陪伴問題研究</h4>
+<p class="project-info"><strong>專案類型：</strong>清華大學錢學森班ESRT | <strong>時間：</strong>2024.12 - 進行中</p>
+<p><strong>研究內容：</strong>本專案以人工智慧數位分身技術為核心，旨在緩解我國老齡化背景下老年人親情陪伴缺失的問題，同時彌合老年人數位鴻溝，提升中小學生的人工智慧實踐能力。專案由深圳零一學院聯合字節跳動等機構實施，分為準備、執行和推廣三個階段，計畫通過學生為老年人定製個性化數位分身，增進代際交流，探索AI大模型在社會公益領域的應用場景。</p>
+<p><strong>指導教師：</strong>湯敏（國務院原參事）</p>
+<div class="keywords">
+<span class="keyword-pill">人工智慧</span>
+<span class="keyword-pill">社會創新</span>
+<span class="keyword-pill">數位分身</span>
+<span class="keyword-pill">老齡化</span>
+</div>
+</div>
+</div>
+</div>
 <ol>
-<li><p>Semester Exchange (2025/2026 Semester 1), Tsinghua University (Sep. 2025 – Jan. 2026)</p></li>
-<li><p>Social Innovation Training, Shenzhen X-Institute · ByteDance Ltd. · Accenture Co. Ltd. (Jan. 2025)</p></li>
-<li><p>AI Winter School 2025, Center for the Fundamental Physics of the Universe · Department of Physics, Brown University (Jan. 2025)</p></li>
-<li><p>Intelligent Car Human-machine Shared Control Exchange Project, Northeastern University · The Hong Kong Polytechnic University, 2024 Teacher and Student Exchange Plan between Mainland Universities and Universities in Hong Kong and Macao (Dec. 2024)</p></li>
-</ol>
-
-<h2>Position</h2>
+<p><br/></p>
+<p><b>研學經歷</b></p>
 <ol>
-<li><p><b>Member</b> - Membership of District Youth Development and Civic Education Committee, Home Affairs Department, The Government of Hong Kong Special Administrative Region, HKSAR (Apr. 2025 – Now)</p></li>
-<li><p><b>AI Agent R&D Part-time</b> - Apricot AI Ltd., HKSAR (Mar. 2025 – Now)</p></li>
-<li><p><b>Assistant to the President (Management and Technical Director)</b> - Hong Kong MBA Institute, HKSAR (Feb. 2025 – Now)</p></li>
-<li><p><b>Online AI Product & Algorithm R&D Intern</b> - Qingbei Intelligent Technology Co., Ltd., China (Feb. 2025 – Now)</p></li>
-<li><p><b>Shareholder and AI Algorithm Engineer and Greater Bay Area Strategy Consultant</b> - Ongoing Start-up Enterprise Projects (AI4Goods), China (Confidentiality) (Jan. 2025 – Now)</p></li>
-<li><p><b>Student Research Intern</b> - PolySmart, Research Centre – Data Science & AI, PolyU, HKSAR (Oct. 2024 – Now)</p></li>
-<li><p><b>PolyVentures Student Assistant</b> - Knowledge Transfer and Entrepreneurship Office, PolyU, HKSAR (Oct. 2024 – Now)</p></li>
-<li><p><b>Student Assistant</b> - Division of Science, Engineering and Health Studies, CPCE, PolyU, HKSAR, China (Mar. 2024 – Apr. 2025)</p></li>
-<li><p><b>Trainee (Department of Accounting & Information Technology)</b> - Royal Plaza Hotel, HKSAR (Dec. 2023 – Apr. 2024)</p></li>
+<li><p>深圳醫學科學院/深圳灣實驗室聯合暑期研習計劃 2025.07-2025.09</p></li>
+<li><p>清華大學錢學森力學班暨深圳零一學院 — 零一學者(長期培養) 2024.06-2028.06</p></li>
+<li><p>布朗大學2025年人工智能冬季學校 (AI Winter School 2025 - CFPU/Brown University Department of Physics) 2025.01 </p></li>
+<li><p>清華大學錢學森力學班暨深圳零一學院 2024年X-Challenge颠覆性创新挑战营 2024.07-2024.08<br/>
+<li><p>清華大學錢學森力學班暨深圳零一學院 2023年深圳零一学院国际暑期学校 2024.07-2024.08<br/>
 </ol>
+</div>
+</div>
+<div class="content-card">
+<h2>實習經歷</h2>
+<div class="experience-list">
+<div class="experience-item">
+<h4>香港特別行政區政府民政事務總署</h4>
+<p class="position">地區青年發展及公民教育委員會委員</p>
+<p class="duration">2025.04 - 至今</p>
+</div>
 
-<h2>Research Interests</h2>
+<div class="experience-item">
+<h4>Apricot AI Ltd. (香港)</h4>
+<p class="position">AI Agent研發 (兼職)</p>
+<p class="duration">2025.03 - 至今</p>
+</div>
+
+<div class="experience-item">
+<h4>香港MBA協會 (香港)</h4>
+<p class="position">助理會長 (管理與技術總監)</p>
+<p class="duration">2025.02 - 至今</p>
+</div>
+
+<div class="experience-item">
+<h4>青倍智能科技有限公司 (中國)</h4>
+<p class="position">線上AI產品與算法研發實習生</p>
+<p class="duration">2025.02 - 至今</p>
+</div>
+
+<div class="experience-item">
+<h4>初創企業專案 (AI4Goods) (中國)</h4>
+<p class="position">股東、AI算法工程師及大灣區戰略顧問</p>
+<p class="duration">2025.01 - 至今</p>
+<p class="note-text">*專案內容保密</p>
+</div>
+
+<div class="experience-item">
+<h4>香港理工大學 PolySmart 研究中心</h4>
+<p class="position">數據科學與人工智慧學生研究實習生</p>
+<p class="duration">2024.10 - 至今</p>
+</div>
+
+<div class="experience-item">
+<h4>香港理工大學知識轉移及創業處</h4>
+<p class="position">PolyVentures學生助理</p>
+<p class="duration">2024.10 - 至今</p>
+</div>
+
+<div class="experience-item">
+<h4>香港理工大學專業及持續教育學院</h4>
+<p class="position">科學、工程及健康學部學生助理</p>
+<p class="duration">2024.03 - 2025.04</p>
+</div>
+
+<div class="experience-item">
+<h4>帝京酒店 (香港)</h4>
+<p class="position">會計及資訊科技部實習生</p>
+<p class="duration">2023.12 - 2024.04</p>
+</div>
+</div>
+</div>
+
+<div class="content-card">
+<h2>其他經歷</h2>
+<div class="other-experience-list">
+<div class="other-experience-item">
+<h4>香港工會聯合會慶祝中華人民共和國成立75周年暨香港回歸27周年午宴司儀</h4>
+<p class="duration">2024.10</p>
+</div>
+
+<div class="other-experience-item">
+<h4>香港理工大學工業及系統工程學系產品及工業工程（榮譽）工學士學生代表</h4>
+<p class="duration">2025.02 - 至今</p>
+</div>
+
+<div class="other-experience-item">
+<h4>香港理工大學專業及持續教育學院科學、工程及健康學部統計及數據科學副學士學生代表</h4>
+<p class="duration">2024.10</p>
+</div>
+</div>
+</div>
+
+<div class="content-card">
+<h2>榮譽獎項</h2>
+<div class="awards-list">
+<div class="award-category">
+<h4>🏆 獎學金</h4>
 <ul>
-<li><p>Cognitive Emergence</p></li>
-<li><p>Life Emergence</p></li>
-<li><p>Computational World</p></li>
-<li><p>Neural Network</p></li>
-<li><p>Collective Intelligence (CI)</p></li>
-<li><p>Social Network Analysis (SNA)</p></li>
-<li><p>Machine & Deep Learning</p></li>
-<li><p>Multi-Agent Systems (MAS)</p></li>
-<li><p>Spatial & Ecological Data Science</p></li>
-<li><p>Bio-heuristic Algorithms</p></li>
-<li><p>Agent-Based Modelling (ABM)</p></li>
-<li><p>Operations Research</p></li>
+<li>香港理工大學工業及系統工程學系非聯招入學獎學金 <span class="award-date">2024.10</span></li>
+<li>香港理工大學專業及持續教育學院海外交流獎學金 <span class="award-date">2024.06</span></li>
 </ul>
+</div>
 
-<h2>Publications</h2>
-<ol>
-<li><p>Wang, Y.*, Cai, M., <b>Huang, T. Y.</b> (2025). AI for disease prediction: Performance insights and key limitations. <i>Journal of Clinical Neuroscience</i>. <a href="https://www.sciencedirect.com/science/article/pii/S0967586825003327?dgcid=coauthor">https://www.sciencedirect.com/science/article/pii/S0967586825003327?dgcid=coauthor</a></p></li>
-<li><p>Wang, X.*, Wang, Y.+, <b>Huang, T. Y.</b>+ (2025). Crypto-ncRNA: Encryption Algorithm Based on Non-Coding RNA (ncRNA). <i>ICLR 2025 Workshop on AI for Nucleic Acids</i>. <a href="https://openreview.net/forum?id=j6ODUDw4vN">https://openreview.net/forum?id=j6ODUDw4vN</a></p></li>
-<li><p>Wang, Y.*, Wang, J., <b>Huang, T. Y.</b>, Yang, J., Yang, G., Xu, Z. (2025). STGCN-LSTM for Olympic Medal Prediction: Dynamic Power Modelling and Causal Policy Optimization. <i>arXiv preprint arXiv:2501.17711</i>. <a href="https://arxiv.org/abs/2501.17711">https://arxiv.org/abs/2501.17711</a></p></li>
-</ol>
-<p><small>* refers to First Author; + refers to Co-First Author</small></p>
-
-<h2>Projects</h2> 
-<ol>
-<li><p>Emergent Intelligent Hardware Systems Based on Coupled Synaptic Devices (<b>Huang, T. Y.*</b>) (Sep. 2025 – Sep. 2026)</p>
-<ul><li><i>PolyU URIS (Undergraduate Research and Innovation Scheme) Project; Supervisor: <a href="https://www.polyu.edu.hk/abct/people/academic-staff/prof-han-suting/">Prof. Han Suting (ABCT)</a></i></li></ul></li>
-<li><p>Biological digital watermarking: extracting protein skeleton-based on Matif algorithm (Wang, X.*, Jiang, Z., Wang, Y, <b>Huang, T. Y.</b>) (Apr. 2025 – Now)</p></li>
-<li><p>SMA-ToT: Multi-Path Reasoning Optimization Method Based on Bio-heuristic Algorithms (<b>Huang, T. Y.*</b>) (Mar. 2025 – Now)</p></li>
-<li><p>Multi-Modal BERT for Health Crisis Early Warning with Population Analysis (<b>Huang, T. Y.*</b>) (Feb. 2025 – Now)</p></li>
-<li><p>"One Young Supporting One Elderly": Leveraging AI Digital Twin Technology to Alleviate Emotional Companionship Challenges for the Elderly (<b>Huang, T. Y.*</b>) (Dec. 2024 – Now)</p>
-<ul><li><i>X-Institute Enhanced Student Research Training (ESRT) Project; Supervisor: Dr. Tang Ming; collaborating with: ByteDance Ltd. & Accenture Co. Ltd.</i></li></ul></li>
-<li><p>The Application of Multi-modal BERT Model in Extraction and Analysis of Global Heat Wave Disaster Adaptability Factors (Wang, Y.*, <b>Huang, T. Y.+</b>) (Oct. 2024 – Now)</p>
-<ul><li><i>Project of Innovative Practice Training Program for College Students, Chinese Academic of Sciences; Supervisor: Prof. Yong Ge</i></li></ul></li>
-<li><p>Machine Learning with Multi-stage Production Process Decision-making and Cost Optimization Based on Sampling Inspection (Wang, Y.*, <b>Huang, T. Y.+</b>) (Oct. 2024 – Now)</p></li>
-</ol>
-<p><small>* refers to First Author; + refers to Co-First Author</small></p>
-
-<h2>Research Study</h2>
-<ol>
-<li><p><b>X-Challenge 2024: Interdisciplinary Cutting-edge Disruptive Innovation Challenge</b>, Tsinghua TEEP & X-Institute (Jul. 2024 – Aug. 2024)</p>
+<div class="award-category">
+<h4>🎖️ 獎項</h4>
 <ul>
-<li>Track 9: How to cultivate innovative talents and promote social equity on a large scale in the era of artificial intelligence?</li>
-<li>Supervisor: Dr. Tang Ming (Former Counselor of the State Council, China) · Dr. Zuo Xiaolei (Chief Economist with China Galaxy Securities) · Dr. Huang Licheng (Director of Marketing Department (Carrier Business Group), Huawei Technologies Latin America Region) · Mr. Wang Mingsheng (Researcher, X-Institute)</li>
-<li>Developed the plan of addressing resource misalignment by integrating AI model and data analysis method.</li>
-<li>Represented the research group of Track 9 at X-Fusion Global Innovators Summit 2024.</li>
-<li>Keywords: Social Innovation; Project-based Learning; Large Language Model; Personalized recommendation</li>
-</ul></li>
-<li><p><b>X-Idea 2023: X-Institute International Summer School</b>, Tsinghua TEEP & X-Institute (Jul. 2023 – Aug. 2023)</p>
-<ul>
-<li>Track 6: Building Extraterrestrial Ecosystems: From Microbes to Human (The Most Challenging Award)</li>
-<li>Supervisor: Prof. Jeff Gore (Professor, Department of Physics, Massachusetts Institute of Technology) · Prof. Juan Keymer (Associated Faculty, Department of Natural Sciences and Technology, University of Aysén · Assistant Professor, Institute for Advanced Studies, X-Institute) · Dr. Janneke Noorlag (Researcher & Lab Manager, Department of Natural Sciences and Technology, University of Aysén · Supporter, Institute for Advanced Studies, X-Institute) · Prof. Jiliang Hu (Assistant Professor, Tsinghua university) · Dr. Mo Han (BGI Genomics Researcher)</li>
-<li>Modelled ecological interactions using the Lotka-Volterra Model for simulations the chaos and fractals.</li>
-<li>Designed a portable and machine-learning based microbial rapid substance measured system.</li>
-<li>Designed a microbial neural network by exploring the potential with island biogeography and controllable microbial neurons.</li>
-<li>Keywords: Microbiology; Population Dynamic; Ecology; Machine Learning</li>
-</ul></li>
-</ol>
-
-<h2>Other Experience</h2>
-<ol>
-<li><p><b>Master of Ceremonies</b> - Luncheon celebrating the 75th National Day of the People's Republic of China and the 27th anniversary of Hong Kong reunification, HKFTU (Oct. 2024)</p></li>
-<li><p><b>Student Representative</b> - B.Eng. (Hons) Product and Industrial Engineering, Department of Industrial and Systems Engineering, PolyU (Feb. 2025 – Now)</p></li>
-<li><p><b>Student Representative</b> - Associate in Statistics and Data Science, Division of Science, Engineering, and Health Studies (SEHS), CPCE, PolyU (Oct. 2024)</p></li>
-<li><p><b>Student Member</b> - The Hong Kong Institution of Engineers (Nov. 2024 - Aug. 2028)</p></li>
-<li><p><b>Student Ambassador</b> - CPCE, PolyU (Oct. 2023 - Oct. 2024)</p></li>
-</ol>
-
-<h2>Achievements</h2>
-<ul>
-<li><p><b>Scholarship</b> - PolyU ISE Entry Scholarship for Non-JUPAS Admissions (Oct. 2024)</p></li>
-<li><p><b>Scholarship</b> - PolyU CPCE Study Visit Programme Scholarship (Jun. 2024)</p></li>
-<li><p><b>Award</b> - The Most Academic Award, Research Award, X-Institute (Jul. 2023)</p></li>
-<li><p><b>Award</b> - Best Mentee Award, PolyU Mentorship Program (Jul. 2023)</p></li>
-<li><p><b>Certification</b> - Microsoft Certification: Azure AI Fundamentals (Dec. 2021)</p></li>
-<li><p><b>Certification</b> - The Hong Kong Polytechnic University Mathematics Gifted Programme, Advanced Level (Dec. 2021)</p></li>
-<li><p><b>Award</b> - Third Place in Senior High School Putonghua Poetry Recitation, 73rd Hong Kong Schools Speech Festival (Jan. 2021)</p></li>
+<li>零一學院最院士獎 <span class="award-date">2023.07</span></li>
 </ul>
+</div>
 
-<h2>Skills & Interests</h2>
-<p><b>Language Skills:</b> Cantonese (Native), Mandarin (Native), English (Proficient)</p>
-<p><b>Technical Skills:</b> Proficient in Python, C/C++, MATLAB, MySQL, CAD (SolidWorks), SAS, R, MS Office, Colab, etc…</p>
-<p><b>Interests:</b> Arts, Design, Music, Cycling, Social Science, Philosophy, Humanities, Chinese Literature</p>
+<div class="award-category">
+<h4>📜 專業認證</h4>
+<ul>
+<li>微軟認證：Azure AI基礎 <span class="award-date">2021.12</span></li>
+<li>香港理工大學數學優才計劃進階水平證書 <span class="award-date">2021.12</span></li>
+</ul>
+</div>
+</div>
 
-<p><br/>
-  Last updated: <span id="lastUpdated"></span><br />
-  CV Download: <a href="cv/HTY_CV.pdf">English</a>.<br />
-  Portfolio: <a href="portfolio/Portfolio.pdf">Here</a>.<br />
-</p>
+<h2>技能專長</h2>
+<div class="skills-section">
+<div class="skill-category">
+<h4>💻 程式語言</h4>
+<div class="skill-tags">
+<span class="skill-tag">Python</span>
+<span class="skill-tag">MATLAB</span>
+<span class="skill-tag">R</span>
+<span class="skill-tag">JavaScript</span>
+<span class="skill-tag">HTML/CSS</span>
+</div>
+</div>
 
-<script>
-  async function fetchLastModifiedTime() {
-    try {
-      // Fetch the last commit information from GitHub API for this repository
-      const response = await fetch('https://api.github.com/repos/Huangty5121/huangty5121.github.io/commits?path=index.html&per_page=1');
-      if (!response.ok) {
-        throw new Error(`GitHub API error: ${response.status}`);
-      }
-      const data = await response.json();
-      if (data && data.length > 0) {
-        // Get the date from the latest commit affecting index.html
-        const lastCommitDate = new Date(data[0].commit.committer.date);
-        
-        // Format based on user's local timezone
-        const userOptions = {
-          year: 'numeric',
-          month: '2-digit',
-          day: '2-digit',
-          hour: '2-digit',
-          minute: '2-digit',
-          second: '2-digit',
-          hour12: false,
-          timeZoneName: 'short'
-        };
-        
-        // Format the date based on user's timezone
-        const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-        const formattedDate = new Intl.DateTimeFormat('en-GB', userOptions).format(lastCommitDate);
-        
-        document.getElementById("lastUpdated").textContent = `${formattedDate} (${userTimezone})`;
-      } else {
-        throw new Error('No commit data found');
-      }
-    } catch (error) {
-      console.error("Error fetching GitHub commit data:", error);
-      // Fallback to show current time in user's timezone
-      const now = new Date();
-      const fallbackOptions = {
-        year: 'numeric', 
-        month: '2-digit', 
-        day: '2-digit',
-        hour: '2-digit', 
-        minute: '2-digit', 
-        second: '2-digit',
-        hour12: false,
-        timeZoneName: 'UTC'
-      };  
-      document.getElementById("lastUpdated").textContent = 
-        `${new Intl.DateTimeFormat('en-GB', fallbackOptions).format(now)} (local time)`;
-    }
-  }
+<div class="skill-category">
+<h4>🤖 機器學習</h4>
+<div class="skill-tags">
+<span class="skill-tag">深度學習</span>
+<span class="skill-tag">自然語言處理</span>
+<span class="skill-tag">計算機視覺</span>
+<span class="skill-tag">多模態學習</span>
+</div>
+</div>
 
-  // Call the function when the page loads
-  document.addEventListener('DOMContentLoaded', fetchLastModifiedTime);
-</script>
+<div class="skill-category">
+<h4>🔧 工程軟體</h4>
+<div class="skill-tags">
+<span class="skill-tag">CAD</span>
+<span class="skill-tag">CAE</span>
+<span class="skill-tag">SolidWorks</span>
+<span class="skill-tag">AutoCAD</span>
+</div>
+</div>
 
+<div class="skill-category">
+<h4>📊 數據分析</h4>
+<div class="skill-tags">
+<span class="skill-tag">統計分析</span>
+<span class="skill-tag">數據視覺化</span>
+<span class="skill-tag">生物資訊學分析</span>
+</div>
+</div>
+
+<div class="skill-category">
+<h4>🌐 語言能力</h4>
+<div class="skill-tags">
+<span class="skill-tag">中文（母語）</span>
+<span class="skill-tag">英文（流利）</span>
+<span class="skill-tag">粵語（流利）</span>
+</div>
+</div>
+</div>
+</div>
+
+<div class="content-card">
+<h2>下載履歷</h2>
+<div class="cv-download">
+    <a href="cv/HTY_CV.pdf" target="_blank" class="cv-download-btn">
+        <i class="fas fa-download"></i>
+        📄 中文履歷下載
+    </a><br />
+    <a href="cv/HTY_CV_EN.pdf" target="_blank" class="cv-download-btn">
+        <i class="fas fa-download"></i>
+        📄 English CV Download
+    </a><br />
+</div>
+</div>
 </td>
+</ol>
 </tr>
 </table>
+
+<!-- Added JavaScript for toggling the menu -->
+<script src="script.js"></script>
+
 </body>
 </html>
