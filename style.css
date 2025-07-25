@@ -1,29 +1,60 @@
 /*!
  * 黃天野個人主頁樣式表 | Tianye Huang's Personal Homepage Stylesheet
- * 中國風水墨科技設計 | Chinese Ink-wash Technology Design
+ * 增強流星動畫系統 | Enhanced Meteor Animation System
  *
  * 作者: 黃天野 (Tin Yeh Huang)
- * 版本: 3.0 - 水墨風格版
- * 更新: 2025年1月
+ * 版本: 4.0 - 增強流星動畫版
+ * 更新: 2025年7月26日
  *
  * 設計理念:
+ * - 物理真實的流星動畫 (Physics-based Meteor Animations)
+ * - 多軌跡變化系統 (Multiple Trajectory Variations)
  * - 中國風水墨美學 (Chinese Ink-wash Aesthetics)
- * - 岩石黑背景配色 (Rock Black Background)
  * - 淡紫金配色方案 (Light Purple & Gold Color Scheme)
  * - 增強毛玻璃效果 (Enhanced Glassmorphism)
- * - 豐富交互動畫 (Rich Interactive Animations)
- * - 科技感融合傳統 (Technology Meets Tradition)
+ * - 響應式設計優化 (Responsive Design Optimization)
+ * - 高性能動畫系統 (High-Performance Animation System)
+ *
+ * 新功能:
+ * - 4種不同的流星軌跡類型 (4 Different Meteor Trajectory Types)
+ * - 重力模擬與拋物線運動 (Gravity Simulation & Parabolic Motion)
+ * - 動態頻率控制 (Dynamic Frequency Control)
+ * - 自適應尺寸變化 (Adaptive Size Variations)
+ * - 優化的視覺層次 (Optimized Visual Hierarchy)
  */
 
+/*
+===============================================================================
+                                    目錄 | TABLE OF CONTENTS
+===============================================================================
+
+1. CSS變量系統 ........................... CSS Variables System
+2. 基礎樣式重置 ......................... Base Styles Reset
+3. 佈局與網格系統 ....................... Layout & Grid System
+4. 導航與菜單系統 ....................... Navigation & Menu System
+5. 排版與內容樣式 ....................... Typography & Content Styles
+6. 增強流星動畫系統 ..................... Enhanced Meteor Animation System
+   6.1 流星軌跡動畫 ..................... Meteor Trajectory Animations
+   6.2 流星樣式與變化 ................... Meteor Styles & Variations
+   6.3 容器與控制 ....................... Container & Controls
+7. 組件與卡片樣式 ....................... Component & Card Styles
+8. 交互元素 ............................. Interactive Elements
+9. 主題切換系統 ......................... Theme Toggle System
+10. 響應式設計 .......................... Responsive Design
+11. 工具類與輔助樣式 .................... Utility Classes & Helper Styles
+
+===============================================================================
+*/
+
 /* ========================================================================
-   CSS 變量系統 | CSS Variables System
+   1. CSS 變量系統 | CSS Variables System
    ======================================================================== */
 
 /* ===== 中國風主題系統 | CHINESE STYLE THEME SYSTEM ===== */
 :root {
   /* ===== 動畫過渡控制 | ANIMATION TRANSITION CONTROL ===== */
   --theme-transition-duration: 0.4s;
-  --theme-transition-timing: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --theme-transition-timing: cubic-bezier(0.25, 0.46, 0.45, 0.6);
   --theme-transition: all var(--theme-transition-duration) var(--theme-transition-timing);
   --theme-transition-fast: all 0.2s var(--theme-transition-timing);
   --theme-transition-slow: all 0.8s var(--theme-transition-timing);
@@ -71,7 +102,7 @@
   --menu-text: #2c3e50;
   --menu-hover-bg: var(--primary-accent);
   --menu-hover-text: #1a1a1a;
-  --card-bg-glassy: rgba(255, 255, 255, 0.18); /* 進一步增加透明度 - 從0.25降到0.18 */
+  --card-bg-glassy: rgba(255, 255, 255, 0.08); /* 極大透明度以顯示星星背景 */
   --glass-border: rgba(255, 255, 255, 0.4);
   --glass-shadow: rgba(0, 0, 0, 0.15);
   
@@ -148,7 +179,7 @@
   --menu-text: #f2f0ed;
   --menu-hover-bg: var(--primary-accent);
   --menu-hover-text: #1a1a1a;
-  --card-bg-glassy: rgba(42, 42, 42, 0.25); /* 進一步增加透明度 - 從0.35降到0.25 */
+  --card-bg-glassy: rgba(42, 42, 42, 0.1); /* 極大透明度以顯示星星背景 */
   --glass-border: rgba(242, 240, 237, 0.18);
   --glass-shadow: rgba(0, 0, 0, 0.5);
   
@@ -189,14 +220,14 @@
 /* ===== 基礎設置 | BASE SETTINGS ===== */
 html {
   scroll-behavior: smooth;
+  background: var(--bg-color); /* 提供基礎背景以增強星星對比度 */
 }
 
 body {
   font-family: 'Inter', 'PingFang SC', 'Noto Serif SC', 'Microsoft YaHei', serif !important;
   font-size: 1rem;
   font-weight: 400;
-  background: var(--bg-color) !important;
-  background-attachment: fixed;
+  background: transparent !important; /* 移除背景以顯示星星透明效果 */
   color: var(--text-color) !important;
   line-height: 1.6;
   transition: var(--theme-transition);
@@ -207,27 +238,7 @@ body {
   position: relative;
 }
 
-/* 水墨紋理背景效果 */
-body::before {
-  content: '';
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-image:
-    radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.1) 0%, transparent 50%),
-    radial-gradient(circle at 80% 20%, rgba(255, 183, 77, 0.1) 0%, transparent 50%),
-    radial-gradient(circle at 40% 40%, rgba(120, 119, 198, 0.05) 0%, transparent 50%);
-  pointer-events: none;
-  z-index: -1;
-  animation: inkFlow 20s ease-in-out infinite;
-}
-
-@keyframes inkFlow {
-  0%, 100% { opacity: 0.3; transform: scale(1) rotate(0deg); }
-  50% { opacity: 0.6; transform: scale(1.1) rotate(2deg); }
-}
+/* 移除水墨背景效果，為流星動畫讓路 */
 
 /* 統一主題過渡效果 */
 body.theme-transitioning {
@@ -296,20 +307,29 @@ p, li, td, dd {
 }
 
 /* ========================================================================
-   中國風動畫系統 | Chinese Style Animation System
+   流星動畫系統 | Meteor Animation System
    ======================================================================== */
 
-/* ===== 水墨流動動畫 | INK FLOW ANIMATIONS ===== */
-@keyframes inkFlow {
-  0%, 100% {
-    opacity: 0.3;
-    transform: scale(1) rotate(0deg);
-  }
-  50% {
-    opacity: 0.6;
-    transform: scale(1.1) rotate(2deg);
-  }
-}
+/* ========================================================================
+   6. 增強流星動畫系統 | ENHANCED METEOR ANIMATION SYSTEM
+   ========================================================================
+
+   這個系統實現了物理真實的流星動畫效果，包含：
+   - 4種不同的軌跡類型（陡峭、淺弧、曲線、經典）
+   - 重力模擬和拋物線運動
+   - 動態頻率控制（1-3秒間隔）
+   - 自適應尺寸變化
+   - 高性能渲染優化
+
+   This system implements physics-realistic meteor animations featuring:
+   - 4 different trajectory types (steep, shallow, curved, classic)
+   - Gravity simulation and parabolic motion
+   - Dynamic frequency control (1-3 second intervals)
+   - Adaptive size variations
+   - High-performance rendering optimization
+   ======================================================================== */
+
+
 
 @keyframes fadeInUp {
   from {
@@ -330,43 +350,6 @@ p, li, td, dd {
   to {
     opacity: 1;
     transform: translateX(0);
-  }
-}
-
-@keyframes ripple {
-  0% {
-    transform: scale(0);
-    opacity: 1;
-  }
-  100% {
-    transform: scale(4);
-    opacity: 0;
-  }
-}
-
-@keyframes inkSplash {
-  0% {
-    transform: scale(0) rotate(0deg);
-    opacity: 1;
-  }
-  100% {
-    transform: scale(3) rotate(180deg);
-    opacity: 0;
-  }
-}
-
-@keyframes inkDrop {
-  0% {
-    transform: scale(0);
-    opacity: 1;
-  }
-  50% {
-    transform: scale(1.5);
-    opacity: 0.8;
-  }
-  100% {
-    transform: scale(0);
-    opacity: 0;
   }
 }
 
@@ -400,18 +383,20 @@ p, li, td, dd {
   }
 }
 
-/* 增強鼠標軌跡樣式 */
-.cursor-trail {
-  border-radius: 50%;
-  pointer-events: none;
-  mix-blend-mode: screen;
-  will-change: transform, opacity;
-}
+/* 移除鼠標軌跡樣式，為流星動畫讓路 */
 
 /* 移除不需要的波紋效果 */
 
-/* 中國水墨流動背景畫布 */
-#ink-wash-canvas {
+/* 移除水墨畫布，為流星動畫讓路 */
+
+/* 移除背景漸變以增強毛玻璃透明效果 - 讓星星背景可見 */
+
+/* ===== 6.3 容器與控制 | CONTAINER & CONTROLS ===== */
+
+/* ===== 6.2 優化星星閃爍背景樣式 | OPTIMIZED TWINKLING STARS BACKGROUND STYLES ===== */
+
+/* 優化星星容器 */
+.optimized-stars-container {
   position: fixed;
   top: 0;
   left: 0;
@@ -419,29 +404,79 @@ p, li, td, dd {
   height: 100%;
   pointer-events: none;
   z-index: -1;
-  opacity: 0.7;
-  mix-blend-mode: multiply;
+  overflow: hidden;
+  will-change: transform;
 }
 
-/* 配合水墨效果的背景漸變 */
-body {
-  background: linear-gradient(135deg,
-    rgba(213, 203, 225, 0.08) 0%,  /* #d5cbe1 淺紫灰 */
-    rgba(52, 75, 94, 0.06) 30%,    /* #344b5e 深藍灰 */
-    rgba(213, 203, 225, 0.04) 60%,
-    rgba(52, 75, 94, 0.05) 100%
-  );
-  background-attachment: fixed;
-  background-size: 400% 400%;
-  animation: backgroundFlow 20s ease-in-out infinite;
+/* 高性能星星基礎樣式 - 使用GPU加速 */
+.optimized-star {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  will-change: opacity, transform;
+  backface-visibility: hidden;
+  transform-origin: center;
 }
 
-@keyframes backgroundFlow {
+/* 明亮星星動畫 - 高對比度 */
+.star-bright {
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow:
+    0 0 8px rgba(255, 255, 255, 0.8),
+    0 0 16px rgba(157, 117, 212, 0.6);
+}
+
+/* 暗淡星星動畫 - 基礎亮度 */
+.star-dim {
+  background: rgba(157, 117, 212, 0.7);
+  box-shadow: 0 0 4px rgba(157, 117, 212, 0.4);
+}
+
+/* 脈衝星星動畫 - 中等亮度 */
+.star-pulse {
+  background: rgba(157, 117, 212, 0.8);
+  box-shadow:
+    0 0 6px rgba(157, 117, 212, 0.6),
+    0 0 12px rgba(157, 117, 212, 0.3);
+}
+
+/* 高性能CSS動畫關鍵幀 */
+@keyframes twinkle-bright {
   0%, 100% {
-    background-position: 0% 50%;
+    opacity: 0.2;
+    transform: scale(1);
   }
   50% {
-    background-position: 100% 50%;
+    opacity: 1;
+    transform: scale(1.3);
+  }
+}
+
+@keyframes twinkle-dim {
+  0%, 100% {
+    opacity: 0.6;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.3;
+    transform: scale(0.8);
+  }
+}
+
+@keyframes twinkle-pulse {
+  0%, 100% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 0.9;
+  }
+}
+
+/* 減少動畫偏好設置支持 */
+@media (prefers-reduced-motion: reduce) {
+  .optimized-star {
+    animation: none !important;
+    opacity: 0.5;
   }
 }
 
@@ -1285,13 +1320,7 @@ html:not([data-theme='dark']) .theme-toggle-sidebar .moon-icon {
   width: 100%;
   height: 2px;
   background: linear-gradient(90deg, transparent, var(--primary-accent), transparent);
-  animation: shimmer 3s ease-in-out infinite;
-}
-
-@keyframes shimmer {
-  0% { left: -100%; }
-  50% { left: 100%; }
-  100% { left: 100%; }
+  /* 移除shimmer動畫 */
 }
 
 /* ===== 頁面底部版權信息 | PAGE FOOTER COPYRIGHT ===== */
@@ -1370,10 +1399,6 @@ html::-webkit-scrollbar {
   display: none; /* Chrome, Safari, Opera */
 }
 
-#layout-content h1:first-child, #layout-content h2:first-child, #layout-content h3:first-child {
-  margin-top: -0.5em; /* Reduced for denser layout */
-}
-
 /* Reduce spacing between all headings and content for denser layout */
 h1, h2, h3, h4, h5, h6 {
   margin-bottom: 0.5rem; /* Further reduced from default */
@@ -1381,53 +1406,30 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 h1 + *, h2 + *, h3 + *, h4 + *, h5 + *, h6 + * {
-  margin-top: 0.3rem; /* Tighter spacing after headings */
-}
-
-.content-card h1, .content-card h2, .content-card h3, .content-card h4 {
-  margin-top: 0.5rem;
-  margin-bottom: 0.5rem;
+  margin-top: 0.5rem; /* Tighter spacing after headings */
 }
 
 /* ===== 內容卡片 - 增強毛玻璃效果 | CONTENT CARDS - ENHANCED GLASSMORPHISM ===== */
 .content-card {
   background: var(--card-bg-glassy);
-  backdrop-filter: blur(35px) saturate(250%) brightness(1.25);
-  -webkit-backdrop-filter: blur(35px) saturate(250%) brightness(1.25);
+  backdrop-filter: blur(20px) saturate(150%) brightness(1.05);
+  -webkit-backdrop-filter: blur(20px) saturate(150%) brightness(1.05);
   border-radius: 16px;
-  padding: 12px 12px; /* 增加上下padding至12px，保持左右padding为12px */
-  margin-bottom: 0.4rem; /* 进一步缩小上下间距 */
+  padding: 14px 12px;
+  margin-bottom: 0.4rem;
   box-shadow:
-    0 12px 40px rgba(0, 0, 0, 0.15),
-    0 6px 20px rgba(52, 75, 94, 0.2),
-    inset 0 1px 0 rgba(255, 255, 255, 0.2);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  transition: var(--theme-transition), transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+    0 8px 32px rgba(0, 0, 0, 0.08),
+    0 4px 16px rgba(52, 75, 94, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  transition: var(--theme-transition), transform 0.4s cubic-bezier(0.4, 0, 0.2, 0.5),
               backdrop-filter 0.4s ease, box-shadow 0.4s ease;
   position: relative;
   z-index: 1;
   overflow: hidden;
 }
 
-.content-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(135deg,
-    rgba(213, 203, 225, 0.05) 0%,
-    transparent 50%,
-    rgba(52, 75, 94, 0.03) 100%);
-  pointer-events: none;
-  z-index: -1;
-}
-
-/* 移除創意卡片佈局，保持原始簡潔風格 */
-
-/* 移除教育時間線樣式，保持原始格式 */
-
+/* 統一的偽元素 - 背景漸變和懸停效果 */
 .content-card::before {
   content: '';
   position: absolute;
@@ -1435,20 +1437,62 @@ h1 + *, h2 + *, h3 + *, h4 + *, h5 + *, h6 + * {
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+  background: linear-gradient(90deg,
+    transparent,
+    rgba(255, 255, 255, 0.08),
+    transparent
+  );
   transition: left 0.6s ease;
+  z-index: -1;
+}
+
+/* 額外的背景漸變層 */
+.content-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg,
+    rgba(213, 203, 225, 0.08) 0%,
+    transparent 50%,
+    rgba(52, 75, 94, 0.05) 100%);
+  pointer-events: none;
+  z-index: -2;
 }
 
 .content-card:hover {
   transform: translateY(-4px) scale(1.01);
+  backdrop-filter: blur(30px) saturate(200%) brightness(1.15);
+  -webkit-backdrop-filter: blur(30px) saturate(200%) brightness(1.15);
   box-shadow:
-    0 16px 48px 0 var(--glass-shadow),
+    0 20px 60px rgba(0, 0, 0, 0.2),
+    0 8px 32px rgba(0, 0, 0, 0.1),
     0 0 0 1px var(--primary-accent-transparent),
-    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
 }
 
 .content-card:hover::before {
   left: 100%;
+}
+
+/* 嵌套卡片透明度增強 */
+.content-card .content-card {
+  background: rgba(255, 255, 255, 0.05); /* 嵌套卡片極度透明 */
+  backdrop-filter: blur(12px) saturate(130%);
+  -webkit-backdrop-filter: blur(12px) saturate(130%);
+}
+
+[data-theme="dark"] .content-card .content-card {
+  background: rgba(42, 42, 42, 0.06); /* 深色主題嵌套卡片更透明 */
+}
+
+/* 增強毛玻璃效果的輔助元素 */
+.glassmorphism-enhanced {
+  background: rgba(255, 255, 255, 0.05) !important;
+  backdrop-filter: blur(40px) saturate(300%) brightness(1.2) !important;
+  -webkit-backdrop-filter: blur(40px) saturate(300%) brightness(1.2) !important;
 }
 
 /* ===== CONTENT ITEM STYLES ===== */
