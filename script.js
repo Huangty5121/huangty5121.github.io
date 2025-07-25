@@ -324,60 +324,55 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
 
-        // 鼠標軌跡效果
+        // 簡單鼠標跟隨效果（僅桌面端）
         initCursorEffects() {
-            document.addEventListener('mousemove', (e) => {
-                this.addCursorTrail(e.clientX, e.clientY);
-                this.updateCursorTrail();
-            });
-        }
+            // 檢測是否為觸摸設備
+            const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
 
-        addCursorTrail(x, y) {
-            this.cursorTrail.push({
-                x: x,
-                y: y,
-                life: 1.0,
-                size: Math.random() * 4 + 2
-            });
+            // 只在非觸摸設備上啟用鼠標跟隨
+            if (!isTouchDevice) {
+                // 創建單一跟隨圓點 - 簡化為純色半透明
+                this.cursorDot = document.createElement('div');
+                this.cursorDot.className = 'cursor-dot';
+                this.cursorDot.style.cssText = `
+                    position: fixed;
+                    width: 16px;
+                    height: 16px;
+                    background: rgba(173, 144, 213, 0.5);
+                    border-radius: 50%;
+                    pointer-events: none;
+                    z-index: 9999;
+                    transform: translate(-50%, -50%);
+                    transition: opacity 0.3s ease;
+                    opacity: 0;
+                `;
+                document.body.appendChild(this.cursorDot);
 
-            if (this.cursorTrail.length > this.maxTrailLength) {
-                this.cursorTrail.shift();
+                document.addEventListener('mousemove', (e) => {
+                    this.cursorDot.style.left = e.clientX + 'px';
+                    this.cursorDot.style.top = e.clientY + 'px';
+                    this.cursorDot.style.opacity = '1';
+                });
+
+                document.addEventListener('mouseleave', () => {
+                    this.cursorDot.style.opacity = '0';
+                });
             }
         }
 
-        updateCursorTrail() {
-            // 移除現有的軌跡元素
-            document.querySelectorAll('.cursor-trail').forEach(el => el.remove());
+        // 移除舊的軌跡方法，現在使用簡單的單點跟隨
 
-            this.cursorTrail.forEach((point, index) => {
-                const trail = document.createElement('div');
-                trail.className = 'cursor-trail';
-                trail.style.cssText = `
-                    position: fixed;
-                    left: ${point.x - point.size/2}px;
-                    top: ${point.y - point.size/2}px;
-                    width: ${point.size}px;
-                    height: ${point.size}px;
-                    background: radial-gradient(circle,
-                        hsla(${280 + index * 10}, 60%, 70%, ${point.life * 0.6}),
-                        hsla(${45 + index * 5}, 65%, 68%, ${point.life * 0.3}));
-                    border-radius: 50%;
-                    pointer-events: none;
-                    z-index: 9998;
-                    transition: opacity 0.3s ease;
-                `;
-                document.body.appendChild(trail);
-
-                // 減少生命值
-                point.life -= 0.15;
-            });
-
-            // 移除生命值為0的點
-            this.cursorTrail = this.cursorTrail.filter(point => point.life > 0);
-        }
-
-        // 水墨背景效果
+        // 中國水墨流動背景效果
         initInkWashBackground() {
+            // 性能檢測：在低性能設備上禁用動畫
+            const isLowPerformance = window.innerWidth < 768 ||
+                                   navigator.hardwareConcurrency < 4 ||
+                                   /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
+            if (isLowPerformance && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                return; // 跳過動畫初始化
+            }
+
             this.inkWashCanvas = document.createElement('canvas');
             this.inkWashCanvas.id = 'ink-wash-canvas';
             this.inkWashCanvas.style.cssText = `
@@ -388,16 +383,27 @@ document.addEventListener('DOMContentLoaded', function() {
                 height: 100%;
                 pointer-events: none;
                 z-index: -1;
-                opacity: 0.4;
+                opacity: 1;
+                mix-blend-mode: multiply;
             `;
             document.body.appendChild(this.inkWashCanvas);
 
             this.inkWashCtx = this.inkWashCanvas.getContext('2d');
+            // 啟用硬件加速
+            this.inkWashCtx.imageSmoothingEnabled = false;
             this.resizeInkCanvas();
-            this.createInkParticles();
+            this.createInkElements();
             this.animateInkWash();
 
-            window.addEventListener('resize', () => this.resizeInkCanvas());
+            // 節流調整大小事件以提升性能
+            let resizeTimeout;
+            window.addEventListener('resize', () => {
+                clearTimeout(resizeTimeout);
+                resizeTimeout = setTimeout(() => {
+                    this.resizeInkCanvas();
+                    this.createInkElements(); // 重新創建粒子以適應新尺寸
+                }, 150);
+            });
         }
 
         resizeInkCanvas() {
@@ -405,63 +411,225 @@ document.addEventListener('DOMContentLoaded', function() {
             this.inkWashCanvas.height = window.innerHeight;
         }
 
-        createInkParticles() {
-            for (let i = 0; i < 15; i++) {
+        createInkElements() {
+            this.inkParticles = [];
+
+            // 根據設備性能調整粒子數量
+            const isLowPerformance = window.innerWidth < 768 || navigator.hardwareConcurrency < 4;
+            const inkCount = isLowPerformance ? 8 : 12; // 減少粒子數量
+            const flowCount = isLowPerformance ? 3 : 4;
+
+            // 創建水墨流動粒子（生物元素）
+            for (let i = 0; i < inkCount; i++) {
+                // 根據主題選擇顏色
+                const isDarkTheme = document.documentElement.getAttribute('data-theme') === 'dark';
+                let particleColor;
+                if (isDarkTheme) {
+                    // 暗色主題：使用更亮的顏色
+                    particleColor = Math.random() > 0.5 ? [240, 235, 245] : [180, 200, 220]; // 更亮的紫灰和藍灰
+                } else {
+                    // 亮色主題：使用原有顏色
+                    particleColor = Math.random() > 0.5 ? [213, 203, 225] : [52, 75, 94];
+                }
+
                 this.inkParticles.push({
+                    type: 'ink',
                     x: Math.random() * window.innerWidth,
                     y: Math.random() * window.innerHeight,
-                    size: Math.random() * 100 + 50,
-                    speedX: (Math.random() - 0.5) * 0.5,
-                    speedY: (Math.random() - 0.5) * 0.5,
-                    opacity: Math.random() * 0.3 + 0.1,
-                    color: Math.random() > 0.5 ? 'rgba(177, 156, 217, ' : 'rgba(222, 184, 135, '
+                    size: Math.random() * 100 + 50, // 減小粒子大小
+                    speedX: (Math.random() - 0.5) * 0.4, // 減慢速度
+                    speedY: (Math.random() - 0.5) * 0.4,
+                    opacity: Math.random() * 0.7 + 0.3, // 降低透明度
+                    color: particleColor,
+                    pulsePhase: Math.random() * Math.PI * 2,
+                    pulseSpeed: Math.random() * 0.015 + 0.008, // 減慢脈衝速度
+                    flowDirection: Math.random() * Math.PI * 2,
+                    flowSpeed: Math.random() * 0.003 + 0.001
+                });
+            }
+
+            // 創建流動線條
+            for (let i = 0; i < flowCount; i++) {
+                // 根據主題選擇顏色
+                const isDarkTheme = document.documentElement.getAttribute('data-theme') === 'dark';
+                let flowColor;
+                if (isDarkTheme) {
+                    // 暗色主題：使用更亮的顏色
+                    flowColor = Math.random() > 0.5 ? [240, 235, 245] : [180, 200, 220]; // 更亮的紫灰和藍灰
+                } else {
+                    // 亮色主題：使用原有顏色
+                    flowColor = Math.random() > 0.5 ? [213, 203, 225] : [52, 75, 94];
+                }
+
+                this.inkParticles.push({
+                    type: 'flow',
+                    x: Math.random() * window.innerWidth,
+                    y: Math.random() * window.innerHeight,
+                    length: Math.random() * 200 + 120, // 減小線條長度
+                    width: Math.random() * 2 + 1,
+                    angle: Math.random() * Math.PI * 2,
+                    speed: Math.random() * 0.008 + 0.003, // 減慢速度
+                    opacity: Math.random() * 0.5 + 0.3, // 降低透明度
+                    color: flowColor,
+                    phase: Math.random() * Math.PI * 2
                 });
             }
         }
 
         animateInkWash() {
+            // 性能優化：限制幀率到30fps以提升性能
+            if (!this.lastFrameTime) this.lastFrameTime = 0;
+            const now = performance.now();
+            const deltaTime = now - this.lastFrameTime;
+
+            if (deltaTime < 33.33) { // 限制到30fps
+                requestAnimationFrame(() => this.animateInkWash());
+                return;
+            }
+            this.lastFrameTime = now;
+
+            // 清除畫布
             this.inkWashCtx.clearRect(0, 0, this.inkWashCanvas.width, this.inkWashCanvas.height);
 
+            // 創建動態背景漸變，根據主題調整（減少計算頻率）
+            const isDarkTheme = document.documentElement.getAttribute('data-theme') === 'dark';
+            const time = now * 0.0005; // 減慢時間變化
+
+            // 緩存漸變計算和主題變化檢測
+            if (!this.cachedGradient || this.lastTheme !== isDarkTheme || now - this.lastGradientUpdate > 100) {
+                // 如果主題改變，重新創建粒子以應用新顏色
+                if (this.lastTheme !== undefined && this.lastTheme !== isDarkTheme) {
+                    this.createInkElements();
+                }
+
+                this.cachedGradient = this.inkWashCtx.createLinearGradient(0, 0, this.inkWashCanvas.width, this.inkWashCanvas.height);
+                if (isDarkTheme) {
+                    // 暗色主題：使用更亮、更鮮明的顏色，增強對比度
+                    this.cachedGradient.addColorStop(0, `rgba(240, 235, 245, ${0.15 + Math.sin(time * 0.5) * 0.04})`);
+                    this.cachedGradient.addColorStop(0.5, `rgba(220, 210, 235, ${0.22 + Math.cos(time * 0.3) * 0.06})`);
+                    this.cachedGradient.addColorStop(1, `rgba(180, 200, 220, ${0.12 + Math.sin(time * 0.7) * 0.03})`);
+                } else {
+                    // 亮色主題：使用較暗的顏色
+                    this.cachedGradient.addColorStop(0, `rgba(52, 75, 94, ${0.12 + Math.sin(time * 0.5) * 0.03})`);
+                    this.cachedGradient.addColorStop(0.5, `rgba(213, 203, 225, ${0.18 + Math.cos(time * 0.3) * 0.05})`);
+                    this.cachedGradient.addColorStop(1, `rgba(52, 75, 94, ${0.10 + Math.sin(time * 0.7) * 0.02})`);
+                }
+                this.lastTheme = isDarkTheme;
+                this.lastGradientUpdate = now;
+            }
+
+            this.inkWashCtx.fillStyle = this.cachedGradient;
+            this.inkWashCtx.fillRect(0, 0, this.inkWashCanvas.width, this.inkWashCanvas.height);
+
             this.inkParticles.forEach(particle => {
-                // 更新位置
-                particle.x += particle.speedX;
-                particle.y += particle.speedY;
+                if (particle.type === 'ink') {
+                    // 水墨粒子流動
+                    particle.flowDirection += particle.flowSpeed;
+                    particle.x += Math.cos(particle.flowDirection) * particle.speedX;
+                    particle.y += Math.sin(particle.flowDirection) * particle.speedY;
+                    particle.pulsePhase += particle.pulseSpeed;
 
-                // 邊界檢查
-                if (particle.x < -particle.size) particle.x = this.inkWashCanvas.width + particle.size;
-                if (particle.x > this.inkWashCanvas.width + particle.size) particle.x = -particle.size;
-                if (particle.y < -particle.size) particle.y = this.inkWashCanvas.height + particle.size;
-                if (particle.y > this.inkWashCanvas.height + particle.size) particle.y = -particle.size;
+                    // 邊界檢查和循環
+                    if (particle.x < -particle.size) particle.x = this.inkWashCanvas.width + particle.size;
+                    if (particle.x > this.inkWashCanvas.width + particle.size) particle.x = -particle.size;
+                    if (particle.y < -particle.size) particle.y = this.inkWashCanvas.height + particle.size;
+                    if (particle.y > this.inkWashCanvas.height + particle.size) particle.y = -particle.size;
 
-                // 繪製粒子
-                const gradient = this.inkWashCtx.createRadialGradient(
-                    particle.x, particle.y, 0,
-                    particle.x, particle.y, particle.size
-                );
-                gradient.addColorStop(0, particle.color + particle.opacity + ')');
-                gradient.addColorStop(1, particle.color + '0)');
+                    const pulseOpacity = particle.opacity * (0.6 + 0.4 * Math.sin(particle.pulsePhase));
 
-                this.inkWashCtx.fillStyle = gradient;
-                this.inkWashCtx.beginPath();
-                this.inkWashCtx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
-                this.inkWashCtx.fill();
+                    // 創建水墨擴散效果
+                    const inkGradient = this.inkWashCtx.createRadialGradient(
+                        particle.x, particle.y, 0,
+                        particle.x, particle.y, particle.size
+                    );
+
+                    const [r, g, b] = particle.color;
+                    inkGradient.addColorStop(0, `rgba(${r}, ${g}, ${b}, ${pulseOpacity})`);
+                    inkGradient.addColorStop(0.4, `rgba(${r}, ${g}, ${b}, ${pulseOpacity * 0.6})`);
+                    inkGradient.addColorStop(0.8, `rgba(${r}, ${g}, ${b}, ${pulseOpacity * 0.2})`);
+                    inkGradient.addColorStop(1, 'transparent');
+
+                    this.inkWashCtx.fillStyle = inkGradient;
+                    this.inkWashCtx.beginPath();
+                    this.inkWashCtx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
+                    this.inkWashCtx.fill();
+
+                } else if (particle.type === 'flow') {
+                    // 流動線條
+                    particle.phase += particle.speed;
+                    particle.x += Math.cos(particle.angle) * 0.5;
+                    particle.y += Math.sin(particle.angle) * 0.5;
+
+                    // 邊界檢查
+                    if (particle.x < -particle.length) particle.x = this.inkWashCanvas.width + particle.length;
+                    if (particle.x > this.inkWashCanvas.width + particle.length) particle.x = -particle.length;
+                    if (particle.y < -particle.length) particle.y = this.inkWashCanvas.height + particle.length;
+                    if (particle.y > this.inkWashCanvas.height + particle.length) particle.y = -particle.length;
+
+                    const flowOpacity = particle.opacity * (0.5 + 0.5 * Math.sin(particle.phase));
+                    const [r, g, b] = particle.color;
+
+                    // 繪製流動線條
+                    this.inkWashCtx.strokeStyle = `rgba(${r}, ${g}, ${b}, ${flowOpacity})`;
+                    this.inkWashCtx.lineWidth = particle.width;
+                    this.inkWashCtx.lineCap = 'round';
+
+                    this.inkWashCtx.beginPath();
+                    const startX = particle.x;
+                    const startY = particle.y;
+                    const endX = particle.x + Math.cos(particle.angle) * particle.length;
+                    const endY = particle.y + Math.sin(particle.angle) * particle.length;
+
+                    // 創建波浪效果（減少段數以提升性能）
+                    const segments = 10; // 從20減少到10
+                    for (let i = 0; i <= segments; i++) {
+                        const t = i / segments;
+                        const x = startX + (endX - startX) * t;
+                        const y = startY + (endY - startY) * t + Math.sin(particle.phase + t * Math.PI * 3) * 8; // 減少波浪幅度
+
+                        if (i === 0) {
+                            this.inkWashCtx.moveTo(x, y);
+                        } else {
+                            this.inkWashCtx.lineTo(x, y);
+                        }
+                    }
+                    this.inkWashCtx.stroke();
+                }
             });
 
             requestAnimationFrame(() => this.animateInkWash());
         }
 
-        // 卡片懸浮效果
+        // 增強卡片懸浮效果 - 專注於毛玻璃效果，針對主題優化
         initCardHoverEffects() {
             const cards = document.querySelectorAll('.content-card');
             cards.forEach(card => {
                 card.addEventListener('mouseenter', () => {
-                    card.style.transform = 'translateY(-6px) scale(1.02)';
-                    card.style.boxShadow = '0 12px 40px var(--glass-shadow), 0 0 0 1px var(--primary-accent-transparent)';
+                    const isDarkTheme = document.documentElement.getAttribute('data-theme') === 'dark';
+
+                    card.style.transform = 'translateY(-8px) scale(1.015)';
+
+                    if (isDarkTheme) {
+                        // 暗色主題：降低亮度和飽和度，避免過於刺眼
+                        card.style.backdropFilter = 'blur(30px) saturate(150%) brightness(1.05)';
+                        card.style.background = 'rgba(42, 42, 42, 0.25)';
+                        card.style.boxShadow = '0 20px 60px rgba(0, 0, 0, 0.4), 0 8px 32px rgba(0, 0, 0, 0.25)';
+                        card.style.border = '1px solid rgba(232, 230, 227, 0.2)';
+                    } else {
+                        // 亮色主題：保持原有效果但降低背景透明度
+                        card.style.backdropFilter = 'blur(30px) saturate(200%) brightness(1.2)';
+                        card.style.background = 'rgba(255, 255, 255, 0.12)';
+                        card.style.boxShadow = '0 20px 60px rgba(0, 0, 0, 0.15), 0 8px 32px rgba(0, 0, 0, 0.1)';
+                        card.style.border = '1px solid rgba(255, 255, 255, 0.2)';
+                    }
                 });
 
                 card.addEventListener('mouseleave', () => {
                     card.style.transform = '';
+                    card.style.backdropFilter = '';
+                    card.style.background = '';
                     card.style.boxShadow = '';
+                    card.style.border = '';
                 });
             });
         }
@@ -495,7 +663,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // 創建增強動畫系統實例
-    const enhancedAnimations = new EnhancedAnimationSystem();
+    window.enhancedAnimations = new EnhancedAnimationSystem();
 
     // ===== 初始化 =====
     initTheme();

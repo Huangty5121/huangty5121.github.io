@@ -2,7 +2,7 @@
 <html lang="zh-CN" data-theme="light">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=0.85">
 <meta name="description" content="黃天野 (Tin Yeh Huang) - 香港理工大學工業及系統工程系學生，專注於人工智慧、數學、神經科學、計算生物學等跨學科研究">
 <meta name="keywords" content="Tin Yeh Huang, 黃天野, 香港理工大學, 人工智慧, 機器學習, 深度學習, 計算生物學, 神經科學">
 <meta name="author" content="Tin Yeh Huang">
@@ -78,22 +78,22 @@
 
     <!-- Navigation Controls in Sidebar -->
     <div class="menu-category-title">設置</div>
-      <div class="menu-control-item">
-        <span class="control-label">語言:</span>
-        <a href="en.html" class="language-link">English</a>
+    <div class="menu-control-item">
+      <span class="control-label">語言:</span>
+      <a href="en.html" class="language-link">English</a>
+    </div>
+    <div class="menu-control-item">
+      <span class="control-label">主題:</span>
+      <div class="theme-toggle-sidebar" id="theme-toggle">
+        <svg class="sun-icon" viewBox="0 0 24 24">
+          <path d="M12 18C8.68629 18 6 15.3137 6 12C6 8.68629 8.68629 6 12 6C15.3137 6 18 8.68629 18 12C18 15.3137 15.3137 18 12 18ZM12 16C14.2091 16 16 14.2091 16 12C16 9.79086 14.2091 8 12 8C9.79086 8 8 9.79086 8 12C8 14.2091 9.79086 16 12 16ZM11 1H13V4H11V1ZM11 20H13V23H11V20ZM3.51472 4.92893L4.92893 3.51472L7.05025 5.63604L5.63604 7.05025L3.51472 4.92893ZM16.9497 18.364L18.364 16.9497L20.4853 19.0711L19.0711 20.4853L16.9497 18.364ZM19.0711 3.51472L20.4853 4.92893L18.364 7.05025L16.9497 5.63604L19.0711 3.51472ZM5.63604 16.9497L7.05025 18.364L4.92893 20.4853L3.51472 19.0711L5.63604 16.9497ZM23 11V13H20V11H23ZM4 11V13H1V11H4Z"/>
+        </svg>
+        <svg class="moon-icon" viewBox="0 0 24 24">
+          <path d="M10 7C10 10.866 13.134 14 17 14C18.9584 14 20.729 13.1957 21.9995 11.8995C22 11.933 22 11.9665 22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C12.0335 2 12.067 2 12.1005 2.00049C10.8043 3.27098 10 5.04157 10 7Z"/>
+        </svg>
       </div>
-      <div class="menu-control-item">
-        <span class="control-label">主題:</span>
-        <div class="theme-toggle-sidebar" id="theme-toggle">
-          <svg class="sun-icon" viewBox="0 0 24 24">
-            <path d="M12 18C8.68629 18 6 15.3137 6 12C6 8.68629 8.68629 6 12 6C15.3137 6 18 8.68629 18 12C18 15.3137 15.3137 18 12 18ZM12 16C14.2091 16 16 14.2091 16 12C16 9.79086 14.2091 8 12 8C9.79086 8 8 9.79086 8 12C8 14.2091 9.79086 16 12 16ZM11 1H13V4H11V1ZM11 20H13V23H11V20ZM3.51472 4.92893L4.92893 3.51472L7.05025 5.63604L5.63604 7.05025L3.51472 4.92893ZM16.9497 18.364L18.364 16.9497L20.4853 19.0711L19.0711 20.4853L16.9497 18.364ZM19.0711 3.51472L20.4853 4.92893L18.364 7.05025L16.9497 5.63604L19.0711 3.51472ZM5.63604 16.9497L7.05025 18.364L4.92893 20.4853L3.51472 19.0711L5.63604 16.9497ZM23 11V13H20V11H23ZM4 11V13H1V11H4Z"/>
-          </svg>
-          <svg class="moon-icon" viewBox="0 0 24 24">
-            <path d="M10 7C10 10.866 13.134 14 17 14C18.9584 14 20.729 13.1957 21.9995 11.8995C22 11.933 22 11.9665 22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C12.0335 2 12.067 2 12.1005 2.00049C10.8043 3.27098 10 5.04157 10 7Z"/>
-          </svg>
-        </div>
     </div>
-    </div>
+
     <div class="menu-copyright">
       <p>&copy; 2024 黃天野</p>
       <p>最後更新: <span id="last-updated"></span></p>
@@ -153,19 +153,14 @@
       清華大學錢學森力學班-深圳零一學院 零一學者<br/>
       香港特別行政區政府民政事務總署 青年發展及公民教育委員會 油尖旺區委員<br/>
       香港工程師學會 學生會員</p>
-      <div class="contact-info">
         <div class="contact-item">
-          <span class="contact-label">📧 學術郵箱：</span>
-          <a href="mailto:tin-yeh.huang@connect.polyu.hk" class="email-link">tin-yeh.huang@connect.polyu.hk</a>
+          <span class="contact-label">📧 Email：</span>
+          <a href="mailto:tin-yeh.huang@connect.polyu.hk" class="email-link">tin-yeh.huang@connect.polyu.hk</a> ｜ <a href="mailto:hty25@mails.tsinghua.edu.cn" class="email-link">hty25@mails.tsinghua.edu.cn</a> ｜           <a href="mailto:huangtianye@mails.x-institute.edu.cn" class="email-link">huangtianye@mails.x-institute.edu.cn</a>
         </div>
         <div class="contact-item">
-          <span class="contact-label">📧 研究郵箱：</span>
-          <a href="mailto:hty25@mails.tsinghua.edu.cn" class="email-link">hty25@mails.tsinghua.edu.cn</a>
-        </div>
-        <div class="contact-item">
-          <span class="contact-label">📧 機構郵箱：</span>
-          <a href="mailto:huangtianye@mails.x-institute.edu.cn" class="email-link">huangtianye@mails.x-institute.edu.cn</a>
-        </div>
+          <span class="contact-label">📱 電話：</span>
+          <a href="tel:+85294498934" class="phone-link">+852 9449 8934</a>｜
+          <a href="tel:+8619896555044" class="phone-link">+86 198 9655 5044</a>
       </div>
     </div>
   </div>
@@ -287,6 +282,7 @@
 <h4>期刊審稿人</h4>
 <ul>
 <li>F1000 Research <a href="https://f1000research.com/articles/14-245/v1" class="link-btn">🔗 審稿記錄</a></li>
+<li>ICML2025 workshop AI4Math 審稿人</li>
 </ul>
 </div>
 </div>
@@ -506,6 +502,16 @@
     </a><br />
 </div>
 </div>
+
+<!-- 頁面底部版權信息 -->
+<footer class="page-footer">
+    <div class="footer-content">
+        <p>&copy; 2024 黃天野 (Tin Yeh Huang). All rights reserved.</p>
+        <p>香港理工大學工業及系統工程系 | 清華大學錢學森力學班-深圳零一學院</p>
+        <p>Industrial & Systems Engineering, PolyU | Qian Xuesen Mechanics Class, Tsinghua University</p>
+        <p>最後更新：2025年7月26日 | Last updated: July 26, 2025</p>
+    </div>
+</footer>
 </main>
 </div>
 </div>
