@@ -352,15 +352,21 @@ document.addEventListener('DOMContentLoaded', function() {
             this.init();
         }
 
-        // 智能性能檢測和星星數量優化 - 性能友好版本
+        // 高密度星星優化 - 智能分層渲染系統
         getOptimalStarCount() {
             const isMobile = window.innerWidth < 768;
             const isLowEnd = navigator.hardwareConcurrency < 4;
             const hasReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            const screenArea = window.innerWidth * window.innerHeight;
 
-            if (hasReducedMotion) return isMobile ? 50 : 100;
-            if (isLowEnd) return isMobile ? 200 : 500;
-            return isMobile ? 300 : 800; // 优化后的星星密度 - 平衡视觉效果和性能
+            // 基於屏幕面積的動態密度計算
+            const baseDensity = screenArea / 1000000; // 每百萬像素的基礎星星數
+
+            if (hasReducedMotion) return Math.floor(baseDensity * (isMobile ? 30 : 50));
+            if (isLowEnd) return Math.floor(baseDensity * (isMobile ? 80 : 150));
+
+            // 高密度配置 - 更多星星但優化渲染
+            return Math.floor(baseDensity * (isMobile ? 200 : 400));
         }
 
         // 分層星星系統配置
@@ -437,18 +443,18 @@ document.addEventListener('DOMContentLoaded', function() {
             style.id = 'optimized-stars-css';
             style.textContent = `
                 @keyframes twinkle-bright {
-                    0%, 100% { opacity: 0.2; transform: scale(1); }
-                    50% { opacity: 1; transform: scale(1.2); }
+                    0%, 100% { opacity: 0.3; transform: scale(1) translateZ(0); }
+                    50% { opacity: 1; transform: scale(1.3) translateZ(0); }
                 }
 
                 @keyframes twinkle-dim {
-                    0%, 100% { opacity: 0.6; transform: scale(1); }
-                    50% { opacity: 0.3; transform: scale(0.8); }
+                    0%, 100% { opacity: 0.4; transform: scale(1) translateZ(0); }
+                    50% { opacity: 0.8; transform: scale(1.15) translateZ(0); }
                 }
 
                 @keyframes twinkle-pulse {
-                    0%, 100% { opacity: 0.4; }
-                    50% { opacity: 0.9; }
+                    0%, 100% { opacity: 0.5; transform: scale(1) translateZ(0); }
+                    50% { opacity: 1; transform: scale(1.2) translateZ(0); }
                 }
 
                 .optimized-star {
@@ -457,100 +463,232 @@ document.addEventListener('DOMContentLoaded', function() {
                     will-change: opacity, transform;
                     backface-visibility: hidden;
                     transform-origin: center;
+                    contain: layout style paint;
                 }
 
+                /* 小星星發光效果 */
+                .star-small {
+                    background: ${this.config.colors.primary};
+                    box-shadow: 0 0 calc(var(--star-size, 2px) * 1.5) ${this.config.colors.dim};
+                }
+
+                /* 中等星星發光效果 */
+                .star-medium {
+                    background: ${this.config.colors.bright};
+                    box-shadow:
+                        0 0 calc(var(--star-size, 3px) * 2) ${this.config.colors.primary},
+                        0 0 calc(var(--star-size, 3px) * 1) ${this.config.colors.bright};
+                }
+
+                /* 大星星發光效果 */
+                .star-large {
+                    background: ${this.config.colors.bright};
+                    box-shadow:
+                        0 0 calc(var(--star-size, 5px) * 3) ${this.config.colors.primary},
+                        0 0 calc(var(--star-size, 5px) * 1.5) ${this.config.colors.bright},
+                        0 0 calc(var(--star-size, 5px) * 0.5) rgba(255, 255, 255, 0.8);
+                }
+
+                /* 超大星星發光效果 */
+                .star-xlarge {
+                    background: radial-gradient(circle, ${this.config.colors.bright}, ${this.config.colors.primary});
+                    box-shadow:
+                        0 0 calc(var(--star-size, 8px) * 4) ${this.config.colors.primary},
+                        0 0 calc(var(--star-size, 8px) * 2) ${this.config.colors.bright},
+                        0 0 calc(var(--star-size, 8px) * 1) rgba(255, 255, 255, 0.9),
+                        inset 0 0 calc(var(--star-size, 8px) * 0.3) rgba(255, 255, 255, 0.5);
+                }
+
+                /* 動畫類型樣式 */
                 .star-bright {
                     animation: twinkle-bright 2s ease-in-out infinite;
-                    background: ${this.config.colors.bright};
-                    box-shadow: 0 0 8px ${this.config.colors.secondary};
                 }
 
                 .star-dim {
                     animation: twinkle-dim 3s ease-in-out infinite;
-                    background: ${this.config.colors.primary};
-                    box-shadow: 0 0 4px ${this.config.colors.dim};
                 }
 
                 .star-pulse {
                     animation: twinkle-pulse 4s ease-in-out infinite;
-                    background: ${this.config.colors.primary};
-                    box-shadow: 0 0 6px ${this.config.colors.primary};
+                }
+
+                /* 靜態星星延遲動畫 */
+                .star-static {
+                    animation-delay: var(--star-delay);
                 }
             `;
             document.head.appendChild(style);
         }
 
+        // 高性能分層星星創建系統
         createStars() {
             const config = this.getStarLayerConfig();
-            const fragment = document.createDocumentFragment();
 
-            console.log(`創建星星系統：總計 ${config.total} 個星星 (靜態: ${config.static}, 動態: ${config.dynamic})`);
+            console.log(`創建高密度星星系統：總計 ${config.total} 個星星 (靜態: ${config.static}, 動態: ${config.dynamic})`);
 
-            // 創建靜態星星（CSS動畫，性能友好）
-            for (let i = 0; i < config.static; i++) {
-                const star = this.createStaticStar(i);
-                this.stars.push(star);
-                fragment.appendChild(star);
-            }
-
-            // 創建動態星星（JavaScript動畫，視覺豐富）
-            for (let i = 0; i < config.dynamic; i++) {
-                const star = this.createDynamicStar(i);
-                this.stars.push(star);
-                fragment.appendChild(star);
-            }
-
-            this.container.appendChild(fragment);
+            // 分批創建星星以避免阻塞主線程
+            this.createStarsInBatches(config);
         }
 
-        // 創建靜態星星（純CSS動畫）
-        createStaticStar(index) {
+        // 分批創建星星 - 避免長時間阻塞主線程
+        createStarsInBatches(config) {
+            const batchSize = 50; // 每批創建50個星星
+            let staticCreated = 0;
+            let dynamicCreated = 0;
+
+            const createBatch = () => {
+                const fragment = document.createDocumentFragment();
+                let batchCount = 0;
+
+                // 創建靜態星星批次
+                while (staticCreated < config.static && batchCount < batchSize) {
+                    const star = this.createStaticStar();
+                    this.stars.push(star);
+                    fragment.appendChild(star);
+                    staticCreated++;
+                    batchCount++;
+                }
+
+                // 創建動態星星批次
+                while (dynamicCreated < config.dynamic && batchCount < batchSize) {
+                    const star = this.createDynamicStar();
+                    this.stars.push(star);
+                    fragment.appendChild(star);
+                    dynamicCreated++;
+                    batchCount++;
+                }
+
+                // 將批次添加到容器
+                this.container.appendChild(fragment);
+
+                // 如果還有星星需要創建，安排下一批
+                if (staticCreated < config.static || dynamicCreated < config.dynamic) {
+                    requestAnimationFrame(createBatch);
+                } else {
+                    console.log(`星星創建完成：${this.stars.length} 個星星已渲染`);
+                    this.optimizeForHighDensity();
+                }
+            };
+
+            // 開始創建第一批
+            requestAnimationFrame(createBatch);
+        }
+
+        // 高密度優化 - 使用Intersection Observer和虛擬化
+        optimizeForHighDensity() {
+            if (this.stars.length < 1000) return; // 只在高密度時啟用
+
+            // 創建Intersection Observer來管理可見性
+            this.visibilityObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    const star = entry.target;
+                    if (entry.isIntersecting) {
+                        star.style.display = '';
+                        star.classList.remove('virtualized');
+                    } else {
+                        // 對於不可見的星星，減少渲染負擔
+                        star.style.display = 'none';
+                        star.classList.add('virtualized');
+                    }
+                });
+            }, {
+                rootMargin: '100px', // 提前100px開始加載
+                threshold: 0
+            });
+
+            // 觀察所有星星
+            this.stars.forEach(star => {
+                this.visibilityObserver.observe(star);
+            });
+        }
+
+        // 創建靜態星星（純CSS動畫）- 更大更美觀
+        createStaticStar() {
             const star = document.createElement('div');
 
             // 隨機位置
             const x = Math.random() * window.innerWidth;
             const y = Math.random() * window.innerHeight;
 
-            // 較小的尺寸以節省性能
-            const size = 1 + Math.random() * 1.5;
+            // 更大的星星尺寸 - 分層大小系統
+            const sizeCategory = Math.random();
+            let size, opacity, glowIntensity;
 
-            star.className = 'optimized-star star-static';
+            if (sizeCategory < 0.5) {
+                // 50% 小星星
+                size = 2 + Math.random() * 2; // 2-4px
+                opacity = 0.6 + Math.random() * 0.3;
+                glowIntensity = 'small';
+            } else if (sizeCategory < 0.85) {
+                // 35% 中星星
+                size = 3 + Math.random() * 3; // 3-6px
+                opacity = 0.7 + Math.random() * 0.3;
+                glowIntensity = 'medium';
+            } else {
+                // 15% 大星星
+                size = 5 + Math.random() * 4; // 5-9px
+                opacity = 0.8 + Math.random() * 0.2;
+                glowIntensity = 'large';
+            }
+
+            star.className = `optimized-star star-static star-${glowIntensity}`;
             star.style.cssText = `
                 left: ${x}px;
                 top: ${y}px;
                 width: ${size}px;
                 height: ${size}px;
+                opacity: ${opacity};
                 --star-delay: ${Math.random() * 3}s;
+                --star-size: ${size}px;
             `;
 
             return star;
         }
 
-        // 創建動態星星（JavaScript動畫）
-        createDynamicStar(index) {
+        // 創建動態星星（JavaScript動畫）- 高性能大星星
+        createDynamicStar() {
             const star = document.createElement('div');
 
             // 隨機位置
             const x = Math.random() * window.innerWidth;
             const y = Math.random() * window.innerHeight;
 
-            // 智能大小分配基於性能等級
-            const sizeRange = this.performanceLevel === 'high' ? [1.5, 3] :
-                             this.performanceLevel === 'medium' ? [1.2, 2.5] : [1, 2];
-            const size = sizeRange[0] + Math.random() * (sizeRange[1] - sizeRange[0]);
+            // 更大的動態星星 - 基於性能等級的智能分配
+            const sizeCategory = Math.random();
+            let size, animationType, glowIntensity;
+
+            if (this.performanceLevel === 'high') {
+                // 高性能設備 - 更大更炫酷的星星
+                if (sizeCategory < 0.5) {
+                    size = 1 + Math.random() * 6; // 1-6px
+                    glowIntensity = 'medium';
+                } else if (sizeCategory < 0.7) {
+                    size = 6 + Math.random() * 4; // 6-10px
+                    glowIntensity = 'large';
+                } else {
+                    size = 10 + Math.random() * 10; // 10-20px - 超大星星
+                    glowIntensity = 'xlarge';
+                }
+            } else {
+                // 中低性能設備 - 適中大小
+                size = 2.5 + Math.random() * 5; // 2.5-7.5px
+                glowIntensity = sizeCategory < 0.7 ? 'medium' : 'large';
+            }
 
             // 隨機選擇動畫類型
             const animationTypes = ['bright', 'dim', 'pulse'];
-            const weights = this.performanceLevel === 'high' ? [0.3, 0.4, 0.3] : [0.2, 0.6, 0.2];
-            const animationType = this.getWeightedRandom(animationTypes, weights);
+            const weights = this.performanceLevel === 'high' ? [0.4, 0.3, 0.3] : [0.3, 0.5, 0.2];
+            animationType = this.getWeightedRandom(animationTypes, weights);
 
-            star.className = `optimized-star star-${animationType}`;
+            star.className = `optimized-star star-${animationType} star-${glowIntensity}`;
 
             // 使用transform而非left/top以獲得更好的性能
             star.style.cssText = `
-                transform: translate(${x}px, ${y}px);
+                transform: translate(${x}px, ${y}px) translateZ(0);
                 width: ${size}px;
                 height: ${size}px;
+                --star-size: ${size}px;
+                will-change: opacity, transform;
             `;
 
             // 設置動畫參數
@@ -722,14 +860,25 @@ document.addEventListener('DOMContentLoaded', function() {
 
         destroy() {
             this.stop();
+
+            // 清理Intersection Observer
+            if (this.visibilityObserver) {
+                this.visibilityObserver.disconnect();
+                this.visibilityObserver = null;
+            }
+
             if (this.container && this.container.parentNode) {
                 this.container.parentNode.removeChild(this.container);
             }
+
             // 清理注入的CSS
             const style = document.getElementById('optimized-stars-css');
             if (style) {
                 style.remove();
             }
+
+            // 清理星星數組
+            this.stars = [];
         }
 
 
@@ -821,9 +970,9 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // 創建優化的星星閃爍背景系統實例
+    // 創建高密度優化星星閃爍背景系統實例
     window.starsBackground = new OptimizedTwinklingStarsSystem({
-        starCount: window.innerWidth < 768 ? 600 : 2000 // 增加星星密度以創造更豐富的視覺效果
+        starCount: window.innerWidth < 768 ? 1500 : 4000 // 大幅增加星星密度 - 配合高性能優化系統
     });
 
     // ===== 初始化 =====
