@@ -217,6 +217,31 @@
    全局樣式 | Global Styles
    ======================================================================== */
 
+/* ===== 性能优化 | PERFORMANCE OPTIMIZATION ===== */
+* {
+  box-sizing: border-box;
+}
+
+/* 减少重绘和回流 */
+*,
+*::before,
+*::after {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+/* 优化动画性能 */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
 /* ===== 基礎設置 | BASE SETTINGS ===== */
 html {
   scroll-behavior: smooth;
@@ -235,6 +260,10 @@ body {
   min-height: 100vh;
   overflow-x: hidden;
   position: relative;
+  /* 性能优化 */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeSpeed;
 }
 
 /* 移除水墨背景效果，為流星動畫讓路 */
@@ -703,8 +732,9 @@ div#toptitle h1, #layout-content div#toptitle h1 {
   border-radius: 50%;
   color: var(--text-color);
   text-decoration: none;
-  transition: var(--bounce-transition);
+  transition: transform 0.2s ease, background 0.2s ease; /* 简化过渡 */
   box-shadow: 0 2px 8px var(--glass-shadow);
+  will-change: transform; /* GPU加速 */
 }
 
 .social-icon svg {
@@ -716,13 +746,8 @@ div#toptitle h1, #layout-content div#toptitle h1 {
 .social-icon:hover {
   background: linear-gradient(135deg, var(--primary-accent), var(--secondary-accent));
   color: #1a1a1a;
-  transform: translateY(-3px) scale(1.1);
-  box-shadow: 0 6px 20px var(--primary-accent-transparent);
+  transform: translateY(-2px) scale(1.05); /* 减少移动和缩放 */
   border-color: transparent;
-}
-
-.social-icon:hover svg {
-  transform: scale(1.1);
 }
 
 div#subtitle {
@@ -986,25 +1011,12 @@ a:hover {
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: var(--bounce-transition);
-  position: relative;
-  overflow: hidden;
-}
-
-.theme-toggle::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(45deg, var(--primary-accent-transparent), var(--secondary-accent-transparent));
-  opacity: 0;
-  transition: opacity 0.3s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease; /* 简化过渡 */
+  will-change: transform; /* GPU加速 */
 }
 
 .theme-toggle:hover {
-  transform: translateY(-2px) scale(1.05);
+  transform: translateY(-1px) scale(1.02); /* 减少移动和缩放 */
   box-shadow:
     0 4px 16px var(--primary-accent-transparent),
     0 0 0 1px var(--primary-accent),
@@ -1179,43 +1191,26 @@ div.menu-item {
   word-wrap: break-word;
   overflow-wrap: break-word;
   text-align: left;
-  transition: var(--bounce-transition);
+  transition: background-color 0.15s ease, transform 0.15s ease; /* 简化过渡 */
   position: relative;
-  overflow: hidden;
-}
-
-#menu-items .menu-item a::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, var(--primary-accent-transparent), transparent);
-  transition: left 0.5s ease;
+  will-change: transform; /* GPU加速 */
 }
 
 #menu-items .menu-item a:hover {
   background: linear-gradient(135deg, var(--primary-accent), var(--secondary-accent));
   color: #1a1a1a;
   text-decoration: none;
-  transform: translateX(8px) scale(1.02);
-  box-shadow: 0 4px 12px var(--primary-accent-transparent);
-}
-
-#menu-items .menu-item a:hover::before {
-  left: 100%;
+  transform: translateX(4px); /* 减少移动距离 */
 }
 
 #menu-items .menu-item a.current {
   background: linear-gradient(135deg, var(--secondary-accent), var(--primary-accent));
   color: #1a1a1a;
-  box-shadow: 0 4px 12px var(--secondary-accent-transparent);
 }
 
 #menu-items .menu-item a.current:hover {
   background: linear-gradient(135deg, var(--primary-accent), var(--secondary-accent));
-  transform: translateX(8px) scale(1.02);
+  transform: translateX(4px); /* 减少移动距离 */
 }
 
 .menu-icon {
@@ -1468,31 +1463,14 @@ h1 + *, h2 + *, h3 + *, h4 + *, h5 + *, h6 + * {
     0 6px 20px rgba(52, 75, 94, 0.15),
     inset 0 1px 0 rgba(255, 255, 255, 0.25);
   border: 1px solid rgba(255, 255, 255, 0.2);
-  transition: var(--theme-transition), transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-              backdrop-filter 0.4s ease, box-shadow 0.4s ease;
+  transition: transform 0.2s ease-out, box-shadow 0.2s ease-out; /* 简化和加速过渡 */
   position: relative;
   z-index: 1;
   overflow: hidden;
+  will-change: transform; /* 优化GPU加速 */
 }
 
-/* 統一的偽元素 - 背景漸變和懸停效果 */
-.content-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg,
-    transparent,
-    rgba(255, 255, 255, 0.15),
-    transparent
-  );
-  transition: left 0.6s ease;
-  z-index: -1;
-}
-
-/* 額外的背景漸變層 */
+/* 简化的背景效果 - 移除复杂动画以提升性能 */
 .content-card::after {
   content: '';
   position: absolute;
@@ -1505,23 +1483,18 @@ h1 + *, h2 + *, h3 + *, h4 + *, h5 + *, h6 + * {
     transparent 50%,
     rgba(52, 75, 94, 0.05) 100%);
   pointer-events: none;
-  z-index: -2;
+  z-index: -1;
 }
 
 .content-card:hover {
-  transform: translateY(-4px) scale(1.01);
-  backdrop-filter: blur(30px) saturate(200%) brightness(1.15);
-  -webkit-backdrop-filter: blur(30px) saturate(200%) brightness(1.15);
+  transform: translateY(-2px); /* 减少移动距离，提升性能 */
   box-shadow:
-    0 20px 60px rgba(0, 0, 0, 0.2),
-    0 8px 32px rgba(0, 0, 0, 0.1),
-    0 0 0 1px var(--primary-accent-transparent),
-    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    0 8px 25px rgba(0, 0, 0, 0.15),
+    0 4px 12px rgba(52, 75, 94, 0.1),
+    0 0 0 1px var(--primary-accent-transparent);
 }
 
-.content-card:hover::before {
-  left: 100%;
-}
+/* 移除复杂的伪元素动画以提升性能 */
 
 /* 嵌套卡片透明度增強 */
 .content-card .content-card {
@@ -1851,7 +1824,7 @@ span.comment, span.comment > *, span.string, span.string > * {
 
 /* ===== PROFILE CARD ===== */
 .profile-card {
-  margin-bottom: 1.2rem;
+  margin-bottom: 0.4rem; /* 与其他content-card保持一致的间距 */
 }
 
 .profile-header {
@@ -1882,7 +1855,7 @@ span.comment, span.comment > *, span.string, span.string > * {
 .profile-basic-info {
   flex: 1;
   background: var(--content-bg);
-  padding: 0.8rem 1rem; /* 减少上下padding，保持左右padding */
+  padding: 0.8rem; /* 统一padding，与其他profile卡片保持一致 */
   border-radius: 10px;
   border: 1px solid var(--border-color);
   display: flex;
@@ -1898,6 +1871,10 @@ span.comment, span.comment > *, span.string, span.string > * {
 .profile-basic-info h2 {
   margin-top: 0;
   margin-bottom: 0.5rem;
+  margin-left: -0.8rem;
+  margin-right: -0.8rem;
+  padding-left: 0.8rem;
+  padding-right: 0.8rem;
   color: var(--heading-color);
   font-size: 1.6rem;
   border-bottom: 2px solid var(--primary-accent);
@@ -1914,7 +1891,7 @@ span.comment, span.comment > *, span.string, span.string > * {
 
 .contact-info {
   margin-bottom: 0;
-  padding: 0.6rem 1rem; /* 减少上下padding，保持左右padding */
+  padding: 0.6rem 0.8rem; /* 与其他profile卡片保持一致的左右padding */
   background: var(--card-bg-glassy);
   backdrop-filter: blur(15px) saturate(150%);
   border-radius: 12px;
@@ -2033,45 +2010,23 @@ span.comment, span.comment > *, span.string, span.string > * {
   border-radius: 25px;
   font-size: 0.85rem;
   font-weight: 500;
-  transition: var(--bounce-transition);
+  transition: background-color 0.2s ease, transform 0.2s ease; /* 简化过渡 */
   box-shadow: 0 2px 8px var(--glass-shadow);
   margin: 3px;
-  position: relative;
-  overflow: hidden;
   cursor: pointer;
-}
-
-.keyword-pill::before {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 0;
-  height: 0;
-  background: radial-gradient(circle, var(--primary-accent-transparent), var(--secondary-accent-transparent));
-  transition: all 0.4s ease;
-  transform: translate(-50%, -50%);
-  border-radius: 50%;
+  will-change: transform; /* GPU加速 */
 }
 
 .keyword-pill:hover {
   background: var(--primary-accent);
   color: #1a1a1a;
-  transform: translateY(-3px) scale(1.08) rotate(1deg);
+  transform: translateY(-2px) scale(1.05); /* 减少移动和缩放 */
   border-color: var(--primary-accent);
-  box-shadow:
-    0 6px 20px var(--primary-accent-transparent),
-    0 0 0 2px var(--secondary-accent-transparent);
-}
-
-.keyword-pill:hover::before {
-  width: 200%;
-  height: 200%;
 }
 
 .keyword-pill:nth-child(even):hover {
   background: var(--secondary-accent);
-  transform: translateY(-3px) scale(1.08) rotate(-1deg);
+  transform: translateY(-2px) scale(1.05); /* 减少移动和缩放 */
 }
 
 .keyword-list {
@@ -2130,19 +2085,23 @@ span.comment, span.comment > *, span.string, span.string > * {
     width: 140px;
     height: 200px;
   }
-  
+
   .profile-basic-info h2 {
     font-size: 1.4rem;
+    margin-left: -1rem;
+    margin-right: -1rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
   }
-  
+
   .research-interests h3 {
     font-size: 1.2rem;
   }
-  
+
   .basic-info {
     font-size: 0.9rem;
   }
-  
+
   .contact-info {
     font-size: 0.8rem;
   }
@@ -2165,7 +2124,7 @@ span.comment, span.comment > *, span.string, span.string > * {
     margin: 0.1rem 0;
     word-break: break-all;
   }
-  
+
   .profile-basic-info,
   .profile-description,
   .research-interests {
@@ -2178,27 +2137,31 @@ span.comment, span.comment > *, span.string, span.string > * {
     gap: 1rem;
     margin-bottom: 1rem;
   }
-  
+
   .profile-image img {
     width: 120px;
     height: 180px;
   }
-  
+
   .keyword-pill {
     font-size: 0.75rem;
     padding: 0.3rem 0.7rem;
   }
-  
+
   .profile-basic-info,
   .profile-description,
   .research-interests {
     padding: 0.8rem;
   }
-  
+
   .profile-basic-info h2 {
     font-size: 1.3rem;
+    margin-left: -0.8rem;
+    margin-right: -0.8rem;
+    padding-left: 0.8rem;
+    padding-right: 0.8rem;
   }
-  
+
   .research-interests h3 {
     font-size: 1.1rem;
   }
@@ -2674,7 +2637,6 @@ body.menu-open #page-overlay {
   }
 
   /* 移除創意佈局樣式 */
-}
 
   .top-nav-bar {
     height: 60px;
