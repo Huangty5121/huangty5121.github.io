@@ -172,16 +172,39 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         
         applyTheme(theme, withTransition = true) {
+            // 使用RAF確保在下一個渲染幀執行，避免阻塞
+            const applyThemeChanges = () => {
+                if (withTransition) {
+                    document.body.classList.add('theme-transitioning');
+                    // 預先設置will-change以優化性能
+                    document.body.style.willChange = 'background-color, color';
+                }
+
+                htmlElement.setAttribute('data-theme', theme);
+
+                if (withTransition) {
+                    // 使用RAF而非setTimeout以獲得更好的性能
+                    let frameCount = 0;
+                    const maxFrames = Math.ceil(this.transitionDuration / 16.67); // 60fps
+
+                    const cleanupTransition = () => {
+                        frameCount++;
+                        if (frameCount >= maxFrames) {
+                            document.body.classList.remove('theme-transitioning');
+                            document.body.style.willChange = 'auto';
+                        } else {
+                            requestAnimationFrame(cleanupTransition);
+                        }
+                    };
+
+                    requestAnimationFrame(cleanupTransition);
+                }
+            };
+
             if (withTransition) {
-                document.body.classList.add('theme-transitioning');
-            }
-            
-            htmlElement.setAttribute('data-theme', theme);
-            
-            if (withTransition) {
-                setTimeout(() => {
-                    document.body.classList.remove('theme-transitioning');
-                }, this.transitionDuration);
+                requestAnimationFrame(applyThemeChanges);
+            } else {
+                applyThemeChanges();
             }
         }
         
@@ -1095,42 +1118,90 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 
-        // 滾動動畫
+        // 高性能滾動動畫系統 - 60FPS優化
         initScrollAnimations() {
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
+            // 使用RAF節流的Intersection Observer
+            let rafId = null;
+            const pendingAnimations = new Set();
+
+            const processAnimations = () => {
+                pendingAnimations.forEach(entry => {
+                    const element = entry.target;
                     if (entry.isIntersecting) {
-                        entry.target.style.opacity = '1';
-                        entry.target.style.transform = 'translateY(0)';
-                        entry.target.classList.add('animate-in');
+                        // GPU加速的動畫
+                        element.style.opacity = '1';
+                        element.style.transform = 'translate3d(0, 0, 0)';
+                        element.classList.add('animate-in');
+                        pendingAnimations.delete(entry);
                     }
                 });
-            }, { threshold: 0.1 });
+                rafId = null;
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => pendingAnimations.add(entry));
+
+                if (!rafId) {
+                    rafId = requestAnimationFrame(processAnimations);
+                }
+            }, {
+                threshold: 0.1,
+                rootMargin: '50px 0px' // 提前50px開始動畫
+            });
 
             const animateElements = document.querySelectorAll('.content-card');
             animateElements.forEach((el, index) => {
+                // 初始狀態設置
                 el.style.opacity = '0';
-                el.style.transform = 'translateY(30px)';
-                el.style.transition = `opacity 0.8s ease ${index * 0.1}s, transform 0.8s ease ${index * 0.1}s`;
+                el.style.transform = 'translate3d(0, 30px, 0)';
+                el.style.transition = `opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1) ${index * 0.05}s, transform 0.6s cubic-bezier(0.4, 0, 0.2, 1) ${index * 0.05}s`;
+                el.style.willChange = 'opacity, transform';
+
                 observer.observe(el);
             });
+
+            // 存儲observer以便清理
+            this.scrollObserver = observer;
         }
 
-        // 增強卡片懸浮效果 - 性能优化版
+        // 超高性能卡片懸浮效果 - 防抖動優化
         initCardHoverEffects() {
             const cards = document.querySelectorAll('.content-card');
-            cards.forEach(card => {
-                // 预设will-change以优化GPU加速
-                card.style.willChange = 'transform';
+            let hoverTimeout = null;
 
+            cards.forEach(card => {
+                // 預設GPU加速屬性
+                card.style.willChange = 'transform';
+                card.style.backfaceVisibility = 'hidden';
+                card.style.perspective = '1000px';
+
+                // 使用防抖動的hover效果
                 card.addEventListener('mouseenter', () => {
-                    // 简化变换，减少重绘
-                    card.style.transform = 'translateY(-4px)';
+                    clearTimeout(hoverTimeout);
+                    // 使用transform3d確保GPU加速
+                    card.style.transform = 'translate3d(0, -4px, 0)';
+                    card.style.transition = 'transform 0.2s cubic-bezier(0.4, 0, 0.2, 1)';
                 });
 
                 card.addEventListener('mouseleave', () => {
-                    card.style.transform = '';
+                    clearTimeout(hoverTimeout);
+                    hoverTimeout = setTimeout(() => {
+                        card.style.transform = 'translate3d(0, 0, 0)';
+                    }, 50); // 50ms防抖動
                 });
+
+                // 觸摸設備優化
+                if ('ontouchstart' in window) {
+                    card.addEventListener('touchstart', () => {
+                        card.style.transform = 'translate3d(0, -2px, 0)';
+                    });
+
+                    card.addEventListener('touchend', () => {
+                        setTimeout(() => {
+                            card.style.transform = 'translate3d(0, 0, 0)';
+                        }, 150);
+                    });
+                }
             });
         }
 
@@ -1182,10 +1253,666 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
+    // ===== 高性能加載系統 =====
+    class LoadingManager {
+        constructor() {
+            this.isLoading = true;
+            this.loadingTasks = new Set();
+            this.init();
+        }
+
+        init() {
+            this.createLoadingOverlay();
+            this.addLoadingTask('dom');
+            this.addLoadingTask('fonts');
+            this.addLoadingTask('images');
+            this.addLoadingTask('stars');
+
+            // DOM加載完成
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', () => {
+                    this.completeTask('dom');
+                });
+            } else {
+                this.completeTask('dom');
+            }
+
+            // 字體加載完成
+            if (document.fonts) {
+                document.fonts.ready.then(() => {
+                    this.completeTask('fonts');
+                });
+            } else {
+                setTimeout(() => this.completeTask('fonts'), 1000);
+            }
+
+            // 圖片加載完成
+            this.checkImagesLoaded();
+        }
+
+        createLoadingOverlay() {
+            const overlay = document.createElement('div');
+            overlay.id = 'loading-overlay';
+            overlay.innerHTML = `
+                <div class="loading-background">
+                    <div class="particle-system" id="particle-system"></div>
+                    <div class="grid-overlay"></div>
+                    <div class="holographic-elements">
+                        <div class="holo-ring holo-ring-1"></div>
+                        <div class="holo-ring holo-ring-2"></div>
+                        <div class="holo-ring holo-ring-3"></div>
+                    </div>
+                </div>
+                <div class="loading-content">
+                    <div class="tech-logo">
+                        <div class="logo-core"></div>
+                        <div class="logo-rings">
+                            <div class="logo-ring"></div>
+                            <div class="logo-ring"></div>
+                            <div class="logo-ring"></div>
+                        </div>
+                        <div class="logo-pulse"></div>
+                    </div>
+                    <div class="loading-text">
+                        <span class="text-main">INITIALIZING SYSTEM</span>
+                        <span class="text-sub" id="loading-status">Loading components...</span>
+                    </div>
+                    <div class="loading-progress-container">
+                        <div class="progress-track">
+                            <div class="progress-bar" id="loading-progress-bar"></div>
+                            <div class="progress-glow"></div>
+                        </div>
+                        <div class="progress-percentage" id="progress-percentage">0%</div>
+                    </div>
+                    <div class="loading-details">
+                        <div class="detail-item" id="detail-dom">DOM: <span>PENDING</span></div>
+                        <div class="detail-item" id="detail-fonts">FONTS: <span>PENDING</span></div>
+                        <div class="detail-item" id="detail-images">IMAGES: <span>PENDING</span></div>
+                        <div class="detail-item" id="detail-stars">STARS: <span>PENDING</span></div>
+                    </div>
+                </div>
+            `;
+
+            // 添加高科技CSS樣式
+            const style = document.createElement('style');
+            style.textContent = `
+                #loading-overlay {
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: radial-gradient(ellipse at center, #0a0a1a 0%, #000000 100%);
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    z-index: 10000;
+                    opacity: 1;
+                    transition: opacity 0.8s ease-out;
+                    overflow: hidden;
+                }
+
+                .loading-background {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    pointer-events: none;
+                }
+
+                /* 粒子系統 */
+                .particle-system {
+                    position: absolute;
+                    width: 100%;
+                    height: 100%;
+                    overflow: hidden;
+                }
+
+                .particle {
+                    position: absolute;
+                    width: 2px;
+                    height: 2px;
+                    background: #00ffff;
+                    border-radius: 50%;
+                    opacity: 0.7;
+                    animation: float 6s linear infinite;
+                    box-shadow: 0 0 6px #00ffff;
+                }
+
+                @keyframes float {
+                    0% {
+                        transform: translateY(100vh) translateX(0);
+                        opacity: 0;
+                    }
+                    10% {
+                        opacity: 0.7;
+                    }
+                    90% {
+                        opacity: 0.7;
+                    }
+                    100% {
+                        transform: translateY(-10vh) translateX(100px);
+                        opacity: 0;
+                    }
+                }
+
+                /* 網格覆蓋層 */
+                .grid-overlay {
+                    position: absolute;
+                    width: 100%;
+                    height: 100%;
+                    background-image:
+                        linear-gradient(rgba(0, 255, 255, 0.1) 1px, transparent 1px),
+                        linear-gradient(90deg, rgba(0, 255, 255, 0.1) 1px, transparent 1px);
+                    background-size: 50px 50px;
+                    animation: gridMove 20s linear infinite;
+                    opacity: 0.3;
+                }
+
+                @keyframes gridMove {
+                    0% { transform: translate(0, 0); }
+                    100% { transform: translate(50px, 50px); }
+                }
+
+                /* 全息環形元素 */
+                .holographic-elements {
+                    position: absolute;
+                    width: 100%;
+                    height: 100%;
+                }
+
+                .holo-ring {
+                    position: absolute;
+                    border: 2px solid rgba(0, 255, 255, 0.3);
+                    border-radius: 50%;
+                    animation: holoRotate 15s linear infinite;
+                }
+
+                .holo-ring-1 {
+                    width: 300px;
+                    height: 300px;
+                    top: 20%;
+                    left: 10%;
+                    border-color: rgba(102, 126, 234, 0.4);
+                    animation-duration: 20s;
+                }
+
+                .holo-ring-2 {
+                    width: 200px;
+                    height: 200px;
+                    top: 60%;
+                    right: 15%;
+                    border-color: rgba(118, 75, 162, 0.4);
+                    animation-duration: 25s;
+                    animation-direction: reverse;
+                }
+
+                .holo-ring-3 {
+                    width: 150px;
+                    height: 150px;
+                    bottom: 20%;
+                    left: 20%;
+                    border-color: rgba(240, 147, 251, 0.4);
+                    animation-duration: 30s;
+                }
+
+                @keyframes holoRotate {
+                    0% { transform: rotate(0deg) scale(1); opacity: 0.3; }
+                    50% { transform: rotate(180deg) scale(1.1); opacity: 0.6; }
+                    100% { transform: rotate(360deg) scale(1); opacity: 0.3; }
+                }
+
+                /* 主要內容區域 */
+                .loading-content {
+                    text-align: center;
+                    color: white;
+                    z-index: 10;
+                    position: relative;
+                }
+
+                /* 科技Logo */
+                .tech-logo {
+                    position: relative;
+                    width: 120px;
+                    height: 120px;
+                    margin: 0 auto 40px;
+                }
+
+                .logo-core {
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    width: 40px;
+                    height: 40px;
+                    background: radial-gradient(circle, #00ffff, #0080ff);
+                    border-radius: 50%;
+                    transform: translate(-50%, -50%);
+                    box-shadow:
+                        0 0 20px #00ffff,
+                        0 0 40px #00ffff,
+                        0 0 60px #00ffff;
+                    animation: corePulse 2s ease-in-out infinite;
+                }
+
+                @keyframes corePulse {
+                    0%, 100% { transform: translate(-50%, -50%) scale(1); }
+                    50% { transform: translate(-50%, -50%) scale(1.2); }
+                }
+
+                .logo-rings {
+                    position: absolute;
+                    width: 100%;
+                    height: 100%;
+                }
+
+                .logo-ring {
+                    position: absolute;
+                    border: 2px solid transparent;
+                    border-top: 2px solid #00ffff;
+                    border-radius: 50%;
+                    animation: logoSpin 3s linear infinite;
+                }
+
+                .logo-ring:nth-child(1) {
+                    width: 60px;
+                    height: 60px;
+                    top: 30px;
+                    left: 30px;
+                    animation-duration: 2s;
+                }
+
+                .logo-ring:nth-child(2) {
+                    width: 80px;
+                    height: 80px;
+                    top: 20px;
+                    left: 20px;
+                    border-top-color: #667eea;
+                    animation-duration: 3s;
+                    animation-direction: reverse;
+                }
+
+                .logo-ring:nth-child(3) {
+                    width: 100px;
+                    height: 100px;
+                    top: 10px;
+                    left: 10px;
+                    border-top-color: #764ba2;
+                    animation-duration: 4s;
+                }
+
+                @keyframes logoSpin {
+                    0% { transform: rotate(0deg); }
+                    100% { transform: rotate(360deg); }
+                }
+
+                .logo-pulse {
+                    position: absolute;
+                    width: 120px;
+                    height: 120px;
+                    border: 2px solid rgba(0, 255, 255, 0.3);
+                    border-radius: 50%;
+                    animation: logoPulse 2s ease-in-out infinite;
+                }
+
+                @keyframes logoPulse {
+                    0% { transform: scale(1); opacity: 0.3; }
+                    50% { transform: scale(1.3); opacity: 0.1; }
+                    100% { transform: scale(1.6); opacity: 0; }
+                }
+
+                /* 載入文字 */
+                .loading-text {
+                    margin-bottom: 30px;
+                }
+
+                .text-main {
+                    display: block;
+                    font-size: 1.4rem;
+                    font-weight: 600;
+                    color: #00ffff;
+                    text-shadow: 0 0 10px #00ffff;
+                    margin-bottom: 10px;
+                    letter-spacing: 2px;
+                    animation: textGlow 2s ease-in-out infinite alternate;
+                }
+
+                .text-sub {
+                    display: block;
+                    font-size: 0.9rem;
+                    color: rgba(255, 255, 255, 0.7);
+                    font-weight: 300;
+                }
+
+                @keyframes textGlow {
+                    0% { text-shadow: 0 0 10px #00ffff; }
+                    100% { text-shadow: 0 0 20px #00ffff, 0 0 30px #00ffff; }
+                }
+
+                /* 進度條容器 */
+                .loading-progress-container {
+                    margin-bottom: 30px;
+                    position: relative;
+                }
+
+                .progress-track {
+                    width: 300px;
+                    height: 6px;
+                    background: rgba(255, 255, 255, 0.1);
+                    border-radius: 3px;
+                    margin: 0 auto 10px;
+                    overflow: hidden;
+                    position: relative;
+                    border: 1px solid rgba(0, 255, 255, 0.3);
+                }
+
+                .progress-bar {
+                    height: 100%;
+                    background: linear-gradient(90deg, #00ffff, #667eea, #764ba2);
+                    border-radius: 3px;
+                    width: 0%;
+                    transition: width 0.5s ease;
+                    position: relative;
+                    box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+                }
+
+                .progress-glow {
+                    position: absolute;
+                    top: -2px;
+                    left: -2px;
+                    right: -2px;
+                    bottom: -2px;
+                    background: linear-gradient(90deg, transparent, #00ffff, transparent);
+                    border-radius: 5px;
+                    opacity: 0;
+                    animation: progressGlow 2s ease-in-out infinite;
+                }
+
+                @keyframes progressGlow {
+                    0%, 100% { opacity: 0; transform: translateX(-100%); }
+                    50% { opacity: 0.8; transform: translateX(100%); }
+                }
+
+                .progress-percentage {
+                    font-size: 1.1rem;
+                    color: #00ffff;
+                    font-weight: 600;
+                    text-shadow: 0 0 5px #00ffff;
+                }
+
+                /* 載入詳情 */
+                .loading-details {
+                    display: flex;
+                    justify-content: center;
+                    gap: 20px;
+                    flex-wrap: wrap;
+                }
+
+                .detail-item {
+                    font-size: 0.8rem;
+                    color: rgba(255, 255, 255, 0.6);
+                    padding: 5px 10px;
+                    border: 1px solid rgba(0, 255, 255, 0.2);
+                    border-radius: 15px;
+                    background: rgba(0, 255, 255, 0.05);
+                    transition: all 0.3s ease;
+                }
+
+                .detail-item span {
+                    color: #ff6b6b;
+                    font-weight: 600;
+                }
+
+                .detail-item.completed span {
+                    color: #00ffff;
+                    text-shadow: 0 0 5px #00ffff;
+                }
+
+                .detail-item.completed {
+                    border-color: #00ffff;
+                    background: rgba(0, 255, 255, 0.1);
+                    box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+                }
+
+                /* 響應式設計 */
+                @media (max-width: 768px) {
+                    .tech-logo {
+                        width: 80px;
+                        height: 80px;
+                    }
+
+                    .logo-core {
+                        width: 30px;
+                        height: 30px;
+                    }
+
+                    .logo-ring:nth-child(1) {
+                        width: 40px;
+                        height: 40px;
+                        top: 20px;
+                        left: 20px;
+                    }
+
+                    .logo-ring:nth-child(2) {
+                        width: 60px;
+                        height: 60px;
+                        top: 10px;
+                        left: 10px;
+                    }
+
+                    .logo-ring:nth-child(3) {
+                        width: 80px;
+                        height: 80px;
+                        top: 0;
+                        left: 0;
+                    }
+
+                    .progress-track {
+                        width: 250px;
+                    }
+
+                    .text-main {
+                        font-size: 1.2rem;
+                    }
+
+                    .loading-details {
+                        gap: 10px;
+                    }
+
+                    .holo-ring-1, .holo-ring-2, .holo-ring-3 {
+                        display: none;
+                    }
+                }
+            `;
+
+            document.head.appendChild(style);
+            document.body.appendChild(overlay);
+            this.overlay = overlay;
+
+            // 創建粒子系統
+            this.createParticleSystem();
+        }
+
+        createParticleSystem() {
+            const particleContainer = document.getElementById('particle-system');
+            if (!particleContainer) return;
+
+            // 創建50個粒子
+            for (let i = 0; i < 50; i++) {
+                setTimeout(() => {
+                    const particle = document.createElement('div');
+                    particle.className = 'particle';
+                    particle.style.left = Math.random() * 100 + '%';
+                    particle.style.animationDelay = Math.random() * 6 + 's';
+                    particle.style.animationDuration = (4 + Math.random() * 4) + 's';
+
+                    // 隨機顏色
+                    const colors = ['#00ffff', '#667eea', '#764ba2', '#f093fb'];
+                    particle.style.background = colors[Math.floor(Math.random() * colors.length)];
+                    particle.style.boxShadow = `0 0 6px ${particle.style.background}`;
+
+                    particleContainer.appendChild(particle);
+
+                    // 粒子生命週期管理
+                    setTimeout(() => {
+                        if (particle.parentNode) {
+                            particle.remove();
+                        }
+                    }, 8000);
+                }, i * 100);
+            }
+
+            // 持續創建新粒子
+            this.particleInterval = setInterval(() => {
+                if (this.isLoading && particleContainer.children.length < 50) {
+                    const particle = document.createElement('div');
+                    particle.className = 'particle';
+                    particle.style.left = Math.random() * 100 + '%';
+                    particle.style.animationDelay = '0s';
+                    particle.style.animationDuration = (4 + Math.random() * 4) + 's';
+
+                    const colors = ['#00ffff', '#667eea', '#764ba2', '#f093fb'];
+                    particle.style.background = colors[Math.floor(Math.random() * colors.length)];
+                    particle.style.boxShadow = `0 0 6px ${particle.style.background}`;
+
+                    particleContainer.appendChild(particle);
+
+                    setTimeout(() => {
+                        if (particle.parentNode) {
+                            particle.remove();
+                        }
+                    }, 8000);
+                }
+            }, 200);
+        }
+
+        addLoadingTask(taskName) {
+            this.loadingTasks.add(taskName);
+            this.updateProgress();
+        }
+
+        completeTask(taskName) {
+            this.loadingTasks.delete(taskName);
+            this.updateProgress();
+            this.updateTaskStatus(taskName);
+
+            if (this.loadingTasks.size === 0) {
+                this.finishLoading();
+            }
+        }
+
+        updateTaskStatus(taskName) {
+            const statusElement = document.getElementById(`detail-${taskName}`);
+            if (statusElement) {
+                statusElement.classList.add('completed');
+                statusElement.querySelector('span').textContent = 'COMPLETE';
+            }
+
+            // 更新載入狀態文字
+            const statusText = document.getElementById('loading-status');
+            if (statusText) {
+                const statusMessages = {
+                    'dom': 'DOM structure loaded...',
+                    'fonts': 'Fonts initialized...',
+                    'images': 'Images processed...',
+                    'stars': 'Star system activated...'
+                };
+                statusText.textContent = statusMessages[taskName] || 'Processing...';
+            }
+        }
+
+        updateProgress() {
+            const totalTasks = 4; // dom, fonts, images, stars
+            const completedTasks = totalTasks - this.loadingTasks.size;
+            const progress = (completedTasks / totalTasks) * 100;
+
+            const progressBar = document.getElementById('loading-progress-bar');
+            const progressPercentage = document.getElementById('progress-percentage');
+
+            if (progressBar) {
+                progressBar.style.width = progress + '%';
+            }
+
+            if (progressPercentage) {
+                progressPercentage.textContent = Math.round(progress) + '%';
+            }
+        }
+
+        checkImagesLoaded() {
+            const images = document.querySelectorAll('img');
+            let loadedCount = 0;
+            const totalImages = images.length;
+
+            if (totalImages === 0) {
+                this.completeTask('images');
+                return;
+            }
+
+            images.forEach(img => {
+                if (img.complete) {
+                    loadedCount++;
+                } else {
+                    img.addEventListener('load', () => {
+                        loadedCount++;
+                        if (loadedCount === totalImages) {
+                            this.completeTask('images');
+                        }
+                    });
+
+                    img.addEventListener('error', () => {
+                        loadedCount++;
+                        if (loadedCount === totalImages) {
+                            this.completeTask('images');
+                        }
+                    });
+                }
+            });
+
+            if (loadedCount === totalImages) {
+                this.completeTask('images');
+            }
+        }
+
+        finishLoading() {
+            // 更新最終狀態
+            const statusText = document.getElementById('loading-status');
+            if (statusText) {
+                statusText.textContent = 'System ready. Launching...';
+            }
+
+            // 清理粒子系統
+            if (this.particleInterval) {
+                clearInterval(this.particleInterval);
+            }
+
+            setTimeout(() => {
+                // 添加完成動畫效果
+                this.overlay.style.transform = 'scale(1.1)';
+                this.overlay.style.opacity = '0';
+
+                setTimeout(() => {
+                    this.overlay.remove();
+                    this.isLoading = false;
+
+                    // 觸發加載完成事件
+                    window.dispatchEvent(new CustomEvent('loadingComplete'));
+                }, 800);
+            }, 500);
+        }
+    }
+
+    // 創建加載管理器
+    const loadingManager = new LoadingManager();
+
     // 創建高密度優化星星閃爍背景系統實例
     window.starsBackground = new OptimizedTwinklingStarsSystem({
         starCount: window.innerWidth < 768 ? 1500 : 4000 // 大幅增加星星密度 - 配合高性能優化系統
     });
+
+    // 星星系統加載完成
+    setTimeout(() => {
+        loadingManager.completeTask('stars');
+    }, 1000);
 
     // ===== 初始化 =====
     initTheme();
@@ -1194,7 +1921,17 @@ document.addEventListener('DOMContentLoaded', function() {
     updateScrollProgress();
     updateLastModified();
 
-    // 頁面加載完成後的最終檢查
+    // 頁面加載完成後的最終檢查 - 防抖優化
+    let resizeTimeout;
+    window.addEventListener('resize', () => {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(() => {
+            checkMenuScrollNeed();
+            updateScrollProgress();
+            updateLastModified();
+        }, 150);
+    });
+
     window.addEventListener('load', () => {
         checkMenuScrollNeed();
         updateScrollProgress();
