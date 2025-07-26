@@ -54,7 +54,7 @@
 :root {
   /* ===== 動畫過渡控制 | ANIMATION TRANSITION CONTROL ===== */
   --theme-transition-duration: 0.4s;
-  --theme-transition-timing: cubic-bezier(0.25, 0.46, 0.45, 0.6);
+  --theme-transition-timing: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   --theme-transition: all var(--theme-transition-duration) var(--theme-transition-timing);
   --theme-transition-fast: all 0.2s var(--theme-transition-timing);
   --theme-transition-slow: all 0.8s var(--theme-transition-timing);
@@ -102,7 +102,7 @@
   --menu-text: #2c3e50;
   --menu-hover-bg: var(--primary-accent);
   --menu-hover-text: #1a1a1a;
-  --card-bg-glassy: rgba(255, 255, 255, 0.08); /* 極大透明度以顯示星星背景 */
+  --card-bg-glassy: rgba(255, 255, 255, 0.12); /* 大幅增加透明度以增強毛玻璃效果 */
   --glass-border: rgba(255, 255, 255, 0.4);
   --glass-shadow: rgba(0, 0, 0, 0.15);
   
@@ -179,7 +179,7 @@
   --menu-text: #f2f0ed;
   --menu-hover-bg: var(--primary-accent);
   --menu-hover-text: #1a1a1a;
-  --card-bg-glassy: rgba(42, 42, 42, 0.1); /* 極大透明度以顯示星星背景 */
+  --card-bg-glassy: rgba(42, 42, 42, 0.15); /* 大幅增加透明度以增強毛玻璃效果 */
   --glass-border: rgba(242, 240, 237, 0.18);
   --glass-shadow: rgba(0, 0, 0, 0.5);
   
@@ -220,14 +220,14 @@
 /* ===== 基礎設置 | BASE SETTINGS ===== */
 html {
   scroll-behavior: smooth;
-  background: var(--bg-color); /* 提供基礎背景以增強星星對比度 */
 }
 
 body {
   font-family: 'Inter', 'PingFang SC', 'Noto Serif SC', 'Microsoft YaHei', serif !important;
   font-size: 1rem;
   font-weight: 400;
-  background: transparent !important; /* 移除背景以顯示星星透明效果 */
+  background: var(--bg-color) !important;
+  background-attachment: fixed;
   color: var(--text-color) !important;
   line-height: 1.6;
   transition: var(--theme-transition);
@@ -389,7 +389,18 @@ p, li, td, dd {
 
 /* 移除水墨畫布，為流星動畫讓路 */
 
-/* 移除背景漸變以增強毛玻璃透明效果 - 讓星星背景可見 */
+/* 配合水墨效果的背景漸變 */
+body {
+  background: linear-gradient(135deg,
+    rgba(213, 203, 225, 0.08) 0%,  /* #d5cbe1 淺紫灰 */
+    rgba(52, 75, 94, 0.06) 30%,    /* #344b5e 深藍灰 */
+    rgba(213, 203, 225, 0.04) 60%,
+    rgba(52, 75, 94, 0.05) 100%
+  );
+  background-attachment: fixed;
+  position: relative;
+  overflow-x: hidden;
+}
 
 /* ===== 6.3 容器與控制 | CONTAINER & CONTROLS ===== */
 
@@ -1412,17 +1423,17 @@ h1 + *, h2 + *, h3 + *, h4 + *, h5 + *, h6 + * {
 /* ===== 內容卡片 - 增強毛玻璃效果 | CONTENT CARDS - ENHANCED GLASSMORPHISM ===== */
 .content-card {
   background: var(--card-bg-glassy);
-  backdrop-filter: blur(20px) saturate(150%) brightness(1.05);
-  -webkit-backdrop-filter: blur(20px) saturate(150%) brightness(1.05);
+  backdrop-filter: blur(25px) saturate(180%) brightness(1.1);
+  -webkit-backdrop-filter: blur(25px) saturate(180%) brightness(1.1);
   border-radius: 16px;
   padding: 14px 12px;
   margin-bottom: 0.4rem;
   box-shadow:
-    0 8px 32px rgba(0, 0, 0, 0.08),
-    0 4px 16px rgba(52, 75, 94, 0.1),
-    inset 0 1px 0 rgba(255, 255, 255, 0.3);
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  transition: var(--theme-transition), transform 0.4s cubic-bezier(0.4, 0, 0.2, 0.5),
+    0 12px 40px rgba(0, 0, 0, 0.1),
+    0 6px 20px rgba(52, 75, 94, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: var(--theme-transition), transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
               backdrop-filter 0.4s ease, box-shadow 0.4s ease;
   position: relative;
   z-index: 1;
@@ -1439,7 +1450,7 @@ h1 + *, h2 + *, h3 + *, h4 + *, h5 + *, h6 + * {
   height: 100%;
   background: linear-gradient(90deg,
     transparent,
-    rgba(255, 255, 255, 0.08),
+    rgba(255, 255, 255, 0.15),
     transparent
   );
   transition: left 0.6s ease;
@@ -1479,13 +1490,13 @@ h1 + *, h2 + *, h3 + *, h4 + *, h5 + *, h6 + * {
 
 /* 嵌套卡片透明度增強 */
 .content-card .content-card {
-  background: rgba(255, 255, 255, 0.05); /* 嵌套卡片極度透明 */
-  backdrop-filter: blur(12px) saturate(130%);
-  -webkit-backdrop-filter: blur(12px) saturate(130%);
+  background: rgba(255, 255, 255, 0.08); /* 嵌套卡片更透明 */
+  backdrop-filter: blur(15px) saturate(150%);
+  -webkit-backdrop-filter: blur(15px) saturate(150%);
 }
 
 [data-theme="dark"] .content-card .content-card {
-  background: rgba(42, 42, 42, 0.06); /* 深色主題嵌套卡片更透明 */
+  background: rgba(42, 42, 42, 0.1); /* 深色主題嵌套卡片 */
 }
 
 /* 增強毛玻璃效果的輔助元素 */
