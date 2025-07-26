@@ -289,8 +289,10 @@ document.addEventListener('DOMContentLoaded', function() {
     // 優化的星星閃爍動畫系統
     class OptimizedTwinklingStarsSystem {
         constructor(options = {}) {
+            // 先初始化性能等級，再配置星星
+            this.performanceLevel = this.detectPerformanceLevel();
+
             this.config = {
-                starCount: this.getOptimalStarCount(),
                 colors: {
                     primary: 'rgba(157, 117, 212, 0.8)',
                     secondary: 'rgba(255, 255, 255, 1.0)',
@@ -307,20 +309,47 @@ document.addEventListener('DOMContentLoaded', function() {
             this.stars = [];
             this.container = null;
             this.isRunning = false;
-            this.performanceLevel = this.detectPerformanceLevel();
 
             this.init();
         }
 
-        // 智能性能檢測和星星數量優化
+        // 智能性能檢測和星星數量優化 - 高密度版本
         getOptimalStarCount() {
             const isMobile = window.innerWidth < 768;
             const isLowEnd = navigator.hardwareConcurrency < 4;
             const hasReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-            if (hasReducedMotion) return isMobile ? 50 : 100;
-            if (isLowEnd) return isMobile ? 200 : 400;
-            return isMobile ? 300 : 800; // 減少到更合理的數量
+            if (hasReducedMotion) return isMobile ? 100 : 200;
+            if (isLowEnd) return isMobile ? 400 : 1000;
+            return isMobile ? 600 : 2000; // 高密度星星 - 滿足用戶需求
+        }
+
+        // 分層星星系統配置
+        getStarLayerConfig() {
+            const totalStars = this.getOptimalStarCount();
+            const performanceLevel = this.performanceLevel;
+
+            // 根據性能等級分配靜態和動態星星比例
+            let staticRatio, dynamicRatio;
+            switch(performanceLevel) {
+                case 'high':
+                    staticRatio = 0.6; // 60%靜態，40%動態
+                    dynamicRatio = 0.4;
+                    break;
+                case 'medium':
+                    staticRatio = 0.75; // 75%靜態，25%動態
+                    dynamicRatio = 0.25;
+                    break;
+                default: // low
+                    staticRatio = 0.9; // 90%靜態，10%動態
+                    dynamicRatio = 0.1;
+            }
+
+            return {
+                total: totalStars,
+                static: Math.floor(totalStars * staticRatio),
+                dynamic: Math.floor(totalStars * dynamicRatio)
+            };
         }
 
         // 檢測設備性能等級
@@ -413,15 +442,84 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         createStars() {
-            // 批量創建DOM元素以提高性能
+            const config = this.getStarLayerConfig();
             const fragment = document.createDocumentFragment();
 
-            for (let i = 0; i < this.config.starCount; i++) {
-                const star = this.createOptimizedStar(i);
+            console.log(`創建星星系統：總計 ${config.total} 個星星 (靜態: ${config.static}, 動態: ${config.dynamic})`);
+
+            // 創建靜態星星（CSS動畫，性能友好）
+            for (let i = 0; i < config.static; i++) {
+                const star = this.createStaticStar(i);
+                this.stars.push(star);
+                fragment.appendChild(star);
+            }
+
+            // 創建動態星星（JavaScript動畫，視覺豐富）
+            for (let i = 0; i < config.dynamic; i++) {
+                const star = this.createDynamicStar(i);
+                this.stars.push(star);
                 fragment.appendChild(star);
             }
 
             this.container.appendChild(fragment);
+        }
+
+        // 創建靜態星星（純CSS動畫）
+        createStaticStar(index) {
+            const star = document.createElement('div');
+
+            // 隨機位置
+            const x = Math.random() * window.innerWidth;
+            const y = Math.random() * window.innerHeight;
+
+            // 較小的尺寸以節省性能
+            const size = 1 + Math.random() * 1.5;
+
+            star.className = 'optimized-star star-static';
+            star.style.cssText = `
+                left: ${x}px;
+                top: ${y}px;
+                width: ${size}px;
+                height: ${size}px;
+                --star-delay: ${Math.random() * 3}s;
+            `;
+
+            return star;
+        }
+
+        // 創建動態星星（JavaScript動畫）
+        createDynamicStar(index) {
+            const star = document.createElement('div');
+
+            // 隨機位置
+            const x = Math.random() * window.innerWidth;
+            const y = Math.random() * window.innerHeight;
+
+            // 智能大小分配基於性能等級
+            const sizeRange = this.performanceLevel === 'high' ? [1.5, 3] :
+                             this.performanceLevel === 'medium' ? [1.2, 2.5] : [1, 2];
+            const size = sizeRange[0] + Math.random() * (sizeRange[1] - sizeRange[0]);
+
+            // 隨機選擇動畫類型
+            const animationTypes = ['bright', 'dim', 'pulse'];
+            const weights = this.performanceLevel === 'high' ? [0.3, 0.4, 0.3] : [0.2, 0.6, 0.2];
+            const animationType = this.getWeightedRandom(animationTypes, weights);
+
+            star.className = `optimized-star star-${animationType}`;
+
+            // 使用transform而非left/top以獲得更好的性能
+            star.style.cssText = `
+                transform: translate(${x}px, ${y}px);
+                width: ${size}px;
+                height: ${size}px;
+            `;
+
+            // 設置動畫參數
+            if (animationType === 'pulse') {
+                star.style.setProperty('--pulse-duration', `${2 + Math.random() * 3}s`);
+            }
+
+            return star;
         }
 
         createOptimizedStar(index) {
@@ -468,10 +566,12 @@ document.addEventListener('DOMContentLoaded', function() {
             return items[items.length - 1];
         }
 
-        // 性能監控和自適應調整
+        // 智能性能監控和自適應調整
         monitorPerformance() {
             let frameCount = 0;
             let lastTime = performance.now();
+            let performanceHistory = [];
+            let adjustmentCooldown = 0;
 
             const checkPerformance = () => {
                 frameCount++;
@@ -482,9 +582,29 @@ document.addEventListener('DOMContentLoaded', function() {
                     frameCount = 0;
                     lastTime = currentTime;
 
-                    // 如果FPS過低，減少星星數量
-                    if (fps < 30 && this.stars.length > 100) {
-                        this.reduceStarCount();
+                    // 記錄性能歷史
+                    performanceHistory.push(fps);
+                    if (performanceHistory.length > 5) {
+                        performanceHistory.shift();
+                    }
+
+                    // 減少調整冷卻時間
+                    if (adjustmentCooldown > 0) adjustmentCooldown--;
+
+                    // 智能性能調整（更寬松的閾值）
+                    if (adjustmentCooldown === 0) {
+                        const avgFPS = performanceHistory.reduce((a, b) => a + b, 0) / performanceHistory.length;
+
+                        // 性能過低時漸進式降級
+                        if (avgFPS < 25 && this.stars.length > 200) {
+                            this.adaptivePerformanceAdjustment('reduce');
+                            adjustmentCooldown = 3; // 3秒冷卻
+                        }
+                        // 性能良好時可以恢復
+                        else if (avgFPS > 45 && this.canRestoreStars()) {
+                            this.adaptivePerformanceAdjustment('restore');
+                            adjustmentCooldown = 5; // 5秒冷卻
+                        }
                     }
                 }
 
@@ -496,16 +616,59 @@ document.addEventListener('DOMContentLoaded', function() {
             requestAnimationFrame(checkPerformance);
         }
 
-        // 動態減少星星數量
-        reduceStarCount() {
-            const reduceBy = Math.floor(this.stars.length * 0.1); // 減少10%
-            for (let i = 0; i < reduceBy; i++) {
-                const star = this.stars.pop();
-                if (star && star.parentNode) {
-                    star.parentNode.removeChild(star);
+        // 自適應性能調整 - 更智能的星星管理
+        adaptivePerformanceAdjustment(action) {
+            const config = this.getStarLayerConfig();
+
+            if (action === 'reduce') {
+                // 優先隱藏動態星星而不是刪除
+                const dynamicStars = this.stars.filter(star =>
+                    star.classList.contains('star-pulse') ||
+                    star.classList.contains('star-bright')
+                );
+
+                const hideCount = Math.min(
+                    Math.floor(dynamicStars.length * 0.15), // 只隱藏15%的動態星星
+                    50 // 最多隱藏50個
+                );
+
+                for (let i = 0; i < hideCount; i++) {
+                    if (dynamicStars[i]) {
+                        dynamicStars[i].style.display = 'none';
+                        dynamicStars[i].classList.add('performance-hidden');
+                    }
                 }
+
+                console.log(`性能優化：隱藏了 ${hideCount} 個動態星星`);
+            }
+            else if (action === 'restore') {
+                // 恢復被隱藏的星星
+                const hiddenStars = this.stars.filter(star =>
+                    star.classList.contains('performance-hidden')
+                );
+
+                const restoreCount = Math.min(hiddenStars.length, 30);
+
+                for (let i = 0; i < restoreCount; i++) {
+                    if (hiddenStars[i]) {
+                        hiddenStars[i].style.display = '';
+                        hiddenStars[i].classList.remove('performance-hidden');
+                    }
+                }
+
+                console.log(`性能恢復：恢復了 ${restoreCount} 個星星`);
             }
         }
+
+        // 檢查是否可以恢復星星
+        canRestoreStars() {
+            const hiddenStars = this.stars.filter(star =>
+                star.classList.contains('performance-hidden')
+            );
+            return hiddenStars.length > 0;
+        }
+
+        // 移除舊的reduceStarCount方法，替換為更智能的系統
 
         start() {
             this.isRunning = true;
@@ -617,7 +780,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // 創建優化的星星閃爍背景系統實例
     window.starsBackground = new OptimizedTwinklingStarsSystem({
-        starCount: window.innerWidth < 768 ? 400 : 1300 // 使用更合理的數量
+        starCount: window.innerWidth < 768 ? 600 : 2000 // 增加星星密度以創造更豐富的視覺效果
     });
 
     // ===== 初始化 =====

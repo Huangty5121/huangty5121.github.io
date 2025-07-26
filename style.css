@@ -102,7 +102,7 @@
   --menu-text: #2c3e50;
   --menu-hover-bg: var(--primary-accent);
   --menu-hover-text: #1a1a1a;
-  --card-bg-glassy: rgba(255, 255, 255, 0.12); /* 大幅增加透明度以增強毛玻璃效果 */
+  --card-bg-glassy: rgba(255, 255, 255, 0.02); /* 極度透明以顯示星星背景 */
   --glass-border: rgba(255, 255, 255, 0.4);
   --glass-shadow: rgba(0, 0, 0, 0.15);
   
@@ -179,7 +179,7 @@
   --menu-text: #f2f0ed;
   --menu-hover-bg: var(--primary-accent);
   --menu-hover-text: #1a1a1a;
-  --card-bg-glassy: rgba(42, 42, 42, 0.15); /* 大幅增加透明度以增強毛玻璃效果 */
+  --card-bg-glassy: rgba(42, 42, 42, 0.02); /* 極度透明以顯示星星背景 */
   --glass-border: rgba(242, 240, 237, 0.18);
   --glass-shadow: rgba(0, 0, 0, 0.5);
   
@@ -226,8 +226,7 @@ body {
   font-family: 'Inter', 'PingFang SC', 'Noto Serif SC', 'Microsoft YaHei', serif !important;
   font-size: 1rem;
   font-weight: 400;
-  background: var(--bg-color) !important;
-  background-attachment: fixed;
+  /* 移除衝突的背景聲明，使用下方的漸變背景 */
   color: var(--text-color) !important;
   line-height: 1.6;
   transition: var(--theme-transition);
@@ -389,17 +388,29 @@ p, li, td, dd {
 
 /* 移除水墨畫布，為流星動畫讓路 */
 
-/* 配合水墨效果的背景漸變 */
+/* 配合水墨效果的背景漸變 - 淺色主題 */
 body {
   background: linear-gradient(135deg,
-    rgba(213, 203, 225, 0.08) 0%,  /* #d5cbe1 淺紫灰 */
-    rgba(52, 75, 94, 0.06) 30%,    /* #344b5e 深藍灰 */
-    rgba(213, 203, 225, 0.04) 60%,
-    rgba(52, 75, 94, 0.05) 100%
+    rgba(213, 203, 225, 0.03) 0%,  /* #d5cbe1 淺紫灰 - 更透明 */
+    rgba(52, 75, 94, 0.02) 30%,    /* #344b5e 深藍灰 - 更透明 */
+    rgba(213, 203, 225, 0.015) 60%, /* 進一步透明 */
+    rgba(52, 75, 94, 0.02) 100%     /* 保持一致的透明度 */
   );
   background-attachment: fixed;
   position: relative;
   overflow-x: hidden;
+}
+
+/* 暗色主題的背景漸變 - 岩石黑水墨風格 */
+[data-theme="dark"] body {
+  background: linear-gradient(135deg,
+    rgba(26, 26, 26, 0.95) 0%,     /* #1a1a1a 岩石黑 */
+    rgba(45, 45, 45, 0.92) 25%,    /* #2d2d2d 深灰 */
+    rgba(30, 30, 30, 0.94) 50%,    /* #1e1e1e 暗灰 */
+    rgba(37, 37, 37, 0.93) 75%,    /* #252525 中灰 */
+    rgba(26, 26, 26, 0.95) 100%    /* #1a1a1a 岩石黑 */
+  );
+  background-attachment: fixed;
 }
 
 /* ===== 6.3 容器與控制 | CONTAINER & CONTROLS ===== */
@@ -451,6 +462,14 @@ body {
     0 0 12px rgba(157, 117, 212, 0.3);
 }
 
+/* 靜態星星 - 純CSS動畫，性能友好 */
+.star-static {
+  background: rgba(157, 117, 212, 0.6);
+  box-shadow: 0 0 3px rgba(157, 117, 212, 0.4);
+  animation: twinkle-static 4s ease-in-out infinite;
+  animation-delay: var(--star-delay, 0s);
+}
+
 /* 高性能CSS動畫關鍵幀 */
 @keyframes twinkle-bright {
   0%, 100% {
@@ -480,6 +499,22 @@ body {
   }
   50% {
     opacity: 0.9;
+  }
+}
+
+/* 靜態星星動畫 - 輕量級CSS動畫 */
+@keyframes twinkle-static {
+  0%, 100% {
+    opacity: 0.3;
+    transform: scale(1);
+  }
+  25% {
+    opacity: 0.7;
+    transform: scale(1.1);
+  }
+  75% {
+    opacity: 0.5;
+    transform: scale(0.9);
   }
 }
 
@@ -1423,8 +1458,8 @@ h1 + *, h2 + *, h3 + *, h4 + *, h5 + *, h6 + * {
 /* ===== 內容卡片 - 增強毛玻璃效果 | CONTENT CARDS - ENHANCED GLASSMORPHISM ===== */
 .content-card {
   background: var(--card-bg-glassy);
-  backdrop-filter: blur(25px) saturate(180%) brightness(1.1);
-  -webkit-backdrop-filter: blur(25px) saturate(180%) brightness(1.1);
+  backdrop-filter: blur(8px) saturate(110%) brightness(1.02);
+  -webkit-backdrop-filter: blur(8px) saturate(110%) brightness(1.02);
   border-radius: 16px;
   padding: 14px 12px;
   margin-bottom: 0.4rem;
@@ -1889,10 +1924,11 @@ span.comment, span.comment > *, span.string, span.string > * {
 
 .contact-item {
   display: flex;
-  align-items: center;
+  align-items: flex-start; /* 改為頂部對齊以支持多行 */
   margin-bottom: 0rem;
   padding: 0.2rem 0; /* 减少上下padding */
   transition: var(--theme-transition);
+  flex-wrap: wrap; /* 允許內容換行 */
 }
 
 .contact-item:last-child {
@@ -1904,6 +1940,7 @@ span.comment, span.comment > *, span.string, span.string > * {
   color: var(--text-secondary-color);
   min-width: 80px;
   font-weight: 500;
+  flex-shrink: 0; /* 防止標籤被壓縮 */
 }
 
 .email-link, .phone-link {
@@ -1914,6 +1951,8 @@ span.comment, span.comment > *, span.string, span.string > * {
   transition: var(--bounce-transition);
   position: relative;
   overflow: hidden;
+  word-break: break-all; /* 允許長郵件地址斷行 */
+  hyphens: auto;
 }
 
 .email-link::before, .phone-link::before {
@@ -2106,6 +2145,25 @@ span.comment, span.comment > *, span.string, span.string > * {
   
   .contact-info {
     font-size: 0.8rem;
+  }
+
+  /* 移動設備上的聯絡信息響應式布局 */
+  .contact-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.3rem;
+  }
+
+  .contact-label {
+    min-width: auto;
+    margin-bottom: 0.2rem;
+  }
+
+  .email-link, .phone-link {
+    font-size: 0.8rem;
+    display: inline-block;
+    margin: 0.1rem 0;
+    word-break: break-all;
   }
   
   .profile-basic-info,
