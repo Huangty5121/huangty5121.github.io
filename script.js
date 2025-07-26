@@ -342,12 +342,24 @@ document.addEventListener('DOMContentLoaded', function() {
                     useGPU: true,
                     reducedMotion: window.matchMedia('(prefers-reduced-motion: reduce)').matches
                 },
+                // 動態區間閃爍配置
+                dynamicTwinkling: {
+                    enabled: true,
+                    cycleInterval: 8000, // 8秒一個完整循環
+                    fadeTransition: 2000, // 2秒淡入淡出過渡
+                    regions: 4, // 4個區間
+                    staggerDelay: 2000 // 每個區間間隔2秒
+                },
                 ...options
             };
 
             this.stars = [];
+            this.starRegions = [[], [], [], []]; // 4個區間的星星數組
             this.container = null;
             this.isRunning = false;
+            this.currentActiveRegion = 0;
+            this.twinklingCycleId = null;
+            this.regionTimers = [];
 
             this.init();
         }
@@ -567,6 +579,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 } else {
                     console.log(`星星創建完成：${this.stars.length} 個星星已渲染`);
                     this.optimizeForHighDensity();
+                    this.initializeDynamicTwinkling();
                 }
             };
 
@@ -574,7 +587,108 @@ document.addEventListener('DOMContentLoaded', function() {
             requestAnimationFrame(createBatch);
         }
 
-        // 高密度優化 - 使用Intersection Observer和虛擬化
+        // 初始化動態區間閃爍系統
+        initializeDynamicTwinkling() {
+            if (!this.config.dynamicTwinkling.enabled) return;
+
+            // 隨機分配星星到4個區間
+            this.redistributeStarsToRegions();
+
+            // 啟動動態閃爍循環
+            this.startDynamicTwinklingCycle();
+
+            console.log(`動態區間閃爍系統已啟動：4個區間，每個區間約${Math.floor(this.stars.length / 4)}個星星`);
+        }
+
+        // 隨機重新分配星星到區間
+        redistributeStarsToRegions() {
+            // 清空現有區間
+            this.starRegions = [[], [], [], []];
+
+            // 創建星星索引數組並隨機打亂
+            const starIndices = Array.from({length: this.stars.length}, (_, i) => i);
+            this.shuffleArray(starIndices);
+
+            // 平均分配到4個區間
+            const starsPerRegion = Math.floor(this.stars.length / 4);
+
+            for (let i = 0; i < this.stars.length; i++) {
+                const regionIndex = Math.min(3, Math.floor(i / starsPerRegion));
+                const star = this.stars[starIndices[i]];
+                this.starRegions[regionIndex].push(star);
+
+                // 為星星添加區間標識
+                star.dataset.region = regionIndex;
+                star.dataset.originalOpacity = star.style.opacity || '1';
+            }
+        }
+
+        // 數組隨機打亂算法 (Fisher-Yates)
+        shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+
+        // 啟動動態閃爍循環
+        startDynamicTwinklingCycle() {
+            const { fadeTransition, staggerDelay } = this.config.dynamicTwinkling;
+
+            // 初始狀態：所有星星都可見
+            this.stars.forEach(star => {
+                star.style.transition = `opacity ${fadeTransition}ms ease-in-out`;
+                star.style.opacity = star.dataset.originalOpacity;
+            });
+
+            let currentCycleRegion = 0;
+
+            const cycleTick = () => {
+                // 當前區間開始淡出
+                this.fadeRegion(currentCycleRegion, 'out');
+
+                // 下一個區間開始淡入 (延遲一半的過渡時間)
+                setTimeout(() => {
+                    const nextRegion = (currentCycleRegion + 1) % 4;
+                    this.fadeRegion(nextRegion, 'in');
+                }, fadeTransition / 2);
+
+                // 移動到下一個區間
+                currentCycleRegion = (currentCycleRegion + 1) % 4;
+
+                // 每個循環結束後重新隨機分配星星
+                if (currentCycleRegion === 0) {
+                    setTimeout(() => {
+                        this.redistributeStarsToRegions();
+                    }, fadeTransition);
+                }
+            };
+
+            // 立即開始第一次循環
+            cycleTick();
+
+            // 設置定期循環
+            this.twinklingCycleId = setInterval(cycleTick, staggerDelay);
+        }
+
+        // 區間淡入淡出控制
+        fadeRegion(regionIndex, direction) {
+            const region = this.starRegions[regionIndex];
+            if (!region) return;
+
+            region.forEach(star => {
+                if (direction === 'out') {
+                    // 淡出到20%透明度，保持微弱可見
+                    const originalOpacity = parseFloat(star.dataset.originalOpacity);
+                    star.style.opacity = originalOpacity * 0.2;
+                } else {
+                    // 淡入到原始透明度
+                    star.style.opacity = star.dataset.originalOpacity;
+                }
+            });
+        }
+
+        // 高密度優化 - 使用Intersection Observer和虛擬化 + 4區間循環動畫
         optimizeForHighDensity() {
             if (this.stars.length < 1000) return; // 只在高密度時啟用
 
@@ -600,6 +714,93 @@ document.addEventListener('DOMContentLoaded', function() {
             this.stars.forEach(star => {
                 this.visibilityObserver.observe(star);
             });
+
+            // 啟動4區間循環動畫系統
+            this.initQuadrantCycleAnimation();
+        }
+
+        // 4區間循環動畫系統
+        initQuadrantCycleAnimation() {
+            const screenWidth = window.innerWidth;
+            const screenHeight = window.innerHeight;
+
+            // 將星星按屏幕位置分配到4個區間
+            this.quadrants = [[], [], [], []];
+
+            this.stars.forEach(star => {
+                const rect = star.getBoundingClientRect();
+                const x = parseFloat(star.style.left) || rect.left;
+                const y = parseFloat(star.style.top) || rect.top;
+
+                // 確定星星屬於哪個區間 (0: 左上, 1: 右上, 2: 右下, 3: 左下)
+                let quadrantIndex;
+                if (x < screenWidth / 2 && y < screenHeight / 2) {
+                    quadrantIndex = 0; // 左上
+                } else if (x >= screenWidth / 2 && y < screenHeight / 2) {
+                    quadrantIndex = 1; // 右上
+                } else if (x >= screenWidth / 2 && y >= screenHeight / 2) {
+                    quadrantIndex = 2; // 右下
+                } else {
+                    quadrantIndex = 3; // 左下
+                }
+
+                this.quadrants[quadrantIndex].push(star);
+
+                // 為每個星星添加區間標識和初始透明度
+                star.setAttribute('data-quadrant', quadrantIndex);
+                star.style.transition = 'opacity 3s ease-in-out';
+            });
+
+            console.log('4區間星星分布:', this.quadrants.map(q => q.length));
+
+            // 開始循環動畫
+            this.startQuadrantCycle();
+        }
+
+        // 開始4區間循環動畫
+        startQuadrantCycle() {
+            let currentActiveQuadrant = 0;
+            const cycleDuration = 12000; // 總循環時間12秒
+            const quadrantDuration = cycleDuration / 4; // 每個區間3秒
+
+            // 初始化：只顯示第一個區間
+            this.quadrants.forEach((quadrant, index) => {
+                quadrant.forEach(star => {
+                    if (!star.classList.contains('virtualized')) {
+                        star.style.opacity = index === 0 ? '1' : '0.1';
+                    }
+                });
+            });
+
+            const cycleAnimation = () => {
+                const nextQuadrant = (currentActiveQuadrant + 1) % 4;
+                const prevQuadrant = (currentActiveQuadrant + 3) % 4;
+
+                // 當前區間開始淡出
+                this.quadrants[currentActiveQuadrant].forEach(star => {
+                    if (!star.classList.contains('virtualized')) {
+                        star.style.opacity = '0.1';
+                    }
+                });
+
+                // 下一個區間開始淡入
+                this.quadrants[nextQuadrant].forEach(star => {
+                    if (!star.classList.contains('virtualized')) {
+                        star.style.opacity = '1';
+                    }
+                });
+
+                currentActiveQuadrant = nextQuadrant;
+
+                // 安排下一次切換
+                setTimeout(cycleAnimation, quadrantDuration);
+            };
+
+            // 開始第一次切換
+            setTimeout(cycleAnimation, quadrantDuration);
+
+            // 保存循環控制器以便清理
+            this.quadrantCycleActive = true;
         }
 
         // 創建靜態星星（純CSS動畫）- 更大更美觀
@@ -856,6 +1057,16 @@ document.addEventListener('DOMContentLoaded', function() {
 
         stop() {
             this.isRunning = false;
+
+            // 停止動態閃爍循環
+            if (this.twinklingCycleId) {
+                clearInterval(this.twinklingCycleId);
+                this.twinklingCycleId = null;
+            }
+
+            // 清理區間定時器
+            this.regionTimers.forEach(timer => clearTimeout(timer));
+            this.regionTimers = [];
         }
 
         destroy() {
@@ -877,8 +1088,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 style.remove();
             }
 
-            // 清理星星數組
+            // 清理星星數組和區間
             this.stars = [];
+            this.starRegions = [[], [], [], []];
         }
 
 

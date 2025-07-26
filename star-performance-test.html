@@ -81,6 +81,8 @@
                 <li>✅ 智能大小分层系统</li>
                 <li>✅ 自适应性能调整</li>
                 <li>✅ 高密度发光效果</li>
+                <li>🌟 动态4区间循环闪烁</li>
+                <li>🌟 随机星星重新分配</li>
             </ul>
         </div>
 
@@ -91,6 +93,13 @@
             <button onclick="adjustDensity('increase')">增加密度</button>
             <button onclick="adjustDensity('decrease')">减少密度</button>
             <button onclick="showStarInfo()">显示星星信息</button>
+            <br><br>
+            <h3>🌟 动态闪烁控制</h3>
+            <button onclick="toggleDynamicTwinkling()">切换动态闪烁</button>
+            <button onclick="redistributeStars()">重新分配星星</button>
+            <button onclick="showRegionInfo()">显示区间信息</button>
+            <button onclick="adjustTwinklingSpeed('faster')">加快闪烁</button>
+            <button onclick="adjustTwinklingSpeed('slower')">减慢闪烁</button>
         </div>
 
         <div class="test-section">
@@ -174,8 +183,74 @@
                 console.log('星星系统信息:', {
                     总数量: window.starsBackground.stars.length,
                     性能等级: window.starsBackground.performanceLevel,
-                    配置: window.starsBackground.getStarLayerConfig()
+                    配置: window.starsBackground.getStarLayerConfig(),
+                    动态闪烁: window.starsBackground.config.dynamicTwinkling
                 });
+            }
+        }
+
+        // 动态闪烁控制函数
+        function toggleDynamicTwinkling() {
+            if (window.starsBackground) {
+                const config = window.starsBackground.config.dynamicTwinkling;
+                config.enabled = !config.enabled;
+
+                if (config.enabled) {
+                    window.starsBackground.initializeDynamicTwinkling();
+                    console.log('动态闪烁已启用');
+                } else {
+                    window.starsBackground.stop();
+                    window.starsBackground.start();
+                    console.log('动态闪烁已禁用');
+                }
+            }
+        }
+
+        function redistributeStars() {
+            if (window.starsBackground && window.starsBackground.redistributeStarsToRegions) {
+                window.starsBackground.redistributeStarsToRegions();
+                console.log('星星已重新随机分配到4个区间');
+            }
+        }
+
+        function showRegionInfo() {
+            if (window.starsBackground && window.starsBackground.starRegions) {
+                const regions = window.starsBackground.starRegions;
+                console.log('区间信息:', {
+                    区间0: regions[0].length + '个星星',
+                    区间1: regions[1].length + '个星星',
+                    区间2: regions[2].length + '个星星',
+                    区间3: regions[3].length + '个星星',
+                    当前活跃区间: window.starsBackground.currentActiveRegion
+                });
+            }
+        }
+
+        function adjustTwinklingSpeed(direction) {
+            if (window.starsBackground) {
+                const config = window.starsBackground.config.dynamicTwinkling;
+
+                if (direction === 'faster') {
+                    config.staggerDelay = Math.max(1000, config.staggerDelay - 500);
+                    config.fadeTransition = Math.max(500, config.fadeTransition - 200);
+                } else {
+                    config.staggerDelay = Math.min(5000, config.staggerDelay + 500);
+                    config.fadeTransition = Math.min(3000, config.fadeTransition + 200);
+                }
+
+                console.log('闪烁速度已调整:', {
+                    区间间隔: config.staggerDelay + 'ms',
+                    淡入淡出: config.fadeTransition + 'ms'
+                });
+
+                // 重启动态闪烁以应用新设置
+                if (config.enabled) {
+                    window.starsBackground.stop();
+                    setTimeout(() => {
+                        window.starsBackground.start();
+                        window.starsBackground.initializeDynamicTwinkling();
+                    }, 100);
+                }
             }
         }
 
