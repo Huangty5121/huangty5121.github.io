@@ -9,9 +9,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const htmlElement = document.documentElement;
     const topNavBar = document.querySelector('.top-nav-bar');
     
-    // ===== 滾動進度條初始化 =====
+    // ===== 滾動進度條初始化 - 性能优化版 =====
     let scrollProgressBar = null;
-    
+    let ticking = false;
+
     function initScrollProgress() {
         // 检查是否已存在进度条，避免重复创建
         const existingProgressBar = document.getElementById('scroll-progress');
@@ -35,29 +36,40 @@ document.addEventListener('DOMContentLoaded', function() {
             border-radius: 0 2px 2px 0;
             box-shadow: 0 0 10px var(--primary-accent-transparent);
             pointer-events: none;
+            will-change: width;
         `;
         document.body.appendChild(scrollProgressBar);
     }
-    
+
+    // 使用节流优化滚动性能
     function updateScrollProgress() {
-        if (!scrollProgressBar) {
-            // 如果进度条不存在，尝试重新获取
-            scrollProgressBar = document.getElementById('scroll-progress');
-            if (!scrollProgressBar) return;
+        if (!ticking) {
+            requestAnimationFrame(() => {
+                if (!scrollProgressBar) {
+                    scrollProgressBar = document.getElementById('scroll-progress');
+                    if (!scrollProgressBar) {
+                        ticking = false;
+                        return;
+                    }
+                }
+
+                // 計算滾動進度
+                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                const documentHeight = document.documentElement.scrollHeight - window.innerHeight;
+
+                // 确保分母不为0
+                if (documentHeight <= 0) {
+                    scrollProgressBar.style.width = '0%';
+                    ticking = false;
+                    return;
+                }
+
+                const scrollPercent = Math.min(100, Math.max(0, (scrollTop / documentHeight) * 100));
+                scrollProgressBar.style.width = scrollPercent + '%';
+                ticking = false;
+            });
+            ticking = true;
         }
-
-        // 計算滾動進度
-        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-        const documentHeight = document.documentElement.scrollHeight - window.innerHeight;
-
-        // 确保分母不为0
-        if (documentHeight <= 0) {
-            scrollProgressBar.style.width = '0%';
-            return;
-        }
-
-        const scrollPercent = Math.min(100, Math.max(0, (scrollTop / documentHeight) * 100));
-        scrollProgressBar.style.width = scrollPercent + '%';
     }
     
     // ===== 菜單滾動檢測優化 =====
@@ -241,16 +253,43 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
-    // ===== 事件監聽器 =====
-    
-    // 滾動進度
-    window.addEventListener('scroll', updateScrollProgress, { passive: true });
-    
-    // 窗口大小變化
-    window.addEventListener('resize', () => {
+    // ===== 事件監聽器 - 性能优化版 =====
+
+    // 节流函数
+    function throttle(func, limit) {
+        let inThrottle;
+        return function() {
+            const args = arguments;
+            const context = this;
+            if (!inThrottle) {
+                func.apply(context, args);
+                inThrottle = true;
+                setTimeout(() => inThrottle = false, limit);
+            }
+        }
+    }
+
+    // 防抖函数
+    function debounce(func, wait) {
+        let timeout;
+        return function executedFunction(...args) {
+            const later = () => {
+                clearTimeout(timeout);
+                func(...args);
+            };
+            clearTimeout(timeout);
+            timeout = setTimeout(later, wait);
+        };
+    }
+
+    // 滾動進度 - 使用节流优化
+    window.addEventListener('scroll', throttle(updateScrollProgress, 16), { passive: true });
+
+    // 窗口大小變化 - 使用防抖优化
+    window.addEventListener('resize', debounce(() => {
         checkMenuScrollNeed();
         updateScrollProgress();
-    }, { passive: true });
+    }, 250), { passive: true });
     
     // 菜單控制
     menuToggleBtn?.addEventListener('click', toggleMenu);
@@ -313,15 +352,15 @@ document.addEventListener('DOMContentLoaded', function() {
             this.init();
         }
 
-        // 智能性能檢測和星星數量優化 - 高密度版本
+        // 智能性能檢測和星星數量優化 - 性能友好版本
         getOptimalStarCount() {
             const isMobile = window.innerWidth < 768;
             const isLowEnd = navigator.hardwareConcurrency < 4;
             const hasReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-            if (hasReducedMotion) return isMobile ? 100 : 200;
-            if (isLowEnd) return isMobile ? 400 : 1000;
-            return isMobile ? 600 : 2000; // 高密度星星 - 滿足用戶需求
+            if (hasReducedMotion) return isMobile ? 50 : 100;
+            if (isLowEnd) return isMobile ? 200 : 500;
+            return isMobile ? 300 : 800; // 优化后的星星密度 - 平衡视觉效果和性能
         }
 
         // 分層星星系統配置
@@ -716,44 +755,39 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
 
-        // 增強卡片懸浮效果 - 專注於毛玻璃效果，針對主題優化
+        // 增強卡片懸浮效果 - 性能优化版
         initCardHoverEffects() {
             const cards = document.querySelectorAll('.content-card');
             cards.forEach(card => {
+                // 预设will-change以优化GPU加速
+                card.style.willChange = 'transform';
+
                 card.addEventListener('mouseenter', () => {
-                    const isDarkTheme = document.documentElement.getAttribute('data-theme') === 'dark';
-
-                    card.style.transform = 'translateY(-8px) scale(1.015)';
-
-                    if (isDarkTheme) {
-                        // 暗色主題：降低亮度和飽和度，避免過於刺眼
-                        card.style.backdropFilter = 'blur(30px) saturate(150%) brightness(1.05)';
-                        card.style.background = 'rgba(42, 42, 42, 0.25)';
-                        card.style.boxShadow = '0 20px 60px rgba(0, 0, 0, 0.2), 0 8px 32px rgba(0, 0, 0, 0.1)';
-                        card.style.border = '1px solid rgba(232, 230, 227, 0.2)';
-                    } else {
-                        // 亮色主題：保持原有效果但降低背景透明度
-                        card.style.backdropFilter = 'blur(30px) saturate(200%) brightness(1.2)';
-                        card.style.background = 'rgba(255, 255, 255, 0.12)';
-                        card.style.boxShadow = '0 20px 60px rgba(0, 0, 0, 0.15), 0 8px 32px rgba(0, 0, 0, 0.1)';
-                        card.style.border = '1px solid rgba(255, 255, 255, 0.2)';
-                    }
+                    // 简化变换，减少重绘
+                    card.style.transform = 'translateY(-4px)';
                 });
 
                 card.addEventListener('mouseleave', () => {
                     card.style.transform = '';
-                    card.style.backdropFilter = '';
-                    card.style.background = '';
-                    card.style.boxShadow = '';
-                    card.style.border = '';
                 });
             });
         }
 
-        // 點擊動畫
+        // 點擊動畫 - 性能优化版
         initClickAnimations() {
+            // 检查用户是否偏好减少动画
+            if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                return;
+            }
+
+            // 使用节流限制点击动画频率
+            let lastClickTime = 0;
             document.addEventListener('click', (e) => {
-                this.createClickRipple(e.clientX, e.clientY);
+                const now = Date.now();
+                if (now - lastClickTime > 100) { // 限制100ms内只能触发一次
+                    this.createClickRipple(e.clientX, e.clientY);
+                    lastClickTime = now;
+                }
             });
         }
 
@@ -762,19 +796,28 @@ document.addEventListener('DOMContentLoaded', function() {
             ripple.className = 'click-ripple';
             ripple.style.cssText = `
                 position: fixed;
-                left: ${x - 25}px;
-                top: ${y - 25}px;
-                width: 50px;
-                height: 50px;
-                border: 2px solid var(--primary-accent);
+                left: ${x - 15}px;
+                top: ${y - 15}px;
+                width: 30px;
+                height: 30px;
+                border: 1px solid var(--primary-accent);
                 border-radius: 50%;
                 pointer-events: none;
                 z-index: 9999;
-                animation: rippleExpand 0.6s ease-out forwards;
+                opacity: 0.6;
+                transform: scale(0);
+                transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+                will-change: transform, opacity;
             `;
             document.body.appendChild(ripple);
 
-            setTimeout(() => ripple.remove(), 600);
+            // 使用requestAnimationFrame优化动画
+            requestAnimationFrame(() => {
+                ripple.style.transform = 'scale(2)';
+                ripple.style.opacity = '0';
+            });
+
+            setTimeout(() => ripple.remove(), 300);
         }
     }
 
