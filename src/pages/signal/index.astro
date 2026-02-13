@@ -1,0 +1,79 @@
+---
+import OSLayout from '@layouts/OSLayout.astro';
+import SignalNode from '@components/signal/SignalNode';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('blog'))
+  .filter((p) => !p.data.draft)
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+const freqCount = posts.filter(p => p.data.channel === 'frequency').length;
+const noiseCount = posts.filter(p => p.data.channel === 'noise').length;
+---
+
+<OSLayout title="The Signal — Frosty Neon" description="Technical articles and life musings.">
+  <!-- Hero -->
+  <div class="relative pt-20 sm:pt-28 pb-12 sm:pb-16 px-4 sm:px-6 overflow-hidden">
+    <!-- Ambient glow -->
+    <div class="absolute top-0 left-1/4 w-64 sm:w-96 h-64 sm:h-96 bg-neon-cyan/5 rounded-full blur-[120px] pointer-events-none will-change-[opacity]" aria-hidden="true" style="animation: ambient-pulse 8s ease-in-out infinite;"></div>
+    <div class="absolute top-20 right-1/4 w-48 sm:w-72 h-48 sm:h-72 bg-neon-violet/5 rounded-full blur-[100px] pointer-events-none will-change-[opacity]" aria-hidden="true" style="animation: ambient-pulse 10s ease-in-out infinite 3s;"></div>
+
+    <div class="max-w-4xl mx-auto text-center">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-neon-cyan/20 bg-neon-cyan/5 mb-6">
+        <span class="w-1.5 h-1.5 rounded-full bg-neon-cyan animate-pulse"></span>
+        <span class="font-mono text-[11px] text-neon-cyan/80 uppercase tracking-[0.2em]">Broadcasting</span>
+      </div>
+      <h1 class="font-display text-4xl sm:text-6xl md:text-7xl font-bold text-frost mb-4">The Signal</h1>
+      <p class="font-mono text-xs sm:text-sm text-frost/40 max-w-md mx-auto">Technical deep-dives and life reflections — tuned to two frequencies.</p>
+
+      <!-- Stats bar -->
+      <div class="mt-6 sm:mt-8 flex items-center justify-center gap-4 sm:gap-8 flex-wrap">
+        <div class="flex items-center gap-2">
+          <span class="w-2.5 h-2.5 rounded-sm bg-neon-cyan/80"></span>
+          <span class="font-mono text-xs text-frost/50">Frequency</span>
+          <span class="font-mono text-xs text-neon-cyan/60 ml-1">{freqCount}</span>
+        </div>
+        <div class="w-px h-4 bg-white/10 hidden sm:block"></div>
+        <div class="flex items-center gap-2">
+          <span class="w-2.5 h-2.5 rounded-full border-2 border-neon-violet/60"></span>
+          <span class="font-mono text-xs text-frost/50">Noise</span>
+          <span class="font-mono text-xs text-neon-violet/60 ml-1">{noiseCount}</span>
+        </div>
+        <div class="w-px h-4 bg-white/10 hidden sm:block"></div>
+        <div class="font-mono text-xs text-frost/30">{posts.length} total</div>
+      </div>
+
+      <!-- Gradient divider -->
+      <div class="mt-8 sm:mt-10 mx-auto w-full max-w-xs h-px bg-gradient-to-r from-transparent via-neon-cyan/20 to-transparent"></div>
+    </div>
+  </div>
+
+  <!-- Timeline -->
+  <div class="max-w-5xl mx-auto px-4 sm:px-6 pb-24 sm:pb-32">
+    <div class="relative">
+      <!-- Vertical glowing line -->
+      <div class="absolute left-[7px] top-0 bottom-0 w-px bg-gradient-to-b from-neon-cyan/40 via-neon-violet/20 to-transparent" aria-hidden="true" />
+
+      {posts.map((post, i) => {
+        const slug = post.id.replace(/^(zh|en)\//, '').replace(/\.(md|mdx)$/, '');
+        return (
+          <SignalNode
+            client:idle
+            title={post.data.title}
+            date={post.data.pubDate.toISOString().split('T')[0]}
+            channel={post.data.channel}
+            slug={slug}
+            description={post.data.description}
+            index={i}
+          />
+        );
+      })}
+    </div>
+
+    <!-- End marker -->
+    <div class="flex items-center gap-4 mt-12 ml-[3px]">
+      <div class="w-[9px] h-[9px] rounded-full border border-frost/20 bg-charcoal"></div>
+      <span class="font-mono text-[11px] text-frost/20">End of transmission</span>
+    </div>
+  </div>
+</OSLayout>

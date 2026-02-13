@@ -1,0 +1,317 @@
+---
+import OSLayout from '@layouts/OSLayout.astro';
+import WeChatPopover from '@components/about/WeChatPopover.tsx';
+import EmailPopover from '@components/about/EmailPopover.tsx';
+import ExperienceWall from '@components/about/ExperienceWall.tsx';
+import yaml from 'js-yaml';
+import fs from 'node:fs';
+import path from 'node:path';
+
+// Load YAML data
+const education = (yaml.load(
+  fs.readFileSync(path.join(process.cwd(), 'src/data/education.yaml'), 'utf-8')
+) as any[]) || [];
+
+const experience = (yaml.load(
+  fs.readFileSync(path.join(process.cwd(), 'src/data/experience.yaml'), 'utf-8')
+) as any[]) || [];
+
+// Auto-detect life photos
+const lifeDir = path.join(process.cwd(), 'public/images/about/life');
+let lifePhotos: string[] = [];
+try {
+  lifePhotos = fs.readdirSync(lifeDir)
+    .filter(f => /\.(jpg|jpeg|png|webp)$/i.test(f))
+    .sort();
+} catch {}
+
+// Check if CV exists
+const cvExists = fs.existsSync(path.join(process.cwd(), 'public/files/cv.pdf'));
+
+const quotes = [
+  { text: "为天地立心，为生民立命，为往圣继绝学，为万世开太平。", author: "张载", source: "横渠四句" },
+  { text: "To learn and to apply, for the benefit of mankind.", author: "PolyU", source: "校训" },
+  { text: "The best way to predict the future is to invent it.", author: "Alan Kay", source: "" },
+  { text: "Stay hungry, stay foolish.", author: "Steve Jobs", source: "Stanford, 2005" },
+  { text: "We can only see a short distance ahead, but we can see plenty there that needs to be done.", author: "Alan Turing", source: "1950" },
+  { text: "不畏浮云遮望眼，自缘身在最高层。", author: "王安石", source: "登飞来峰" },
+  { text: "Design is not just what it looks like. Design is how it works.", author: "Steve Jobs", source: "" },
+  { text: "The only way to do great work is to love what you do.", author: "Steve Jobs", source: "" },
+];
+
+const skillGroups = [
+  { label: "Programming", items: ["Python", "C++", "SQL", "SAS", "R", "MATLAB", "JavaScript", "HTML/CSS"] },
+  { label: "AI / ML", items: ["PyTorch", "TensorFlow", "NLP", "Computer Vision", "Multimodal Learning", "Deep Learning"] },
+  { label: "Tools & Software", items: ["SolidWorks", "AutoCAD", "Adobe Suite", "PyMol", "ChimeraX", "IMOD", "LaTeX"] },
+  { label: "Data & Analytics", items: ["Pandas", "Statistical Analysis", "Bioinformatics", "Data Visualization"] },
+  { label: "Engineering", items: ["Additive Manufacturing", "Reverse Engineering", "Product Design", "TRIZ", "HCD"] },
+  { label: "Languages", items: ["粵語 Native", "普通話 Native", "English Fluent"] },
+];
+
+const accentMap: Record<string, string> = {
+  'neon-violet': 'border-neon-violet/20 bg-neon-violet/10',
+  'neon-cyan': 'border-neon-cyan/20 bg-neon-cyan/10',
+  'neon-amber': 'border-neon-amber/20 bg-neon-amber/10',
+  'neon-rose': 'border-neon-rose/20 bg-neon-rose/10',
+};
+
+const photoCols = lifePhotos.length <= 3 ? 3 : lifePhotos.length <= 6 ? 3 : 4;
+---
+<OSLayout title="About — Frosty Neon" description="About Tin-Yeh Huang — developer, researcher, builder.">
+  <!-- Hero -->
+  <div class="relative pt-28 pb-16 px-6 overflow-hidden">
+    <div class="absolute top-0 left-1/3 w-96 h-96 bg-neon-violet/5 rounded-full blur-[120px] pointer-events-none" aria-hidden="true" style="animation: ambient-pulse 8s ease-in-out infinite;"></div>
+    <div class="absolute top-16 right-1/4 w-72 h-72 bg-neon-cyan/5 rounded-full blur-[100px] pointer-events-none" aria-hidden="true" style="animation: ambient-pulse 10s ease-in-out infinite 3s;"></div>
+
+    <div class="max-w-4xl mx-auto text-center">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-neon-violet/20 bg-neon-violet/5 mb-6">
+        <span class="w-1.5 h-1.5 rounded-full bg-neon-violet animate-pulse"></span>
+        <span class="font-mono text-[11px] text-neon-violet/80 uppercase tracking-[0.2em]">Profile</span>
+      </div>
+      <h1 class="font-display text-6xl md:text-7xl font-bold text-frost mb-4">About</h1>
+      <p class="font-display text-xl md:text-2xl font-semibold text-frost/80 mb-3">Tin-Yeh Huang · 黄天野</p>
+      <div class="flex flex-wrap items-center justify-center gap-2 mb-3">
+        <span class="font-mono text-[10px] px-2.5 py-1 rounded-full border border-neon-cyan/20 bg-neon-cyan/5 text-neon-cyan/70">BEng · PolyU ISE</span>
+        <span class="font-mono text-[10px] px-2.5 py-1 rounded-full border border-neon-violet/20 bg-neon-violet/5 text-neon-violet/70">Tsinghua TEEP Scholar</span>
+        <span class="font-mono text-[10px] px-2.5 py-1 rounded-full border border-neon-amber/20 bg-neon-amber/5 text-neon-amber/70">HKSAR Youth Committee</span>
+      </div>
+      <p class="font-body text-sm text-frost/40 max-w-lg mx-auto leading-relaxed">
+        A builder at the intersection of research, engineering, business, and social innovation.
+      </p>
+      <!-- Social links -->
+      <div class="flex justify-center items-center gap-5 pt-4">
+        <!-- Google Scholar -->
+        <a href="https://scholar.google.com/citations?user=zrVCdOkAAAAJ&hl=en" target="_blank" rel="noopener noreferrer" class="text-frost/30 hover:text-neon-cyan transition-colors" aria-label="Google Scholar">
+          <svg viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5"><path d="M5.242 13.769L0 9.5 12 0l12 9.5-5.242 4.269C17.548 11.249 14.978 9.5 12 9.5c-2.977 0-5.548 1.748-6.758 4.269zM12 10a7 7 0 1 0 0 14 7 7 0 0 0 0-14z"/></svg>
+        </a>
+        <!-- ORCID -->
+        <a href="https://orcid.org/0009-0004-1417-1692" target="_blank" rel="noopener noreferrer" class="text-frost/30 hover:text-neon-cyan transition-colors" aria-label="ORCID">
+          <svg viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5"><path d="M12 0C5.372 0 0 5.372 0 12s5.372 12 12 12 12-5.372 12-12S18.628 0 12 0zM7.369 4.378c.525 0 .947.431.947.947s-.422.947-.947.947a.95.95 0 0 1-.947-.947c0-.525.422-.947.947-.947zm-.722 3.038h1.444v10.041H6.647V7.416zm3.562 0h3.9c3.712 0 5.344 2.653 5.344 5.025 0 2.578-2.016 5.025-5.325 5.025h-3.919V7.416zm1.444 1.303v7.444h2.297c3.272 0 4.022-2.484 4.022-3.722 0-2.016-1.284-3.722-3.919-3.722h-2.4z"/></svg>
+        </a>
+        <!-- GitHub -->
+        <a href="https://github.com/huangty5121" target="_blank" rel="noopener noreferrer" class="text-frost/30 hover:text-neon-cyan transition-colors" aria-label="GitHub">
+          <svg viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+        </a>
+        <!-- LinkedIn -->
+        <a href="https://www.linkedin.com/in/tin-yeh-huang-59bba3289/" target="_blank" rel="noopener noreferrer" class="text-frost/30 hover:text-neon-cyan transition-colors" aria-label="LinkedIn">
+          <svg viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+        </a>
+        <EmailPopover client:visible />
+        <WeChatPopover client:visible />
+      </div>
+
+      <!-- CV Download -->
+      <div class="pt-6">
+        <a
+          href={cvExists ? "/files/cv.pdf" : "#"}
+          download={cvExists ? "TinyehHuang_CV.pdf" : undefined}
+          class={`inline-flex items-center gap-2 font-mono text-xs px-5 py-2.5 rounded-full border transition-all duration-300 ${
+            cvExists
+              ? 'border-neon-cyan/30 text-neon-cyan/70 hover:bg-neon-cyan/10 hover:border-neon-cyan/50 hover:text-neon-cyan'
+              : 'border-white/10 text-frost/25 cursor-not-allowed'
+          }`}
+          aria-label="Download CV"
+        >
+          <svg viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4"><path d="M10.75 2.75a.75.75 0 0 0-1.5 0v8.614L6.295 8.235a.75.75 0 1 0-1.09 1.03l4.25 4.5a.75.75 0 0 0 1.09 0l4.25-4.5a.75.75 0 0 0-1.09-1.03l-2.955 3.129V2.75Z"/><path d="M3.5 12.75a.75.75 0 0 0-1.5 0v2.5A2.75 2.75 0 0 0 4.75 18h10.5A2.75 2.75 0 0 0 18 15.25v-2.5a.75.75 0 0 0-1.5 0v2.5c0 .69-.56 1.25-1.25 1.25H4.75c-.69 0-1.25-.56-1.25-1.25v-2.5Z"/></svg>
+          {cvExists ? 'Download CV' : 'CV coming soon'}
+        </a>
+      </div>
+
+      <!-- Gradient divider -->
+      <div class="mt-10 mx-auto w-full max-w-xs h-px bg-gradient-to-r from-transparent via-neon-violet/20 to-transparent"></div>
+    </div>
+  </div>
+
+  <!-- Body content -->
+  <div class="max-w-4xl mx-auto px-6 pb-32 space-y-20">
+
+    <!-- ═══ Education ═══ -->
+    <section class="space-y-6">
+      <h2 class="font-mono text-[11px] text-neon-cyan/60 uppercase tracking-[0.3em]">Education</h2>
+      <div class="grid gap-4">
+        {education.map((edu: any) => {
+          const linkUrl = edu.departmentUrl || edu.url;
+          const Tag = linkUrl ? 'a' : 'div';
+          const linkProps = linkUrl ? { href: linkUrl, target: '_blank', rel: 'noopener noreferrer' } : {};
+          return (
+            <Tag {...linkProps} class={`glass-panel noise-overlay rounded-2xl p-5 space-y-3 border border-white/5 hover:border-white/10 transition-all group/edu block ${linkUrl ? 'cursor-pointer hover:shadow-lg hover:shadow-black/20' : ''}`}>
+              <div class="flex items-start gap-3">
+                <div class={`w-10 h-10 rounded-lg ${accentMap[edu.accent] || 'bg-white/5'} flex items-center justify-center shrink-0`}>
+                  <span class="text-lg">{edu.emoji}</span>
+                </div>
+                <div class="flex-1 min-w-0">
+                  <div class="flex items-start justify-between gap-2">
+                    <h3 class="font-display text-sm font-bold text-frost group-hover/edu:text-frost transition-colors">{edu.school}</h3>
+                    {linkUrl && (
+                      <svg viewBox="0 0 20 20" fill="currentColor" class="w-3.5 h-3.5 text-frost/15 group-hover/edu:text-neon-cyan/50 transition-colors shrink-0 mt-0.5"><path fill-rule="evenodd" d="M5.22 14.78a.75.75 0 0 0 1.06 0l7.22-7.22v5.69a.75.75 0 0 0 1.5 0v-7.5a.75.75 0 0 0-.75-.75h-7.5a.75.75 0 0 0 0 1.5h5.69l-7.22 7.22a.75.75 0 0 0 0 1.06Z" clip-rule="evenodd" /></svg>
+                    )}
+                  </div>
+                  {edu.department && <p class="font-mono text-[10px] text-frost/30 mt-0.5">{edu.department}</p>}
+                  <p class="font-mono text-[11px] text-frost/40 mt-0.5">{edu.degree}</p>
+                  <p class="font-mono text-[10px] text-frost/25 mt-0.5">{edu.period}</p>
+                </div>
+              </div>
+              {edu.description && <p class="font-body text-xs text-frost/40 leading-relaxed">{edu.description}</p>}
+              {edu.motto && (
+                <p class="font-mono text-[10px] text-frost/20 italic border-t border-white/5 pt-2">&ldquo;{edu.motto}&rdquo;</p>
+              )}
+            </Tag>
+          );
+        })}
+      </div>
+    </section>
+
+    <!-- Divider -->
+    <div class="flex items-center gap-4" aria-hidden="true">
+      <div class="flex-1 h-px bg-gradient-to-r from-transparent via-neon-violet/20 to-transparent"></div>
+    </div>
+
+    <!-- ═══ Experience ═══ -->
+    <section class="space-y-6">
+      <h2 class="font-mono text-[11px] text-neon-violet/60 uppercase tracking-[0.3em]">Experience</h2>
+      <p class="font-body text-sm text-frost/40">Research · Engineering · Business · Social Innovation · Policy</p>
+      {experience.length > 0 ? (
+        <ExperienceWall items={experience} client:visible />
+      ) : (
+        <div class="glass-panel noise-overlay rounded-2xl p-8 space-y-3 text-center">
+          <p class="font-mono text-xs text-frost/25">Add experience entries to <code class="text-neon-cyan/40">src/data/experience.yaml</code> and logos to <code class="text-neon-cyan/40">public/images/about/logos/</code></p>
+        </div>
+      )}
+    </section>
+
+    <!-- Divider -->
+    <div class="flex items-center gap-4" aria-hidden="true">
+      <div class="flex-1 h-px bg-gradient-to-r from-transparent via-neon-violet/20 to-transparent"></div>
+    </div>
+
+    <!-- ═══ Inner World / Philosophy ═══ -->
+    <section class="space-y-8">
+      <h2 class="font-mono text-[11px] text-neon-amber/60 uppercase tracking-[0.3em]">Inner World</h2>
+
+      <div class="glass-panel noise-overlay rounded-2xl p-6 md:p-8 space-y-8 border border-white/5">
+        <!-- Name meaning -->
+        <div class="space-y-3">
+          <h3 class="font-display text-xl font-bold text-frost">黄天野</h3>
+          <p class="font-body text-sm text-frost/50 leading-relaxed">
+            天是天空的天，野是田野的野。名字里藏着天地之间的张力 — 向上是无限的天穹，向下是扎根的大地。三才之道，天、地、人，我想做那个连接两端的人。
+          </p>
+        </div>
+
+        <div class="h-px bg-gradient-to-r from-transparent via-white/5 to-transparent" aria-hidden="true"></div>
+
+        <!-- Research philosophy -->
+        <div class="space-y-3">
+          <h3 class="font-mono text-[10px] text-neon-cyan/50 uppercase tracking-[0.2em]">On Research</h3>
+          <p class="font-body text-sm text-frost/40 leading-relaxed">
+            技术不应该只追求高处的风景，应用和民生同样重要。从蛋白质水印到热浪风险评估，从AI疾病预测到非编码RNA加密 — 我关注的不只是算法本身，而是它能为谁解决什么问题。看天也要注重地上，看所有东西的流动。
+          </p>
+        </div>
+
+        <div class="h-px bg-gradient-to-r from-transparent via-white/5 to-transparent" aria-hidden="true"></div>
+
+        <!-- Philosophical roots -->
+        <div class="space-y-4">
+          <h3 class="font-mono text-[10px] text-neon-violet/50 uppercase tracking-[0.2em]">Philosophical Roots</h3>
+          <p class="font-body text-sm text-frost/35 leading-relaxed">
+            尼采说「成为你自己」，老子说「道法自然」。一个向上攀登，一个顺流而下，看似矛盾，实则殊途同归 — 都是在说：不要活在别人的剧本里。
+          </p>
+          <p class="font-body text-sm text-frost/35 leading-relaxed">
+            庄子梦蝶，不知是蝶梦庄周还是庄周梦蝶。我写代码、做研究、搭建这个网站，有时候也分不清是我在塑造工具，还是工具在塑造我。但这种模糊本身就是答案 — 万物互化，边界从来不是固定的。
+          </p>
+        </div>
+
+        <div class="h-px bg-gradient-to-r from-transparent via-white/5 to-transparent" aria-hidden="true"></div>
+
+        <!-- Poetic coda -->
+        <div class="text-center space-y-4">
+          <p class="font-hand text-base text-neon-cyan/30 leading-loose">
+            叶子 是不会飞翔的翅膀<br/>
+            翅膀 是落在天上的叶子
+          </p>
+          <p class="font-hand text-sm text-neon-violet/25 leading-loose">
+            天地不仁，以万物为刍狗。<br/>
+            <span class="font-mono text-[10px] text-frost/15">— 老子《道德经》</span>
+          </p>
+          <p class="font-body text-sm text-frost/25 leading-relaxed max-w-md mx-auto">
+            这个网站不只是一份简历。它是一块数字领地，是混沌中长出来的一棵树。根扎在泥土里，枝叶伸向天空。不完美，但在生长。
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Divider -->
+    <div class="flex items-center gap-4" aria-hidden="true">
+      <div class="flex-1 h-px bg-gradient-to-r from-transparent via-neon-amber/20 to-transparent"></div>
+    </div>
+
+    <!-- ═══ Life ═══ -->
+    <section class="space-y-10">
+      <h2 class="font-mono text-[11px] text-neon-violet/60 uppercase tracking-[0.3em]">Life</h2>
+      {lifePhotos.length > 0 ? (
+        <div class={`grid gap-3 ${photoCols === 4 ? 'grid-cols-2 md:grid-cols-4' : 'grid-cols-2 md:grid-cols-3'}`}>
+          {lifePhotos.map((file) => (
+            <div class="glass-panel noise-overlay rounded-2xl overflow-hidden group/photo">
+              <img src={`/images/about/life/${file}`} alt="" class="w-full aspect-[4/3] object-cover opacity-80 group-hover/photo:opacity-100 group-hover/photo:scale-105 transition-all duration-500" loading="lazy" />
+            </div>
+          ))}
+        </div>
+      ) : (
+        <div class="glass-panel noise-overlay rounded-2xl p-8 text-center">
+          <p class="font-mono text-xs text-frost/25">Drop life photos into <code class="text-neon-cyan/40">public/images/about/life/</code> and they will appear here automatically.</p>
+        </div>
+      )}
+    </section>
+
+
+    <!-- Divider -->
+    <div class="flex items-center gap-4" aria-hidden="true">
+      <div class="flex-1 h-px bg-gradient-to-r from-transparent via-neon-violet/20 to-transparent"></div>
+    </div>
+
+    <!-- Skills -->
+    <section class="space-y-6">
+      <h2 class="font-mono text-[11px] text-neon-cyan/60 uppercase tracking-[0.3em]">Skills</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {skillGroups.map((group) => (
+          <div class="glass-panel noise-overlay rounded-2xl p-5 space-y-3">
+            <h3 class="font-mono text-[10px] text-neon-violet/50 uppercase tracking-[0.2em]">{group.label}</h3>
+            <div class="flex flex-wrap gap-2">
+              {group.items.map((skill) => (
+                <span class="font-mono text-[11px] text-frost/60 px-2.5 py-1 rounded-full border border-white/5 bg-white/[0.02] hover:border-neon-cyan/30 hover:text-neon-cyan/80 transition-all cursor-default">
+                  {skill}
+                </span>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- Divider -->
+    <div class="flex items-center gap-4" aria-hidden="true">
+      <div class="flex-1 h-px bg-gradient-to-r from-transparent via-neon-cyan/20 to-transparent"></div>
+    </div>
+
+    <!-- ═══ Quotes ═══ -->
+    <section class="space-y-8">
+      <h2 class="font-mono text-[11px] text-neon-cyan/60 uppercase tracking-[0.3em]">Words I Live By</h2>
+      <div class="space-y-4">
+        {quotes.map((q, i) => (
+          <div class={`flex ${i % 2 === 0 ? 'justify-start' : 'justify-end'}`}>
+            <div class={`max-w-[85%] md:max-w-[70%] relative pl-4 border-l-2 ${i % 2 === 0 ? 'border-neon-cyan/20' : 'border-neon-violet/20'} py-2 group/q hover:border-opacity-60 transition-colors`}>
+              <blockquote class="font-body text-sm md:text-base text-frost/60 leading-relaxed italic group-hover/q:text-frost/80 transition-colors">
+                &ldquo;{q.text}&rdquo;
+              </blockquote>
+              <div class="flex items-center gap-3 mt-2">
+                <span class={`font-mono text-[10px] ${i % 2 === 0 ? 'text-neon-cyan/40' : 'text-neon-violet/40'}`}>— {q.author}</span>
+                {q.source && <span class="font-mono text-[10px] text-frost/15">{q.source}</span>}
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+
+  </div>
+</OSLayout>
+

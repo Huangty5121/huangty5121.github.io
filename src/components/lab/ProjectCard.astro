@@ -1,0 +1,83 @@
+---
+
+interface Props {
+  title: string;
+  slogan: string;
+  cover: string;
+  techStack: string[];
+  repo?: string;
+  demo?: string;
+  index: number;
+}
+
+const { title, slogan, cover, techStack, repo, demo, index } = Astro.props;
+const isEven = index % 2 === 0;
+const accentColor = isEven ? 'neon-cyan' : 'neon-violet';
+---
+
+<div class="group relative">
+  <!-- Ambient glow behind card on hover -->
+  <div class={`absolute -inset-4 rounded-3xl bg-${accentColor}/5 opacity-0 group-hover:opacity-100 blur-2xl transition-opacity duration-500 pointer-events-none`}aria-hidden="true"></div>
+
+  <div class={`relative glass-panel noise-overlay rounded-2xl p-6 md:p-8 border border-white/[0.04] group-hover:border-${accentColor}/15 transition-all duration-500`}>
+    <div class={`flex flex-col md:flex-row gap-8 items-center ${isEven ? '' : 'md:flex-row-reverse'}`}>
+      <!-- Cover Image -->
+      <div class="w-full md:w-1/2 relative">
+        <!-- Index badge -->
+        <span class={`absolute -top-3 ${isEven ? '-left-3' : '-right-3'} z-10 font-mono text-[11px] text-${accentColor}/60 bg-charcoal border border-${accentColor}/20 px-2 py-0.5 rounded-md`}>
+          #{String(index + 1).padStart(2, '0')}
+        </span>
+        <div class="relative overflow-hidden rounded-xl">
+          <img
+            src={cover}
+            alt={title}
+            class="w-full h-64 object-cover transition-transform duration-700 group-hover:scale-105"
+            loading="lazy"
+          />
+          <!-- Image overlay gradient -->
+          <div class={`absolute inset-0 bg-gradient-to-t from-obsidian/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500`}></div>
+        </div>
+      </div>
+
+      <!-- Info Panel -->
+      <div class="w-full md:w-1/2 space-y-4">
+        <h3 class="font-display text-3xl font-bold text-frost group-hover:text-white transition-colors">{title}</h3>
+        <p class="font-body text-frost/60 leading-relaxed">{slogan}</p>
+
+        <!-- Tech Stack -->
+        <div class="flex flex-wrap gap-2">
+          {techStack.map((tech) => (
+            <span class={`px-2.5 py-1 text-xs font-mono text-${accentColor}/80 border border-${accentColor}/20 rounded-md bg-${accentColor}/5 group-hover:border-${accentColor}/30 transition-colors`}>
+              {tech}
+            </span>
+          ))}
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="flex gap-3 pt-2">
+          {demo && (
+            <a
+              href={demo}
+              target="_blank"
+              rel="noopener noreferrer"
+              class={`px-4 py-2 text-sm font-mono rounded-lg bg-${accentColor}/10 text-${accentColor} border border-${accentColor}/30 hover:bg-${accentColor}/20 transition-all`}
+            >
+              Live Demo ↗
+            </a>
+          )}
+          {repo && (
+            <a
+              href={repo}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="px-4 py-2 text-sm font-mono rounded-lg text-frost/50
+                     border border-white/10 hover:border-white/30 hover:text-frost/80 transition-all"
+            >
+              Source Code ↗
+            </a>
+          )}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

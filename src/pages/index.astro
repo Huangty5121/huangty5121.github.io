@@ -1,0 +1,286 @@
+---
+import OSLayout from '@layouts/OSLayout.astro';
+import Identity from '@components/terminal/Identity';
+import MapWidget from '@components/widgets/MapWidget';
+import StatusNode from '@components/widgets/StatusNode';
+import WeatherWidget from '@components/widgets/WeatherWidget';
+import NowPlaying from '@components/widgets/NowPlaying';
+import ClockWidget from '@components/widgets/ClockWidget';
+import FragmentWidget from '@components/widgets/FragmentWidget';
+import { mapWeatherCode }from '@utils/widget-helpers';
+import ResearchCard from '@components/home/ResearchCard';
+import { getCollection } from 'astro:content';
+import yaml from 'js-yaml';
+import fs from 'node:fs';
+import path from 'node:path';
+
+// Skip slow network calls in dev mode for fast reloads
+const isDev = import.meta.env.DEV;
+
+// IP-based geolocation at build time
+let LAT = 22.3033;
+let LNG = 114.1795;
+let cityName = 'HONG KONG';
+if (!isDev) {
+  try {
+    const ctrl = new AbortController();
+    setTimeout(() => ctrl.abort(), 3000);
+    const geoRes = await fetch('http://ip-api.com/json/?fields=lat,lon,city,country', { signal: ctrl.signal });
+    if (geoRes.ok) {
+      const geo = await geoRes.json();
+      LAT = geo.lat;
+      LNG = geo.lon;
+      cityName = (geo.city || geo.country || 'HONG KONG').toUpperCase();
+    }
+  } catch (e) {
+    console.warn('[Geo] IP lookup failed, using fallback');
+  }
+}
+
+// Weather: Open-Meteo (free, no key)
+let weatherTemp = 22;
+let weatherIcon = '\u26C5';
+let weatherDesc = 'Partly Cloudy';
+if (!isDev) {
+  try {
+    const ctrl = new AbortController();
+    setTimeout(() => ctrl.abort(), 3000);
+    const weatherRes = await fetch(
+      `https://api.open-meteo.com/v1/forecast?latitude=${LAT}&longitude=${LNG}&current=temperature_2m,weather_code&timezone=auto`,
+      { signal: ctrl.signal }
+    );
+    if (weatherRes.ok) {
+      const data = await weatherRes.json();
+      weatherTemp = Math.round(data.current.temperature_2m);
+      const wmo = mapWeatherCode(data.current.weather_code);
+      weatherIcon = wmo.icon;
+      weatherDesc = wmo.description;
+    }
+  } catch (e) {
+    console.warn('[Weather] Failed to fetch, using fallback');
+  }
+}
+
+// Status: read from YAML config
+type StatusType = 'working' | 'studying' | 'gaming' | 'chilling' | 'traveling' | 'online' | 'offline';
+let currentStatus: StatusType = 'online';
+let statusMessage = '';
+try {
+  const statusPath = path.resolve('./src/content/status.yaml');
+  const statusRaw = fs.readFileSync(statusPath, 'utf-8');
+  const statusData = yaml.load(statusRaw) as Record<string, string>;
+  currentStatus = (statusData.status as StatusType) || 'online';
+  statusMessage = statusData.message || '';
+} catch (e) {
+  console.warn('[Status] Failed to read config');
+}
+
+// Now Playing
+let songId = '';
+let songTitle = '';
+let songArtist = '';
+try {
+  const yamlPath = path.resolve('./src/content/now-playing.yaml');
+  const raw = fs.readFileSync(yamlPath, 'utf-8');
+  const song = yaml.load(raw) as Record<string, string>;
+  songId = song.songId || '';
+  songTitle = song.title || '';
+  songArtist = song.artist || '';
+} catch (e) {
+  console.warn('[NowPlaying] Failed to read config:', e);
+}
+
+// Fragments
+const fragments = (yaml.load(
+  fs.readFileSync(path.join(process.cwd(), 'src/data/fragments.yaml'), 'utf-8')
+) as any[]) || [];
+
+// Load papers for homepage highlights
+const papersRaw = yaml.load(
+  fs.readFileSync(path.join(process.cwd(), 'src/data/papers.yaml'), 'utf-8')
+) as any[];
+const latestPapers = (papersRaw || [])
+  .sort((a: any, b: any) => b.year - a.year)
+  .slice(0, 2);
+
+// Build map image URL at build time so token stays server-side
+const mapboxToken = import.meta.env.MAPBOX_TOKEN;
+const mapImageUrl = mapboxToken
+  ? `https://api.mapbox.com/styles/v1/mapbox/dark-v11/static/pin-s+00ffe0(${LNG},${LAT})/${LNG},${LAT},15,0/400x320@2x?access_token=${mapboxToken}`
+  : '';
+
+// Recent blog posts
+const allPosts = await getCollection('blog');
+const recentPosts = allPosts
+  .filter(p => !p.data.draft)
+  .sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime())
+  .slice(0, 3);
+---
+
+<OSLayout title="Terminal — Frosty Neon">
+  <!-- Hero -->
+  <section class="relative min-h-[92dvh] flex items-center justify-center overflow-hidden">
+    <div class="absolute inset-0 pointer-events-none" aria-hidden="true">
+      <div class="absolute top-1/4 left-1/4 w-[600px] h-[600px] rounded-full bg-neon-cyan/[0.04] blur-[120px]" style="animation: ambient-pulse 8s ease-in-out infinite;"></div>
+      <div class="absolute bottom-1/3 right-1/4 w-[500px] h-[500px] rounded-full bg-neon-violet/[0.05] blur-[100px]" style="animation: ambient-pulse 10s ease-in-out infinite 2s;"></div>
+      <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] rounded-full bg-neon-amber/[0.02] blur-[80px]" style="animation: ambient-pulse 12s ease-in-out infinite 4s;"></div>
+    </div>
+    <div class="relative z-10 text-center px-6">
+      <Identity client:visible />
+    </div>
+    <div class="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 animate-pulse">
+      <span class="font-mono text-[10px] text-frost/20 uppercase tracking-[1em]">scroll</span>
+      <svg class="w-4 h-4 text-frost/20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 13.5 12 21m0 0-7.5-7.5M12 21V3"></path>
+      </svg>
+    </div>
+  </section>
+
+  <!-- Section divider -->
+  <div class="flex items-center gap-4 max-w-5xl mx-auto px-6">
+    <div class="h-px flex-1 bg-gradient-to-r from-transparent via-neon-cyan/20 to-transparent"></div>
+    <span class="font-mono text-[10px] text-frost/30 uppercase tracking-[0.3em]">dashboard</span>
+    <div class="h-px flex-1 bg-gradient-to-r from-transparent via-neon-violet/20 to-transparent"></div>
+  </div>
+
+  <!-- Bento Dashboard -->
+  <section class="max-w-5xl mx-auto px-6 py-12 pb-32">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <!-- Map: 2x2 -->
+      <div class="col-span-2 row-span-2">
+        <MapWidget client:visible lat={LAT} lng={LNG} city={cityName}mapImageUrl={mapImageUrl} />
+      </div>
+
+      <!-- About Me: 1x2 -->
+      <div class="col-span-2 md:col-span-1 row-span-2">
+        <a href="/about" class="block h-full">
+          <div class="glass-panel noise-overlay neon-hover relative overflow-hidden h-full p-6 flex flex-col justify-between rounded-2xl group/about">
+            <div>
+              <span class="font-mono text-[10px] text-neon-violet/60 uppercase tracking-[0.2em] mb-3 block">About</span>
+              <h3 class="font-display text-lg font-bold text-frost mb-3 group-hover/about:text-neon-violet transition-colors">Tin-Yeh Huang</h3>
+              <p class="font-body text-sm text-frost/50 leading-relaxed">PolyU BEng · Tsinghua TEEP Scholar. Exploring AI, computational biology, and things that matter.</p>
+            </div>
+            <div class="flex items-center justify-between mt-4">
+              <div class="flex gap-3">
+                <span class="text-frost/30 hover:text-neon-cyan transition-colors">
+                  <svg viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                </span>
+              </div>
+              <svg class="w-4 h-4 text-frost/20 group-hover/about:text-neon-violet/60 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5"/>
+              </svg>
+            </div>
+          </div>
+        </a>
+      </div>
+
+      <!-- Weather: 1x1 -->
+      <div class="col-span-1">
+        <WeatherWidget client:visible temp={weatherTemp} icon={weatherIcon} description={weatherDesc} />
+      </div>
+
+      <!-- Status: 1x1 -->
+      <div class="col-span-1">
+        <StatusNode client:visible status={currentStatus} message={statusMessage} />
+      </div>
+
+      <!-- Now Playing: 2x1 -->
+      <div class="col-span-2">
+        <NowPlaying client:visible songId={songId} title={songTitle} artist={songArtist} />
+      </div>
+
+      <!-- Clock: 1x1 -->
+      <div class="col-span-1">
+        <ClockWidget client:load />
+      </div>
+
+      <!-- Tech stack badge: 1x1 -->
+      <div class="col-span-1">
+        <FragmentWidget client:visible fragments={fragments} />
+      </div>
+    </div>
+
+    <!-- Recent Signals -->
+    {recentPosts.length > 0 && (
+      <div class="mt-10 space-y-4">
+        <div class="flex items-center gap-3">
+          <span class="font-mono text-[10px] text-neon-cyan/40 uppercase tracking-[0.2em]">Recent Signals</span>
+          <div class="flex-1 h-px bg-gradient-to-r from-neon-cyan/10 to-transparent"></div>
+          <a href="/signal" class="font-mono text-[10px] text-frost/20 hover:text-neon-cyan/60 transition-colors">View all →</a>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+          {recentPosts.map((post) => (
+            <a href={`/signal/${post.slug.replace(/^(zh|en)\//, '')}`} class="glass-panel noise-overlay neon-hover rounded-xl p-4 block group/sig">
+              <div class="flex items-start justify-between gap-2">
+                <div class="min-w-0 flex-1">
+                  <h4 class="font-display text-sm font-semibold text-frost/70 group-hover/sig:text-frost transition-colors truncate">{post.data.title}</h4>
+                  <p class="font-body text-xs text-frost/30 mt-1 line-clamp-2">{post.data.description}</p>
+                </div>
+                <span class="font-mono text-[9px] text-frost/15 shrink-0 mt-0.5">{post.data.pubDate.toISOString().split('T')[0]}</span>
+              </div>
+              {post.data.tags.length > 0 && (
+                <div class="flex gap-1.5 mt-2">
+                  {post.data.tags.slice(0, 3).map((tag: string) => (
+                    <span class="font-mono text-[9px] text-neon-violet/30 px-1.5 py-0.5 rounded-full border border-white/5">{tag}</span>
+                  ))}
+                </div>
+              )}
+            </a>
+          ))}
+        </div>
+      </div>
+    )}
+
+    <!-- Featured Research -->
+    <div class="mt-10 space-y-4">
+      <div class="flex items-center gap-3">
+        <span class="font-mono text-[10px] text-neon-violet/40 uppercase tracking-[0.2em]">Latest Research</span>
+        <div class="flex-1 h-px bg-gradient-to-r from-neon-violet/10 to-transparent"></div>
+        <a href="/lab" class="font-mono text-[10px] text-frost/20 hover:text-neon-violet/60 transition-colors">All publications →</a>
+      </div>
+      <div class="grid grid-cols-1 gap-3">
+        {latestPapers.map((paper: any) => (
+          <ResearchCard
+            client:visible
+            title={paper.title}
+            authors={paper.authors}
+            venue={paper.venue}
+            year={paper.year}
+            type={paper.type}
+            abstract={paper.abstract}
+            bibtex={paper.bibtex}
+            doi={paper.doi}
+            pdf={paper.pdf}
+            code={paper.code}
+            links={paper.links}
+          />
+        ))}
+      </div>
+    </div>
+
+    <!-- Affiliations -->
+    <div class="mt-10 space-y-3">
+      <div class="flex items-center gap-3">
+        <span class="font-mono text-[10px] text-frost/20 uppercase tracking-[0.2em]">Affiliations</span>
+        <div class="flex-1 h-px bg-gradient-to-r from-frost/5 to-transparent"></div>
+      </div>
+      <div class="flex flex-wrap items-center justify-center gap-x-8 gap-y-3 py-4">
+        <span class="font-mono text-[11px] text-frost/25 hover:text-frost/50 transition-colors">PolyU ISE</span>
+        <span class="text-frost/10">·</span>
+        <span class="font-mono text-[11px] text-frost/25 hover:text-frost/50 transition-colors">X-Institute</span>
+        <span class="text-frost/10">·</span>
+        <span class="font-mono text-[11px] text-frost/25 hover:text-frost/50 transition-colors">HKGov HAD</span>
+        <span class="text-frost/10">·</span>
+        <span class="font-mono text-[11px] text-frost/25 hover:text-frost/50 transition-colors">Moore Threads</span>
+      </div>
+    </div>
+
+    <!-- Dashboard footer accent -->
+    <div class="mt-8 flex flex-col items-center gap-3">
+      <div class="h-px w-32 bg-gradient-to-r from-transparent via-frost/10 to-transparent"></div>
+      <p class="font-mono text-[10px] text-frost/15 tracking-widest uppercase">
+        All systems nominal
+      </p>
+    </div>
+  </section>
+</OSLayout>

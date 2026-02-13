@@ -1,0 +1,111 @@
+ # ── Publications ──
+ # type: conference | journal | preprint
+ # Sorted by recency (newest first)
+ 
+ - title: "Octopus Inspired Optimization Algorithm: Multi-Level Structures and Parallel Computing Strategies"
+   authors: ["Xu Wang*", "Yiquan Wang*", "Tin-Yeh Huang", "Yifan Dong", "Jiawei Deng", "Liang Xu", "Xin Li", "Ruiqi He"]
+   venue: "2025 IEEE International Conference on Bioinformatics and Biomedicine (BIBM)"
+   year: 2025
+   type: conference
+   tags: ["optimization", "parallel-computing", "bioinformatics"]
+   abstract: "A novel optimization algorithm inspired by octopus multi-level structures with parallel computing strategies for complex optimization problems."
+   pdf: "/files/publications/oio.pdf"
+   bibtex: |
+     @inproceedings{wang2025octopus,
+       title={Octopus Inspired Optimization Algorithm: Multi-Level Structures and Parallel Computing Strategies},
+       author={Wang, Xu and Wang, Yiquan and Huang, Tin-Yeh and Dong, Yifan and Deng, Jiawei and Xu, Liang and Li, Xin and He, Ruiqi},
+       booktitle={2025 IEEE International Conference on Bioinformatics and Biomedicine (BIBM)},
+       year={2025}
+     }
+ 
+ - title: "STGCN-LSTM for Olympic Medal Prediction: Dynamic Power Modeling and Causal Policy Optimization"
+   authors: ["Yiquan Wang", "Jiaying Wang", "Tin-Yeh Huang", "Jingyi Yang", "Guanyu Yang", "Zihao Xu"]
+   venue: "2025 International Conference on Machine Learning (ICML) Workshop on NewInML"
+   year: 2025
+   type: conference
+   tags: ["GNN", "LSTM", "sports-analytics", "causal-inference"]
+   abstract: "A spatio-temporal graph convolutional network combined with LSTM for dynamic modeling of national sports power and causal policy optimization for Olympic medal prediction."
+   pdf: "/files/publications/stgcn-lstm-olympic.pdf"
+   links:
+     - label: "arXiv"
+       url: "https://arxiv.org/abs/2501.17711"
+   bibtex: |
+     @inproceedings{wang2025stgcn,
+       title={STGCN-LSTM for Olympic Medal Prediction: Dynamic Power Modeling and Causal Policy Optimization},
+       author={Wang, Yiquan and Wang, Jiaying and Huang, Tin-Yeh and Yang, Jingyi and Yang, Guanyu and Xu, Zihao},
+       booktitle={ICML 2025 Workshop on NewInML},
+       year={2025}
+     }
+ 
+ - title: "HeDA: An Intelligent Agent System for Heatwave Risk Discovery through Automated Knowledge Graph Construction and Multi-layer Risk Propagation Analysis"
+   authors: ["Yiquan Wang*", "Tin-Yeh Huang*", "Qingyun Gao", "Jialin Zhang"]
+   venue: "arXiv preprint arXiv:2509.25112"
+   year: 2025
+   type: preprint
+   tags: ["agent", "knowledge-graph", "climate", "heatwave", "risk-assessment"]
+   abstract: "An intelligent agent system for heatwave risk discovery through automated knowledge graph construction and multi-layer risk propagation analysis."
+   pdf: "/files/publications/heda.pdf"
+   links:
+     - label: "arXiv"
+       url: "https://arxiv.org/abs/2509.25112"
+   bibtex: |
+     @article{wang2025heda,
+       title={HeDA: An Intelligent Agent System for Heatwave Risk Discovery through Automated Knowledge Graph Construction and Multi-layer Risk Propagation Analysis},
+       author={Wang, Yiquan and Huang, Tin-Yeh and Gao, Qingyun and Zhang, Jialin},
+       journal={arXiv preprint arXiv:2509.25112},
+       year={2025}
+     }
+ 
+ - title: "Crypto-ncRNA: Non-coding RNA (ncRNA) Based Encryption Algorithm"
+   authors: ["Xu Wang*", "Yiquan Wang*", "Tin-Yeh Huang*"]
+   venue: "2025 International Conference on Learning Representations (ICLR) Workshop"
+   year: 2025
+   type: conference
+   tags: ["RNA", "cryptography", "bioinformatics"]
+   abstract: "A novel encryption algorithm leveraging non-coding RNA sequences for secure data encoding and transmission."
+   pdf: "/files/publications/crypto-ncrna.pdf"
+   bibtex: |
+     @inproceedings{wang2025crypto,
+       title={Crypto-ncRNA: Non-coding RNA (ncRNA) Based Encryption Algorithm},
+       author={Wang, Xu and Wang, Yiquan and Huang, Tin-Yeh},
+       booktitle={ICLR 2025 Workshop},
+       year={2025}
+     }
+ 
+ - title: "StrucTrace: Fourier Watermarking for Traceable Bio-molecular Assets"
+   authors: ["Xu Wang", "Tin-Yeh Huang", "Yiquan Wang", "Yifan Yuan"]
+   venue: "bioRxiv, 2025.10.18.683214"
+   year: 2025
+   type: preprint
+   tags: ["watermarking", "fourier", "bio-molecular", "traceability"]
+   abstract: "A Fourier-based watermarking framework for traceable bio-molecular assets, enabling ownership verification and provenance tracking."
+   pdf: "/files/publications/structrace.pdf"
+   links:
+     - label: "bioRxiv"
+       url: "https://doi.org/10.1101/2025.10.18.683214"
+   bibtex: |
+     @article{wang2025structrace,
+       title={StrucTrace: Fourier Watermarking for Traceable Bio-molecular Assets},
+       author={Wang, Xu and Huang, Tin-Yeh and Wang, Yiquan and Yuan, Yifan},
+       journal={bioRxiv},
+       year={2025},
+       doi={10.1101/2025.10.18.683214}
+     }
+ 
+ - title: "AI for disease prediction: Performance insights and key limitations"
+   authors: ["Yiquan Wang", "Minnuo Cai", "Tin-Yeh Huang"]
+   venue: "Journal of Clinical Neuroscience 138, 111360"
+   year: 2025
+   type: journal
+   tags: ["AI", "disease-prediction", "clinical", "review"]
+   abstract: "A comprehensive review of AI approaches for disease prediction, analyzing performance insights and identifying key limitations in clinical deployment."
+   pdf: "/files/publications/ai-disease-prediction.pdf"
+   bibtex: |
+     @article{wang2025ai,
+       title={AI for disease prediction: Performance insights and key limitations},
+       author={Wang, Yiquan and Cai, Minnuo and Huang, Tin-Yeh},
+       journal={Journal of Clinical Neuroscience},
+       volume={138},
+       pages={111360},
+       year={2025}
+     }

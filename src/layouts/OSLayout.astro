@@ -1,0 +1,142 @@
+---
+import Footer from '@components/layout/Footer.astro';
+import DockNav from '@components/layout/DockNav.tsx';
+import Spotlight from '@components/effects/Spotlight.tsx';
+import '@styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+  ogImage?: string;
+}
+
+const {
+  title = 'Frosty Neon — Digital Territory',
+  description = 'Personal digital territory of a developer, researcher, and creative.',
+  ogImage = '/og-default.png',
+} = Astro.props;
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+---
+
+<!doctype html>
+<html lang="zh" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="generator" content={Astro.generator} />
+
+    <!-- SEO -->
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalURL} />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalURL}/>
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description}/>
+    <meta property="og:image" content={new URL(ogImage, Astro.site)} />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description}/>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- Security -->
+    <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+
+    <!-- Preload critical fonts -->
+    <link
+      rel="preload"
+      href="/fonts/ClashDisplay-Variable.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      href="/fonts/GeistMono-Variable.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+
+    <!-- Google Fonts (CJK body text) — non-blocking load -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap"
+      rel="stylesheet"
+      media="print"
+      onload="this.media='all'"
+    />
+    <noscript>
+      <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap"
+        rel="stylesheet"
+      />
+    </noscript>
+
+    <!-- LXGW WenKai — Handwriting font for blog quotes (lazy loaded) -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-webfont@1.7.0/style.css"
+      rel="stylesheet"
+      media="print"
+      onload="this.media='all'"
+    />
+
+    <!-- Theme persistence: prevent flash on load -->
+    <script is:inline>
+      (function() {
+        var t = localStorage.getItem('theme');
+        if (t === 'light') {
+          document.documentElement.classList.remove('dark');
+          document.documentElement.classList.add('light');
+        } else {
+          document.documentElement.classList.add('dark');
+          document.documentElement.classList.remove('light');
+        }
+      })();
+    </script>
+
+    <!-- Lightweight anti-tampering: disable context menu & common devtools shortcuts -->
+    <script is:inline>
+      (function() {
+        // Disable right-click context menu
+        document.addEventListener('contextmenu', function(e) { e.preventDefault(); });
+        // Block common devtools shortcuts (F12, Ctrl+Shift+I/J/C, Ctrl+U)
+        document.addEventListener('keydown', function(e) {
+          if (e.key === 'F12') { e.preventDefault(); return; }
+          if ((e.ctrlKey || e.metaKey) && e.shiftKey && ['I','i','J','j','C','c'].includes(e.key)) { e.preventDefault(); return; }
+          if ((e.ctrlKey || e.metaKey) && (e.key === 'u' || e.key === 'U')) { e.preventDefault(); return; }
+        });
+      })();
+    </script>
+  </head>
+  <body class="relative min-h-dvh overflow-x-hidden">
+    <!-- Skip to content (a11y) -->
+    <a
+      href="#main-content"
+      class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100]
+             focus:px-4 focus:py-2 focus:bg-neon-cyan focus:text-obsidian focus:rounded-lg
+             focus:font-mono focus:text-sm focus:outline-none"
+    >
+      Skip to content
+    </a>
+
+    <!-- Page Content -->
+    <main id="main-content" class="relative z-10">
+      <slot />
+    </main>
+
+    <!-- Global Effects & Navigation -->
+    <Spotlight client:visible />
+    <DockNav client:load />
+    <Footer />
+  </body>
+</html>

@@ -1,0 +1,105 @@
+---
+import OSLayout from '@layouts/OSLayout.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  return posts.map((post) => {
+    const slug = post.id.replace(/^(zh|en)\//, '').replace(/\.(md|mdx)$/, '');
+    return {
+      params: { slug },
+      props: { post },
+    };
+  });
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+const formattedDate = post.data.pubDate.toISOString().split('T')[0];
+---
+
+<OSLayout title={`${post.data.title} — Signal`} description={post.data.description}>
+  <!-- Reading progress bar -->
+  <div id="progress-bar" class="fixed top-0 left-0 h-0.5 bg-gradient-to-r from-neon-cyan to-neon-violet z-50 transition-all" style="width: 0%" />
+
+  <!-- Hero header -->
+  <div class="relative pt-20 sm:pt-28 pb-10 sm:pb-12 px-4 sm:px-6 overflow-hidden">
+    <div class="absolute top-0 left-1/4 w-64 sm:w-96 h-64 sm:h-96 bg-neon-cyan/5 rounded-full blur-[120px] pointer-events-none will-change-[opacity]" aria-hidden="true" style="animation: ambient-pulse 8s ease-in-out infinite;"></div>
+    <div class="absolute top-20 right-1/4 w-48 sm:w-72 h-48 sm:h-72 bg-neon-violet/5 rounded-full blur-[100px] pointer-events-none will-change-[opacity]" aria-hidden="true" style="animation: ambient-pulse 10s ease-in-out infinite 3s;"></div>
+
+    <div class="max-w-4xl mx-auto text-center">
+      <a href="/signal" class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-neon-cyan/20 bg-neon-cyan/5 mb-6 hover:bg-neon-cyan/10 transition-colors">
+        <svg class="w-3 h-3 text-neon-cyan/60" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18"/>
+        </svg>
+        <span class="font-mono text-[11px] text-neon-cyan/80 uppercase tracking-[0.2em]">Signal</span>
+      </a>
+      <h1 class="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-frost mb-4 text-balance leading-tight">
+        {post.data.title}
+      </h1>
+      <div class="flex items-center justify-center gap-3 font-mono text-sm">
+        <time class="text-neon-cyan/60">{formattedDate}</time>
+        <span class="text-frost/20">·</span>
+        <span class={`px-2 py-0.5 text-xs rounded-full ${
+          post.data.channel === 'frequency'
+            ? 'text-neon-cyan/70 bg-neon-cyan/10 border border-neon-cyan/20'
+            : 'text-neon-violet/70 bg-neon-violet/10 border border-neon-violet/20'
+        }`}>
+          {post.data.channel}
+        </span>
+      </div>
+      <div class="mt-8 mx-auto w-full max-w-xs h-px bg-gradient-to-r from-transparent via-neon-cyan/20 to-transparent"></div>
+    </div>
+  </div>
+
+  <article class="max-w-5xl mx-auto px-4 sm:px-6 pb-24 sm:pb-32">
+    <!-- Content -->
+    <div class="prose prose-invert prose-lg max-w-none
+                prose-headings:font-display prose-headings:text-frost
+                prose-p:text-frost/70 prose-p:leading-relaxed prose-p:text-base
+                prose-a:text-neon-cyan prose-a:no-underline hover:prose-a:underline
+                prose-code:text-neon-amber prose-code:font-mono
+                prose-blockquote:border-l-neon-violet/50 prose-blockquote:font-hand prose-blockquote:text-frost/50 prose-blockquote:bg-white/[0.02] prose-blockquote:rounded-r-lg prose-blockquote:py-1 prose-blockquote:px-4
+                prose-pre:bg-charcoal prose-pre:border prose-pre:border-white/5 prose-pre:rounded-xl
+                prose-img:rounded-xl prose-img:shadow-lg
+                prose-li:text-frost/60
+                prose-hr:border-white/[0.06]
+                prose-h2:mt-12 prose-h2:mb-6 prose-h3:mt-8 prose-h3:mb-4">
+      <Content />
+    </div>
+
+    <!-- Back link -->
+    <div class="mt-16 pt-8 border-t border-white/[0.06]">
+      <div class="flex items-center justify-between">
+        <a href="/signal" class="inline-flex items-center gap-2 font-mono text-xs text-frost/30 hover:text-neon-cyan/60 transition-colors group">
+          <svg class="w-3.5 h-3.5 group-hover:-translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18"/>
+          </svg>
+          Back to all signals
+        </a>
+        <button onclick="window.scrollTo({top:0,behavior:'smooth'})" class="font-mono text-[10px] text-frost/20 hover:text-frost/40 transition-colors">
+          ↑ Back to top
+        </button>
+      </div>
+    </div>
+  </article>
+
+  <!-- Progress bar script (RAF throttled) -->
+  <script>
+    const bar = document.getElementById('progress-bar');
+    if (bar) {
+      let ticking = false;
+      window.addEventListener('scroll', () => {
+        if (!ticking) {
+          ticking = true;
+          requestAnimationFrame(() => {
+            const scrollTop = document.documentElement.scrollTop;
+            const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+            bar.style.width = scrollHeight > 0 ? `${(scrollTop / scrollHeight) * 100}%` : '0%';
+            ticking = false;
+          });
+        }
+      }, { passive: true });
+    }
+  </script>
+</OSLayout>

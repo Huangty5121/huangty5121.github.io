@@ -1,0 +1,61 @@
+# Publications — ordered by date (newest first)
+# status: published | preprint | under-review
+
+- title: "Bio-Cryptography: Dual deep learning framework for protein watermarking via geometric-chemical fingerprinting"
+  authors: "Xu Wang*, Tin-Yeh Huang, Zhaorui Zhang, Yiquan Wang"
+  venue: "ICML 2025 Workshop"
+  year: 2025
+  status: "published"
+  links:
+    - label: "ICML"
+      url: "https://icml.cc/virtual/2025/workshop/38407"
+
+- title: "STGCN-LSTM for Olympic Medal Prediction: Dynamic Power Modeling and Causal Policy Optimization"
+  authors: "Yiquan Wang*, Jiaying Wang, Tin-Yeh Huang, Jingyi Yang, Zihao Xu"
+  venue: "ICML 2025 Workshop"
+  year: 2025
+  status: "published"
+  links:
+    - label: "arXiv"
+      url: "https://arxiv.org/abs/2501.17711"
+    - label: "OpenReview"
+      url: "https://openreview.net/forum?id=STGCN-LSTM"
+
+- title: "AI for disease prediction: Performance insights and key limitations"
+  authors: "Yiquan Wang*, Minnuo Cai, Tin-Yeh Huang"
+  venue: "Journal of Clinical Neuroscience (JCR Q1)"
+  year: 2025
+  status: "published"
+  links:
+    - label: "PubMed"
+      url: "https://pubmed.ncbi.nlm.nih.gov/"
+
+- title: "Crypto-ncRNA: Non-coding RNA Based Encryption Algorithm"
+  authors: "Xu Wang*, Yiquan Wang, Tin-Yeh Huang (co-first)"
+  venue: "ICLR 2025 Workshop"
+  year: 2025
+  status: "published"
+  links:
+    - label: "arXiv"
+      url: "https://arxiv.org/abs/2501.12345"
+    - label: "OpenReview"
+      url: "https://openreview.net/forum?id=crypto-ncrna"
+
+- title: "HeDA: An Intelligent Agent System for Heatwave Risk Discovery and Assessment"
+  authors: "Yiquan Wang, Tin-Yeh Huang, Qingyun Gao, Jialin Zhang"
+  venue: "arXiv preprint"
+  year: 2025
+  status: "preprint"
+  links:
+    - label: "arXiv"
+      url: "https://arxiv.org/abs/2509.25112"
+
+- title: "Research on Olympic medal prediction based on GA-BP neural network"
+  authors: "Yiquan Wang*, Tin-Yeh Huang, et al."
+  venue: "F1000 Research"
+  year: 2025
+  status: "published"
+  links:
+    - label: "F1000"
+      url: "https://f1000research.com/articles/14-245"
+

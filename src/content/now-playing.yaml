@@ -1,0 +1,13 @@
+# 🎵 Now Playing — 当前播放歌曲配置
+# 修改这个文件来更换首页显示的歌曲，push 后生效
+#
+# 如何获取 QQ 音乐 songId（数字 ID）：
+#   1. 在 QQ 音乐 App 或网页版找到歌曲，点分享 → 复制链接
+#   2. 链接格式类似：https://i.y.qq.com/v8/playsong.html?songid=104453
+#   3. songid= 后面的数字就是你要填的 songId
+# 注意：VIP 歌曲在外链播放器里只能试听约 1 分钟，建议选免费歌曲
+
+songId: "104453"
+title: "叶子"
+artist: "阿桑"
+

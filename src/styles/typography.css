@@ -1,0 +1,27 @@
+/* ── Self-hosted Fonts ── */
+
+/* Clash Display — Variable Weight (200-700) */
+@font-face {
+  font-family: 'Clash Display';
+  src: url('/fonts/ClashDisplay-Variable.woff2') format('woff2');
+  font-weight: 200 700;
+  font-display: swap;
+}
+
+/* Geist Mono — Variable Weight */
+@font-face {
+  font-family: 'Geist Mono';
+  src: url('/fonts/GeistMono-Variable.woff2') format('woff2');
+  font-weight: 100 900;
+  font-display: swap;
+}
+
+/* ── CSS Custom Properties ── */
+:root {
+  --font-sans: 'Clash Display', 'Inter', 'Noto Sans SC', sans-serif;
+  --font-mono: 'Geist Mono', 'JetBrains Mono', monospace;
+  --font-hand: 'LXGW WenKai', cursive;
+}
+
+/* ── LXGW WenKai — Lazy loaded via CDN, only for blog quotes ── */
+/* Loaded on-demand in components that use font-hand class */

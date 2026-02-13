@@ -1,0 +1,77 @@
+import GlassCard from '@components/core/GlassCard';
+
+interface NowPlayingProps {
+  songId?: string;
+  title?: string;
+  artist?: string;
+}
+
+export default function NowPlaying({
+  songId = '',
+  title = '',
+  artist = '',
+}: NowPlayingProps) {
+  const hasSong = !!songId && !!title;
+  const qqUrl = songId
+    ? `https://www.youtube.com/watch?v=uaEDHeIaqnA`
+    : '#';
+
+  return (
+    <GlassCard className="overflow-hidden h-full min-h-[154px]">
+      {hasSong ? (
+        <a
+          href={qqUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center gap-4 px-5 py-4 w-full h-full group/np"
+        >
+          {/* Waveform bars */}
+          <div className="flex items-end gap-[3px] h-8 flex-shrink-0">
+            {[1, 2, 3, 4, 5].map((i) => (
+              <div
+                key={i}
+                className="w-[3px] bg-neon-cyan/70 rounded-full animate-pulse"
+                style={{
+                  height: `${40 + ((i * 37) % 60)}%`,
+                  animationDelay: `${i * 0.15}s`,
+                }}
+              />
+            ))}
+          </div>
+
+          {/* Song info */}
+          <div className="flex flex-col min-w-0 flex-1">
+            <span className="font-display text-sm text-frost truncate group-hover/np:text-neon-cyan transition-colors">
+              {title}
+            </span>
+            <span className="font-mono text-[11px] text-frost/40 truncate">
+              {artist}
+            </span>
+          </div>
+
+          {/* External link hint */}
+          <svg
+            viewBox="0 0 20 20"
+            fill="currentColor"
+            className="w-4 h-4 text-frost/20 group-hover/np:text-neon-cyan/60 transition-colors flex-shrink-0"
+          >
+            <path
+              fillRule="evenodd"
+              d="M4.25 5.5a.75.75 0 0 0-.75.75v8.5c0 .414.336.75.75.75h8.5a.75.75 0 0 0 .75-.75v-4a.75.75 0 0 1 1.5 0v4A2.25 2.25 0 0 1 12.75 17h-8.5A2.25 2.25 0 0 1 2 14.75v-8.5A2.25 2.25 0 0 1 4.25 4h5a.75.75 0 0 1 0 1.5h-5Zm7.25-.182a.75.75 0 0 1 .75-.75h3.5a.75.75 0 0 1 .75.75v3.5a.75.75 0 0 1-1.5 0V6.56l-5.22 5.22a.75.75 0 1 1-1.06-1.06l5.22-5.22h-2.19a.75.75 0 0 1-.75-.75Z"
+              clipRule="evenodd"
+            />
+          </svg>
+        </a>
+      ) : (
+        <div className="flex items-center gap-3 w-full justify-center px-5 py-4">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} className="w-5 h-5 text-frost/20">
+            <path strokeLinecap="round" strokeLinejoin="round" d="m9 9 10.5-3m0 6.553v3.75a2.25 2.25 0 0 1-1.632 2.163l-1.32.377a1.803 1.803 0 1 1-.99-3.467l2.31-.66a2.25 2.25 0 0 0 1.632-2.163Zm0 0V2.25L9 5.25v10.303m0 0v3.75a2.25 2.25 0 0 1-1.632 2.163l-1.32.377a1.803 1.803 0 0 1-.99-3.467l2.31-.66A2.25 2.25 0 0 0 9 15.553Z" />
+          </svg>
+          <span className="font-mono text-xs text-frost/30 italic">
+            Silence is golden.
+          </span>
+        </div>
+      )}
+    </GlassCard>
+  );
+}

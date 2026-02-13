@@ -1,0 +1,116 @@
+---
+import OSLayout from '@layouts/OSLayout.astro';
+import ProjectCard from '@components/lab/ProjectCard.astro';
+import PaperList from '@components/lab/PaperList';
+import { getCollection } from 'astro:content';
+import yaml from 'js-yaml';
+import fs from 'node:fs';
+import path from 'node:path';
+
+const projects = (await getCollection('projects'))
+  .sort((a, b) => (b.data.priority ?? 0) - (a.data.priority ?? 0));
+
+// Read papers from single YAML list
+const papersRaw = yaml.load(
+  fs.readFileSync(path.join(process.cwd(), 'src/data/papers.yaml'), 'utf-8')
+) as any[];
+const papers = (papersRaw || []).sort((a: any, b: any) => b.year - a.year);
+
+const confCount = papers.filter((p: any) => p.type === 'conference').length;
+const journalCount = papers.filter((p: any) => p.type === 'journal').length;
+const preprintCount = papers.filter((p: any) => p.type === 'preprint').length;
+
+// Collect all unique tech across projects
+const allTech = [...new Set(projects.flatMap(p => p.data.techStack))];
+---
+
+<OSLayout title="The Lab — Frosty Neon" description="Projects and research papers.">
+  <!-- Hero -->
+  <div class="relative pt-28 pb-16 px-6 overflow-hidden">
+    <div class="absolute top-0 left-1/3 w-96 h-96 bg-neon-cyan/5 rounded-full blur-[120px] pointer-events-none" aria-hidden="true" style="animation: ambient-pulse 8s ease-in-out infinite;"></div>
+    <div class="absolute top-16 right-1/4 w-72 h-72 bg-neon-violet/5 rounded-full blur-[100px] pointer-events-none" aria-hidden="true" style="animation: ambient-pulse 10s ease-in-out infinite 3s;"></div>
+
+    <div class="max-w-4xl mx-auto text-center">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-neon-cyan/20 bg-neon-cyan/5 mb-6">
+        <span class="w-1.5 h-1.5 rounded-full bg-neon-cyan animate-pulse"></span>
+        <span class="font-mono text-[11px] text-neon-cyan/80 uppercase tracking-[0.2em]">Laboratory</span>
+      </div>
+      <h1 class="font-display text-6xl md:text-7xl font-bold text-frost mb-4">The Lab</h1>
+      <p class="font-mono text-sm text-frost/40 max-w-md mx-auto">Engineering projects and academic research — where ideas become artifacts.</p>
+
+      <!-- Stats bar -->
+      <div class="mt-8 flex items-center justify-center gap-6 flex-wrap">
+        <div class="flex items-center gap-2">
+          <span class="w-2.5 h-2.5 rounded-sm bg-neon-cyan/80"></span>
+          <span class="font-mono text-xs text-frost/50">Projects</span>
+          <span class="font-mono text-xs text-neon-cyan/60 ml-1">{projects.length}</span>
+        </div>
+        <div class="w-px h-4 bg-white/10"></div>
+        <div class="flex items-center gap-2">
+          <span class="w-2.5 h-2.5 rounded-full border-2 border-neon-violet/60"></span>
+          <span class="font-mono text-xs text-frost/50">Conference</span>
+          <span class="font-mono text-xs text-neon-violet/60 ml-1">{confCount}</span>
+        </div>
+        <div class="w-px h-4 bg-white/10"></div>
+        <div class="flex items-center gap-2">
+          <span class="w-2.5 h-2.5 rounded-sm border-2 border-neon-amber/60"></span>
+          <span class="font-mono text-xs text-frost/50">Journal</span>
+          <span class="font-mono text-xs text-neon-amber/60 ml-1">{journalCount}</span>
+        </div>
+        <div class="w-px h-4 bg-white/10"></div>
+        <div class="flex items-center gap-2">
+          <span class="w-2.5 h-2.5 rounded-sm border-2 border-frost/20"></span>
+          <span class="font-mono text-xs text-frost/50">Preprint</span>
+          <span class="font-mono text-xs text-frost/40 ml-1">{preprintCount}</span>
+        </div>
+        <div class="w-px h-4 bg-white/10"></div>
+        <div class="font-mono text-xs text-frost/30">{allTech.length} technologies</div>
+      </div>
+
+      <!-- Gradient divider -->
+      <div class="mt-10 mx-auto w-full max-w-xs h-px bg-gradient-to-r from-transparent via-neon-cyan/20 to-transparent"></div>
+    </div>
+  </div>
+
+  <div class="max-w-5xl mx-auto px-6 pb-32 space-y-24">
+    <!-- Engineering Section -->
+    <section>
+      <div class="flex items-end justify-between mb-12">
+        <div>
+          <span class="font-mono text-[11px] text-neon-cyan/60 uppercase tracking-[0.3em] block mb-3">01</span>
+          <h2 class="font-display text-4xl font-bold text-frost mb-2">Engineering</h2>
+          <p class="font-mono text-sm text-frost/30">Projects &amp; experiments</p>
+        </div>
+        <div class="hidden md:block h-px flex-1 ml-8 bg-gradient-to-r from-neon-cyan/20 to-transparent"></div>
+      </div>
+
+      <div class="space-y-16">
+        {projects.map((project, i) => (
+          <ProjectCard
+            title={project.data.title}
+            slogan={project.data.slogan}
+            cover={project.data.cover}
+            techStack={project.data.techStack}
+            repo={project.data.repo}
+            demo={project.data.demo}
+            index={i}
+          />
+        ))}
+      </div>
+    </section>
+
+    <!-- Research Section -->
+    <section>
+      <div class="flex items-end justify-between mb-12">
+        <div>
+          <span class="font-mono text-[11px] text-neon-violet/60 uppercase tracking-[0.3em] block mb-3">02</span>
+          <h2 class="font-display text-4xl font-bold text-frost mb-2">Research</h2>
+          <p class="font-mono text-sm text-frost/30">Publications &amp; preprints</p>
+        </div>
+        <div class="hidden md:block h-px flex-1 ml-8 bg-gradient-to-r from-neon-violet/20 to-transparent"></div>
+      </div>
+
+      <PaperList client:visible papers={papers} />
+    </section>
+  </div>
+</OSLayout>

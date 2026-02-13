@@ -1,0 +1,121 @@
+---
+import OSLayout from '@layouts/OSLayout.astro';
+import PolaroidCard from '@components/playground/PolaroidCard';
+import GadgetCard from '@components/playground/GadgetCard';
+import ThoughtBubble from '@components/playground/ThoughtBubble';
+import yaml from 'js-yaml';
+import fs from 'node:fs';
+import path from 'node:path';
+
+const photos = (yaml.load(
+  fs.readFileSync(path.join(process.cwd(), 'src/data/moments.yaml'), 'utf-8')
+) as any[]) || [];
+
+const gadgets = (yaml.load(
+  fs.readFileSync(path.join(process.cwd(), 'src/data/gear.yaml'), 'utf-8')
+) as any[]) || [];
+
+const thoughts = (yaml.load(
+  fs.readFileSync(path.join(process.cwd(), 'src/data/fragments.yaml'), 'utf-8')
+) as any[]) || [];
+---
+
+<OSLayout title="Playground — Frosty Neon" description="Photos, gadgets, and random thoughts.">
+  <!-- Hero -->
+  <div class="relative pt-28 pb-16 px-6 overflow-hidden">
+    <!-- Ambient glow -->
+    <div class="absolute top-0 right-1/4 w-96 h-96 bg-neon-violet/5 rounded-full blur-[120px] pointer-events-none" aria-hidden="true" style="animation: ambient-pulse 8s ease-in-out infinite;"></div>
+    <div class="absolute top-20 left-1/3 w-72 h-72 bg-neon-amber/5 rounded-full blur-[100px] pointer-events-none" aria-hidden="true" style="animation: ambient-pulse 10s ease-in-out infinite 3s;"></div>
+
+    <div class="max-w-4xl mx-auto text-center">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-neon-violet/20 bg-neon-violet/5 mb-6">
+        <span class="w-1.5 h-1.5 rounded-full bg-neon-violet animate-pulse"></span>
+        <span class="font-mono text-[11px] text-neon-violet/80 uppercase tracking-[0.2em]">Sandbox</span>
+      </div>
+      <h1 class="font-display text-6xl md:text-7xl font-bold text-frost mb-4">Playground</h1>
+      <p class="font-mono text-sm text-frost/40 max-w-md mx-auto">Photos, gadgets, and random thoughts — the unfiltered side.</p>
+
+      <!-- Category pills -->
+      <div class="mt-8 flex items-center justify-center gap-3">
+        <span class="px-3 py-1 rounded-full text-[11px] font-mono border border-neon-amber/20 text-neon-amber/60 bg-neon-amber/5">
+          📷 {photos.length} photos
+        </span>
+        <span class="px-3 py-1 rounded-full text-[11px] font-mono border border-neon-cyan/20 text-neon-cyan/60 bg-neon-cyan/5">
+          ⚙️ {gadgets.length} gadgets
+        </span>
+        <span class="px-3 py-1 rounded-full text-[11px] font-mono border border-neon-violet/20 text-neon-violet/60 bg-neon-violet/5">
+          💭 {thoughts.length} thoughts
+        </span>
+      </div>
+
+      <div class="mt-10 mx-auto w-full max-w-xs h-px bg-gradient-to-r from-transparent via-neon-violet/20 to-transparent"></div>
+    </div>
+  </div>
+
+  <div class="max-w-5xl mx-auto px-6 pb-32 space-y-20">
+
+    <!-- Photos Section -->
+    {photos.length > 0 && (
+      <section>
+        <div class="flex items-center gap-4 mb-8">
+          <span class="font-mono text-[11px] text-neon-amber/50 uppercase tracking-[0.2em]">01</span>
+          <h2 class="font-display text-2xl text-frost/80">Moments</h2>
+          <div class="flex-1 h-px bg-gradient-to-r from-neon-amber/10 to-transparent"></div>
+        </div>
+        <div class="columns-1 md:columns-2 lg:columns-3 gap-5">
+          {photos.map((p) => (
+            <PolaroidCard
+              client:visible
+              src={p.src}
+              alt={p.alt}
+              caption={p.caption}
+              exif={p.exif}
+            />
+          ))}
+        </div>
+      </section>
+    )}
+
+    <!-- Gadgets Section -->
+    {gadgets.length > 0 && (
+      <section>
+        <div class="flex items-center gap-4 mb-8">
+          <span class="font-mono text-[11px] text-neon-cyan/50 uppercase tracking-[0.2em]">02</span>
+          <h2 class="font-display text-2xl text-frost/80">Gear</h2>
+          <div class="flex-1 h-px bg-gradient-to-r from-neon-cyan/10 to-transparent"></div>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+          {gadgets.map((g) => (
+            <GadgetCard
+              client:visible
+              name={g.name}
+              image={g.image}
+              specs={g.specs}
+              rating={g.rating}
+              purchaseLink={g.purchaseLink}
+            />
+          ))}
+        </div>
+      </section>
+    )}
+
+    <!-- Thoughts Section -->
+    {thoughts.length > 0 && (
+      <section>
+        <div class="flex items-center gap-4 mb-8">
+          <span class="font-mono text-[11px] text-neon-violet/50 uppercase tracking-[0.2em]">03</span>
+          <h2 class="font-display text-2xl text-frost/80">Fragments</h2>
+          <div class="flex-1 h-px bg-gradient-to-r from-neon-violet/10 to-transparent"></div>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+          {thoughts.map((t) => (
+            <ThoughtBubble
+              content={t.content}
+              mood={t.mood}
+            />
+          ))}
+        </div>
+      </section>
+    )}
+  </div>
+</OSLayout>

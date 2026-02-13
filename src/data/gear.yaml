@@ -1,0 +1,30 @@
+# ── Gear ──
+# 装备 / Gadgets
+
+- name: "Sony WH-1000XM5"
+  image: "/images/playground/xm5.svg"
+  specs:
+    driver: "30mm"
+    battery: "30h"
+    weight: "250g"
+    anc: "Yes"
+  rating: 5
+
+- name: "Apple MacBook Pro 14"
+  image: "/images/playground/mbp14.svg"
+  specs:
+    chip: "M3 Pro"
+    memory: "18GB"
+    storage: "512GB"
+    display: "14.2-inch XDR"
+  rating: 5
+
+- name: "Keychron Q1 Pro"
+  image: "/images/playground/keychron.svg"
+  specs:
+    layout: "75%"
+    switch: "Gateron Jupiter Red"
+    connection: "BT / USB-C"
+    frame: "CNC Aluminum"
+  rating: 4
+
