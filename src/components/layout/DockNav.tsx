@@ -105,7 +105,7 @@ export default function DockNav({ lang = 'zh' }: DockNavProps) {
 
   return (
     <nav className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50">
-      <div className="glass-panel noise-overlay relative flex items-center gap-1 px-4 py-2">
+      <div className="glass-panel noise-overlay relative flex items-center gap-0.5 sm:gap-1 px-2 sm:px-4 py-2">
         {navItems.map((item) => (
           <motion.a
             key={item.label}
@@ -113,17 +113,17 @@ export default function DockNav({ lang = 'zh' }: DockNavProps) {
             whileHover={{ scale: 1.3, y: -4 }}
             whileTap={{ scale: 0.95 }}
             transition={{ type: 'spring', stiffness: 400, damping: 17 }}
-            className="flex flex-col items-center justify-center gap-0.5 w-14 h-12 rounded-xl
+            className="flex flex-col items-center justify-center gap-0.5 w-10 h-10 sm:w-14 sm:h-12 rounded-xl
                        text-frost/60 hover:text-neon-cyan transition-colors"
             title={item.label}
           >
             {item.icon}
-            <span className="text-[9px] font-mono leading-none">{item.label}</span>
+            <span className="text-[8px] sm:text-[9px] font-mono leading-none">{item.label}</span>
           </motion.a>
         ))}
 
         {/* Separator */}
-        <div className="w-px h-6 bg-white/10 mx-2.5" />
+        <div className="w-px h-6 bg-white/10 mx-1 sm:mx-2.5" />
 
         {/* Theme toggle */}
         <motion.button
@@ -131,7 +131,7 @@ export default function DockNav({ lang = 'zh' }: DockNavProps) {
           whileHover={{ scale: 1.3, y: -4 }}
           whileTap={{ scale: 0.95 }}
           transition={{ type: 'spring', stiffness: 400, damping: 17 }}
-          className="flex flex-col items-center justify-center gap-0.5 w-12 h-12 rounded-xl
+          className="flex flex-col items-center justify-center gap-0.5 w-10 h-10 sm:w-12 sm:h-12 rounded-xl
                      text-frost/60 hover:text-neon-amber transition-colors"
           title={isDark ? 'Light mode' : 'Dark mode'}
           aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}

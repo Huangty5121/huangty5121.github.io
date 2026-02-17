@@ -11,7 +11,9 @@ const emails = [
 export default function EmailPopover() {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
+  const popRef = useRef<HTMLDivElement>(null);
 
+  // Close on outside click
   useEffect(() => {
     const handler = (e: MouseEvent) => {
       if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
@@ -20,13 +22,32 @@ export default function EmailPopover() {
     return () => document.removeEventListener('mousedown', handler);
   }, []);
 
+  // Keep popover within viewport on mobile
+  useEffect(() => {
+    if (!open || !popRef.current) return;
+    const el = popRef.current;
+    const rect = el.getBoundingClientRect();
+    let nudge = 0;
+    // If overflowing right edge, nudge left
+    if (rect.right > window.innerWidth - 12) {
+      nudge = window.innerWidth - 12 - rect.right;
+    }
+    // If overflowing left edge, nudge right
+    if (rect.left < 12) {
+      nudge = 12 - rect.left;
+    }
+    if (nudge !== 0) {
+      // Combine with existing -translate-x-1/2
+      el.style.transform = `translateX(calc(-50% + ${nudge}px))`;
+    }
+  }, [open]);
+
   return (
     <div ref={ref} className="relative inline-flex">
       <button
         onClick={() => setOpen(!open)}
         onMouseEnter={() => setOpen(true)}
         onMouseLeave={() => {
-          // delay to allow moving to popup
           setTimeout(() => {
             if (ref.current && !ref.current.matches(':hover')) setOpen(false);
           }, 100);
@@ -42,11 +63,12 @@ export default function EmailPopover() {
 
       {open && (
         <div
+          ref={popRef}
           className="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 z-50 animate-in fade-in slide-in-from-bottom-2 duration-200"
           onMouseEnter={() => setOpen(true)}
           onMouseLeave={() => setOpen(false)}
         >
-          <div className="glass-panel noise-overlay rounded-xl p-2 border border-white/10 shadow-2xl shadow-black/50 min-w-[200px]">
+          <div className="glass-panel noise-overlay rounded-xl p-2 border border-white/10 shadow-2xl shadow-black/50 min-w-[400px]">
             <p className="font-mono text-[10px] text-frost/30 px-2 pt-1 pb-1.5">Choose an email</p>
             {emails.map((e) => (
               <a
@@ -54,10 +76,10 @@ export default function EmailPopover() {
                 href={`mailto:${e.address}`}
                 className="flex items-center gap-2.5 px-2.5 py-2 rounded-lg hover:bg-white/5 transition-colors group/email"
               >
-                <span className="font-mono text-[10px] text-neon-cyan/50 w-14 shrink-0 group-hover/email:text-neon-cyan/80 transition-colors">
+                <span className="font-mono text-[10px] text-neon-cyan/50 w-[72px] shrink-0 whitespace-nowrap group-hover/email:text-neon-cyan/80 transition-colors">
                   {e.label}
                 </span>
-                <span className="font-mono text-[11px] text-frost/50 truncate group-hover/email:text-frost/80 transition-colors">
+                <span className="font-mono text-[11px] text-frost/50 whitespace-nowrap group-hover/email:text-frost/80 transition-colors">
                   {e.address}
                 </span>
               </a>

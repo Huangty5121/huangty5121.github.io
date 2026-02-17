@@ -1,0 +1,6 @@
+# Current location — update before deploying
+# Run: curl -s http://ip-api.com/json/?fields=lat,lon,city,country
+city: "TAIPEI"
+lat: 25.053
+lon: 121.5259
+

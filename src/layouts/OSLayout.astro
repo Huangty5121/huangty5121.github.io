@@ -2,6 +2,7 @@
 import Footer from '@components/layout/Footer.astro';
 import DockNav from '@components/layout/DockNav.tsx';
 import Spotlight from '@components/effects/Spotlight.tsx';
+import DotMatrixBg from '@components/effects/DotMatrixBg.tsx';
 import '@styles/global.css';
 
 interface Props {
@@ -135,6 +136,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     </main>
 
     <!-- Global Effects & Navigation -->
+    <DotMatrixBg client:idle />
     <Spotlight client:visible />
     <DockNav client:load />
     <Footer />

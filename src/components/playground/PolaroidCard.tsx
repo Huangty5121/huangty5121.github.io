@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 
 interface PolaroidCardProps {
@@ -21,15 +22,21 @@ export default function PolaroidCard({ src, alt, caption, exif }: PolaroidCardPr
   }
   const rotate = ((hash % 600) / 100) - 3; // -3 to 3 degrees
 
+  // Disable drag on touch devices to allow page scrolling
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    setIsMobile(window.matchMedia('(pointer: coarse)').matches);
+  }, []);
+
   return (
     <motion.div
-      className="group glass-panel noise-overlay p-2 pb-8 rounded-xl shadow-lg cursor-grab active:cursor-grabbing break-inside-avoid mb-5 border border-white/[0.04] hover:border-neon-amber/10 transition-colors overflow-hidden relative"
-      style={{ rotate }}
-      drag
+      className={`group glass-panel noise-overlay p-2 pb-8 rounded-xl shadow-lg break-inside-avoid mb-5 border border-white/[0.04] hover:border-neon-amber/10 transition-colors overflow-hidden relative ${!isMobile ? 'cursor-grab active:cursor-grabbing' : ''}`}
+      style={{ rotate, touchAction: isMobile ? 'pan-y' : undefined }}
+      drag={!isMobile}
       dragElastic={0.3}
       dragConstraints={{ top: 0, bottom: 0, left: 0, right: 0 }}
-      whileDrag={{ scale: 1.05, rotate: 0, zIndex: 50 }}
-      whileHover={{ scale: 1.02 }}
+      whileDrag={!isMobile ? { scale: 1.05, rotate: 0, zIndex: 50 } : undefined}
+      whileHover={!isMobile ? { scale: 1.02 }: undefined}
     >
       <img
         src={src}
