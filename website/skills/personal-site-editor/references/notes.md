@@ -1,0 +1,7 @@
+# Notes editing
+
+Notes are the owner's personal writing, separate from publications and practice records. The only live note is an unpublished, explicitly labelled draft, “简约就一定好吗 / Is simpler always better?”, drawn from prior website discussions. Its current source is `material-demo/dist/desk-data.mjs`, selected in `website/content.mjs`, indexed through `website/entries.mjs`, and rendered by `website/views.mjs`. Do not describe that draft as an approved essay or a publication.
+
+For an update, first read the owner's latest text and the existing note. Preserve their actual argument and uncertainty. Use paragraph rhythm and small illustrations, quotes, or annotations only where they serve a specific passage; avoid decorative repetition. Do not invent first-person experiences or add unapproved personal claims. Show the owner a readable draft before treating it as approved site content.
+
+When the owner approves a new or revised piece, create a note-specific Markdown source under `website/notes/` and make that file the single source for the published text. The current site does not yet parse Markdown; add a suitable build-time renderer when this is first needed. Do not leave a Markdown copy and a separate divergent JavaScript copy. Keep its title, language, date, and draft or publication state explicit. Verify both language routes, Notes index, article back link, and mobile reading layout after updating.

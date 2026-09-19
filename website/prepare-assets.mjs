@@ -1,0 +1,12 @@
+import {mkdir,writeFile} from 'node:fs/promises';
+import {execFileSync} from 'node:child_process';
+import {dirname,join} from 'node:path';
+import {fileURLToPath} from 'node:url';
+import {notes} from './content.mjs';
+const here=dirname(fileURLToPath(import.meta.url)),old=join(here,'../material-demo/dist');
+await mkdir(join(here,'assets'),{recursive:true});
+for(const name of ['paper','linen'])execFileSync('/opt/homebrew/bin/cwebp',['-quiet','-q','84','-resize','700','700',join(old,'leaves/assets',name+'.png'),'-o',join(here,'assets',name+'.webp')]);
+const text=notes.map(n=>[n.title.zh,n.title.en,...n.paragraphs.zh,...n.paragraphs.en].join('')).join('')+'据网站讨论整理，待本人修订；不是已发表文章。';
+await writeFile(join(here,'assets/font-glyphs.txt'),text);
+execFileSync('/Users/tinyeh/miniforge3/bin/pyftsubset',[join(old,'assets/wenkai.woff2'),'--text-file='+join(here,'assets/font-glyphs.txt'),'--flavor=woff2','--output-file='+join(here,'assets/wenkai.woff2')]);
+console.log('Prepared compressed material textures and a note-specific font subset. Originals unchanged.');

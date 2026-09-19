@@ -1,4 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://huangty5121.github.io/sitemap-index.xml

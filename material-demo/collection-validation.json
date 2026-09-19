@@ -1,0 +1,70 @@
+{
+  "date": "2026-09-11T04:55:59.964Z",
+  "checks": [
+    {
+      "name": "expanded.mjs: syntax",
+      "passed": true
+    },
+    {
+      "name": "collection-data.mjs: syntax",
+      "passed": true
+    },
+    {
+      "name": "12 unique records; presentation independent of type",
+      "passed": true
+    },
+    {
+      "name": "Every relationship has real distinct endpoints and directional descriptions",
+      "passed": true
+    },
+    {
+      "name": "No duplicate directed relationships",
+      "passed": true
+    },
+    {
+      "name": "Independent entries remain independent",
+      "passed": true
+    },
+    {
+      "name": "Connections can be followed in both directions",
+      "passed": true
+    },
+    {
+      "name": "All 12 entries occur once in authored compositions",
+      "passed": true
+    },
+    {
+      "name": "Increasing content count appends without shuffling earlier entries",
+      "passed": true
+    },
+    {
+      "name": "Bilingual content available",
+      "passed": true
+    },
+    {
+      "name": "Preference bounds and malformed values",
+      "passed": true
+    },
+    {
+      "name": "Every static interface label translated",
+      "passed": true
+    },
+    {
+      "name": "Static and dynamic element references resolve",
+      "passed": true
+    },
+    {
+      "name": "All page, stylesheet, font, image and module assets exist",
+      "passed": true,
+      "count": 15
+    },
+    {
+      "name": "Responsive rules use actual container size; no scale-down screenshot",
+      "passed": true
+    }
+  ],
+  "browserRuntime": "not tested",
+  "visualQA": "not performed",
+  "actualResizeAndTouch": "not tested",
+  "note": "Pure data/static validation does not establish rendered visual quality or history behavior."
+}

@@ -1,0 +1,19 @@
+{
+  "pages": 78,
+  "localReferences": 496,
+  "pdfs": [
+    {
+      "file": "heatwave-heda-arxiv-v2.pdf",
+      "identicalToOriginal": true
+    },
+    {
+      "file": "crypto-ncrna-arxiv-v2.pdf",
+      "identicalToOriginal": true
+    },
+    {
+      "file": "olympic-medals-arxiv-v3.pdf",
+      "identicalToOriginal": true
+    }
+  ],
+  "failures": []
+}

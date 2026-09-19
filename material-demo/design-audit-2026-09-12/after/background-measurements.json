@@ -1,0 +1,82 @@
+[
+  {
+    "width": 1440,
+    "positions": {
+      ".education-sheet": {
+        "top": 308.765625,
+        "height": 282.71875
+      },
+      ".current-roles": {
+        "top": 640.484375,
+        "height": 328.34375
+      },
+      ".organisation-grid": {
+        "top": 1134.265625,
+        "height": 535
+      },
+      ".membership-records": {
+        "top": 1701.265625,
+        "height": 71
+      }
+    }
+  },
+  {
+    "width": 1440,
+    "selection": {
+      "before": {
+        "scroll": 767,
+        "button": 367.265625
+      },
+      "after": {
+        "scroll": 767,
+        "button": 367.265625,
+        "context": 552.265625
+      }
+    }
+  },
+  {
+    "width": 1440,
+    "flow": "background",
+    "errors": []
+  },
+  {
+    "width": 390,
+    "positions": {
+      ".education-sheet": {
+        "top": 247.15625,
+        "height": 329.390625
+      },
+      ".current-roles": {
+        "top": 608.546875,
+        "height": 487.828125
+      },
+      ".organisation-grid": {
+        "top": 1376.40625,
+        "height": 702
+      },
+      ".membership-records": {
+        "top": 2110.40625,
+        "height": 71
+      }
+    }
+  },
+  {
+    "width": 390,
+    "selection": {
+      "before": {
+        "scroll": 1007,
+        "button": 369.40625
+      },
+      "after": {
+        "scroll": 1007,
+        "button": 369.40625,
+        "context": 549.40625
+      }
+    }
+  },
+  {
+    "width": 390,
+    "flow": "background",
+    "errors": []
+  }
+]

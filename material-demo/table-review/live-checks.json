@@ -1,0 +1,14 @@
+{
+  "audio": {
+    "status": "passed",
+    "duration": 29.976961,
+    "advancedAcrossNavigation": true,
+    "pausedViaHeader": true
+  },
+  "mobile": {
+    "status": "passed",
+    "touchSelection": true,
+    "multipleRelatedRecords": true,
+    "detailAndBack": true
+  }
+}

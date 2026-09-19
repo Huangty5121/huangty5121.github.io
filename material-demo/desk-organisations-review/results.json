@@ -1,0 +1,33 @@
+{
+  "result": "passed",
+  "checks": [
+    "unique organisations, shared records and current roles resolve",
+    "education then current involvement then organisation overview",
+    "hover reveals institution name without shifting badge layout",
+    "keyboard opens grouped records; Escape closes and restores focus",
+    "university groups study, office work and representative roles",
+    "joint hosts link to the same single internship record",
+    "government roles open specific details, not employment claims",
+    "multi-category filters select records, not separate copies",
+    "memberships and certification stay separate",
+    "all organisation/record views fit 360px",
+    "all organisation/record views fit 390px",
+    "all organisation/record views fit 540px",
+    "all organisation/record views fit 650px",
+    "all organisation/record views fit 768px",
+    "all organisation/record views fit 1024px",
+    "all organisation/record views fit 1672px",
+    "mobile large English and dark mode",
+    "touch tap opens and closes records with readable names",
+    "no uncaught errors or failed asset responses"
+  ],
+  "errors": [],
+  "failures": [],
+  "organisationCount": 12,
+  "recordCount": 16,
+  "limitations": [
+    "Current terms taken from user CV, not independently validated appointments",
+    "Chromium responsive/touch emulation, not Safari or physical foldable",
+    "Four organisations have text entries until real badges are supplied"
+  ]
+}

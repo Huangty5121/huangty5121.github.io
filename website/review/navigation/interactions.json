@@ -1,0 +1,282 @@
+{
+  "about": {
+    "before": {
+      "buttons": [
+        {
+          "id": "org-polyu",
+          "x": 32,
+          "y": 571.875
+        },
+        {
+          "id": "org-tsinghua",
+          "x": 142.796875,
+          "y": 571.875
+        },
+        {
+          "id": "org-smart",
+          "x": 253.59375,
+          "y": 571.875
+        },
+        {
+          "id": "org-cas",
+          "x": 32,
+          "y": 708.875
+        },
+        {
+          "id": "org-polysmart",
+          "x": 142.796875,
+          "y": 708.875
+        },
+        {
+          "id": "org-iluvatar",
+          "x": 253.59375,
+          "y": 708.875
+        },
+        {
+          "id": "org-qiyuan",
+          "x": 32,
+          "y": 845.875
+        },
+        {
+          "id": "org-royal-plaza",
+          "x": 142.796875,
+          "y": 845.875
+        },
+        {
+          "id": "org-x-institute",
+          "x": 253.59375,
+          "y": 845.875
+        },
+        {
+          "id": "org-hksar",
+          "x": 32,
+          "y": 982.875
+        },
+        {
+          "id": "org-hkcc",
+          "x": 142.796875,
+          "y": 982.875
+        },
+        {
+          "id": "org-cpce",
+          "x": 253.59375,
+          "y": 982.875
+        }
+      ],
+      "ids": [
+        "study-polyu",
+        "study-tsinghua",
+        "study-hkcc",
+        "record-qiyuan",
+        "record-shi",
+        "record-smart",
+        "record-cas",
+        "record-kteo",
+        "record-polysmart",
+        "record-hotel",
+        "record-x-social",
+        "record-x-microbial",
+        "record-gov-committee",
+        "record-gov-tutor",
+        "record-polyu-representative",
+        "record-polyu-representative-previous",
+        "record-cpce-ambassador",
+        "record-hkcc-representative",
+        "record-academic-reviewing"
+      ],
+      "scroll": 0,
+      "visible": []
+    },
+    "after": {
+      "buttons": [
+        {
+          "id": "org-polyu",
+          "x": 32,
+          "y": 571.875
+        },
+        {
+          "id": "org-tsinghua",
+          "x": 142.796875,
+          "y": 571.875
+        },
+        {
+          "id": "org-smart",
+          "x": 253.59375,
+          "y": 571.875
+        },
+        {
+          "id": "org-cas",
+          "x": 32,
+          "y": 708.875
+        },
+        {
+          "id": "org-polysmart",
+          "x": 142.796875,
+          "y": 708.875
+        },
+        {
+          "id": "org-iluvatar",
+          "x": 253.59375,
+          "y": 708.875
+        },
+        {
+          "id": "org-qiyuan",
+          "x": 32,
+          "y": 845.875
+        },
+        {
+          "id": "org-royal-plaza",
+          "x": 142.796875,
+          "y": 845.875
+        },
+        {
+          "id": "org-x-institute",
+          "x": 253.59375,
+          "y": 845.875
+        },
+        {
+          "id": "org-hksar",
+          "x": 32,
+          "y": 982.875
+        },
+        {
+          "id": "org-hkcc",
+          "x": 142.796875,
+          "y": 982.875
+        },
+        {
+          "id": "org-cpce",
+          "x": 253.59375,
+          "y": 982.875
+        }
+      ],
+      "hash": "#org-polyu",
+      "scroll": 89,
+      "title": "The Hong Kong Polytechnic University",
+      "visible": [
+        "study-polyu",
+        "record-kteo",
+        "record-polyu-representative",
+        "record-polyu-representative-previous"
+      ]
+    },
+    "buttonsStayed": true,
+    "canonicalUnique": true
+  },
+  "contactOpen": {
+    "hash": "#org-polyu",
+    "path": "/site/en/about.html",
+    "popover": true,
+    "scroll": 0
+  },
+  "contactClosed": {
+    "focus": "Contact",
+    "popover": false,
+    "scroll": 0
+  },
+  "tsinghua": {
+    "copies": 1,
+    "scroll": 0,
+    "visible": [
+      "study-tsinghua",
+      "record-shi"
+    ]
+  },
+  "narrowOrg": {
+    "closeVisible": true,
+    "parent": "organisation-choices",
+    "visible": [
+      "study-polyu",
+      "record-kteo",
+      "record-polyu-representative",
+      "record-polyu-representative-previous"
+    ],
+    "y": 540.765625
+  },
+  "inlineEntry": {
+    "hash": "#heatwave",
+    "opened": true,
+    "path": "/site/en/collection.html",
+    "readerLink": "read-heatwave.html",
+    "summary": "Contributed to study design, analysis, data, figures, and writing."
+  },
+  "pdfPage": "2",
+  "returnToIndex": {
+    "hash": "#heatwave",
+    "opened": true,
+    "path": "/site/en/collection.html",
+    "scroll": 598.5
+  },
+  "search": {
+    "count": "1 entries",
+    "url": "http://127.0.0.1:8772/site/en/collection.html?q=crypto#heatwave",
+    "visible": [
+      "crypto"
+    ]
+  },
+  "sort": {
+    "order": [
+      {
+        "date": "2026",
+        "id": "heatwave"
+      },
+      {
+        "date": "2026",
+        "id": "ninetoothed"
+      },
+      {
+        "date": "2026",
+        "id": "structrace"
+      },
+      {
+        "date": "2026",
+        "id": "simple"
+      },
+      {
+        "date": "2026",
+        "id": "crypto"
+      },
+      {
+        "date": "2026",
+        "id": "glm7"
+      },
+      {
+        "date": "2025",
+        "id": "olympic"
+      },
+      {
+        "date": "2025",
+        "id": "disease"
+      },
+      {
+        "date": "2025",
+        "id": "oio"
+      },
+      {
+        "date": "2024",
+        "id": "social"
+      }
+    ],
+    "url": "http://127.0.0.1:8772/site/en/collection.html?q=crypto&sort=newest#heatwave"
+  },
+  "theme": {
+    "background": "rgb(25, 25, 28)",
+    "ink": "rgb(237, 238, 241)",
+    "muted": "#b1b2bd",
+    "theme": "dark"
+  },
+  "footerContact": {
+    "before": {
+      "footerY": 914.0859375,
+      "hash": "#heatwave",
+      "path": "/site/en/collection.html",
+      "scroll": 2197
+    },
+    "after": {
+      "hash": "#heatwave",
+      "path": "/site/en/collection.html",
+      "popover": true,
+      "scroll": 2197
+    }
+  }
+}

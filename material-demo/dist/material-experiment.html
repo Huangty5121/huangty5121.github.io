@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="light" data-lettering="hand" data-material="paper">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#eeeee7">
+  <meta name="description" content="个人网站材质与手写字的可调本地演示。">
+  <title>TY H. · 材质实验</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <svg class="filter-definitions" aria-hidden="true" width="0" height="0"><defs>
+    <filter id="ink-texture" x="-5%" y="-20%" width="110%" height="140%" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency="0.085 0.16" numOctaves="2" seed="17" result="edge-noise"/>
+      <feDisplacementMap id="ink-displacement" in="SourceGraphic" in2="edge-noise" scale="0.65" xChannelSelector="R" yChannelSelector="G" result="ink"/>
+      <feTurbulence type="fractalNoise" baseFrequency="0.62" numOctaves="2" seed="5" result="grain"/>
+      <feColorMatrix in="grain" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  1 0 0 0 0" result="grain-alpha"/>
+      <feComponentTransfer in="grain-alpha" result="ink-opacity"><feFuncA id="ink-opacity" type="linear" slope="0.24" intercept="0.76"/></feComponentTransfer>
+      <feComposite in="ink" in2="ink-opacity" operator="in"/>
+    </filter>
+  </defs></svg>
+  <a class="skip-link" href="#worktable" data-i18n="skip">跳到内容</a>
+  <header class="site-header">
+    <div class="identity"><h1>TY H.</h1><p data-i18n="intro">一些作品、笔记与照片。</p><button class="quiet" data-open="about" data-i18n="about">关于此演示</button></div>
+    <div class="header-actions"><span class="demo-tag" data-i18n="demo">交互样稿 · 示例内容</span><button id="settings-toggle" class="settings-button" aria-controls="settings" aria-expanded="false" data-i18n="adjust">调整材质</button></div>
+  </header>
+  <main id="worktable" class="worktable" tabindex="-1">
+    <article class="entry entry-main">
+      <button class="image-button" data-open="fold" aria-labelledby="fold-title"><span class="photograph material-object" id="main-image"><img src="assets/fold.jpg" width="1000" height="800" alt="折弯的薄铝片，银色表面在侧光下形成柔和明暗" data-alt="foldAlt" fetchpriority="high"></span></button>
+      <h2><button class="entry-link written ink" id="fold-title" data-open="fold" data-i18n="fold">折面的练习</button></h2><p class="meta" data-i18n="foldMeta">物件 / 材料观察</p>
+    </article>
+    <article class="entry entry-note">
+      <button class="image-button note-object material-object" id="note-image" data-open="note" aria-labelledby="note-title"><span class="note-substrate"></span><img src="assets/sketch.jpg" alt="同一个折面形态的铅笔观察草图" data-alt="sketchAlt" width="800" height="800"><span class="note-inscription written ink" id="custom-inscription">留意光落下的位置。</span><span class="note-rule" aria-hidden="true"></span></button>
+      <h2><button class="entry-link written ink" id="note-title" data-open="note" data-i18n="note">关于折面的笔记</button></h2><p class="mobile-relation meta" data-i18n="relatedFold">关联：折面的练习</p>
+    </article>
+    <div class="relation" id="relation" aria-hidden="true"><svg id="relation-svg"><path id="relation-path" fill="none" stroke="currentColor" stroke-width="1" vector-effect="non-scaling-stroke"/></svg><span class="written ink" id="relation-label" data-i18n="related">相关笔记</span></div>
+    <article class="entry entry-photo">
+      <button class="image-button polaroid material-object" data-open="photo" aria-labelledby="photo-title"><img src="assets/metal.jpg" width="1672" height="941" alt="红色与深灰色氧化金属的表面细节" data-alt="photoAlt"><span class="photo-inscription written ink" data-i18n="photoInscription">光与表面</span></button>
+      <h2><button class="entry-link written ink" id="photo-title" data-open="photo" data-i18n="photo">表面的颜色</button></h2><p class="meta" data-i18n="photoMeta">照片 / 独立记录</p>
+    </article>
+    <article class="entry entry-writing"><h2><button class="entry-link written ink" data-open="writing" data-i18n="writing">关于制作</button></h2><p data-i18n="writingSummary">从动手的过程中，记下一点想法。</p></article>
+  </main>
+  <footer class="site-footer"><button class="quiet" data-open="index" data-i18n="all">全部内容</button><div><button class="quiet" id="theme-toggle" aria-pressed="false" data-i18n="dark">暗色</button><button class="quiet" id="language-toggle" lang="en">English</button><button class="quiet" id="size-toggle" aria-label="切换字号">A / A+</button></div></footer>
+  <section class="experiment-bar" aria-label="效果对照" data-aria="comparison"><div class="presets"><button data-preset="clean" aria-pressed="false" data-i18n="clean">纯净</button><button data-preset="soft" aria-pressed="true" data-i18n="soft">轻微</button><button data-preset="tactile" aria-pressed="false" data-i18n="tactile">明显一点</button></div><button id="compare" aria-pressed="false" data-i18n="compare">关闭效果对照</button><span class="bar-note" data-i18n="imageNote">图片本身的材质保留</span></section>
+  <aside id="settings" class="settings" aria-labelledby="settings-title" hidden>
+    <div class="panel-heading"><h2 id="settings-title" data-i18n="settings">材质与文字</h2><button id="settings-close" class="quiet" data-i18n="close">关闭</button></div>
+    <p class="panel-intro" data-i18n="panelIntro">轻轻加一层。随时可以恢复原样。</p>
+    <label class="control"><span data-i18n="lettering">标题与注释</span><select id="lettering"><option value="print" data-i18n="print">印刷字</option><option value="hand" data-i18n="hand">轻手写</option></select></label>
+    <label class="control"><span data-i18n="substrate">笔记底材</span><select id="material"><option value="paper" data-i18n="paper">纸张</option><option value="vellum" data-i18n="vellum">半透明描图纸</option><option value="metal" data-i18n="metal">磨砂金属 · 实验</option></select></label>
+    <label class="control range-control" for="grain"><span data-i18n="grain">表面颗粒</span><output for="grain" id="grain-value">18</output><input id="grain" type="range" min="0" max="40" value="18"></label>
+    <label class="control range-control" for="ink"><span data-i18n="ink">笔画粗糙</span><output for="ink" id="ink-value">20</output><input id="ink" type="range" min="0" max="80" value="20"></label>
+    <label class="control range-control" for="relief"><span data-i18n="relief">物件阴影</span><output for="relief" id="relief-value">35</output><input id="relief" type="range" min="0" max="100" value="35"></label>
+    <label class="control range-control" for="frost"><span data-i18n="frost">描图纸雾度</span><output for="frost" id="frost-value">3</output><input id="frost" type="range" min="0" max="12" value="3"></label>
+    <p class="control-hint" data-i18n="frostHint">雾度只作用于描图纸后方，不模糊文字。</p>
+    <label class="control" for="sample-text"><span data-i18n="tryText">试写一句</span><textarea id="sample-text" rows="2" maxlength="90" placeholder="留意光落下的位置。"></textarea></label>
+    <p class="control-hint" id="font-status" role="status"></p>
+    <button id="reset" class="reset-button" data-i18n="reset">恢复轻微效果</button>
+    <p class="control-hint" data-i18n="saved">参数仅保存在本机。正文与按钮不受墨迹滤镜影响。</p>
+  </aside>
+  <dialog id="reader" aria-labelledby="reader-title"><div class="reader-heading"><span data-i18n="demoShort">示例内容</span><button id="reader-close" data-i18n="close">关闭</button></div><div id="reader-content"></div></dialog>
+  <noscript><p class="noscript">此演示需要 JavaScript 才能调节材质或打开内容。</p></noscript>
+</body>
+</html>

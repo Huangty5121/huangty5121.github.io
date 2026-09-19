@@ -1,0 +1,24 @@
+{
+  "result": "passed",
+  "checks": [
+    "Small lettering subset loaded; full CJK fallback not requested by current homepage",
+    "Shared university mark moves from folder to organisation index and cleans up",
+    "12 organisation marks; study before roles; joint placement points to one canonical record",
+    "16 unique records; five CV-declared current roles; overlapping categories and empty search",
+    "Memberships and certification separated; no invented verification links",
+    "8 works with search/filter; version disclosure; real local PDF responds 200",
+    "Draft writing and generated material studies are explicitly labelled",
+    "Responsive geometry and exposed entry controls at 360px",
+    "Responsive geometry and exposed entry controls at 390px",
+    "Responsive geometry and exposed entry controls at 540px",
+    "Responsive geometry and exposed entry controls at 768px",
+    "Responsive geometry and exposed entry controls at 1024px",
+    "Responsive geometry and exposed entry controls at 1440px",
+    "English, dark, 130% text across 360/540/768/1440 widths",
+    "Settings operate, persist and restore focus; dry ink remains an opacity/edge texture",
+    "Explicit failed-audio state; no fake playing state",
+    "Reduced-motion preference skips spatial transition without disabling navigation"
+  ],
+  "errors": [],
+  "actualAudioPlayback": "not part of deterministic test"
+}

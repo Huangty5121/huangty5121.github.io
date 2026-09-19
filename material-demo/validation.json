@@ -1,0 +1,58 @@
+{
+  "checkedAt": "2026-09-11T04:55:59.964Z",
+  "checks": [
+    {
+      "name": "JavaScript syntax",
+      "passed": true
+    },
+    {
+      "name": "Unique element IDs",
+      "passed": true
+    },
+    {
+      "name": "Script element references",
+      "passed": true
+    },
+    {
+      "name": "Accessible label targets",
+      "passed": true
+    },
+    {
+      "name": "All local static assets exist",
+      "passed": true,
+      "count": 9
+    },
+    {
+      "name": "Safe defaults",
+      "passed": true
+    },
+    {
+      "name": "Ranges clamp non-finite and out-of-range values",
+      "passed": true
+    },
+    {
+      "name": "Unknown preferences are ignored",
+      "passed": true
+    },
+    {
+      "name": "Custom note length is bounded",
+      "passed": true
+    },
+    {
+      "name": "All static copy keys translated",
+      "passed": true
+    },
+    {
+      "name": "Translations have matching keys",
+      "passed": true
+    },
+    {
+      "name": "No Three.js or continuous animation loop",
+      "passed": true
+    }
+  ],
+  "browserRuntime": "not tested",
+  "visualQA": "not performed",
+  "mobileSafari": "not tested",
+  "webMCP": "not verified in supported browser"
+}

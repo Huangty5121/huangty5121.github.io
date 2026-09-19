@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="light" data-lettering="hand" data-material="vellum">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#eeeee7"><meta name="robots" content="noindex,nofollow">
+  <meta name="description" content="Tin-Yeh Huang 的个人网站结构演示。">
+  <title>TY H.</title>
+  <link rel="stylesheet" href="home.css"><link rel="stylesheet" href="desk.css"><link rel="stylesheet" href="desk-objects.css"><link rel="stylesheet" href="desk-affiliations.css"><link rel="stylesheet" href="desk-mixed.css">
+  <script type="module" src="desk.mjs"></script>
+</head>
+<body>
+  <svg class="filter-definitions" aria-hidden="true" width="0" height="0"><defs>
+    <filter id="ink-texture" x="-5%" y="-20%" width="110%" height="140%" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency="0.085 0.16" numOctaves="2" seed="17" result="edge-noise"/>
+      <feDisplacementMap id="ink-displacement" in="SourceGraphic" in2="edge-noise" scale="2.27" xChannelSelector="R" yChannelSelector="G" result="ink"/>
+      <feTurbulence type="fractalNoise" baseFrequency="0.62" numOctaves="2" seed="5" result="grain"/>
+      <feColorMatrix in="grain" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  1 0 0 0 0" result="grain-alpha"/>
+      <feComponentTransfer in="grain-alpha" result="ink-opacity"><feFuncA id="ink-opacity" type="linear" slope="0.68" intercept="0.32"/></feComponentTransfer>
+      <feComposite in="ink" in2="ink-opacity" operator="in"/>
+    </filter>
+  </defs></svg>
+  <a class="skip" href="#main" data-copy="skip">跳到内容</a>
+  <div class="desk-shell">
+    <header class="desk-header"><a href="#home" class="wordmark" aria-label="TY H. 首页">TY H.</a>
+      <nav aria-label="主导航"><a href="#works" data-nav="works" data-copy="works">论文和项目</a><a href="#experiences" data-nav="experiences" data-copy="experiences">经历</a><a href="#notes" data-nav="notes" data-copy="notes">笔记</a></nav>
+    </header>
+    <main id="main" tabindex="-1"></main>
+    <footer class="desk-footer"><div class="footer-left"><a href="#structure" data-copy="structure">这版怎么分层</a><span class="demo-label" data-copy="demo">结构 demo · 未发布</span></div>
+      <div class="footer-controls"><button id="theme" type="button">暗色</button><button id="language" type="button" lang="en">EN</button><button id="size" type="button" aria-label="字号">A / A+</button><button id="settings-open" type="button" data-copy="settings">材质</button></div>
+    </footer>
+  </div>
+  <audio id="audio" preload="none" hidden></audio>
+  <dialog id="settings" aria-labelledby="settings-title"><div class="dialog-header"><h2 id="settings-title" data-copy="settingsTitle">阅读与材质</h2><button type="button" data-close="settings" data-copy="close">关闭</button></div>
+    <label class="control"><span data-copy="noteMaterial">纸条底材</span><select id="material"><option value="vellum" data-copy="vellum">半透明描图纸</option><option value="paper" data-copy="paper">纸张</option><option value="metal" data-copy="metal">磨砂金属</option></select></label>
+    <div id="ranges"></div>
+    <p class="written ink material-sample" data-copy="inkSample">先把网站做出来吧。</p>
+    <p class="dialog-footnote" data-copy="settingsHint">沿用原演示的材质参数。笔画效果只用于短标题，正文保持清晰。</p>
+    <button id="restore-material" class="underlined" type="button" data-copy="restore">重新读取原演示的参数</button><p id="settings-status" role="status" class="dialog-footnote"></p>
+  </dialog>
+  <noscript><p class="desk-shell">此交互 demo 需要 JavaScript。This interactive demo requires JavaScript.</p></noscript>
+</body></html>

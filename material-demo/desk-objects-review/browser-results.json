@@ -1,0 +1,7 @@
+{
+  "result": "failed",
+  "error": "page.goto: net::ERR_EMPTY_RESPONSE at http://127.0.0.1:8772/desk.html#home\nCall log:\n\u001b[2m  - navigating to \"http://127.0.0.1:8772/desk.html#home\", waiting until \"load\"\u001b[22m\n\n    at navigate (/Users/tinyeh/Documents/Personal/tools/crypto-ncRNA/personal page/material-demo/desk-objects-check.mjs:15:40)\n    at /Users/tinyeh/Documents/Personal/tools/crypto-ncRNA/personal page/material-demo/desk-objects-check.mjs:18:8",
+  "checks": [],
+  "errors": [],
+  "badResponses": []
+}

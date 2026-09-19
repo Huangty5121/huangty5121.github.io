@@ -1,0 +1,54 @@
+import {mkdir,writeFile,cp,readdir,unlink,rm,readFile} from 'node:fs/promises';
+import {fileURLToPath} from 'node:url';
+import {join,dirname} from 'node:path';
+import {works,experiences} from './content.mjs';
+import {createViews} from './views.mjs';
+import {entries} from './entries.mjs';
+import {coverArt} from './cover-art.mjs';
+import {music} from '../material-demo/dist/desk-config.mjs';
+const source=dirname(fileURLToPath(import.meta.url));
+const out=join(source,'../material-demo/dist/site');
+const legacy=join(source,'../material-demo/dist');
+const h=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+await mkdir(join(out,'assets'),{recursive:true});
+await mkdir(join(out,'en'),{recursive:true});
+await mkdir(join(out,'assets/covers'),{recursive:true});
+for(const entry of entries)await writeFile(join(out,'assets',entry.cover),coverArt(entry.id));
+for(const dir of [out,join(out,'en')])for(const file of await readdir(dir))if(file.endsWith('.html'))await unlink(join(dir,file));
+await rm(join(out,'assets/papers'),{recursive:true,force:true});
+for(const file of ['site.css','site.mjs'])await cp(join(source,file),join(out,file));
+await cp(join(source,'assets/folio-scene-v3.webp'),join(out,'assets/folio-scene-v3.webp'));
+await cp(join(source,'assets/folio-scene-cutout.webp'),join(out,'assets/folio-scene-cutout.webp'));
+for(const file of ['dm-sans-400.ttf','dm-sans-500.ttf','dm-sans-600.ttf','OFL-DMSans.txt'])await cp(join(source,'assets',file),join(out,'assets',file));
+await cp(join(source,'vendor/gsap'),join(out,'assets/gsap'),{recursive:true});
+await cp(join(source,'vendor/pdfjs'),join(out,'assets/pdfjs'),{recursive:true});
+// Skin the official viewer without changing its original-PDF parsing or controls.
+await writeFile(join(out,'assets/pdfjs/web/site-reader.css'),':root{--toolbar-bg-color:#f4f3f0;--toolbar-border-color:#dddcd7;--body-bg-color:#e5e4df;--toolbar-icon-bg-color:#464843;--main-color:#242722;--field-bg-color:#fff;--field-color:#242722;--field-border-color:#d0d1ca}#toolbarContainer{box-shadow:none}#toolbarViewer{font-family:Arial,sans-serif}#openFile,#print,#editorModeButtons,#editorModeSeparator{display:none!important}.pdfViewer .page{box-shadow:0 2px 18px #0000000c}');
+const viewer=await readFile(join(out,'assets/pdfjs/web/viewer.html'),'utf8');
+await writeFile(join(out,'assets/pdfjs/web/viewer.html'),viewer.replace('</head>','<link rel="stylesheet" href="site-reader.css"></head>'));
+await cp(join(legacy,'leaves/icons'),join(out,'assets/icons'),{recursive:true});
+await cp(join(legacy,'desk-assets/pins'),join(out,'assets/logos'),{recursive:true});
+await cp(join(legacy,'leaves/assets/hkcc.svg'),join(out,'assets/logos/hkcc.svg'));
+await cp(join(legacy,'leaves/assets/cpce-logo-2.png'),join(out,'assets/logos/cpce.png'));
+for(const w of works.filter(w=>w.pdf))await cp(join(legacy,'desk-assets',w.pdf),join(out,'assets',w.pdf));
+const specs=[['index.html','home'],['collection.html','collection'],['about.html','about'],['notes.html','notes'],['writing.html','writing'],['project-ninetoothed.html','engineering'],['project-social-innovation.html','social'],...works.filter(w=>w.pdf).map(w=>['read-'+w.id+'.html','read-'+w.id]),['404.html','missing']];
+for(const lang of ['zh','en']){
+ const prefix=lang==='en'?'../':'';
+ const dest=lang==='en'?join(out,'en'):out;
+ const t=(zh,en)=>lang==='zh'?zh:en;
+ const nav=[['index.html','home',t('首页','Home')],['collection.html','collection',t('工作','Work')],['notes.html','notes',t('文字','Notes')],['about.html','about',t('关于我','About')]];
+ const icon=n=>`<span data-icon="${n}" aria-hidden="true"></span>`;
+ const a=(url,txt,cls='')=>`<a href="${h(url)}" class="${cls}">${txt}</a>`;
+ const contactButton=`<button class="contact-trigger" popovertarget="contact-panel">${t('联系','Contact')}${icon('plus')}</button>`;
+ const contactPanel=`<aside id="contact-panel" class="contact-panel" popover aria-labelledby="contact-title"><header><div><span class="eyebrow">TIN-YEH HUANG</span><h2 id="contact-title">${t('联系','Contact')}</h2></div><button popovertarget="contact-panel" popovertargetaction="hide" aria-label="${t('关闭联系面板','Close contact panel')}">${icon('x')}</button></header><a class="email-contact" href="mailto:tin-yeh.huang@connect.polyu.hk"><small>${t('邮箱','Email')}</small><span>tin-yeh.huang@connect.polyu.hk</span>${icon('arrow-up-right')}</a><div class="contact-profile-links"><a href="https://www.linkedin.com/in/tin-yeh-huang-59bba3289/" target="_blank" rel="noopener noreferrer">LinkedIn${icon('arrow-up-right')}</a><a href="https://github.com/Huangty5121" target="_blank" rel="noopener noreferrer">GitHub${icon('arrow-up-right')}</a></div><button class="copy-email" data-copy-email>${t('复制邮箱','Copy email')}${icon('copy')}</button><span data-copy-status role="status"></span></aside>`;
+ const views=createViews({lang,prefix,h,t,icon,a});
+ for(const [file,page] of specs){
+  const active=page==='writing'?'notes':['engineering','social'].includes(page)||page.startsWith('read-')?'collection':page;
+  const title=page==='home'?'Tin-Yeh Huang':page==='engineering'?'NineToothed':page==='social'?t('社会创新','Social innovation'):page==='writing'?t('个人文字','Writing'):page.startsWith('read-')?works.find(w=>'read-'+w.id===page).title[lang]:page==='missing'?'404':nav.find(n=>n[1]===active)[2];
+  const html=`<!doctype html><html lang="${lang==='zh'?'zh-Hans':'en'}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="${t('Tin-Yeh Huang 的个人网站：学习、研究、工程实践与公共服务。','Tin-Yeh Huang: studies, research, engineering, and public service.')} "><meta name="theme-color" content="#eeede8"><title>${h(title)}${page==='home'?'':' · Tin-Yeh Huang'}</title><link rel="stylesheet" href="${prefix}site.css?v=20260919-final"><script defer src="${prefix}assets/gsap/gsap.min.js"></script><script defer src="${prefix}assets/gsap/ScrollTrigger.min.js"></script><script type="module" src="${prefix}site.mjs?v=20260919-final"></script></head><body data-page="${active}" data-lang="${lang}"><script>try{const theme=localStorage.getItem('tyh-theme')||'light';document.body.dataset.theme=theme;document.body.dataset.largeText=localStorage.getItem('tyh-large-text')||'false';document.querySelector('meta[name="theme-color"]').content=theme==='dark'?'#222222':'#f0efeb'}catch{document.body.dataset.theme='light'}</script><a href="#main" class="skip-link">${t('跳到内容','Skip to content')}</a><header class="site-header"><a href="index.html" class="brand">TYH<span>Tin-Yeh Huang</span></a><nav class="desktop-nav" aria-label="${t('主导航','Main navigation')}">${nav.map(([url,n,txt])=>`<a href="${url}" ${n===active?'aria-current="page"':''}>${txt}</a>`).join('')}${contactButton}</nav><div class="header-actions"><button data-theme-toggle aria-label="${t('切换明暗主题','Toggle light and dark theme')}">${icon('sun')}</button>${a(lang==='zh'?'en/'+file:'../'+file,lang==='zh'?'EN':'中文','language-link')}<button data-menu-toggle aria-expanded="false" aria-controls="site-menu" aria-label="${t('打开目录','Open menu')}">${icon('menu')}</button></div></header><dialog class="site-menu" id="site-menu"><header><span>Tin-Yeh Huang</span><button data-menu-close aria-label="${t('关闭目录','Close menu')}">${icon('x')}</button></header><nav>${nav.map(([url,n,txt],i)=>a(url,`<small>0${i+1}</small>${txt}${icon('chevron-right')}`,n===active?'active':'')).join('')}${contactButton}</nav></dialog>${contactPanel}<main id="main" tabindex="-1">${views[page]()}</main><footer class="site-footer"><div><span>© 2026 Tin-Yeh Huang</span>${contactButton}<a class="footer-email" href="mailto:tin-yeh.huang@connect.polyu.hk">${t('邮箱','Email')}${icon('arrow-up-right')}</a><button data-text-size aria-label="${t('调整文字大小','Adjust text size')}" aria-pressed="false">Aa</button></div></footer><aside class="music-dock" aria-label="${t('音乐播放器','Music player')}"><button class="music-launcher" popovertarget="music-panel" aria-label="${t('打开音乐播放器','Open music player')}"><span class="music-bars" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span data-music-label>${t('听点音乐','A little music')}</span>${icon('plus')}</button><section id="music-panel" class="music-panel" popover aria-labelledby="music-title"><header><span class="eyebrow">${t('音乐角落','A little music')}</span><button popovertarget="music-panel" popovertargetaction="hide" aria-label="${t('收起播放器','Close music player')}">${icon('minus')}</button></header><div class="music-track"><span class="record-disc" aria-hidden="true"></span><div><h2 id="music-title">${h(music.title)}</h2><p>${h(music.artist)}</p><a href="${h(music.sourceUrl)}" target="_blank" rel="noopener noreferrer">Apple Music${icon('arrow-up-right')}</a></div></div><div class="music-transport"><button data-music-toggle aria-pressed="false" aria-label="${t('播放音乐试听','Play music preview')}">${icon('play')}</button><div class="music-timeline"><input type="range" data-music-seek min="0" max="30" value="0" step="0.1" disabled aria-label="${t('播放进度','Playback position')}"><div><time data-music-elapsed>0:00</time><span>${t('官方试听','Official preview')} · <time data-music-duration>0:30</time></span></div></div></div><label class="music-volume"><span>${t('音量','Volume')}</span><input type="range" data-music-volume min="0" max="1" step="0.05" value="0.55" aria-label="${t('音量','Volume')}"></label><p data-audio-status role="status"></p></section></aside><audio id="music" preload="none" src="${h(music.src)}"></audio></body></html>`;
+  await writeFile(join(dest,file),html);
+ }
+ const redirects=[['research.html','collection.html?filter=papers'],['projects.html','collection.html?filter=projects'],['experience.html','about.html#experience'],['contact.html','about.html?contact=open'],...works.map(w=>[`work-${w.id}.html`,w.pdf?'read-'+w.id+'.html':w.kind==='paper'?`collection.html#${w.id}`:'project-ninetoothed.html']),...experiences.map(e=>[`experience-${e.id}.html`,`about.html#record-${e.id}`])];
+ for(const [file,target] of redirects)await writeFile(join(dest,file),`<!doctype html><html lang="${lang}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="refresh" content="0;url=${target}"><title>Tin-Yeh Huang</title></head><body><h1>${t('进入完整页面','Open the complete page')}</h1><a href="${target}">${t('继续浏览','Continue')}</a></body></html>`);
+}
+console.log('Built bilingual personal site: home, work, notes, combined about/background, two project pages, writing, three original-PDF readers.');

@@ -1,0 +1,50 @@
+[
+  {
+    "marquee": "paused",
+    "panel": [
+      "research"
+    ],
+    "scroll": 0,
+    "stageTop": 1085.2691650390625
+  },
+  {
+    "marquee": "paused",
+    "panel": [
+      "engineering"
+    ],
+    "scroll": 1532.77783203125,
+    "stageTop": 103.99305725097656
+  },
+  {
+    "marquee": "paused",
+    "panel": [
+      "service"
+    ],
+    "scroll": 3065.5556640625,
+    "stageTop": -412.9427185058594
+  },
+  {
+    "marquee": "paused",
+    "panel": [
+      "service"
+    ],
+    "scroll": 3812.77783203125,
+    "stageTop": -1160.1650390625
+  },
+  {
+    "marquee": "paused",
+    "panel": [
+      "service"
+    ],
+    "scroll": 3812.77783203125,
+    "stageTop": -1160.1650390625
+  },
+  {
+    "marquee": "paused",
+    "panel": [
+      "service"
+    ],
+    "scroll": 3812.77783203125,
+    "stageTop": -1160.1650390625
+  }
+]

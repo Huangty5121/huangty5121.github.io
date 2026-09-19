@@ -1,0 +1,22 @@
+{
+  "result": "passed",
+  "checks": [
+    "Current study leads; other studies remain available and open state survives filters",
+    "Page index lands on each section; credentials open without fabricated proof links",
+    "Selected row and source badge remain together at 360px",
+    "Selected row and source badge remain together at 390px",
+    "Selected row and source badge remain together at 650px",
+    "Selected row and source badge remain together at 768px",
+    "Selected row and source badge remain together at 851px",
+    "Selected row and source badge remain together at 1024px",
+    "Selected row and source badge remain together at 1440px",
+    "Expanded records reposition to the correct row on resize without losing keyboard focus",
+    "Same folder/objects in mobile dark English 130%, no horizontal overflow",
+    "Generated folder preserves real alpha transparency"
+  ],
+  "errors": [],
+  "limits": [
+    "Chromium emulation only",
+    "No user study or independent credential verification"
+  ]
+}

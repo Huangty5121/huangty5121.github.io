@@ -1,6 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="800" height="400" viewBox="0 0 800 400">
-  <rect width="800" height="400" fill="#0a0a0a"/>
-  <rect x="1" y="1" width="798" height="398" fill="none" stroke="#1a1a2e" stroke-width="2"/>
-  <text x="400" y="190" text-anchor="middle" font-family="monospace" font-size="24" fill="#00FFE0" opacity="0.6">FROSTY NEON</text>
-  <text x="400" y="230" text-anchor="middle" font-family="monospace" font-size="14" fill="#ffffff" opacity="0.3">Project Cover Placeholder</text>
-</svg>

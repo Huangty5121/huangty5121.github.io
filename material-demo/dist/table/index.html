@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <meta name="theme-color" content="#e9e8e1">
+  <meta name="description" content="Tin-Yeh Huang 的个人桌面：学习、参与过的事，以及一些笔记。独立设计演示。">
+  <title>Tin-Yeh Huang — Table</title>
+  <link rel="stylesheet" href="table.css">
+  <script type="module" src="table.mjs"></script>
+</head>
+<body>
+  <svg class="filter-defs" width="0" height="0" aria-hidden="true"><defs>
+    <filter id="dry-ink" x="-5%" y="-20%" width="110%" height="140%" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency="0.085 0.16" numOctaves="2" seed="17" result="edge"/>
+      <feDisplacementMap id="ink-displacement" in="SourceGraphic" in2="edge" scale="2.27" xChannelSelector="R" yChannelSelector="G" result="ink"/>
+      <feTurbulence type="fractalNoise" baseFrequency="0.62" numOctaves="2" seed="5" result="grain"/>
+      <feColorMatrix in="grain" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  1 0 0 0 0" result="alpha"/>
+      <feComponentTransfer in="alpha" result="opacity"><feFuncA id="ink-opacity" type="linear" slope="0.68" intercept="0.32"/></feComponentTransfer>
+      <feComposite in="ink" in2="opacity" operator="in"/>
+    </filter>
+  </defs></svg>
+  <a class="skip-link" href="#content">跳到内容 / Skip to content</a>
+  <div class="site">
+    <header id="header" class="site-header"></header>
+    <main id="content" tabindex="-1"></main>
+    <footer id="footer" class="site-footer"></footer>
+  </div>
+  <audio id="audio" preload="none" hidden></audio>
+  <dialog id="preferences" aria-labelledby="preferences-title"></dialog>
+  <p class="sr-only" id="announcement" role="status" aria-live="polite"></p>
+  <noscript>这个交互演示需要 JavaScript。This interactive demo requires JavaScript.</noscript>
+</body>
+</html>

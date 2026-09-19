@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="light" data-lettering="hand">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>TY H. · 内容与物件</title><meta name="description" content="多内容、物件材质与可变窗口的本地交互样稿。"><link rel="stylesheet" href="expanded.css"><script type="module" src="expanded.mjs"></script></head>
+<body>
+  <svg width="0" height="0" class="filters" aria-hidden="true"><defs><filter id="ink" x="-5%" y="-15%" width="110%" height="130%"><feTurbulence type="fractalNoise" baseFrequency=".1" numOctaves="2" seed="17" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale=".55" xChannelSelector="R" yChannelSelector="G"/></filter></defs></svg>
+  <a class="skip" href="#collection" data-text="skip">跳到内容</a>
+  <section class="lab" aria-label="演示控制" data-aria="lab">
+    <div class="lab-row"><a href="index.html" class="old-version" data-text="old">上一版材质试验</a><fieldset class="count-control"><legend data-text="count">内容量</legend><button data-count="4" aria-pressed="false">4</button><button data-count="8" aria-pressed="true">8</button><button data-count="12" aria-pressed="false">12</button></fieldset><label class="width-label" for="width"><span data-text="width">页面宽度</span><input id="width" type="range" min="320" max="1440" value="1440" step="10"><output id="width-value" for="width">自动</output></label><button id="auto-width" data-text="auto">随窗口</button><button id="lab-toggle" aria-expanded="false" aria-controls="material-options" data-text="material">折痕与光泽</button></div>
+    <div id="material-options" class="material-options" hidden><label><span data-text="crease">折痕</span><input id="crease" type="range" min="0" max="100" value="25"><output id="crease-value" for="crease">25</output></label><label><span data-text="gloss">照片光泽</span><input id="gloss" type="range" min="0" max="100" value="30"><output id="gloss-value" for="gloss">30</output></label><label><input type="checkbox" id="hand" checked><span data-text="hand">轻手写</span></label><button id="effects-toggle" aria-pressed="false" data-text="effectsOff">关闭表面效果</button><span class="muted small" data-text="staticGrain">图像原有纹理保留</span></div>
+  </section>
+  <div id="preview" class="preview"><div class="site">
+    <header class="header"><div><h1>TY H.</h1><p data-text="intro">一些作品、笔记与照片。</p></div><nav><button id="index-open" data-text="index">全部内容</button><button id="theme" data-text="dark">暗色</button><button id="lang">English</button><button id="size" aria-label="切换字号">A / A+</button></nav></header>
+    <p class="demo-line"><span data-text="sample">多内容样稿 · 全部为示例</span><span id="layout-status" role="status"></span></p>
+    <main id="collection" tabindex="-1"></main>
+    <footer class="footer"><p data-text="footer">物件可以不同，阅读路径仍然清楚。</p><button id="bottom-index" data-text="index">全部内容</button><button id="top" data-text="top">回到开头</button></footer>
+  </div></div>
+  <dialog id="reader" aria-labelledby="reader-title"><header class="reader-bar"><button id="reader-back" data-text="previous" hidden>上一条</button><span data-text="sampleShort">示例内容</span><button id="reader-close" data-text="close">关闭</button></header><div id="reader-body"></div></dialog>
+  <noscript><p>此交互样稿需要 JavaScript。<a href="index.html">查看上一版</a></p></noscript>
+</body></html>

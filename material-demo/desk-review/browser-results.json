@@ -1,0 +1,37 @@
+{
+  "result": "passed",
+  "browser": "Chromium 1223, independent test context",
+  "checks": [
+    "PDFs and third-party media do not load on home",
+    "original settings inherited",
+    "search, empty state, and reset",
+    "work format filter",
+    "paper reader and local PDF",
+    "back goes to the associated work",
+    "experience links back to the same work",
+    "experience filtering",
+    "draft is labelled",
+    "gallery navigation",
+    "audio stays local, starts paused, survives navigation, and removes",
+    "dark, English, text size and setting persistence",
+    "material controls preserve old settings",
+    "no overflow at 360px",
+    "no overflow at 390px",
+    "no overflow at 650px",
+    "no overflow at 768px",
+    "no overflow at 1024px",
+    "no overflow at 1440px",
+    "no overflow at 1672px",
+    "large English type on mobile",
+    "unknown route recovers",
+    "no uncaught page errors or failed asset responses"
+  ],
+  "errors": [],
+  "badResponses": [],
+  "screenshots": "/Users/tinyeh/Documents/Personal/tools/crypto-ncRNA/personal page/material-demo/desk-review/",
+  "limitations": [
+    "Not real Safari or iOS hardware",
+    "PDF embed renderer is browser-dependent; local file and fallback links verified",
+    "Audio tested with a local silent WAV, not copyrighted music"
+  ]
+}
