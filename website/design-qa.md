@@ -68,3 +68,10 @@ Live pre-fix diagnosis on 20 September: both `https://tyhuang.hk/` (Vercel) and 
 ### 追加：论文行徽章位置再调
 
 - 按用户意见：IF/JCR 徽章不再单独占右列（会被撑出奇怪的底部空隙），改回期刊名同行、紧随其右（箭头仍居右列垂直居中）；行高恢复由内容决定。手机端徽章自然换行。
+
+## 2026-09-21 · ZCode 审查轮：死代码清零 + News/桌面一角重构
+
+- 死代码清理（先在构建产物 grep 确认零引用再删）：site.css 移除约 22 组遗留类（.preview-marks、.local-clock、.paper-aside、.cabinet-voice、.album-roller/.album-pop/.album-art*、.venue-metric、.contact-lead/.contact-profiles/.contact-methods/.copy-email/.contact-logo-linkedin/.contact-logo-github、.selected 布局段、.board-hint、.entry-feature、.feature-excerpt、.work-section-heading、.inset-heading、.regional-heading、.board-secondary 等，含混用选择器组的逐项摘除）；site.mjs 移除 .kernel-grid/.engineering-feature 的 GSAP 死分支；views.mjs 移除 venueText 与未用的 profiles 导入；news.mjs 移除 profiles 数据。修复 site.css 原 30 行悬空 `body[data-large-text=true]` 选择器吞掉 @keyframes panel-open 的问题（名片弹窗开场动画自引入以来从未生效，现恢复）。
+- News 重构：press 卡片盒改为「报道 / 近况」两组细线时间行（日期列 + 标题 + 单行事实句，无卡片底）；近况改为可核实条目（StrucTrace 获接收、ICLR FM4Science 审稿、网站改版一句话），删除自夸式条目；两组间 36px 间距（修复上轮 visual fail：站点近况标题贴卡）。
+- 桌面一角重构：整块改为居中卡片内双栏（左自述窗口、右唱片架）；win-body 弃用 WenKai 回归 DM Sans（用户反馈该处字体莫名其妙）；窗口标题改「关于我.md」；专辑从负边距堆叠+悬停 tooltip 改为等宽 96px 一排 + 下方标题/歌手·年份小字；删除假木质搁板。
+- 验收：改版页明/暗主题、EN News、390px 手机版 visual-judge 全过（该批截图文件名主题对调系截图脚本 localStorage 残留，非站点缺陷）；check.mjs 84 页 0 failures；死类名在 site.css/views.mjs/site.mjs/news.mjs 内 grep 0 命中。
