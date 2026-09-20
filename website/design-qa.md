@@ -22,4 +22,16 @@
 
 This is a local build. Physical-device testing, full accessibility audit, publishing, and the owner's final aesthetic acceptance are not claimed. Institutional city labels refer to institutions, not to exact personal work sites. The note is still a draft awaiting the owner's revision; final publisher texts and unpublished project demonstration files were not supplied. Music depends on the external official preview remaining available.
 
+## Typography pass — 20 September 2026 (afternoon)
+
+A whole-site typography review completed the page-by-page pass that was cut short earlier the same day. Changes, all in `site.css` as a final layer:
+
+- Display headings (page, publication, blog, Notes feature) use `text-wrap:balance`, so long Chinese titles no longer leave a single orphan character on the last line. The blog title and Notes feature title were also capped (44→40px, 31→26px) so the current essay title sits on one calm line at desktop widths.
+- The home identity name grew from 31px to 36px (40px above 1440px) and the clock row moved up, giving the landing a steadier hierarchy without new decoration.
+- The About introduction grid uses a narrower fixed left column (min 190px, max 250px) instead of 32%, removing the dead band between the seal block and the copy.
+- The delta inset heading no longer wraps; the Work list label column widened 90→104px so labels like “实践 2024 —” keep one line at desktop widths.
+- On viewports up to 700px the Pearl River Delta pins render as dots only (labels hidden, hit area kept), because the 40px-tall labels overlapped at the small inset size; the city list below still names each city.
+
+Verification: `node website/build.mjs` and `node website/check.mjs` pass (78 documents, no failures). Desktop light screenshots were retaken for Home, Work, About, Notes, the essay, a paper reader, both practice pages and the publication redirect target at full page height; dark Home/About/Work/Notes/essay and 390px About were rechecked the same way. Clicking Beijing → Tsinghua still filters and reveals the shared record set. English Home and essay were inspected after the heading changes. The asset query string is bumped to `v=20260920-typo1`; both Vercel and GitHub Pages rebuild from source, so no dist-only action is needed. Not verified on physical devices; not pushed.
+
 Live pre-fix diagnosis on 20 September: both `https://tyhuang.hk/` (Vercel) and `https://huangty5121.github.io/` (GitHub Pages) returned HTTP 404, while `/material-demo/dist/site/index.html` returned HTTP 200 on both hosts. The copy pushed to the GitHub repository had no root `index.html`, `vercel.json`, or Pages workflow. Publishing configuration is now prepared; a new public deployment must be checked after the changes are pushed and the Pages source is set to GitHub Actions.

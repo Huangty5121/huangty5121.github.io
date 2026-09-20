@@ -228,10 +228,10 @@ body::after{bottom:-48vw;left:-22vw;background:radial-gradient(circle,color-mix(
 
 /* Blog index and essay: illustrations are editorial, never project evidence. */
 .notes-index{padding-bottom:85px}.note-feature{display:grid;grid-template-columns:minmax(0,1fr) minmax(280px,46%);gap:30px;align-items:center;min-height:330px;padding:30px 38px;border:1px solid var(--line);border-radius:16px;background:linear-gradient(126deg,color-mix(in srgb,var(--accent) 7%,var(--surface)),color-mix(in srgb,var(--warm) 7%,var(--surface)) 58%,color-mix(in srgb,var(--moss) 8%,var(--surface)))}
-.note-feature-copy{max-width:480px}.note-feature h2{font-size:clamp(22px,2.5vw,31px);line-height:1.35;margin:15px 0 14px}.note-feature p{font-size:13px;line-height:1.85;color:var(--muted);max-width:36em}.note-draft{display:block;font-size:10px;color:var(--warm);margin-top:18px}.note-read{display:inline-flex;align-items:center;gap:9px;font-size:11px;color:var(--accent);margin-top:23px}.note-read [data-icon]{width:13px}
+.note-feature-copy{max-width:480px}.note-feature h2{font-size:clamp(22px,2.5vw,26px);line-height:1.4;margin:15px 0 14px}.note-feature p{font-size:13px;line-height:1.85;color:var(--muted);max-width:36em}.note-draft{display:block;font-size:10px;color:var(--warm);margin-top:18px}.note-read{display:inline-flex;align-items:center;gap:9px;font-size:11px;color:var(--accent);margin-top:23px}.note-read [data-icon]{width:13px}
 .note-feature figure{min-width:0}.note-feature img{width:100%;height:auto;max-height:300px;object-fit:contain;filter:drop-shadow(0 14px 25px #1924311b);transition:transform .35s ease}.note-feature:hover img{transform:translateY(-4px)}
 .note-archive{margin-top:48px}.note-archive>.eyebrow{display:block;margin-bottom:12px}
-.blog-article{padding-bottom:110px}.blog-header{display:grid;grid-template-columns:20% minmax(0,1fr);gap:35px;align-items:start;padding-top:20px}.blog-header>div{max-width:730px}.blog-header h1{font-size:clamp(28px,3.2vw,44px);line-height:1.25;margin:17px 0}.blog-header p{font-size:15px;line-height:1.8;color:var(--muted)}
+.blog-article{padding-bottom:110px}.blog-header{display:grid;grid-template-columns:20% minmax(0,1fr);gap:35px;align-items:start;padding-top:20px}.blog-header>div{max-width:730px}.blog-header h1{font-size:clamp(28px,3.2vw,40px);line-height:1.25;margin:17px 0}.blog-header p{font-size:15px;line-height:1.8;color:var(--muted)}
 .blog-hero{margin:35px 0 45px;padding:15px 25px 10px;border-radius:16px;background:linear-gradient(110deg,color-mix(in srgb,var(--accent) 9%,var(--surface)),color-mix(in srgb,var(--moss) 8%,var(--surface)) 55%,color-mix(in srgb,var(--warm) 9%,var(--surface)));border:1px solid var(--line)}
 .blog-hero img{width:min(100%,720px);height:310px;object-fit:contain;margin:auto;filter:drop-shadow(0 13px 30px #0e243021)}
 .blog-hero figcaption,.blog-sketch figcaption{font-size:10px;color:var(--muted);text-align:right}
@@ -244,3 +244,18 @@ body::after{bottom:-48vw;left:-22vw;background:radial-gradient(circle,color-mix(
 @media(max-width:700px){.publication-layout{grid-template-columns:1fr}.publication-art{position:static;max-width:430px;order:-1}.records-grid{grid-template-columns:1fr}.records-intro{text-align:left}.note-feature{grid-template-columns:1fr}.note-feature figure{grid-row:1}.note-feature img{max-height:240px}.blog-header,.blog-layout{display:block}.blog-toc{position:static;display:flex;flex-direction:row;flex-wrap:wrap;gap:8px;margin:30px 0}.blog-toc>.eyebrow{width:100%}.blog-toc a{border:1px solid var(--line);padding:7px 10px;border-radius:7px}.blog-header>div{margin-top:25px}}
 @media(max-width:600px){.index-list .entry-link{grid-template-columns:76px minmax(0,1fr);gap:16px}.note-feature{padding:18px;gap:5px;min-height:0}.note-feature h2{font-size:22px}.note-feature img{max-height:210px}.blog-header{padding-top:8px}.blog-header h1{font-size:29px}.blog-hero{margin:24px 0 32px;padding:8px}.blog-hero img{height:220px}.blog-lead{font-size:16px}.blog-section h2{font-size:20px}.blog-section p{font-size:13px}.record-card summary{padding:19px;grid-template-columns:34px minmax(0,1fr) auto;gap:11px;min-height:115px}.record-card-body{padding:0 19px 18px}.records-intro{margin-top:10px}.map-controls button{width:25px;height:24px}}
 @media(prefers-reduced-motion:reduce){body::before,body::after,.landing::before,.delta-ring{animation:none!important}.entry-link .entry-cover img,.note-feature img{transition:none!important}}
+
+/* Typography pass: balanced CJK headings, a steadier hero, and calmer labels. */
+.page-heading h1,.blog-header h1,.publication-main h1,.note-feature h2{text-wrap:balance}
+@media(min-width:901px){
+ .identity h1{font-size:36px;letter-spacing:-.03em}
+ .landing-index{margin-top:56px}
+ .about-intro{grid-template-columns:minmax(190px,250px) minmax(0,1fr);gap:44px}
+ .index-list .entry-overview{grid-template-columns:minmax(0,1fr) 104px}
+}
+@media(min-width:1441px){.identity h1{font-size:40px}}
+.inset-heading strong{white-space:nowrap}
+@media(max-width:700px){
+ .delta-map .map-pin span:not(.map-dot){display:none}
+ .delta-map .map-pin{min-height:36px;padding:6px;gap:0}
+}
