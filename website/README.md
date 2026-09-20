@@ -2,6 +2,12 @@
 
 Active static output: `material-demo/dist/site/`. Historical experiments remain separate. Local preview: http://127.0.0.1:8772/site/index.html . This is not a deployment.
 
+## Publishing
+
+The repository root contains the sources, but the real website root is `material-demo/dist/site/`. `vercel.json` builds and serves that directory, so the Vercel domain can open `/` and direct page URLs. The GitHub Actions workflow builds and publishes the same directory to GitHub Pages. In the repository's **Settings → Pages**, choose **GitHub Actions** as the build and deployment source. Until that setting is changed, the repository-root `index.html` sends visitors from the GitHub Pages root to the existing nested site; it is only a compatibility entrance and keeps the query/hash when JavaScript is available. The generated output includes `.nojekyll`.
+
+The custom domain is currently served by Vercel; GitHub Pages should keep its `github.io` address. DNS and the Vercel project's domain attachment are separate from these repository files. After publishing, check `/`, `/en/about.html`, the image assets, and one original PDF on each host. Do not copy the site files into another nested folder or set Vercel's dashboard Root Directory to `website/`.
+
 ## Build and check
 
 ```sh
@@ -12,11 +18,13 @@ python3 material-demo/serve-demo.py
 
 ## Architecture
 
-Four primary destinations: Home, Work, Notes, and About. Home uses the material cover as an introduction, with direct Work and Notes entrances, a Hong Kong clock, two compact work previews, and a separate Notes entrance below. The repeated About section has been removed. Work uses a consistent illustrated directory; Notes has its own listing and reading page. About starts with the introduction, then an interactive institution-city overview for Beijing, Shenzhen, Hong Kong, and institutions whose city is not recorded. A city filters the institutions; selecting one reveals the single canonical set of study and experience records. Honours and credentials remain distinct.
+Four primary destinations: Home, Work, Notes, and About. Home uses the material cover as an introduction, with direct Work and Notes entrances, a Hong Kong clock, two compact work previews, and a separate Notes entrance below. The repeated About section has been removed. Work uses a consistent illustrated directory; Notes has its own listing and reading page. About starts with the introduction, then a data-derived geographic locator for Beijing and the Pearl River Delta. Shenzhen and Hong Kong have a separate enlarged view because their city-centre points nearly overlap on the regional scale. A city filters the institutions; selecting one reveals the single canonical set of study and experience records. Institutions whose city is not recorded remain in a separate text group. Honours and credentials remain distinct. Map provenance and limits are in [`references/geography.md`](references/geography.md).
 
 Work contains seven publication records and two practice records. Notes contains one unpublished discussion draft awaiting the owner's revision. Two substantive practice pages have separate URLs and can be reached from their Work disclosures. Three original PDF readers are embedded within the site using a locally hosted, visually adapted official Mozilla PDF.js viewer. PDF source files are copied without modification. No extracted-page image output or per-page HTML reader exists. Paper records without supplied full text retain source links and accurate status.
 
 All documents have Chinese and English versions. Normal HTML URLs work directly, including a subdirectory deployment. Same-language navigation retains the optional audio player and browser history. Contact opens options in place through a native popover. Same-page section links preserve normal scrolling without opening unrelated records. Theme and text size preferences are stored locally. Music does not autoplay. Native scrolling, native dialog keyboard behaviour, and reduced-motion support remain available.
+
+The reader opens with an original PDF occupying the main viewport and a compact paper summary beside it on wide screens. Its initial PDF.js zoom is page-fit, so the first page is visible without scrolling the outer website; readers can still zoom, search, and change pages. On phones the PDF comes before the summary. The site palette draws from the material cover: restrained blue for navigation, grey-green for geographic surfaces, and warm clay for notes and accent markers. The background has a soft material wash and a slow ambient shift; reduced-motion preferences stop the movement.
 
 ## Sources
 

@@ -1,0 +1,5 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "buildCommand": "node website/build.mjs && node website/check.mjs",
+  "outputDirectory": "material-demo/dist/site"
+}
