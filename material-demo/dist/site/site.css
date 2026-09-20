@@ -345,17 +345,11 @@ main.page-arriving{animation:route-arrive .22s ease-out both}
  
 }
 
-/* Personal cabinet: the note window and the album shelf sit centred, one under the other. */
-.personal-cabinet{margin-bottom:29px;padding:26px 30px 26px;border:1px solid var(--line);border-radius:14px;background:var(--surface)}
+/* Personal cabinet: the note window on the left, the owner's album shelf on the right. */
+.personal-cabinet{margin-bottom:29px;padding:26px 30px 24px;border:1px solid var(--line);border-radius:14px;background:var(--surface)}
 .cabinet-head h2{font-size:18px;margin:6px 0 18px}
-.cabinet-grid{display:grid;gap:24px;justify-items:center}
-.cabinet-window{width:min(680px,100%)}
-.cabinet-shelf{width:min(680px,100%);display:flex;flex-direction:column;gap:10px}
-.cabinet-shelf-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;width:100%}
-.album-row{position:relative;display:flex;flex-wrap:wrap;justify-content:center;gap:16px;padding-bottom:12px}
-/* The owner's shelf: a thin board the sleeves rest on. */
-.album-row::after{content:'';position:absolute;left:0;right:0;bottom:0;height:7px;border-top:1px solid var(--line);border-bottom:1px solid color-mix(in srgb,var(--ink) 12%,var(--line));background:color-mix(in srgb,var(--surface) 65%,var(--warm))}
-
+.cabinet-grid{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(230px,.65fr);gap:32px;align-items:stretch}
+@media(max-width:700px){.cabinet-grid{grid-template-columns:1fr;gap:16px}}
 @media(max-width:600px){.personal-cabinet{margin-bottom:23px;padding:20px 18px}}
 
 /* Further records share one quiet ledger; category names have equal weight. */
@@ -374,17 +368,26 @@ main.page-arriving{animation:route-arrive .22s ease-out both}
 @media(max-width:700px){.ledger-group{grid-template-columns:1fr;gap:12px;padding:15px 0}.ledger-group>header{gap:10px}.ledger-body .honours-items,.ledger-body.credential-items{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:480px){.ledger-body .honours-items,.ledger-body.credential-items{grid-template-columns:1fr}.ledger-body .honours-items article,.ledger-body.credential-items article{padding:2px 0 9px}}
 
-/* Album sleeves: real covers in a centred row, captions underneath. */
-.album-sleeve{display:grid;gap:7px;width:96px}
-.album-cover{width:96px;height:96px;object-fit:cover;border-radius:8px;border:1px solid var(--line);transition:transform .22s ease}
-.album-sleeve:hover .album-cover,.album-sleeve:focus-visible .album-cover{transform:translateY(-3px)}
-.album-name{display:grid;gap:1px}
-.album-name strong{font-size:11px;font-weight:500;line-height:1.3}
-.album-name small{font-size:10px;color:var(--muted);line-height:1.3}
+/* Album shelf: real covers in the overlapped stack on a board; hover spreads the sleeves and shows the title. */
+.cabinet-shelf{display:flex;flex-direction:column;justify-content:space-between;gap:8px;min-height:150px;position:relative;padding:4px 0 18px}
+.cabinet-shelf::after{content:'';position:absolute;left:0;right:0;bottom:4px;height:7px;border-top:1px solid var(--line);border-bottom:1px solid color-mix(in srgb,var(--ink) 12%,var(--line));background:color-mix(in srgb,var(--surface) 65%,var(--warm))}
+.cabinet-shelf-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;width:100%}
+.album-roller{display:flex;align-items:flex-end;min-height:118px;width:100%;padding:10px 0 0;isolation:isolate}
+.album-sleeve{position:relative;display:block;flex:none;width:104px;height:106px;margin-right:-40px;border:1px solid color-mix(in srgb,var(--ink) 17%,var(--line));border-radius:4px;background:var(--surface);box-shadow:0 5px 10px #15203018;transition:margin-right .25s ease,transform .25s ease,box-shadow .25s ease;outline-offset:4px}
+.album-sleeve:last-child{margin-right:0}
+.album-roller:hover .album-sleeve,.album-roller:focus-within .album-sleeve{margin-right:12px}
+.album-roller:hover .album-sleeve:last-child,.album-roller:focus-within .album-sleeve:last-child{margin-right:0}
+.album-sleeve:hover,.album-sleeve:focus-visible{z-index:3;transform:translateY(-9px);box-shadow:0 10px 22px #15203030}
+.album-cover{position:absolute;inset:4px;width:calc(100% - 8px);height:calc(100% - 8px);object-fit:cover;border-radius:2px}
+.album-pop{position:absolute;z-index:5;left:0;right:0;bottom:0;padding:6px;border-top:1px solid var(--line);border-radius:0 0 3px 3px;background:var(--surface);color:var(--ink);box-shadow:0 -4px 12px #15203018;opacity:0;pointer-events:none;transform:translateY(8px);transition:opacity .18s,transform .18s}
+.album-pop strong,.album-pop small{display:block;line-height:1.2}
+.album-pop strong{font-size:10px;font-weight:600}.album-pop small{font-size:9px;margin-top:2px;color:var(--muted)}
+.album-sleeve:hover .album-pop,.album-sleeve:focus-visible .album-pop{opacity:1;transform:none}
 .cabinet-player{display:inline-flex;align-items:center;gap:5px;padding:0;background:none;border:0;font-size:10px;color:var(--muted);cursor:pointer;white-space:nowrap}
 .cabinet-player:hover{color:var(--accent)}.cabinet-player [data-icon]{width:11px;height:11px}
-@media(max-width:480px){.album-sleeve{width:84px}.album-cover{width:84px;height:84px}}
-@media(prefers-reduced-motion:reduce){.album-cover{transition:none}}
+@media(max-width:700px){.cabinet-shelf{min-height:125px}.album-roller{min-height:105px}}
+@media(max-width:480px){.album-sleeve{width:88px;height:90px;margin-right:-26px}.album-roller:hover .album-sleeve,.album-roller:focus-within .album-sleeve{margin-right:10px}}
+@media(prefers-reduced-motion:reduce){.album-sleeve,.album-pop{transition:none}}
 
 /* 2026-09-21: teal accent, WenKai voice, split venue chips, real covers, compact shelf. */
 :root{--accent:#1c7f6d;--map-sea:#e3efe9}
