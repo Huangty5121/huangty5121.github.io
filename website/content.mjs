@@ -1,8 +1,9 @@
-import {works as originalWorks,experiences as originalExperiences,notes as originalNotes} from '../material-demo/dist/desk-data.mjs';
+import {works as originalWorks,experiences as originalExperiences} from '../material-demo/dist/desk-data.mjs';
 const L=(zh,en)=>({zh,en});
 // This layer edits website copy without changing the historical design demos.
 // Appointment/contribution detail follows the supplied master CV and fact register.
 const experienceCopy={
+ 'academic-reviewing':{body:L(['2026 年参与 ICLR FM4Science workshop 审稿；2025 年参与 ICML AI4Math workshop 及 F1000Research 审稿。'],['Reviewed for ICLR FM4Science in 2026 and ICML AI4Math and F1000Research in 2025.'])},
  qiyuan:{role:L('联合培养实习生','Joint-training intern'),body:L([
   '在启元实验室智能计算系统中心与天数智芯的联合培养实习中，参与 NineToothed 工具开发与 DSL 移植，支持在天数智芯加速器上使用相关 kernel 与 operator。',
   '制作 NineToothed 网页学习游戏，并整理 CUDA、推理、Triton 与 NineToothed 的教学演示和适配材料，用于拟议的本科教学合作。',
@@ -36,5 +37,3 @@ export const works=originalWorks.map(w=>{
  const clean=p=>p.replaceAll('下方阅读器打开的是新版预印本','下方 PDF 链接打开新版预印本').replaceAll('站内阅读提供','PDF 链接提供').replaceAll('The reader shows the later preprint.','The PDF link opens the later preprint.').replaceAll('The reader provides','The PDF link provides');
  return {...merged,body:{zh:merged.body.zh.map(clean),en:merged.body.en.map(clean)}};
 });
-// The old “make this demo” diary is an implementation discussion, not portfolio content.
-export const notes=originalNotes.filter(n=>n.id==='simple');

@@ -47,10 +47,10 @@ export function organisationContext(lang,id){
 // A CV entry is not independently verified proof. Only attach public evidence
 // URLs supplied/verified for this person, never a generic issuer homepage.
 export const credentials=[
- {id:'idshk',kind:'membership',date:'2026 —',issuer:'Industrial Designers Society of Hong Kong',title:L('学生会员','Student member'),evidence:null,scan:null},
- {id:'hkie',kind:'membership',date:'2025 —',issuer:'The Hong Kong Institution of Engineers',title:L('学生会员','Student member'),evidence:null,scan:null},
- {id:'union',kind:'membership',date:'2023 —',issuer:'Hong Kong Union of Chinese Workers in Western Style Employment',title:L('会员','Member'),evidence:null,scan:null},
- {id:'azure-ai',kind:'certification',date:'2021',issuer:'Microsoft',title:L('Microsoft Certified: Azure AI Fundamentals','Microsoft Certified: Azure AI Fundamentals'),evidence:null,scan:null},
+ {id:'idshk',kind:'membership',date:'2026 —',issuer:'Industrial Designers Society of Hong Kong',title:L('学生会员','Student member'),evidence:null},
+ {id:'hkie',kind:'membership',date:'2025 —',issuer:'The Hong Kong Institution of Engineers',title:L('学生会员','Student member'),evidence:null},
+ {id:'union',kind:'membership',date:'2023 —',issuer:'Hong Kong Union of Chinese Workers in Western Style Employment',title:L('会员','Member'),evidence:null},
+ {id:'azure-ai',kind:'certification',date:'2021',issuer:'Microsoft',title:L('Microsoft Certified: Azure AI Fundamentals','Microsoft Certified: Azure AI Fundamentals'),evidence:null},
 ];
 export function membershipsSection(lang,expanded=false){
  const t=(zh,en)=>lang==='zh'?zh:en;

@@ -1,6 +1,6 @@
 # Notes editing
 
-Notes are the owner's personal writing, separate from publications and practice records. The only live note is an unpublished, explicitly labelled draft, “简约就一定好吗 / Is simpler always better?”, drawn from prior website discussions. Its current source is `material-demo/dist/desk-data.mjs`, selected in `website/content.mjs`, indexed through `website/entries.mjs`, and rendered by `website/views.mjs`. Do not describe that draft as an approved essay or a publication.
+Notes are the owner's personal writing, separate from publications and practice records. The current live piece is the unpublished, explicitly labelled industrial-design/modernization draft in `website/industrial-note.mjs`, rendered by `website/views.mjs`. It draws only on currently available design discussions and is not an approved essay or publication. The short reflection on simplicity and components belongs in About's personal cabinet; do not list it again in Notes. The historical `material-demo/dist/desk-data.mjs` note is not active site content.
 
 For an update, first read the owner's latest text and the existing note. Preserve their actual argument and uncertainty. Use paragraph rhythm and small illustrations, quotes, or annotations only where they serve a specific passage; avoid decorative repetition. Do not invent first-person experiences or add unapproved personal claims. Show the owner a readable draft before treating it as approved site content.
 
