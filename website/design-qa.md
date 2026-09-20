@@ -75,3 +75,11 @@ Live pre-fix diagnosis on 20 September: both `https://tyhuang.hk/` (Vercel) and 
 - News 重构：press 卡片盒改为「报道 / 近况」两组细线时间行（日期列 + 标题 + 单行事实句，无卡片底）；近况改为可核实条目（StrucTrace 获接收、ICLR FM4Science 审稿、网站改版一句话），删除自夸式条目；两组间 36px 间距（修复上轮 visual fail：站点近况标题贴卡）。
 - 桌面一角重构：整块改为居中卡片内双栏（左自述窗口、右唱片架）；win-body 弃用 WenKai 回归 DM Sans（用户反馈该处字体莫名其妙）；窗口标题改「关于我.md」；专辑从负边距堆叠+悬停 tooltip 改为等宽 96px 一排 + 下方标题/歌手·年份小字；删除假木质搁板。
 - 验收：改版页明/暗主题、EN News、390px 手机版 visual-judge 全过（该批截图文件名主题对调系截图脚本 localStorage 残留，非站点缺陷）；check.mjs 84 页 0 failures；死类名在 site.css/views.mjs/site.mjs/news.mjs 内 grep 0 命中。
+
+## 2026-09-21 · 用户反馈轮：架子与动画恢复 + 徽章成组 + ICML 徽章
+
+- 桌面一角最终定式（用户明确指示）：桌面端左=自述窗口、右=原版唱片架（三张真封面负边距堆叠在搁板线条上，悬停展开+抬升+标题弹出动画，逐帧恢复原实现）；窄屏上下分行；窗口正文保持 DM Sans、窗口标题绝对居中（修复红绿灯挤偏）。中庸的居中单列版废弃。
+- Work 徽章：IF/JCR 两枚徽章包进 .chip-set（inline-flex + nowrap），换行或手机上作为整体移到下一行，不再出现单枚落单；徽章仍紧随期刊名。
+- venue-metrics 补 olympic 条目：`CCF A · ICML 2024`（New In ML Affinity Event，注明为主办方 CCF A 会议的 workshop 记录、非主会论文）。
+- 手机版首页回归核查：与清理前基线逐像素对比（visual-judge 实测内容带边缘全对齐），确认本轮 CSS 清理没有改变首页排版；用户感知的差异来自主题/时钟等动态内容。
+- 验收：v3/v4 两轮 visual-judge——桌面/手机 collection 徽章、桌面/手机桌面一角（含悬停帧）、手机首页对比全部 pass；check.mjs 84 页 0 failures。
