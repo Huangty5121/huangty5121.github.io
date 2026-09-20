@@ -226,9 +226,7 @@ body::after{bottom:-48vw;left:-22vw;background:radial-gradient(circle,color-mix(
 .entry-context{font-size:11px}.record-card .study-record h3{font-size:13px}.record-card .study-record p{font-size:11px}
 @media(max-width:600px){.eyebrow{font-size:10px}.home-work-link .eyebrow{font-size:9px}.entry-summary{font-size:12px}.entry-context,.home-work-link p{font-size:10px}.entry-label,.entry-label time{font-size:9px}}
 
-/* Drafting-paper background: a faint grid over the ambient colour washes. */
-body{background-image:repeating-linear-gradient(90deg,color-mix(in srgb,var(--ink) 2.5%,transparent) 0 1px,transparent 1px 88px),repeating-linear-gradient(0deg,color-mix(in srgb,var(--ink) 2.5%,transparent) 0 1px,transparent 1px 88px),linear-gradient(150deg,var(--bg),color-mix(in srgb,var(--accent) 4%,var(--bg)) 49%,color-mix(in srgb,var(--warm) 4%,var(--bg)))}
-body::before,body::after{opacity:.56}
+body::before,body::after{opacity:.5}
 
 /* Leaflet city map, skinned to the site language. */
 .city-canvas{position:absolute;inset:0;z-index:1;border-radius:0}

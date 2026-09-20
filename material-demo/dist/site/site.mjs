@@ -51,16 +51,16 @@ function initialiseView({scrollToHash=true}={}){
   const cityNames={bj:t('北京','Beijing'),sz:t('深圳','Shenzhen'),hk:t('香港','Hong Kong'),other:t('地点未列明','Location not listed')};
   const chooseCity=id=>{
    board.dataset.city=id||'';
-   directory.hidden=!id;layout.hidden=!id;
+   directory.hidden=!id;
    for(const item of board.querySelectorAll('[data-city]'))item.setAttribute('aria-pressed',String(!!id&&item.dataset.city===id));
    for(const org of board.querySelectorAll('[data-city-group]'))org.hidden=!id||org.dataset.cityGroup!==id;
-   board.querySelector('.board-secondary').hidden=!id;
+   board.querySelector('.board-secondary').hidden=false;
    board.querySelector('[data-city-name]').textContent=id?cityNames[id]:'';
    board.querySelector('[data-city-count]').textContent=String(board.querySelectorAll('.organisation-choices [data-org]:not([hidden])').length);
   };
   selectCurrentOrg=(id,write=true)=>{
    const selected=id?board.querySelector(`[data-org="${CSS.escape(id)}"]`):null;
-   if(selected)chooseCity(selected.dataset.cityGroup||'other');
+   if(selected){if(selected.dataset.cityGroup)chooseCity(selected.dataset.cityGroup);}else chooseCity('');
    let n=0;
    for(const row of board.querySelectorAll('[data-background-item]')){row.hidden=!id||!row.dataset.organisations.split(' ').includes(id);if(!row.hidden)n++;}
    for(const button of board.querySelectorAll('[data-org]')){button.setAttribute('aria-pressed',String(button===selected));button.setAttribute('aria-expanded',String(button===selected));}
@@ -70,17 +70,18 @@ function initialiseView({scrollToHash=true}={}){
    board.dataset.orgOpen=String(!!id);
    board.querySelector('[data-selected-org]').textContent=selected?.dataset.orgName||'';
    board.querySelector('[data-background-count]').textContent=`${n} ${t('项记录',n===1?'record':'records')}`;
+   layout.hidden=!(board.dataset.city||id);
    if(write){const url=new URL(location.href);url.hash=id?'org-'+id:'';history.replaceState({...history.state,scroll:scrollY},'',url);}
    window.ScrollTrigger?.refresh();
   };
   for(const button of board.querySelectorAll('[data-org]'))button.addEventListener('click',()=>{
    const id=button.getAttribute('aria-pressed')==='true'?'':button.dataset.org;
    selectCurrentOrg(id);
-   if(id&&matchMedia('(max-width:600px)').matches)board.querySelector('#organisation-context').scrollIntoView({block:'start',behavior:'instant'});
+   if(id&&matchMedia('(max-width:600px)').matches)board.querySelector('#organisation-context').scrollIntoView({block:'start',behavior:'smooth'});
   },options);
   board.querySelector('[data-close-org]').addEventListener('click',()=>{
    const button=board.querySelector('[data-org][aria-pressed="true"]');selectCurrentOrg('');
-   if(matchMedia('(max-width:600px)').matches)board.querySelector('.institution-selector').scrollIntoView({block:'start',behavior:'instant'});
+   if(matchMedia('(max-width:600px)').matches)board.querySelector('.institution-selector').scrollIntoView({block:'start',behavior:'smooth'});
    button?.focus({preventScroll:true});
   },options);
   chooseCity(null);selectCurrentOrg('',false);
@@ -95,11 +96,14 @@ function initialiseView({scrollToHash=true}={}){
   const cities=[['bj',zhLang?'北京':'Beijing'],['sz',zhLang?'深圳':'Shenzhen'],['hk',zhLang?'香港':'Hong Kong']].map(([id,name])=>({id,name,ll:viewport.dataset['city'+id[0].toUpperCase()+id[1]]?.split(',').map(Number)})).filter(c=>c.ll&&c.ll.length===2&&c.ll.every(Number.isFinite));
   if(!cities.length)break;
   const css=getComputedStyle(document.body),read=v=>css.getPropertyValue(v).trim();
-  const tileUrl=theme=>`https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/${theme==='dark'?'World_Dark_Gray_Base':'World_Light_Gray_Base'}/MapServer/tile/{z}/{y}/{x}`;
+  const tileUrl=theme=>theme==='dark'?'https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}':'https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}';
   const map=L.map(viewport,{zoomControl:false,scrollWheelZoom:false,zoomSnap:.5});
   map.attributionControl.setPrefix('');
   map.addControl(L.control.zoom({position:'bottomright'}));
   const tiles=L.tileLayer(tileUrl(document.body.dataset.theme),{maxZoom:16,attribution:'Tiles © Esri'}).addTo(map);
+  map.createPane('warm');map.getPane('warm').style.cssText='z-index:150;opacity:0;pointer-events:none';
+  const warm=L.tileLayer(tileUrl(document.body.dataset.theme==='dark'?'light':'dark'),{pane:'warm',maxZoom:16,attribution:''});
+  setTimeout(()=>map.addLayer(warm),2500);
   let selectedId=null;const markers={};
   const tipDir={bj:'right',sz:'top',hk:'right'};
   for(const c of cities){
@@ -113,7 +117,7 @@ function initialiseView({scrollToHash=true}={}){
   const fly=id=>{const c=cities.find(x=>x.id===id);if(!c)return;selectedId=id;map.flyTo(c.ll,id==='bj'?9:9.5,{duration:.8});paint();};
   for(const b of main.querySelectorAll('.city-index button[data-city]'))b.addEventListener('click',()=>fly(b.dataset.city),options);
   setTimeout(()=>{const c=main.querySelector('.background-board')?.dataset.city;if(c&&c!==selectedId)fly(c);},0);
-  const mo=new MutationObserver(()=>{tiles.setUrl(tileUrl(document.body.dataset.theme));paint();});
+  const mo=new MutationObserver(()=>{const th=document.body.dataset.theme;tiles.setUrl(tileUrl(th));warm.setUrl(tileUrl(th==='dark'?'light':'dark'));paint();});
   mo.observe(document.body,{attributes:true,attributeFilter:['data-theme']});
   options.signal.addEventListener('abort',()=>{mo.disconnect();map.remove();},{once:true});
  }

@@ -52,4 +52,17 @@ The About map was rebuilt on Leaflet 1.9.4 (vendored locally) with Esri gray can
 
 Verification: build + static checks pass in both source trees. Browser: initial fitBounds view, list→fly (Hong Kong at zoom 9.5 separates Shenzhen/Hong Kong), marker→filter (Beijing marker click pressed the Beijing list entry), theme toggle swaps tiles, dark map inspected, 390px view has no horizontal overflow and shows all three labelled markers. One transient "Map data not yet available" tile state observed on Esri's side during rapid automated reloads; it self-resolved on reload and normal browsing loads tiles normally. Offline the map shows the themed base colour with markers still drawn. Asset version `v=20260920-map1`. Not pushed; physical devices untested.
 
+## Polish round — 20 September 2026 (night, second)
+
+Owner feedback round: 
+
+- **Colourful basemap**: light theme now uses Esri World_Topo_Map (colour terrain/street tiles); dark keeps Esri dark gray canvas. CARTO Voyager/POSITRON were tested first but the free tier now stamps "API key required" into tiles; OSM wiki tiles block scripted access. The first Topo rollout 404'd because the service lives outside the `Canvas/` path — fixed.
+- **Tile speed**: `<link rel="preconnect">` to the tile host, and a hidden "warm" pane prefetches the opposite theme's tiles 2.5s after page load, so theme switches render instantly (measured ~150ms to first dark tile after toggle, vs multi-second gaps before). Tiles also come from browser cache on repeat visits.
+- **City list**: the organisation names under each city were removed — three plain rows now.
+- **Background**: the drafting grid added earlier this afternoon is removed (owner didn't like it); back to the plain soft ambient washes, Apple-style.
+- **Mobile interaction**: opening/closing an institution on phones now smooth-scrolls instead of jumping the viewport.
+- **Academic reviewing surfaced**: the reviewing entry moved out of the hidden institution panel and sits directly under the map/city list at all times; selecting it opens the reviewing record without requiring a city.
+
+Verification: build + checks pass in both source trees. Browser: light Topo tiles 12/12 loaded; reviewing opens and closes without a city; Hong Kong flow re-run; dark theme tile swap measured; 390px About renders all three labelled markers with no horizontal overflow; Home re-checked with the grid removed. Not pushed.
+
 Live pre-fix diagnosis on 20 September: both `https://tyhuang.hk/` (Vercel) and `https://huangty5121.github.io/` (GitHub Pages) returned HTTP 404, while `/material-demo/dist/site/index.html` returned HTTP 200 on both hosts. The copy pushed to the GitHub repository had no root `index.html`, `vercel.json`, or Pages workflow. Publishing configuration is now prepared; a new public deployment must be checked after the changes are pushed and the Pages source is set to GitHub Actions.
