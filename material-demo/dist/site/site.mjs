@@ -54,13 +54,14 @@ function initialiseView({scrollToHash=true}={}){
    directory.hidden=!id;
    for(const item of board.querySelectorAll('[data-city]'))item.setAttribute('aria-pressed',String(!!id&&item.dataset.city===id));
    for(const org of board.querySelectorAll('[data-city-group]'))org.hidden=!id||org.dataset.cityGroup!==id;
-   board.querySelector('.board-secondary').hidden=false;
    board.querySelector('[data-city-name]').textContent=id?cityNames[id]:'';
    board.querySelector('[data-city-count]').textContent=String(board.querySelectorAll('.organisation-choices [data-org]:not([hidden])').length);
   };
   selectCurrentOrg=(id,write=true)=>{
    const selected=id?board.querySelector(`[data-org="${CSS.escape(id)}"]`):null;
-   if(selected){if(selected.dataset.cityGroup)chooseCity(selected.dataset.cityGroup);}else chooseCity('');
+   // Only an institution with a city may move the city selection; clearing an
+   // organisation keeps the chosen city so its directory stays visible.
+   if(selected?.dataset.cityGroup)chooseCity(selected.dataset.cityGroup);
    let n=0;
    for(const row of board.querySelectorAll('[data-background-item]')){row.hidden=!id||!row.dataset.organisations.split(' ').includes(id);if(!row.hidden)n++;}
    for(const button of board.querySelectorAll('[data-org]')){button.setAttribute('aria-pressed',String(button===selected));button.setAttribute('aria-expanded',String(button===selected));}
@@ -88,39 +89,75 @@ function initialiseView({scrollToHash=true}={}){
   for(const city of board.querySelectorAll('[data-city]'))city.addEventListener('click',()=>{chooseCity(city.dataset.city);selectCurrentOrg('',false);},options);
   window.addEventListener('resize',()=>{const selected=board.querySelector('[data-org][aria-pressed="true"]');if(selected)selectCurrentOrg(selected.dataset.org,false);},options);
  }
- let cityMap=null;
- for(const viewport of [main.querySelector('[data-citymap]')]){
-  if(!viewport)break;cityMap?.remove();
-  const L=window.L;if(!L)break;
+ const initCityMap=viewport=>{
+  const L=window.L;if(!L)return;
   const zhLang=document.body.dataset.lang==='zh';
   const cities=[['bj',zhLang?'北京':'Beijing'],['sz',zhLang?'深圳':'Shenzhen'],['hk',zhLang?'香港':'Hong Kong']].map(([id,name])=>({id,name,ll:viewport.dataset['city'+id[0].toUpperCase()+id[1]]?.split(',').map(Number)})).filter(c=>c.ll&&c.ll.length===2&&c.ll.every(Number.isFinite));
-  if(!cities.length)break;
-  const css=getComputedStyle(document.body),read=v=>css.getPropertyValue(v).trim();
-  const tileUrl=theme=>theme==='dark'?'https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}':'https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}';
-  const map=L.map(viewport,{zoomControl:false,scrollWheelZoom:false,zoomSnap:.5});
+  if(!cities.length)return;
+  // Both themes use the same Esri canvas family: Topo in light, dark gray
+  // plus its reference overlay at night, so the pair reads as one style.
+  const tileSets=theme=>theme==='dark'
+   ?[['https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}','Tiles © Esri'],['https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Reference/MapServer/tile/{z}/{y}/{x}','']]
+   :[['https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}','Tiles © Esri']];
+  const flyZoom={bj:8,sz:9,hk:9};
+  const map=L.map(viewport,{zoomControl:false,scrollWheelZoom:false});
   map.attributionControl.setPrefix('');
   map.addControl(L.control.zoom({position:'bottomright'}));
-  const tiles=L.tileLayer(tileUrl(document.body.dataset.theme),{maxZoom:16,attribution:'Tiles © Esri'}).addTo(map);
-  map.createPane('warm');map.getPane('warm').style.cssText='z-index:150;opacity:0;pointer-events:none';
-  const warm=L.tileLayer(tileUrl(document.body.dataset.theme==='dark'?'light':'dark'),{pane:'warm',maxZoom:16,attribution:''});
-  setTimeout(()=>map.addLayer(warm),2500);
+  let tileLayers=[];
+  const applyTiles=(target,theme)=>{for(const l of tileLayers)target.removeLayer(l);tileLayers=tileSets(theme).map(([url,attr])=>L.tileLayer(url,{maxZoom:16,keepBuffer:4,updateWhenZooming:false,attribution:attr}).addTo(target));};
+  applyTiles(map,document.body.dataset.theme);
+  // A hidden offscreen map prefetches each city's tiles at fly-zoom so the
+  // visible flyTo reads from the browser cache instead of stalling mid-pan.
+  const warmHost=document.createElement('div');
+  warmHost.style.cssText='position:absolute;left:-99990px;top:0;width:480px;height:340px;visibility:hidden;pointer-events:none';
+  document.body.append(warmHost);
+  const warmMap=L.map(warmHost,{zoomControl:false,attributionControl:false,scrollWheelZoom:false,dragging:false,boxZoom:false,doubleClickZoom:false,keyboard:false,touchZoom:false});
+  let warmLayers=[];
+  const applyWarm=theme=>{for(const l of warmLayers)warmMap.removeLayer(l);warmLayers=tileSets(theme).map(([url])=>L.tileLayer(url,{maxZoom:16,keepBuffer:4}).addTo(warmMap));};
+  applyWarm(document.body.dataset.theme);
+  let warmed=false;
+  const warmCities=async()=>{
+   if(warmed)return;warmed=true;
+   for(const c of cities){if(!warmMap)return;warmMap.setView(c.ll,flyZoom[c.id]||9,{animate:false});await new Promise(r=>setTimeout(r,900));}
+  };
+  const warmTimer=setTimeout(warmCities,2600);
   let selectedId=null;const markers={};
-  const tipDir={bj:'right',sz:'top',hk:'right'};
+  // Strategy-map arcs: quadratic bulges joining the three cities, marching
+  // dashes, gone once the view zooms into one city.
+  const arc=(a,b,bulge)=>{
+   const pts=[];
+   const mx=(a[0]+b[0])/2,my=(a[1]+b[1])/2;
+   const dx=b[1]-a[1],dy=b[0]-a[0],len=Math.hypot(dx,dy)||1;
+   const cx=mx+(-dy/len)*len*bulge,cy=my+(dx/len)*len*bulge;
+   for(let i=0;i<=36;i++){const t=i/36,u=1-t;pts.push([u*u*a[0]+2*u*t*cy+t*t*b[0],u*u*a[1]+2*u*t*cx+t*t*b[1]]);}
+   return pts;
+  };
+  const link=L.polyline([arc(cities[0].ll,cities[1].ll,.16),arc(cities[1].ll,cities[2].ll,.3)],{weight:1.6,dashArray:'1 8',opacity:.65,interactive:false,lineCap:'round',className:'city-link'}).addTo(map);
+  const cssRead=()=>getComputedStyle(document.body).getPropertyValue('--accent').trim();
+  const paintLink=()=>{const a=cssRead();link.setStyle({color:a});link.setStyle({opacity:map.getZoom()<=(flyZoom.bj-1)?.65:0});};
+  map.on('zoomend',paintLink);
   for(const c of cities){
-   const m=L.circleMarker(c.ll,{radius:7,color:read('--accent'),weight:2,fillColor:read('--surface'),fillOpacity:1}).addTo(map);
-   m.bindTooltip(c.name,{permanent:true,direction:tipDir[c.id]||'right',offset:tipDir[c.id]==='top'?[0,-6]:[10,0],className:'city-tip',opacity:1});
+   const m=L.marker(c.ll,{icon:L.divIcon({className:'city-pin-holder',html:'<span class="city-dot"></span>',iconSize:[15,15],iconAnchor:[7,7]}),keyboard:false,title:c.name,alt:c.name,riseOnHover:true});
    m.on('click',()=>main.querySelector(`.city-index button[data-city="${c.id}"]`)?.click());
-   markers[c.id]=m;
+   m.addTo(map);markers[c.id]=m;
   }
   map.fitBounds(L.latLngBounds(cities.map(c=>c.ll)).pad(.3));
-  const paint=()=>{for(const c of cities)markers[c.id].setStyle({color:read('--accent'),fillColor:c.id===selectedId?read('--accent'):read('--surface')});};
-  const fly=id=>{const c=cities.find(x=>x.id===id);if(!c)return;selectedId=id;map.flyTo(c.ll,id==='bj'?9:9.5,{duration:.8});paint();};
+  const paint=()=>{const a=cssRead();link.setStyle({color:a});for(const c of cities)markers[c.id].getElement()?.firstElementChild?.classList.toggle('is-selected',c.id===selectedId);paintLink();};
+  // Animated setView jumps straight to the target zoom, so only the target
+  // tile level loads; flyTo's fractional-zoom arc leaves scaled placeholder
+  // levels behind and re-requests tiles the whole way.
+  const fly=id=>{const c=cities.find(x=>x.id===id);if(!c)return;selectedId=id;map.setView(c.ll,flyZoom[id]||9,{animate:false});paint();};
   for(const b of main.querySelectorAll('.city-index button[data-city]'))b.addEventListener('click',()=>fly(b.dataset.city),options);
   setTimeout(()=>{const c=main.querySelector('.background-board')?.dataset.city;if(c&&c!==selectedId)fly(c);},0);
-  const mo=new MutationObserver(()=>{const th=document.body.dataset.theme;tiles.setUrl(tileUrl(th));warm.setUrl(tileUrl(th==='dark'?'light':'dark'));paint();});
+  const mo=new MutationObserver(()=>{const th=document.body.dataset.theme;applyTiles(map,th);applyWarm(th);paint();});
   mo.observe(document.body,{attributes:true,attributeFilter:['data-theme']});
-  options.signal.addEventListener('abort',()=>{mo.disconnect();map.remove();},{once:true});
- }
+  options.signal.addEventListener('abort',()=>{mo.disconnect();clearTimeout(warmTimer);warmed=true;warmMap.remove();warmHost.remove();map.remove();},{once:true});
+ };
+ // One deterministic initialisation: no deferred load wait, no animated
+ // zoom. Programmatic jumps are instant, and prefetched tiles keep the
+ // transitions feeling continuous without ever leaving stale pane scales.
+ const cityViewport=main.querySelector('[data-citymap]');
+ if(cityViewport)initCityMap(cityViewport);
  for(const disclosure of main.querySelectorAll('[data-entry]')){disclosure.addEventListener('toggle',()=>{if(disclosure.open&&window.gsap&&!matchMedia('(prefers-reduced-motion:reduce)').matches)gsap.fromTo(disclosure.querySelector('.entry-body'),{opacity:.4},{opacity:1,duration:.2,overwrite:true});const url=new URL(location.href);if(disclosure.open)url.hash=disclosure.dataset.entry;else if(url.hash==='#'+disclosure.dataset.entry)url.hash='';history.replaceState({...history.state,scroll:scrollY},'',url);window.ScrollTrigger?.refresh();},options);disclosure.querySelector('[data-close-entry]').addEventListener('click',()=>{disclosure.open=false;disclosure.querySelector('summary').focus({preventScroll:true});},options);}
  if(new URLSearchParams(location.search).get('contact')==='open')contactPanel.showPopover();
  for(const button of main.querySelectorAll('[data-work-area]'))button.addEventListener('click',()=>{for(const b of main.querySelectorAll('[data-work-area]'))b.setAttribute('aria-pressed',String(b===button));for(const panel of main.querySelectorAll('[data-work-panel]'))panel.hidden=panel.dataset.workPanel!==button.dataset.workArea;},options);
@@ -128,7 +165,44 @@ function initialiseView({scrollToHash=true}={}){
  if(window.gsap&&window.ScrollTrigger){gsap.registerPlugin(ScrollTrigger);animationContext=gsap.context(()=>{const mm=gsap.matchMedia();mm.add('(min-width:601px) and (prefers-reduced-motion:no-preference)',()=>{const image=main.querySelector('.material-scene img');if(image)gsap.to(image,{y:28,scale:1.035,ease:'none',scrollTrigger:{trigger:main.querySelector('.landing'),start:'top top',end:'bottom top',scrub:.7}});const cells=main.querySelectorAll('.kernel-grid .lit');if(cells.length)gsap.fromTo(cells,{opacity:.4},{opacity:1,duration:.75,stagger:.035,scrollTrigger:{trigger:main.querySelector('.engineering-feature'),start:'top 90%',toggleActions:'play none none reverse'}});});},main);ScrollTrigger.refresh();}
  revealHash({scroll:scrollToHash});
 }
-function updateClock(){const clock=document.querySelector('[data-local-time]');if(clock){const now=new Date();clock.textContent=new Intl.DateTimeFormat('en-GB',{timeZone:'Asia/Hong_Kong',hour:'2-digit',minute:'2-digit',hour12:false}).format(now);clock.dateTime=now.toISOString();}}
+function updateClock(){
+ const clock=document.querySelector('[data-local-time]');
+ if(!clock)return;
+ const now=new Date(),zone={timeZone:'Asia/Hong_Kong'};
+ clock.textContent=new Intl.DateTimeFormat('en-GB',{...zone,hour:'2-digit',minute:'2-digit',hour12:false}).format(now);
+ clock.dateTime=now.toISOString();
+ const card=clock.closest('[data-clock]');
+ if(!card)return;
+ const zhLang=document.body.dataset.lang==='zh';
+ const dateText=new Intl.DateTimeFormat(zhLang?'zh-CN':'en-GB',{...zone,weekday:zhLang?'short':'short',day:'numeric',month:zhLang?'long':'short'}).format(now);
+ const dateEl=card.querySelector('[data-clock-date]');
+ if(dateEl&&dateEl.textContent!==dateText)dateEl.textContent=dateText;
+ const hour=Number(new Intl.DateTimeFormat('en-GB',{...zone,hour:'numeric',hour12:false}).format(now));
+ const want=hour>=6&&hour<18?'sun':'moon';
+ const glyphSpan=card.querySelector('.clock-glyph [data-icon]');
+ if(glyphSpan&&glyphSpan.dataset.icon!==want){glyphSpan.dataset.icon=want;paintIcons(card.querySelector('.clock-glyph'));}
+}
+let scanDialog;
+function openScan(src,title){
+ if(!scanDialog){
+  scanDialog=document.createElement('dialog');
+  scanDialog.id='scan-dialog';scanDialog.className='scan-dialog';
+  scanDialog.innerHTML=`<header><span class="eyebrow" data-scan-title></span><button data-scan-close aria-label="${t('关闭扫描件','Close scan')}"><span data-icon="x" aria-hidden="true"></span></button></header><div class="scan-canvas"><iframe class="pdf-viewer" title="PDF" loading="lazy" allow="fullscreen"></iframe></div>`;
+  document.body.append(scanDialog);
+  paintIcons(scanDialog);
+  scanDialog.querySelector('[data-scan-close]').addEventListener('click',()=>scanDialog.close());
+  scanDialog.addEventListener('click',e=>{if(e.target===scanDialog)scanDialog.close();});
+  scanDialog.addEventListener('close',()=>{scanDialog.querySelector('iframe').removeAttribute('src');});
+ }
+ scanDialog.querySelector('[data-scan-title]').textContent=title;
+ const parts=src.match(/^(.*\/assets\/)pdfs\/(.+)$/);
+ scanDialog.querySelector('iframe').src=parts?`${parts[1]}pdfjs/web/viewer.html?file=../../pdfs/${parts[2]}#pagemode=none&page=1&zoom=page-fit`:src;
+ scanDialog.showModal();
+}
+document.addEventListener('click',e=>{
+ const trigger=e.target.closest('[data-scan]');
+ if(trigger&&!trigger.disabled){e.preventDefault();openScan(trigger.dataset.scan,trigger.getAttribute('data-scan-title')||'');}
+});
 setInterval(updateClock,30000);
 paintIcons();initialiseView();window.addEventListener('hashchange',revealHash);
 // Keep normal HTML URLs and browser history, while retaining the player on same-language navigation.

@@ -242,3 +242,73 @@ body::before,body::after{opacity:.5}
 .leaflet-control-attribution a{color:var(--muted)}
 .map-note{position:absolute;left:10px;bottom:6px;z-index:600;font-size:10px;color:var(--muted);pointer-events:none}
 @media(max-width:700px){.city-map{min-height:265px}}
+
+/* Apple-calibrated palette: neutral ink, system blues, softer hairlines; both themes share one accent family. */
+body{--ink:#1d1d1f;--muted:#64686f;--line:#e3e5e9;--accent:#0066cc;--warm:#bd6c4e;--moss:#54836b;--map-sea:#d7e6ef}
+body[data-theme=dark]{--surface:#1d242d;--ink:#f5f5f7;--muted:#a2adb8;--line:#2d3843;--accent:#7fc0f4;--warm:#eca578;--moss:#98c7ac;--map-sea:#141a22}
+.leaflet-control-attribution{max-width:52vw}
+
+/* A few wide aurora glows behind the whole page, one hue per corner. */
+body::before,body::after{opacity:.62;filter:blur(84px)}
+body::before{top:-28vw;right:-12vw;background:radial-gradient(circle,color-mix(in srgb,var(--accent) 30%,transparent),transparent 62%),radial-gradient(circle at 32% 72%,color-mix(in srgb,var(--moss) 15%,transparent),transparent 54%)}
+body::after{bottom:-38vw;left:-16vw;background:radial-gradient(circle,color-mix(in srgb,var(--warm) 22%,transparent),transparent 58%),radial-gradient(circle at 68% 28%,color-mix(in srgb,var(--accent) 12%,transparent),transparent 54%)}
+body[data-theme=dark]::before{opacity:.5}
+body[data-theme=dark]::after{opacity:.44}
+
+/* Landing clock: a small glass widget with the date and a day/night glyph. */
+.clock-card{display:inline-flex;align-items:center;gap:14px;padding:11px 18px 11px 12px;border:1px solid var(--line);border-radius:15px;background:color-mix(in srgb,var(--surface) 74%,transparent);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:0 12px 34px #10182816}
+.clock-glyph{width:36px;height:36px;flex:none;display:grid;place-items:center;border-radius:50%;color:var(--accent);background:color-mix(in srgb,var(--accent) 12%,transparent)}
+.clock-glyph [data-icon]{width:17px;height:17px}
+.clock-main{display:grid;gap:2px}
+.clock-main strong{font-size:21px;font-weight:500;letter-spacing:.01em;line-height:1.1;font-variant-numeric:tabular-nums}
+.clock-main small{font-size:10px;letter-spacing:.09em;color:var(--muted);text-transform:uppercase;white-space:nowrap}
+@media(max-width:600px){.clock-card{padding:9px 14px 9px 10px;border-radius:13px}.clock-glyph{width:30px;height:30px}.clock-glyph [data-icon]{width:15px;height:15px}.clock-main strong{font-size:17px}}
+
+/* Recognition cards stay open; four quiet groups instead of folded details. */
+.record-card{border-radius:14px}
+.record-card-head{display:grid;grid-template-columns:38px minmax(0,1fr) auto;gap:15px;align-items:start;padding:22px 24px 16px}
+.record-card-count{display:block;font-size:10px;color:var(--muted);font-variant-numeric:tabular-nums;padding-top:4px}
+.record-card-body{padding:0 24px 12px;border-top:1px solid color-mix(in srgb,var(--line) 60%,transparent)}
+.record-card .study-record{grid-template-columns:64px minmax(0,1fr);gap:16px;padding:15px 0}
+.record-card .study-record:last-child{border-bottom:0;padding-bottom:20px}
+.record-card .study-record p+p{margin-top:8px}
+.record-card:nth-child(3) .record-card-icon{background:color-mix(in srgb,var(--moss) 12%,var(--surface));color:var(--moss)}
+.record-card:nth-child(4) .record-card-icon{background:color-mix(in srgb,var(--accent) 11%,var(--surface));color:var(--accent)}
+.records-note{margin-top:20px;font-size:11px;color:var(--muted);max-width:60em;line-height:1.7}
+@media(max-width:600px){.record-card-head{padding:18px 18px 13px;grid-template-columns:34px minmax(0,1fr) auto}.record-card-body{padding:0 18px 8px}.record-card .study-record{grid-template-columns:52px minmax(0,1fr);gap:13px}.records-note{margin-top:14px}}
+.cred-open{display:inline-flex;align-items:center;gap:7px;margin-top:9px;min-height:30px;padding:0;font-size:11px;color:var(--accent)}
+.cred-open [data-icon]{width:11px;height:11px}
+.cred-open:hover{color:var(--ink)}
+
+/* Certificate scans open in a dialog around the shared PDF viewer. */
+.scan-dialog{width:min(920px,94vw);height:min(86vh,900px);border:1px solid var(--line);border-radius:16px;background:var(--surface);color:var(--ink);padding:0;overflow:hidden;box-shadow:0 30px 90px #10182834}
+.scan-dialog::backdrop{background:#0c1118cc;backdrop-filter:blur(6px)}
+.scan-dialog[open]{animation:panel-open .18s ease-out}
+.scan-dialog>header{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:13px 20px;border-bottom:1px solid var(--line)}
+.scan-dialog>header button{width:34px;height:34px;display:grid;place-items:center;border-radius:50%}
+.scan-dialog>header [data-icon]{width:14px;height:14px}
+.scan-canvas{height:calc(100% - 62px);padding:10px;background:color-mix(in srgb,var(--map-sea) 60%,var(--surface))}
+.scan-canvas .pdf-viewer{width:100%;height:100%;border:0;border-radius:8px;background:#e5e4df}
+
+/* City markers stay quiet dots; a strategy-map arc joins them at overview. */
+.city-pin-holder{background:none;border:0}
+.city-dot{position:relative;display:block;width:15px;height:15px;border-radius:50%;background:color-mix(in srgb,var(--surface) 30%,transparent);border:2.5px solid var(--accent);box-shadow:0 0 0 4px color-mix(in srgb,var(--accent) 22%,transparent),0 0 16px color-mix(in srgb,var(--accent) 55%,transparent),0 2px 7px #0c25312e;transition:background .18s,box-shadow .18s,transform .18s}
+.city-dot.is-selected{background:var(--accent);box-shadow:0 0 0 5px color-mix(in srgb,var(--accent) 30%,transparent),0 0 22px color-mix(in srgb,var(--accent) 70%,transparent),0 2px 7px #0c25312e}
+.city-dot:hover{transform:scale(1.18)}
+.city-link{animation:link-march 1.6s linear infinite}
+@keyframes link-march{to{stroke-dashoffset:-9}}
+@media(prefers-reduced-motion:reduce){.city-link{animation:none}}
+
+/* Boot page: a stamp of the seal, one breath, then the site. */
+#boot{position:fixed;inset:0;z-index:400;background:var(--bg);display:grid;place-items:center;transition:opacity .5s ease}
+#boot.is-done{opacity:0;pointer-events:none}
+body:has(#boot){overflow:hidden}
+.boot-inner{display:grid;justify-items:center;gap:20px}
+.boot-seal{width:64px;height:64px;display:grid;place-items:center;border:1.5px solid color-mix(in srgb,var(--warm) 52%,var(--line));border-radius:18px;color:var(--warm);background:color-mix(in srgb,var(--warm) 7%,var(--surface));font-size:19px;font-weight:600;letter-spacing:.02em;box-shadow:0 16px 42px color-mix(in srgb,var(--warm) 15%,transparent);animation:boot-stamp .85s cubic-bezier(.2,1.5,.4,1) both}
+.boot-name{font-size:10px;letter-spacing:.34em;color:var(--muted);text-transform:uppercase;animation:boot-rise .7s .28s ease both}
+.boot-bar{width:132px;height:2px;border-radius:2px;background:var(--line);overflow:hidden}
+.boot-bar i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),var(--moss));transform:translateX(-101%);animation:boot-fill 2.2s .2s cubic-bezier(.3,.6,.4,1) forwards}
+@keyframes boot-stamp{from{opacity:0;transform:scale(1.32) rotate(-9deg)}62%{opacity:1}to{transform:none}}
+@keyframes boot-rise{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+@keyframes boot-fill{to{transform:none}}
+@media(prefers-reduced-motion:reduce){.boot-seal,.boot-name,.boot-bar i{animation-duration:.01ms!important;animation-delay:0ms!important}}
