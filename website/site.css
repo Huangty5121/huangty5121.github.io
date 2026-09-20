@@ -426,3 +426,105 @@ main.page-arriving{animation:route-arrive .22s ease-out both}
 @media(max-width:700px){.cabinet-shelf{min-height:135px}.album-roller{min-height:105px}}
 @media(max-width:480px){.album-sleeve{width:84px;height:86px;margin-right:-12px}.album-roller:hover .album-sleeve,.album-roller:focus-within .album-sleeve{margin-right:4px}.album-roller{min-height:110px}.album-art-title{font-size:13px}}
 @media(prefers-reduced-motion:reduce){.album-sleeve,.album-pop{transition:none}}
+
+/* 2026-09-21: teal accent, WenKai voice, split venue chips, real covers, compact shelf. */
+:root{--accent:#1c7f6d;--map-sea:#e3efe9}
+body[data-theme=dark]{--accent:#7ed3c0;--map-sea:#15201c}
+@font-face{font-family:'WenKai Essay';font-style:normal;font-weight:400;font-display:swap;src:url('./assets/wenkai-essay.woff2') format('woff2')}
+body[data-theme=dark] .organisation-choices>button img,body[data-theme=dark] .preview-marks img{background:#dadcd4;border-radius:8px;padding:6px;filter:none;opacity:.94}
+body[data-theme=dark] .organisation-choices>button[aria-pressed=true] img{background:#e4e6de}
+
+/* Hero: the Chinese name leads, the latin name settles beneath. */
+.hero-name{font-family:'WenKai Essay','PingFang SC',serif;font-size:44px;line-height:1.15;letter-spacing:.06em;font-weight:400;margin:16px 0 4px}
+.hero-latin{font-size:10px;letter-spacing:.32em;color:var(--muted);text-transform:uppercase;margin:0 0 14px}
+.identity>h1{margin:16px 0 4px}
+@media(max-width:600px){.hero-name{font-size:38px}.hero-latin{letter-spacing:.26em}}
+
+/* Venue chips: IF and the rank each get their own quiet badge, stacked right. */
+.chip{display:inline-flex;align-items:center;font-size:10.5px;font-weight:600;letter-spacing:.01em;padding:3px 8px;border-radius:5px;border:1px solid;white-space:nowrap}
+.chip-if{color:var(--ink);border-color:color-mix(in srgb,var(--ink) 16%,var(--line));background:color-mix(in srgb,var(--surface) 88%,var(--ink) 4%)}
+.chip-rank{color:var(--warm);border-color:color-mix(in srgb,var(--warm) 36%,var(--line));background:color-mix(in srgb,var(--warm) 9%,var(--surface))}
+body[data-theme=dark] .chip-if{border-color:color-mix(in srgb,var(--ink) 22%,transparent);background:color-mix(in srgb,var(--surface) 70%,transparent)}
+body[data-theme=dark] .chip-rank{border-color:color-mix(in srgb,var(--warm) 34%,transparent);background:color-mix(in srgb,var(--warm) 13%,transparent)}
+.index-list .entry-overview{grid-template-columns:minmax(0,1fr) 90px}
+.venue-line .chip{transform:translateY(-1px)}
+
+/* City dots and the overview arc take the accent. */
+.city-dot{border-color:var(--dot,var(--accent))}
+.city-link{stroke:var(--accent)}
+
+/* Real album covers in a compact stack of three. */
+.album-sleeve .album-cover{position:absolute;inset:4px;width:calc(100% - 8px);height:calc(100% - 8px);object-fit:cover;border-radius:2px}
+.album-sleeve{width:104px;height:106px;margin-right:-40px}
+.album-roller:hover .album-sleeve,.album-roller:focus-within .album-sleeve{margin-right:12px}
+@media(max-width:480px){.album-sleeve{width:88px;height:90px;margin-right:-26px}}
+
+/* Cabinet: a small editor window that follows the site theme. */
+.personal-cabinet{display:block;padding:24px 26px 20px}
+.cabinet-head h2{font-size:18px;margin:6px 0 14px}
+.cabinet-window{margin-bottom:18px;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--surface);color:var(--ink);box-shadow:0 10px 34px #1018280f}
+.win-bar{display:flex;align-items:center;gap:12px;padding:10px 14px;border-bottom:1px solid var(--line);background:color-mix(in srgb,var(--ink) 4%,var(--surface))}
+.win-dots{display:flex;gap:6px}
+.win-dots i{width:10px;height:10px;border-radius:50%}
+.win-dots i:first-child{background:#e5695c}.win-dots i:nth-child(2){background:#e8b64c}.win-dots i:last-child{background:#6fbf73}
+.win-title{flex:1;text-align:center;font-size:11px;color:var(--muted);letter-spacing:.02em}
+.win-body{padding:16px 18px 18px;font-family:'WenKai Essay','PingFang SC',serif}
+.win-body p{font-size:14px;line-height:2;margin:0}
+.win-body p+p{margin-top:8px}
+@media(max-width:700px){.personal-cabinet{padding:19px 17px 16px}}
+
+/* News: plain sections, no theatre. */
+.press-card{display:grid;gap:7px;justify-items:start;padding:24px 28px 22px;border:1px solid var(--line);border-radius:12px;background:var(--surface)}
+.press-card time{font-size:11px;color:var(--muted);font-variant-numeric:tabular-nums}
+.press-card h2{font-size:19px;line-height:1.5;font-weight:500}
+.press-card p{font-size:13px;line-height:1.8;color:var(--muted);max-width:46em}
+.press-source{display:inline-flex;align-items:center;gap:7px;margin-top:8px;font-size:11px;color:var(--muted);border-top:1px solid var(--line);padding-top:11px}
+.press-source [data-icon]{width:11px;height:11px;color:var(--accent)}
+.press-card:hover h2{color:var(--accent)}
+.news-updates{padding-bottom:60px}
+.news-updates>.eyebrow{display:block;margin-bottom:4px}
+.update-row{display:grid;grid-template-columns:74px minmax(0,1fr);gap:18px;padding:15px 0;border-bottom:1px solid var(--line)}
+.update-row time{font-size:11px;color:var(--muted);font-variant-numeric:tabular-nums;padding-top:2px}
+.update-row h3{font-size:14px;font-weight:500}
+.update-row p{font-size:12px;color:var(--muted);line-height:1.7;margin-top:4px}
+
+/* Business-card contact panel and the shareable card page. */
+.contact-panel{width:392px;padding:22px}
+.biz-card{border:1px solid var(--line);border-radius:12px;padding:18px 18px 16px;background:linear-gradient(150deg,color-mix(in srgb,var(--accent) 8%,var(--surface)),var(--surface) 55%)}
+.biz-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.biz-id{display:grid;gap:3px}
+.biz-cn{font-family:'WenKai Essay','PingFang SC',serif;font-size:24px;line-height:1.2;letter-spacing:.1em}
+.biz-en{font-size:9px;letter-spacing:.26em;color:var(--muted)}
+.biz-close{width:30px;height:30px;display:grid;place-items:center;border-radius:8px;color:var(--muted)}
+.biz-close:hover{color:var(--ink);background:color-mix(in srgb,var(--ink) 7%,transparent)}
+.biz-role{font-size:11.5px;color:var(--muted);margin:8px 0 14px}
+.biz-mail{display:grid;grid-template-columns:38px minmax(0,1fr) 14px;gap:12px;align-items:center;width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:10px;background:color-mix(in srgb,var(--surface) 82%,transparent);text-align:left}
+.biz-mail:hover{border-color:color-mix(in srgb,var(--accent) 45%,var(--line))}
+.biz-mail-text{min-width:0;display:grid;gap:2px}
+.biz-mail-text small{font-size:9.5px;color:var(--muted)}
+.biz-mail-text strong{font-size:12.5px;font-weight:500;overflow-wrap:anywhere}
+.biz-mail [data-icon]{width:13px;height:13px;color:var(--muted)}
+.biz-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin-top:13px}
+.biz-btn{display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:44px;padding:10px 13px;border:1px solid var(--line);border-radius:10px;font-size:12px;font-weight:500}
+.biz-btn:hover{border-color:color-mix(in srgb,var(--accent) 45%,var(--line));background:color-mix(in srgb,var(--accent) 5%,transparent)}
+.biz-foot{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:13px}
+.biz-foot a{display:inline-flex;align-items:center;gap:6px;font-size:11px;color:var(--accent)}
+.biz-foot a [data-icon]{width:11px;height:11px}
+.biz-foot [data-copy-status]{font-size:10px;color:var(--muted)}
+.share-card-page{display:grid;place-items:center;min-height:calc(100svh - 210px);padding-block:30px 50px}
+.share-card{width:min(480px,100%);padding:34px 34px 28px;border:1px solid var(--line);border-radius:18px;background:linear-gradient(155deg,color-mix(in srgb,var(--accent) 9%,var(--surface)),var(--surface) 58%);box-shadow:0 24px 70px #10182818}
+.card-head{display:flex;gap:18px;align-items:center}
+.card-seal{width:64px;height:64px;flex:none;display:grid;place-items:center;border:1.5px solid color-mix(in srgb,var(--accent) 44%,var(--line));border-radius:14px;color:var(--accent);background:color-mix(in srgb,var(--accent) 8%,var(--surface));font-family:'WenKai Essay','PingFang SC',serif;font-size:15px;letter-spacing:.06em;line-height:1.3;writing-mode:vertical-rl}
+.card-id h1{font-size:26px;letter-spacing:.04em}
+.card-id p{font-size:9.5px;letter-spacing:.26em;color:var(--muted);margin-top:5px}
+.card-role{font-size:12.5px;color:var(--muted);margin:16px 0 20px;padding-bottom:16px;border-bottom:1px solid var(--line)}
+.card-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.card-actions .biz-btn:last-child{grid-column:1/-1}
+.card-note{font-size:11px;color:var(--muted);margin-top:18px}
+.share-card footer{margin-top:10px;font-size:9.5px;letter-spacing:.22em;color:var(--muted)}
+
+/* The essay and the voice read in WenKai. */
+.blog-header h1,.blog-section h2{font-family:'WenKai Essay','PingFang SC',serif;font-weight:400;letter-spacing:.02em}
+.blog-body p,.blog-lead{font-family:'WenKai Essay','PingFang SC',serif;font-size:15px;line-height:2.05}
+.blog-lead{font-size:17px}
+@media(max-width:600px){.blog-body p,.blog-lead{font-size:14px;line-height:2}}

@@ -2,10 +2,10 @@
 // profiles are the owner's public academic pages; updates are site milestones.
 const L=(zh,en)=>({zh,en});
 export const press=[
- {id:'recite',date:'2024 · 09',source:L('中华吟诵学会 · 第二届天涯共此时海内外诗友中秋联谊会','Zhonghua Recitation Society · Mid-Autumn gathering of poets'),
-  title:L('以吟诵登台，把诗读回它的声音。','On stage with classical recitation, giving poems back their voice.'),
-  summary:L('以香港理工大学学生的身份参与海内外诗友中秋联谊会，表演中华吟诵。','Joined the second Mid-Autumn gathering as a PolyU student and performed classical Chinese recitation.'),
-  url:'https://www.zhscxh.com',tag:L('媒体报道','Press')},
+ {id:'recite',date:'2024 · 09',source:L('中华吟诵学会 · 活动报道','Zhonghua Recitation Society · event report'),
+  title:L('参加第二届天涯共此时海内外诗友中秋联谊会','Joined the second Mid-Autumn recitation gathering'),
+  summary:L('作为香港理工大学学生参与联谊会，表演吟诵节目。','Performed classical recitation at the gathering as a PolyU student.'),
+  url:'https://www.zhscxh.com'},
 ];
 export const profiles=[
  {id:'scholar',source:'Google Scholar',title:L('论文与引用记录','Papers & citations'),url:'https://scholar.google.com/citations?user=zrVCdOkAAAAJ&hl=en'},

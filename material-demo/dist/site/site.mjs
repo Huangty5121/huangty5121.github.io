@@ -65,7 +65,7 @@ function initialiseView({scrollToHash=true}={}){
  const board=main.querySelector('.background-board');
  if(board){
   const directory=board.querySelector('.directory-heading'),layout=board.querySelector('.background-layout');
-  const cityNames={bj:t('北京','Beijing'),sz:t('深圳','Shenzhen'),hk:t('香港','Hong Kong'),other:t('地点未列明','Location not listed')};
+  const cityNames={bj:t('北京','Beijing'),sz:t('深圳','Shenzhen'),hk:t('香港','Hong Kong')};
   const chooseCity=id=>{
    board.dataset.city=id||'';
    directory.hidden=!id;
@@ -104,16 +104,15 @@ function initialiseView({scrollToHash=true}={}){
   for(const city of board.querySelectorAll('[data-city]'))city.addEventListener('click',()=>{chooseCity(city.dataset.city);selectCurrentOrg('',false);},options);
   window.addEventListener('resize',()=>{const selected=board.querySelector('[data-org][aria-pressed="true"]');if(selected)selectCurrentOrg(selected.dataset.org,false);},options);
  }
- let cityMap=null;
  for(const viewport of [main.querySelector('[data-citymap]')]){
-  if(!viewport)break;cityMap?.remove();
+  if(!viewport)break;
   const L=window.L;if(!L)break;
   const zhLang=document.body.dataset.lang==='zh';
   const cities=[['bj',zhLang?'北京':'Beijing'],['sz',zhLang?'深圳':'Shenzhen'],['hk',zhLang?'香港':'Hong Kong']].map(([id,name])=>({id,name,ll:viewport.dataset['city'+id[0].toUpperCase()+id[1]]?.split(',').map(Number),dot:{bj:'#846bb9',sz:'#e07e64',hk:'#3c9c86'}[id]})).filter(c=>c.ll&&c.ll.length===2&&c.ll.every(Number.isFinite));
   if(!cities.length)break;
   // One fixed light cartography for both themes: the offline silhouette
   // paints instantly underneath, desaturated Esri Topo tiles load over it.
-  const tileSets=[['https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}','Tiles © Esri']];
+  const tileSets=[['https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}','Tiles © Esri']];
   const landStyle={color:'#a9c9bd',weight:.8,fillColor:'#dcead9',fillOpacity:1};
   const flyZoom={bj:8,sz:9,hk:9};
   const map=L.map(viewport,{zoomControl:false,scrollWheelZoom:false});
@@ -122,7 +121,7 @@ function initialiseView({scrollToHash=true}={}){
   map.createPane('land');map.getPane('land').style.zIndex=100;
   const land=L.geoJSON(mapLand,{interactive:false,pane:'land',style:landStyle,attribution:'Land © Natural Earth'}).addTo(map);
   let tileLayers=[];
-  const applyTiles=()=>{for(const l of tileLayers)map.removeLayer(l);tileLayers=tileSets.map(([url,attr])=>L.tileLayer(url,{maxZoom:16,keepBuffer:4,updateWhenZooming:false,attribution:attr}).addTo(map));};
+  const applyTiles=()=>{for(const l of tileLayers)map.removeLayer(l);tileLayers=tileSets.map(([url,attr])=>L.tileLayer(url,{maxZoom:16,keepBuffer:4,updateWhenZooming:false,detectRetina:true,attribution:attr}).addTo(map));};
   applyTiles();
   const overview=()=>{map.fitBounds(L.latLngBounds(cities.map(c=>c.ll)).pad(viewport.clientWidth>520?.18:.3),{animate:false});};
   overview();
@@ -132,7 +131,7 @@ function initialiseView({scrollToHash=true}={}){
   document.body.append(warmHost);
   const warmMap=L.map(warmHost,{zoomControl:false,attributionControl:false,scrollWheelZoom:false,dragging:false,boxZoom:false,doubleClickZoom:false,keyboard:false,touchZoom:false});
   let warmLayers=[];
-  const applyWarm=()=>{for(const l of warmLayers)warmMap.removeLayer(l);warmLayers=tileSets.map(([url])=>L.tileLayer(url,{maxZoom:16,keepBuffer:4}).addTo(warmMap));};
+  const applyWarm=()=>{for(const l of warmLayers)warmMap.removeLayer(l);warmLayers=tileSets.map(([url])=>L.tileLayer(url,{maxZoom:16,keepBuffer:4,detectRetina:true}).addTo(warmMap));};
   applyWarm();
   let warmed=false;
   const warmCities=async()=>{if(warmed)return;warmed=true;for(const c of cities){if(!warmMap)return;warmMap.setView(c.ll,flyZoom[c.id]||9,{animate:false});await new Promise(r=>setTimeout(r,900));}};

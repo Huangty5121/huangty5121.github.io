@@ -65,7 +65,7 @@ function initialiseView({scrollToHash=true}={}){
  const board=main.querySelector('.background-board');
  if(board){
   const directory=board.querySelector('.directory-heading'),layout=board.querySelector('.background-layout');
-  const cityNames={bj:t('北京','Beijing'),sz:t('深圳','Shenzhen'),hk:t('香港','Hong Kong'),other:t('地点未列明','Location not listed')};
+  const cityNames={bj:t('北京','Beijing'),sz:t('深圳','Shenzhen'),hk:t('香港','Hong Kong')};
   const chooseCity=id=>{
    board.dataset.city=id||'';
    directory.hidden=!id;
@@ -104,9 +104,8 @@ function initialiseView({scrollToHash=true}={}){
   for(const city of board.querySelectorAll('[data-city]'))city.addEventListener('click',()=>{chooseCity(city.dataset.city);selectCurrentOrg('',false);},options);
   window.addEventListener('resize',()=>{const selected=board.querySelector('[data-org][aria-pressed="true"]');if(selected)selectCurrentOrg(selected.dataset.org,false);},options);
  }
- let cityMap=null;
  for(const viewport of [main.querySelector('[data-citymap]')]){
-  if(!viewport)break;cityMap?.remove();
+  if(!viewport)break;
   const L=window.L;if(!L)break;
   const zhLang=document.body.dataset.lang==='zh';
   const cities=[['bj',zhLang?'北京':'Beijing'],['sz',zhLang?'深圳':'Shenzhen'],['hk',zhLang?'香港':'Hong Kong']].map(([id,name])=>({id,name,ll:viewport.dataset['city'+id[0].toUpperCase()+id[1]]?.split(',').map(Number),dot:{bj:'#846bb9',sz:'#e07e64',hk:'#3c9c86'}[id]})).filter(c=>c.ll&&c.ll.length===2&&c.ll.every(Number.isFinite));

@@ -40,3 +40,31 @@ Live pre-fix diagnosis on 20 September: both `https://tyhuang.hk/` (Vercel) and 
 - 主视觉 folio-scene-cutout.webp 以 q92 重编码并轻度锐化（图源本身为生成图，真正提升清晰度需重生成更高分辨率原图，已向用户说明）。
 - 专辑封套放大至 100px 并提升文字清晰度（标题 14px、歌手 8px 小型大写）；contact 卡重修留白节奏并补回 LinkedIn 品牌色芯片。
 - 验证：暗色页面 + 固定浅色地图、contact 明暗两态、封套清晰度均通过；check.mjs 0 failures；镜像已同步重建。
+
+## 2026-09-21 凌晨 · 用户新一轮决策落地
+
+- 地图按用户参照（Google Maps 图层感）：Esri World_Street_Map + detectRetina（512px 高清瓦片），保持降饱和滤镜与固定浅色；山脉阴影不再突兀，路网/城市/海岸线分层清晰。
+- Work 徽章补全：热浪 IF 4.1 · JCR Q1（SJR Q1）、GLM7 IF 14.1 · JCR Q1、JOCN IF 1.9、BIBM CCF B、Crypto-ncRNA 标注 CCF A · ICML Workshop（注明是主办方会议等级）、StrucTrace「IF 待公布」（npj 系列新刊，注明系列后续通常 Q1）。
+- 新增 News 页（独立导航「动态」）：news.mjs 单一数据源；剪报卡（真实报道：2024 中华吟诵学会中秋联谊会，有链接）+ 站点近况 + 学术足迹（Google Scholar / ResearchGate / IEEE Xplore 真实档案）。首页暂不加 Latest，等报道多了再说。
+- 首页 Hero：中文页「黄天野」大字 + TIN-YEH "HEAVEN" HUANG 小字；英文页镜像（Tin-Yeh Huang + 黄天野 · "HEAVEN"）；其余位置保留英文名。启动页印章同步用黄天野（WenKai）。
+- 启动页改为每次完整加载固定 ~1.25s 的印章+进度条动画（用户反馈从未见过启动页，要求固定时长保证 smooth），站内 SPA 跳转仍走进度条。
+- 桌面一角重构：自述正文换 WenKai 手写体；新增三个小插件（循环中/信一句话/现在）；唱片架改用真实专辑封面（iTunes 600px：U 87 / CHIN UP! / THE PROTÉGÉ，U87 裁方）。
+- 配色：accent 从深蓝 #0066cc 换成青绿 #1c7f6d（暗色 #7ed3c0），venue 徽章、启动页、光晕随之统一。
+- Notes 正文与 blog 使用 wenkai-essay.woff2（86KB 子集，pyftsubset 从全量 TTF 重新生成，含 industrial-note 全文与界面词表；OFL 许可随包）。
+- 验证：明暗主题、News/About/Home/EN、390px 无横向溢出；check.mjs 82 页 0 failures。
+
+## 2026-09-21 · 用户反馈修正轮
+
+- 启动页整体移除（用户看过实机后不喜欢）。
+- 论文行重排：IF 与 JCR/CCF 拆成两枚独立徽章（IF 中性色、分区暖色），放条目右列纵排，箭头不再重叠；Crypto-ncRNA 修正为 CCF A · ICLR 2025（此前误写 ICML——该文是 AI4NA @ ICLR 2025）。修复过程中发现徽章用 <a> 嵌在外层条目 <a> 内导致 HTML 解析器拆坏结构，已改为 <span>。
+- News 简约化：删引号装饰与抒情文案（「以吟诵登台…」换为朴素事实句），学术足迹区撤出 News。
+- 学术档案迁至联系名片：contact 面板重做成名片（黄天野 WenKai 抬头 + 点击复制邮箱 + 写邮件/LinkedIn/GitHub/Scholar 按钮 + 名片页入口）；新增 card.html 可分享名片页（tyhuang.hk/card.html）。
+- 桌面一角再简化：删纸张行（两张手稿图不该搬过来）、删「现在/叙事」标签与手动明暗切换；编辑器窗口跟随站点主题；三张专辑收窄为紧凑堆叠（悬停展开）。
+- 天数智芯、启元实验室放回北京组（GPT 版 cityFor 漏掉导致落入「其他机构」），空的「其他机构」分组删除。
+- 组织 Logo 暗色样式改为安静的灰绿钉贴，不再是大白框。
+- 死代码清理：一次自动清理器损坏了 CSS（boot-stamp 关键帧三节点导致括号计数错位），已从 git 干净基底重建并改为手工精确清理；blog 文内标题与自述/名片使用 WenKai 子集（86KB）。
+- 验收：明暗主题下 Collection/About/News/Card/Contact、EN 首页、390px 手机版均通过；check.mjs 84 页 0 failures。
+
+### 追加：论文行徽章位置再调
+
+- 按用户意见：IF/JCR 徽章不再单独占右列（会被撑出奇怪的底部空隙），改回期刊名同行、紧随其右（箭头仍居右列垂直居中）；行高恢复由内容决定。手机端徽章自然换行。
