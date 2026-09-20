@@ -280,14 +280,25 @@ body[data-theme=dark] .venue-metric{color:#acf0e1;background:#224e53;border-colo
 .city-index button[data-city=hk] .city-symbol{color:#3c9c86}
 .city-index button[data-city=other] .city-symbol{color:var(--muted)}
 
+/* Hollow glowing city dots; a quiet strategy arc joins them at overview. */
+.city-pin-holder{background:none;border:0}
+.city-dot{position:relative;display:block;width:15px;height:15px;border-radius:50%;background:color-mix(in srgb,#fff 32%,transparent);border:2.5px solid var(--dot,#0066cc);box-shadow:0 0 0 4px color-mix(in srgb,var(--dot,#0066cc) 20%,transparent),0 0 14px color-mix(in srgb,var(--dot,#0066cc) 55%,transparent),0 2px 7px #0c25312e;transition:background .18s,box-shadow .18s,transform .18s}
+.city-dot.is-selected{background:var(--dot,#0066cc);box-shadow:0 0 0 5px color-mix(in srgb,var(--dot,#0066cc) 28%,transparent),0 0 20px color-mix(in srgb,var(--dot,#0066cc) 70%,transparent),0 2px 7px #0c25312e}
+.city-dot:hover{transform:scale(1.18)}
+.city-link{animation:link-march 1.6s linear infinite}
+@keyframes link-march{to{stroke-dashoffset:-9}}
+@media(prefers-reduced-motion:reduce){.city-link{animation:none}}
+
 /* Contact: one primary address and two secondary profiles. */
-.contact-panel{width:390px;padding:27px;border-radius:16px;box-shadow:0 20px 70px #0c1b2d27}
-.contact-panel header{margin-bottom:20px}
-.contact-lead{display:grid;grid-template-columns:36px minmax(0,1fr) 30px;gap:12px;align-items:center;padding:18px;border:1px solid var(--line);background:color-mix(in srgb,var(--accent) 5%,var(--surface));border-radius:11px}
+.contact-panel{width:392px;padding:24px 24px 20px;border-radius:16px;box-shadow:0 20px 70px #0c1b2d27}
+.contact-panel header{margin-bottom:18px}
+.contact-panel header h2{margin-top:6px}
+.contact-lead{display:grid;grid-template-columns:38px minmax(0,1fr) 30px;gap:13px;align-items:center;padding:15px 16px;border:1px solid var(--line);background:color-mix(in srgb,var(--accent) 5%,var(--surface));border-radius:12px}
 .contact-lead>div{min-width:0}
 .contact-lead small{display:block;font-size:10px;color:var(--muted);line-height:1.4}
-.contact-lead a{display:block;font-size:12px;line-height:1.45;font-weight:500;overflow-wrap:anywhere;margin-top:3px}
-.contact-logo{width:36px;height:36px;border-radius:8px}
+.contact-lead a{display:block;font-size:13px;line-height:1.5;font-weight:500;overflow-wrap:anywhere;margin-top:3px;letter-spacing:.005em}
+.contact-logo{width:38px;height:38px;border-radius:9px;display:grid;place-items:center}
+.contact-logo-linkedin{background:#0a66c2;color:#fff;font-size:14px;font-weight:600;letter-spacing:-.02em}
 .contact-logo-mail{background:transparent}
 .contact-logo-mail svg{width:22px;height:22px}
 .contact-logo-github{background:#24292f;color:#fff}
@@ -295,9 +306,9 @@ body[data-theme=dark] .venue-metric{color:#acf0e1;background:#224e53;border-colo
 body[data-theme=dark] .contact-logo-github{background:#e8edf2;color:#18212a}
 .contact-lead .copy-email{display:grid;place-items:center;margin:0;width:30px;height:30px;min-height:30px;border-radius:6px;color:var(--accent)}
 .contact-lead .copy-email:hover{background:color-mix(in srgb,var(--accent) 11%,transparent)}
-.contact-panel [data-copy-status]{min-height:22px;padding-left:2px;margin:5px 0 7px}
-.contact-profiles{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
-.contact-profiles a{display:grid;grid-template-columns:36px minmax(0,1fr) 12px;gap:9px;align-items:center;min-width:0;min-height:61px;padding:10px;border:1px solid var(--line);border-radius:9px;font-size:12px;font-weight:500}
+.contact-panel [data-copy-status]{min-height:20px;padding-left:2px;margin:8px 2px 10px}
+.contact-profiles{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.contact-profiles a{display:grid;grid-template-columns:38px minmax(0,1fr) 12px;gap:11px;align-items:center;min-width:0;min-height:58px;padding:11px 12px;border:1px solid var(--line);border-radius:10px;font-size:12px;font-weight:500}
 .contact-profiles a:hover{border-color:color-mix(in srgb,var(--accent) 48%,var(--line));background:color-mix(in srgb,var(--accent) 4%,var(--surface))}
 .contact-profiles a>[data-icon]{width:12px;height:12px;color:var(--muted)}
 
@@ -389,15 +400,15 @@ main.page-arriving{animation:route-arrive .22s ease-out both}
 /* Editorial album sleeves: the records are real; the sleeves are site graphics. */
 .cabinet-shelf{min-height:135px;padding-bottom:14px;overflow:visible}
 .cabinet-shelf-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;width:100%}
-.album-roller{display:flex;align-items:flex-end;min-height:112px;width:100%;padding:11px 0 0;isolation:isolate}
-.album-sleeve{position:relative;display:block;flex:none;width:88px;height:90px;margin-right:-20px;border:1px solid color-mix(in srgb,var(--ink) 17%,var(--line));border-radius:4px;background:var(--surface);box-shadow:0 5px 10px #15203018;transform:translateY(0);transition:margin-right .25s ease,transform .25s ease,box-shadow .25s ease;outline-offset:4px}
+.album-roller{display:flex;align-items:flex-end;min-height:124px;width:100%;padding:13px 0 0;isolation:isolate}
+.album-sleeve{position:relative;display:block;flex:none;width:100px;height:102px;margin-right:-18px;border:1px solid color-mix(in srgb,var(--ink) 17%,var(--line));border-radius:4px;background:var(--surface);box-shadow:0 5px 10px #15203018;transform:translateY(0);transition:margin-right .25s ease,transform .25s ease,box-shadow .25s ease;outline-offset:4px}
 .album-sleeve:last-child{margin-right:0}
 .album-roller:hover .album-sleeve,.album-roller:focus-within .album-sleeve{margin-right:5px}
 .album-roller:hover .album-sleeve:last-child,.album-roller:focus-within .album-sleeve:last-child{margin-right:0}
 .album-sleeve:hover,.album-sleeve:focus-visible{z-index:3;transform:translateY(-9px);box-shadow:0 10px 22px #15203030}
-.album-art{position:absolute;inset:4px;overflow:hidden;border-radius:2px;display:flex;flex-direction:column;justify-content:space-between;padding:6px;color:#fff}
-.album-art-title{font-size:13px;line-height:1;letter-spacing:-.04em;font-weight:700;word-break:break-word}
-.album-art-artist{font-size:7px;letter-spacing:.02em}
+.album-art{position:absolute;inset:4px;overflow:hidden;border-radius:2px;display:flex;flex-direction:column;justify-content:space-between;padding:7px 8px;color:#fff;text-rendering:optimizeLegibility}
+.album-art-title{font-size:14px;line-height:1.05;letter-spacing:-.03em;font-weight:700;word-break:break-word}
+.album-art-artist{font-size:8px;letter-spacing:.06em;text-transform:uppercase}
 .album-u87 .album-art{background:linear-gradient(135deg,#8c2932 0%,#9e605e 52%,#c3aba3 100%)}
 .album-u87 .album-art::before{content:'87';position:absolute;right:-5px;top:19px;font-size:53px;font-weight:600;opacity:.28;transform:rotate(-12deg)}
 .album-u87 .album-art-title,.album-u87 .album-art-artist{position:relative}
@@ -408,10 +419,10 @@ main.page-arriving{animation:route-arrive .22s ease-out both}
 .album-protege .album-art-title{font-size:10px;line-height:1.05;position:relative}
 .album-pop{position:absolute;z-index:5;left:0;right:0;bottom:0;padding:6px;border-top:1px solid var(--line);border-radius:0 0 3px 3px;background:var(--surface);color:var(--ink);box-shadow:0 -4px 12px #15203018;opacity:0;pointer-events:none;transform:translateY(8px);transition:opacity .18s,transform .18s}
 .album-pop strong,.album-pop small{display:block;line-height:1.2}
-.album-pop strong{font-size:9px;font-weight:600}.album-pop small{font-size:8px;margin-top:2px;color:var(--muted)}
+.album-pop strong{font-size:10px;font-weight:600}.album-pop small{font-size:9px;margin-top:2px;color:var(--muted)}
 .album-sleeve:hover .album-pop,.album-sleeve:focus-visible .album-pop{opacity:1;transform:none}
 .cabinet-player{display:inline-flex;align-items:center;gap:5px;padding:0;background:none;border:0;font-size:10px;color:var(--muted);cursor:pointer;white-space:nowrap}
 .cabinet-player:hover{color:var(--accent)}.cabinet-player [data-icon]{width:11px;height:11px}
 @media(max-width:700px){.cabinet-shelf{min-height:135px}.album-roller{min-height:105px}}
-@media(max-width:480px){.album-sleeve{width:77px;height:82px;margin-right:-13px}.album-roller:hover .album-sleeve,.album-roller:focus-within .album-sleeve{margin-right:4px}.album-roller{min-height:105px}.album-art-title{font-size:12px}}
+@media(max-width:480px){.album-sleeve{width:84px;height:86px;margin-right:-12px}.album-roller:hover .album-sleeve,.album-roller:focus-within .album-sleeve{margin-right:4px}.album-roller{min-height:110px}.album-art-title{font-size:13px}}
 @media(prefers-reduced-motion:reduce){.album-sleeve,.album-pop{transition:none}}

@@ -24,3 +24,19 @@
 This is a local build. Physical-device testing, full accessibility audit, publishing, and the owner's final aesthetic acceptance are not claimed. Institutional city labels refer to institutions, not to exact personal work sites. The note is still a draft awaiting the owner's revision; final publisher texts and unpublished project demonstration files were not supplied. Music depends on the external official preview remaining available.
 
 Live pre-fix diagnosis on 20 September: both `https://tyhuang.hk/` (Vercel) and `https://huangty5121.github.io/` (GitHub Pages) returned HTTP 404, while `/material-demo/dist/site/index.html` returned HTTP 200 on both hosts. The copy pushed to the GitHub repository had no root `index.html`, `vercel.json`, or Pages workflow. Publishing configuration is now prepared; a new public deployment must be checked after the changes are pushed and the Pages source is set to GitHub Actions.
+
+## 2026-09-20 晚 · 地图恢复（在 GPT「mvp v1」之上）
+
+- GPT 版本把地图改为离线 GeoJSON 海岸线（无瓦片），用户反馈「地图没了」。已在 GPT 结构上恢复真实瓦片：明色 Esri World_Topo_Map（保留 GPT 的 saturate(.66) 降饱和滤镜），暗色 Esri Dark_Gray_Base + Reference 路网标注层。
+- GeoJSON 海岸线保留为 z100 专用 pane 的底层：瓦片加载前/离线时兜底，随主题换色。
+- 城市标记恢复为空心光晕圆点（沿用 GPT 的城市色 北京紫/深圳橘/香港青），不显示地名标注；总览态有虚线弧线连接三城（微东凸，行进动画），进入单城后隐去；城市跳转 setView 非动画 + 屏外隐藏地图按城市预取瓦片。
+- 修复了此前弧线乱走的根因：arc() 二次贝塞尔把 cx/cy（纬度/经度控制点）在 push 时用反了。
+- 验证：明/暗主题瓦片加载、圆点、弧线、城市跳转均正常；check.mjs 0 failures；镜像目录已同步重建。
+
+### 追加（同日晚）：按用户澄清修正
+
+- 用户澄清：「做过的事」账本与首页时间组件是用户主动让 GPT 改的，保留不动；启动页被进度条替代也是用户要求（加载/切换通用过渡），不恢复。
+- 地图按用户要求改为「明暗同一套、固定浅色」：两种主题都用降饱和 Esri Topo 瓦片 + 浅色海岸线底层，不再随主题切换；瓦片层、光晕圆点、弧线保留。
+- 主视觉 folio-scene-cutout.webp 以 q92 重编码并轻度锐化（图源本身为生成图，真正提升清晰度需重生成更高分辨率原图，已向用户说明）。
+- 专辑封套放大至 100px 并提升文字清晰度（标题 14px、歌手 8px 小型大写）；contact 卡重修留白节奏并补回 LinkedIn 品牌色芯片。
+- 验证：暗色页面 + 固定浅色地图、contact 明暗两态、封套清晰度均通过；check.mjs 0 failures；镜像已同步重建。

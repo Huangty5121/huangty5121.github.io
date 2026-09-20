@@ -109,29 +109,61 @@ function initialiseView({scrollToHash=true}={}){
   if(!viewport)break;cityMap?.remove();
   const L=window.L;if(!L)break;
   const zhLang=document.body.dataset.lang==='zh';
-  const cities=[['bj',zhLang?'北京':'Beijing'],['sz',zhLang?'深圳':'Shenzhen'],['hk',zhLang?'香港':'Hong Kong']].map(([id,name])=>({id,name,ll:viewport.dataset['city'+id[0].toUpperCase()+id[1]]?.split(',').map(Number)})).filter(c=>c.ll&&c.ll.length===2&&c.ll.every(Number.isFinite));
+  const cities=[['bj',zhLang?'北京':'Beijing'],['sz',zhLang?'深圳':'Shenzhen'],['hk',zhLang?'香港':'Hong Kong']].map(([id,name])=>({id,name,ll:viewport.dataset['city'+id[0].toUpperCase()+id[1]]?.split(',').map(Number),dot:{bj:'#846bb9',sz:'#e07e64',hk:'#3c9c86'}[id]})).filter(c=>c.ll&&c.ll.length===2&&c.ll.every(Number.isFinite));
   if(!cities.length)break;
-  const cityColors={bj:'#846bb9',sz:'#e07e64',hk:'#3c9c86'};
-  const map=L.map(viewport,{zoomControl:false,scrollWheelZoom:false,zoomSnap:.5});
+  // One fixed light cartography for both themes: the offline silhouette
+  // paints instantly underneath, desaturated Esri Topo tiles load over it.
+  const tileSets=[['https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}','Tiles © Esri']];
+  const landStyle={color:'#a9c9bd',weight:.8,fillColor:'#dcead9',fillOpacity:1};
+  const flyZoom={bj:8,sz:9,hk:9};
+  const map=L.map(viewport,{zoomControl:false,scrollWheelZoom:false});
   map.attributionControl.setPrefix('');
   map.addControl(L.control.zoom({position:'bottomright'}));
-  map.fitBounds(L.latLngBounds(cities.map(c=>c.ll)).pad(viewport.clientWidth>520?.18:.3),{animate:false});
-  if(viewport.clientWidth>520)map.setZoom(map.getZoom()+.5,{animate:false});
-  L.geoJSON(mapLand,{interactive:false,style:{color:'#a9c9bd',weight:.8,opacity:.85,fillColor:'#cfe4d7',fillOpacity:1},attribution:'Land © Natural Earth'}).addTo(map);
+  map.createPane('land');map.getPane('land').style.zIndex=100;
+  const land=L.geoJSON(mapLand,{interactive:false,pane:'land',style:landStyle,attribution:'Land © Natural Earth'}).addTo(map);
+  let tileLayers=[];
+  const applyTiles=()=>{for(const l of tileLayers)map.removeLayer(l);tileLayers=tileSets.map(([url,attr])=>L.tileLayer(url,{maxZoom:16,keepBuffer:4,updateWhenZooming:false,attribution:attr}).addTo(map));};
+  applyTiles();
+  const overview=()=>{map.fitBounds(L.latLngBounds(cities.map(c=>c.ll)).pad(viewport.clientWidth>520?.18:.3),{animate:false});};
+  overview();
+  // A hidden offscreen map prefetches each city's tiles so jumps feel instant.
+  const warmHost=document.createElement('div');
+  warmHost.style.cssText='position:absolute;left:-99990px;top:0;width:480px;height:340px;visibility:hidden;pointer-events:none';
+  document.body.append(warmHost);
+  const warmMap=L.map(warmHost,{zoomControl:false,attributionControl:false,scrollWheelZoom:false,dragging:false,boxZoom:false,doubleClickZoom:false,keyboard:false,touchZoom:false});
+  let warmLayers=[];
+  const applyWarm=()=>{for(const l of warmLayers)warmMap.removeLayer(l);warmLayers=tileSets.map(([url])=>L.tileLayer(url,{maxZoom:16,keepBuffer:4}).addTo(warmMap));};
+  applyWarm();
+  let warmed=false;
+  const warmCities=async()=>{if(warmed)return;warmed=true;for(const c of cities){if(!warmMap)return;warmMap.setView(c.ll,flyZoom[c.id]||9,{animate:false});await new Promise(r=>setTimeout(r,900));}};
+  const warmTimer=setTimeout(warmCities,2600);
   let selectedId=null;const markers={};
-  const tipDir={bj:'right',sz:'top',hk:'right'};
+  // Strategy-map arcs join the cities at overview and fade once zoomed in.
+  const arc=(a,b,bulge)=>{
+   const pts=[];
+   const mx=(a[0]+b[0])/2,my=(a[1]+b[1])/2;
+   const dx=b[1]-a[1],dy=b[0]-a[0],len=Math.hypot(dx,dy)||1;
+   const cx=mx+(-dy/len)*len*bulge,cy=my+(dx/len)*len*bulge;
+   for(let i=0;i<=36;i++){const t=i/36,u=1-t;pts.push([u*u*a[0]+2*u*t*cx+t*t*b[0],u*u*a[1]+2*u*t*cy+t*t*b[1]]);}
+   return pts;
+  };
+  const link=L.polyline([arc(cities[0].ll,cities[1].ll,.16),arc(cities[1].ll,cities[2].ll,.3)],{weight:1.6,dashArray:'1 8',opacity:.65,interactive:false,lineCap:'round',className:'city-link'}).addTo(map);
+  const cssRead=()=>getComputedStyle(document.body).getPropertyValue('--accent').trim();
+  const paintLink=()=>{link.setStyle({color:cssRead(),opacity:map.getZoom()<=(flyZoom.bj-1)?.65:0});};
+  map.on('zoomend',paintLink);
   for(const c of cities){
-   const m=L.circleMarker(c.ll,{radius:7,color:cityColors[c.id],weight:2,fillColor:'#ffffff',fillOpacity:1}).addTo(map);
-   m.bindTooltip(c.name,{permanent:true,direction:tipDir[c.id]||'right',offset:tipDir[c.id]==='top'?[0,-6]:[10,0],className:'city-tip',opacity:1});
+   const m=L.marker(c.ll,{icon:L.divIcon({className:'city-pin-holder',html:`<span class="city-dot" style="--dot:${c.dot}"></span>`,iconSize:[15,15],iconAnchor:[7,7]}),keyboard:false,title:c.name,alt:c.name,riseOnHover:true});
    m.on('click',()=>main.querySelector(`.city-index button[data-city="${c.id}"]`)?.click());
-   markers[c.id]=m;
+   m.addTo(map);markers[c.id]=m;
   }
   viewport.parentElement.querySelector('.map-fallback')?.setAttribute('hidden','');
-  const paint=()=>{for(const c of cities)markers[c.id].setStyle({color:cityColors[c.id],fillColor:c.id===selectedId?cityColors[c.id]:'#ffffff'});};
-  const fly=id=>{const c=cities.find(x=>x.id===id);selectedId=c?.id||null;if(c)map.flyTo(c.ll,id==='bj'?8.5:9,{duration:matchMedia('(prefers-reduced-motion:reduce)').matches?0:.55});else{map.fitBounds(L.latLngBounds(cities.map(x=>x.ll)).pad(viewport.clientWidth>520?.18:.3),{animate:false});if(viewport.clientWidth>520)map.setZoom(map.getZoom()+.5,{animate:false});}paint();};
+  const paint=()=>{link.setStyle({color:cssRead()});for(const c of cities)markers[c.id].getElement()?.firstElementChild?.classList.toggle('is-selected',c.id===selectedId);paintLink();};
+  const fly=id=>{const c=cities.find(x=>x.id===id);selectedId=c?.id||null;if(c)map.setView(c.ll,flyZoom[id]||9,{animate:false});else overview();paint();};
   for(const b of main.querySelectorAll('.city-index button[data-city]'))b.addEventListener('click',()=>fly(b.dataset.city),options);
   setTimeout(()=>{const c=main.querySelector('.background-board')?.dataset.city;if(c&&c!==selectedId)fly(c);},0);
-  options.signal.addEventListener('abort',()=>map.remove(),{once:true});
+  const mo=new MutationObserver(()=>paint());
+  mo.observe(document.body,{attributes:true,attributeFilter:['data-theme']});
+  options.signal.addEventListener('abort',()=>{mo.disconnect();clearTimeout(warmTimer);warmed=true;warmMap.remove();warmHost.remove();map.remove();},{once:true});
  }
  if(new URLSearchParams(location.search).get('contact')==='open')contactPanel.showPopover();
  for(const button of main.querySelectorAll('[data-work-area]'))button.addEventListener('click',()=>{for(const b of main.querySelectorAll('[data-work-area]'))b.setAttribute('aria-pressed',String(b===button));for(const panel of main.querySelectorAll('[data-work-panel]'))panel.hidden=panel.dataset.workPanel!==button.dataset.workArea;},options);
