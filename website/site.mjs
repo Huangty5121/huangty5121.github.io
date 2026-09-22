@@ -1,4 +1,3 @@
-import mapLand from './assets/map-land.mjs';
 const zh=document.body.dataset.lang==='zh';
 const t=(a,b)=>zh?a:b;
 const modules=new Map(Object.entries({
@@ -39,8 +38,8 @@ music.addEventListener('error',()=>{audioStatus.textContent=t('试听连接暂�
 const contactPanel=document.querySelector('#contact-panel');
 document.addEventListener('click',e=>{if(e.target.closest('[popovertarget="contact-panel"]')&&menu.open)menu.close();});
 document.querySelector('[data-copy-email]').addEventListener('click',async()=>{const status=document.querySelector('[data-copy-status]');try{await navigator.clipboard.writeText('tin-yeh.huang@connect.polyu.hk');status.textContent=t('邮箱已复制','Email copied');}catch{status.textContent=t('请选中上方邮箱复制','Select the email above to copy it');}});
-let viewAbort,animationContext,selectCurrentOrg;
-function revealHash({scroll=true}={}){const id=decodeURIComponent(location.hash.slice(1));if(!id)return;if(id==='contact'){contactPanel.showPopover();return;}if(id.startsWith('org-')){selectCurrentOrg?.(id.slice(4),false);if(scroll)(matchMedia('(max-width:600px)').matches?document.querySelector('#organisation-context'):document.querySelector('.background-board'))?.scrollIntoView({block:'start',behavior:'instant'});return;}const target=document.getElementById(id);if(!target)return;if(target.matches('[data-background-item]'))selectCurrentOrg?.(target.dataset.organisations.split(' ')[0],false);if(target.matches('.entry')){const section=target.closest('[data-work-section]');if(section?.hidden)document.querySelector(`[data-filter="${section.dataset.workSection}"]`)?.click();if(target.hidden){const search=document.querySelector('[data-search-input]');if(search){search.value='';search.dispatchEvent(new Event('input'));}}}for(let parent=target.parentElement;parent;parent=parent.parentElement)if(parent instanceof HTMLDetailsElement)parent.open=true;if(target instanceof HTMLDetailsElement)target.open=true;if(scroll)target.scrollIntoView({block:'start',behavior:'instant'});}
+let viewAbort,animationContext,selectCurrentOrg,focusOrg;
+function revealHash({scroll=true}={}){const id=decodeURIComponent(location.hash.slice(1));if(!id)return;if(id==='contact'){contactPanel.showPopover();return;}if(id.startsWith('org-')){selectCurrentOrg?.(id.slice(4),false);focusOrg?.(id.slice(4));if(scroll)(matchMedia('(max-width:600px)').matches?document.querySelector('#organisation-context'):document.querySelector('.background-board'))?.scrollIntoView({block:'start',behavior:'instant'});return;}const target=document.getElementById(id);if(!target)return;if(target.matches('[data-background-item]'))selectCurrentOrg?.(target.dataset.organisations.split(' ')[0],false);if(target.matches('.entry')){const section=target.closest('[data-work-section]');if(section?.hidden)document.querySelector(`[data-filter="${section.dataset.workSection}"]`)?.click();if(target.hidden){const search=document.querySelector('[data-search-input]');if(search){search.value='';search.dispatchEvent(new Event('input'));}}}for(let parent=target.parentElement;parent;parent=parent.parentElement)if(parent instanceof HTMLDetailsElement)parent.open=true;if(target instanceof HTMLDetailsElement)target.open=true;if(scroll)target.scrollIntoView({block:'start',behavior:'instant'});}
 function initialiseView({scrollToHash=true}={}){
  viewAbort?.abort();animationContext?.revert();viewAbort=new AbortController();const options={signal:viewAbort.signal};const main=document.querySelector('main');paintIcons(main);
  const collection=main.querySelector('.collection');
@@ -93,6 +92,7 @@ function initialiseView({scrollToHash=true}={}){
   for(const button of board.querySelectorAll('[data-org]'))button.addEventListener('click',()=>{
    const id=button.getAttribute('aria-pressed')==='true'?'':button.dataset.org;
    selectCurrentOrg(id);
+   if(id)focusOrg?.(id);
    if(id&&matchMedia('(max-width:600px)').matches)board.querySelector('#organisation-context').scrollIntoView({block:'start',behavior:'smooth'});
   },options);
   board.querySelector('[data-close-org]').addEventListener('click',()=>{
@@ -110,33 +110,55 @@ function initialiseView({scrollToHash=true}={}){
   const zhLang=document.body.dataset.lang==='zh';
   const cities=[['bj',zhLang?'北京':'Beijing'],['sz',zhLang?'深圳':'Shenzhen'],['hk',zhLang?'香港':'Hong Kong']].map(([id,name])=>({id,name,ll:viewport.dataset['city'+id[0].toUpperCase()+id[1]]?.split(',').map(Number),dot:{bj:'#846bb9',sz:'#e07e64',hk:'#3c9c86'}[id]})).filter(c=>c.ll&&c.ll.length===2&&c.ll.every(Number.isFinite));
   if(!cities.length)break;
-  // One fixed light cartography for both themes: the offline silhouette
-  // paints instantly underneath, desaturated Esri Topo tiles load over it.
-  const tileSets=[['https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}','Tiles © Esri']];
-  const landStyle={color:'#a9c9bd',weight:.8,fillColor:'#dcead9',fillOpacity:1};
-  const flyZoom={bj:8,sz:9,hk:9};
+  // Standard WGS-84 -> GCJ-02 shift so WGS city points land correctly on AMap.
+  const transformLat=(x,y)=>{let r=-100+2*x+3*y+.2*y*y+.1*x*y+.2*Math.sqrt(Math.abs(x));r+=(20*Math.sin(6*x*Math.PI)+20*Math.sin(2*x*Math.PI))*2/3;r+=(20*Math.sin(y*Math.PI)+40*Math.sin(y/3*Math.PI))*2/3;r+=(160*Math.sin(y/12*Math.PI)+320*Math.sin(y*Math.PI/30))*2/3;return r;};
+  const transformLng=(x,y)=>{let r=300+x+2*y+.1*x*x+.2*x*y+.1*x*Math.sqrt(Math.abs(x));r+=(20*Math.sin(6*x*Math.PI)+20*Math.sin(2*x*Math.PI))*2/3;r+=(20*Math.sin(x*Math.PI)+40*Math.sin(x/3*Math.PI))*2/3;r+=(150*Math.sin(x/12*Math.PI)+300*Math.sin(x/30*Math.PI))*2/3;return r;};
+  const wgs2gcj=(lat,lng)=>{
+   if(lng<72.004||lng>137.8347||lat<.8293||lat>55.8271)return[lat,lng];
+   const dLat=transformLat(lng-105,lat-35),dLng=transformLng(lng-105,lat-35);
+   const radLat=lat/180*Math.PI;let magic=Math.sin(radLat);magic=1-.006693421622965943*magic*magic;
+   const sqrtMagic=Math.sqrt(magic);
+   return[lat+dLat*180/((6378245*(1-.006693421622965943))/(magic*sqrtMagic)*Math.PI),lng+dLng*180/(6378245/sqrtMagic*Math.cos(radLat)*Math.PI)];
+  };
+  for(const c of cities)c.ll=wgs2gcj(c.ll[0],c.ll[1]);
+  // One pin per organisation position; a key like "x-institute~nan" marks a
+  // second site of the same organisation (both pins select that organisation).
+  const orgs=Object.entries(JSON.parse(viewport.dataset.orgs||'{}')).map(([key,ll])=>({key,id:key.split('~')[0],ll:wgs2gcj(ll[0],ll[1])})).filter(o=>o.ll.length===2&&o.ll.every(Number.isFinite));
+  const orgCity=id=>['polyu','royal-plaza','hksar','cpce','polysmart'].includes(id)?'hk':['smart','x-institute'].includes(id)?'sz':'bj';
+  const dotColor={bj:'#846bb9',sz:'#e07e64',hk:'#3c9c86'};
+  // One real full basemap: AMap's coloured street cartography (style=7) —
+  // land, water, roads and labels all rendered by the tiles themselves.
+  const ATTR='© 高德地图 AMap';
+  const TILE_URL='https://webst0{s}.is.autonavi.com/appmaptile?lang=zh_cn&size=1&style=7&x={x}&y={y}&z={z}';
+  const tileOpts={maxZoom:17,keepBuffer:4,updateWhenZooming:false,subdomains:['1','2','3','4'],detectRetina:true};
+  const addTiles=(m,withAttribution=true)=>{
+   const layer=L.tileLayer(TILE_URL,{...tileOpts,attribution:withAttribution?ATTR:''}).addTo(m);
+   layer.on('tileerror',e=>{const t=e.tile;if(t.dataset.retry)return;t.dataset.retry='1';setTimeout(()=>{t.src=t.src;},1600);});
+   return layer;
+  };
+  const flyZoom={bj:11,sz:12,hk:12};
   const map=L.map(viewport,{zoomControl:false,scrollWheelZoom:false});
   map.attributionControl.setPrefix('');
   map.addControl(L.control.zoom({position:'bottomright'}));
-  map.createPane('land');map.getPane('land').style.zIndex=100;
-  const land=L.geoJSON(mapLand,{interactive:false,pane:'land',style:landStyle,attribution:'Land © Natural Earth'}).addTo(map);
-  let tileLayers=[];
-  const applyTiles=()=>{for(const l of tileLayers)map.removeLayer(l);tileLayers=tileSets.map(([url,attr])=>L.tileLayer(url,{maxZoom:16,keepBuffer:4,updateWhenZooming:false,detectRetina:true,attribution:attr}).addTo(map));};
-  applyTiles();
-  const overview=()=>{map.fitBounds(L.latLngBounds(cities.map(c=>c.ll)).pad(viewport.clientWidth>520?.18:.3),{animate:false});};
+  addTiles(map);
+  // Default framing: the Pearl River Delta cluster — the densest, best-looking
+  // group of pins. National zoom on this basemap is empty beige and reads badly.
+  const overview=()=>{
+   const south=orgs.filter(o=>['sz','hk'].includes(orgCity(o.id))).map(o=>o.ll);
+   if(south.length>1)map.fitBounds(L.latLngBounds(south).pad(.25),{animate:false,maxZoom:11});
+   else map.setView([22.42,114.05],9,{animate:false});
+  };
   overview();
   // A hidden offscreen map prefetches each city's tiles so jumps feel instant.
   const warmHost=document.createElement('div');
   warmHost.style.cssText='position:absolute;left:-99990px;top:0;width:480px;height:340px;visibility:hidden;pointer-events:none';
   document.body.append(warmHost);
   const warmMap=L.map(warmHost,{zoomControl:false,attributionControl:false,scrollWheelZoom:false,dragging:false,boxZoom:false,doubleClickZoom:false,keyboard:false,touchZoom:false});
-  let warmLayers=[];
-  const applyWarm=()=>{for(const l of warmLayers)warmMap.removeLayer(l);warmLayers=tileSets.map(([url])=>L.tileLayer(url,{maxZoom:16,keepBuffer:4,detectRetina:true}).addTo(warmMap));};
-  applyWarm();
+  addTiles(warmMap,false);
   let warmed=false;
-  const warmCities=async()=>{if(warmed)return;warmed=true;for(const c of cities){if(!warmMap)return;warmMap.setView(c.ll,flyZoom[c.id]||9,{animate:false});await new Promise(r=>setTimeout(r,900));}};
+  const warmCities=async()=>{if(warmed)return;warmed=true;for(const c of cities){if(!warmMap)return;warmMap.setView(c.ll,flyZoom[c.id]||11,{animate:false});await new Promise(r=>setTimeout(r,900));}};
   const warmTimer=setTimeout(warmCities,2600);
-  let selectedId=null;const markers={};
+  let currentCity=null;
   // Strategy-map arcs join the cities at overview and fade once zoomed in.
   const arc=(a,b,bulge)=>{
    const pts=[];
@@ -150,24 +172,50 @@ function initialiseView({scrollToHash=true}={}){
   const cssRead=()=>getComputedStyle(document.body).getPropertyValue('--accent').trim();
   const paintLink=()=>{link.setStyle({color:cssRead(),opacity:map.getZoom()<=(flyZoom.bj-1)?.65:0});};
   map.on('zoomend',paintLink);
-  for(const c of cities){
-   const m=L.marker(c.ll,{icon:L.divIcon({className:'city-pin-holder',html:`<span class="city-dot" style="--dot:${c.dot}"></span>`,iconSize:[15,15],iconAnchor:[7,7]}),keyboard:false,title:c.name,alt:c.name,riseOnHover:true});
-   m.on('click',()=>main.querySelector(`.city-index button[data-city="${c.id}"]`)?.click());
-   m.addTo(map);markers[c.id]=m;
+  // One pin per organisation at its real position; click reads its records.
+  const orgPins={};
+  const SUFFIX_LABEL={nan:zhLang?'南山':'Nanshan',ps:zhLang?'坪山':'Pingshan'};
+  for(const o of orgs){
+   const base=main.querySelector(`[data-org="${CSS.escape(o.id)}"]`)?.dataset.orgName||o.id;
+   const sfx=o.key.split('~')[1];
+   const name=base+(sfx&&SUFFIX_LABEL[sfx]?' · '+SUFFIX_LABEL[sfx]:'');
+   const m=L.marker(o.ll,{icon:L.divIcon({className:'org-pin',html:`<span class="city-dot" style="--dot:${dotColor[orgCity(o.id)]}"></span>`,iconSize:[11,11],iconAnchor:[5,5]}),keyboard:false,title:name,riseOnHover:true});
+   m.bindTooltip(name,{direction:'top',offset:[0,-7],className:'city-tip'});
+   m.on('click',()=>{
+    highlightPins(o.id);
+    map.setView(o.ll,13,{animate:false});
+    selectCurrentOrg?.(o.id);
+   });
+   m.addTo(map);orgPins[o.key]=m;
   }
-  viewport.parentElement.querySelector('.map-fallback')?.setAttribute('hidden','');
-  const paint=()=>{link.setStyle({color:cssRead()});for(const c of cities)markers[c.id].getElement()?.firstElementChild?.classList.toggle('is-selected',c.id===selectedId);paintLink();};
-  const fly=id=>{const c=cities.find(x=>x.id===id);selectedId=c?.id||null;if(c)map.setView(c.ll,flyZoom[id]||9,{animate:false});else overview();paint();};
+  const highlightPins=id=>{
+   for(const p of Object.values(orgPins))p.getElement()?.firstElementChild?.classList.remove('is-selected');
+   if(id)for(const[key,p]of Object.entries(orgPins))if(key.split('~')[0]===id)p.getElement()?.firstElementChild?.classList.add('is-selected');
+  };
+  focusOrg=id=>{
+   const pts=orgs.filter(o=>o.id===id).map(o=>o.ll);
+   highlightPins(id);
+   if(pts.length===1)map.setView(pts[0],13,{animate:false});
+   else if(pts.length>1)map.fitBounds(L.latLngBounds(pts).pad(.25),{animate:false,maxZoom:13});
+  };
+  const fly=id=>{
+   currentCity=id||null;
+   const pts=orgs.filter(o=>orgCity(o.id)===id).map(o=>o.ll);
+   highlightPins('');
+   if(id&&pts.length)map.fitBounds(L.latLngBounds(pts).pad(.3),{animate:false,maxZoom:13});
+   else if(id){const c=cities.find(x=>x.id===id);if(c)map.setView(c.ll,flyZoom[id]||11,{animate:false});}
+   else overview();
+   paintLink();
+  };
   for(const b of main.querySelectorAll('.city-index button[data-city]'))b.addEventListener('click',()=>fly(b.dataset.city),options);
-  setTimeout(()=>{const c=main.querySelector('.background-board')?.dataset.city;if(c&&c!==selectedId)fly(c);},0);
-  const mo=new MutationObserver(()=>paint());
+  setTimeout(()=>{const c=main.querySelector('.background-board')?.dataset.city;if(c&&c!==currentCity)fly(c);},0);
+  const mo=new MutationObserver(()=>paintLink());
   mo.observe(document.body,{attributes:true,attributeFilter:['data-theme']});
   options.signal.addEventListener('abort',()=>{mo.disconnect();clearTimeout(warmTimer);warmed=true;warmMap.remove();warmHost.remove();map.remove();},{once:true});
  }
  if(new URLSearchParams(location.search).get('contact')==='open')contactPanel.showPopover();
  for(const button of main.querySelectorAll('[data-work-area]'))button.addEventListener('click',()=>{for(const b of main.querySelectorAll('[data-work-area]'))b.setAttribute('aria-pressed',String(b===button));for(const panel of main.querySelectorAll('[data-work-panel]'))panel.hidden=panel.dataset.workPanel!==button.dataset.workArea;},options);
  updateClock();
- if(window.gsap&&window.ScrollTrigger){gsap.registerPlugin(ScrollTrigger);animationContext=gsap.context(()=>{const mm=gsap.matchMedia();mm.add('(min-width:601px) and (prefers-reduced-motion:no-preference)',()=>{const image=main.querySelector('.material-scene img');if(image)gsap.to(image,{y:28,scale:1.035,ease:'none',scrollTrigger:{trigger:main.querySelector('.landing'),start:'top top',end:'bottom top',scrub:.7}});});},main);ScrollTrigger.refresh();}
  revealHash({scroll:scrollToHash});
 }
 function updateClock(){const clock=document.querySelector('[data-local-time]');if(clock){const now=new Date();clock.textContent=new Intl.DateTimeFormat('en-GB',{timeZone:'Asia/Hong_Kong',hour:'2-digit',minute:'2-digit',hour12:false}).format(now);clock.dateTime=now.toISOString();}}

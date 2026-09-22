@@ -83,3 +83,65 @@ Live pre-fix diagnosis on 20 September: both `https://tyhuang.hk/` (Vercel) and 
 - venue-metrics 补 olympic 条目：`CCF A · ICML 2024`（New In ML Affinity Event，注明为主办方 CCF A 会议的 workshop 记录、非主会论文）。
 - 手机版首页回归核查：与清理前基线逐像素对比（visual-judge 实测内容带边缘全对齐），确认本轮 CSS 清理没有改变首页排版；用户感知的差异来自主题/时钟等动态内容。
 - 验收：v3/v4 两轮 visual-judge——桌面/手机 collection 徽章、桌面/手机桌面一角（含悬停帧）、手机首页对比全部 pass；check.mjs 84 页 0 failures。
+
+## 2026-09-21 · 首页英雄区：真实照片定案
+
+- 用户提供了四张自己拍的照片（理大日景、校园夜景、维港夜景、维港游船夜景），已从微信临时目录抢救进 `website/assets/photos-src/`。
+- 中途尝试：①Wikimedia CC 图全幅横幅（用户否）；②手绘 SVG 天际线（用户嫌不好看）；③夜景照片本地 PIL 生成墨线线稿（边缘法两版，结构可以但用户最终弃用）。最终定案：**维港夜景原图直出英雄区**。
+- 首页结构改为全幅照片英雄区：`harbour-night.jpg`（1440 原尺寸、q80）绝对定位铺满 `.landing`，三层渐变压暗（左→右 + 底部融入页面底色），名字（黄天野/Tin-Yeh Huang）白字叠在照片上，eyebrow/简介/双链接/香港时间全部转为白色系，右下角小字「维多利亚港 · 我拍的」。
+- 原右侧材质拼贴图缩小（150px，<900px 时 112px，<600px 隐藏），绝对定位挪到「工作之外」条右下角，微出条边缘。
+- 随之清除整条死链路：.material-scene/.edge-note 全部 CSS、GSAP 注册块（site.mjs）、GSAP 两个 script 标签与 vendor/gsap 复制（build.mjs）——站点现无 GSAP 依赖；`.harbour` 线稿带与其 keyframes 一并移除（harbour-sketch.png 保留在源 assets 作纪念，不进构建）。
+- 验收：桌面明/暗、390px 手机、滚动后工作列表与 notes 条截图均通过人工检视；check.mjs 84 页 0 failures。
+
+### 追加：地图重做（用户反馈三轮后定案）
+
+- 过程：先试 CARTO Positron/Dark Matter（用户网络不可达，地图一直退回离线剪影，被误认为「改回以前的 SVG」）；又试 Esri Dark Gray 暗色（被指「黑白的」）。
+- 定案：**亮暗两主题都用 Esri World_Street_Map 实时瓦片**——图层本身就是绿地面、蓝水面、灰白路网，与站点配色同语言；暗色仅加 `brightness(.58) contrast(.95) saturate(1.05)` 滤色压暗，保留绿蓝色相，不再是黑白灰。
+- 层序改为：离线 Natural Earth 剪影（pane z=60）→ 瓦片（z=200）覆盖。剪影配色与瓦片接近，加载瞬间无缝；删除剪影会白屏一闪，故保留。珠三角小窗（city-inset）按用户要求整体移除（JS+CSS）。
+- 主题切换由 data-theme MutationObserver 驱动 setBase+land 样式同步；land GeoJSON 双主题配色（浅绿/深绿）。
+- 验收：全国视野明暗两态截图确认（绿蓝灰、暗色保留色相）；check.mjs 84 页 0 failures。
+
+### 追加：地图终版（Google 式绿蓝灰合成）
+
+- 排障结论（curl 实测）：CARTO/OSM/Esri 在本机网络间歇不可达，webrd0X.is.autonavi.com 的 https TLS 直接失败（部署到 https 后必挂，不能用）；**webst0X.is.autonavi.com https 可达**，其 style=8 是透明底「路网+注记」图层。
+- 终版构图（用户要的 Google 式绿蓝灰）：底层蓝海（容器底色 #cfe0ef / 暗 #20262c）+ 绿陆地（Natural Earth GeoJSON pane z=60，浅 #d3e6d3 / 暗 #24332c）→ 上层 AMap style=8 实时路网注记瓦片（subdomains webst01-04，detectRetina，maxZoom 17，tileerror 单次重试）。城市点 WGS84→GCJ-02 纠偏（标准算法内联），放大验证压线正确。
+- 离线 fallback SVG 按 user 要求彻底删除（views 地理函数、隐藏逻辑、全部 CSS）；珠三角小窗同样删除。
+- 暗色 = 同一合成 + tile-pane brightness(.58) 压暗（保留绿蓝色相）。已知取舍：全国视野下 Natural Earth 裁切多边形的直边可见（数据本身裁切范围所致），放大后不可见。
+- 验收：亮色全国/珠三角、暗色全国截图确认；check.mjs 84 页 0 failures。
+
+### 追加：地图终版 v2（真瓦片底图）
+
+- 用户推翻「绿地块+路网叠加」合成（地块层仍被认作假 SVG），要求瓦片本身渲染地海的完整真底图。
+- 实测 webst0X.is.autonavi.com 的 **style=7 即高德完整彩色底图**（米地、蓝水、灰界、中文注记，Google 观感），https 可达（偶发抖动，四个子域轮询+tileerror 重试兜底）。
+- 终版：单一高德 style=7 瓦片层（detectRetina、maxZoom 17、keepBuffer 4）；land GeoJSON pane、map-land.mjs（源文件+build 生成链路）全部删除；暗色仅 CSS brightness(.58) 压暗；GCJ-02 纠偏保留；tileerror 单次重试保留；attribution「© 高德地图 AMap」。
+- 验收：亮色全国（真实海陆+省界+弧线+圆点）、亮色北京放大（街路+区县+清华/IGSNRR/天数智芯=北京组）、暗色北京压暗三态截图确认；check.mjs 84 页 0 failures。
+
+### 追加：机构图钉 + 字号降档 + CSS 括号事故修复
+
+- 地图升级为**机构级图钉**：ORG_COORDS（views.mjs）存每个机构的 WGS-84 坐标（理大/理大内衣/PolySmart、红磡湾 CPCE·HKCC、皇家太平洋、添马政府总部、清华、IGSNRR 大屯路、启元荷清大厦、天数智芯北京、SMART 光明、零一学院坪山+南山两校区，`key~后缀` 支持同机构多点），渲染前统一 WGS84→GCJ-02；圆点按城市着色，hover 显示名称，点击直接打开对应机构记录。三个「城市中心点」大圆点删除。
+- 用户指出**字体太大太夸张**：全站字号整体降一档——英雄名 44→34px（@600 38→31）、基础 h1 32→27 / h2 22→19 / h3 18→16、页标题 28→23、论文页 clamp→29 上限、博客页 40→31 上限、section-heading 20→18 等。
+- 事故与修复：字号批量替换在某条 @media 规则里吞了一个 `}`（hero-name 31px 后），导致其后约 150 行 CSS（英雄区布局、暗色地图、图钉）被浏览器整体忽略——这正是「自己点开」抓出首页英雄区崩坏的原因。已修复并加括号配平校验习惯。
+- 验收：首页（全幅照片+小号白字）、关于页（cabinet+真地图+北京图钉）自查通过；check.mjs 84 页 0 failures。
+
+### 追加：地图交互按用户逻辑重做
+
+- 交互定案（用户口述「点哪个 org 就显示哪个 pin」）：点列表机构或图钉 → 地图 flyTo 该机构真实坐标（单点 z13 居中；零一学院双校区 fitBounds 同框）并高亮图钉；点城市 → fitBounds 框住该城所有机构图钉（maxZoom 13）；#org-xxx 直达链接同样聚焦。
+- zoom 全面加深（城市 11/12/13，弃用 8/9）：高德低倍视野空旷且「北京」等瓦片标注巨大（用户反馈字体太大），深 zoom 后字号比例正常、细节成立。
+- 加载底色从海蓝改为暖白（#eef0e9，暗 #20262c），瓦片未到时不误读为水域。
+- 验收：点北京框图钉、点清华大学飞至清华园居中高亮、全国视野三态截图确认；check.mjs 84 页 0 failures。
+
+### 追加：默认视野改为珠三角（用户「现在的地图不好看」分析落地）
+
+- 分析结论：高德 style=7 的内容密度随缩放变化——城市级好看，国家级是空米色；而机构点全贴海岸线，默认全国视野必然构图失败（一条弧线横过空地）。这是审美问题的根因，不是瓦片或样式问题。
+- 方案：默认视野改为框住深圳+香港机构群（fitBounds + pad .25 + maxZoom 11）；北京经右侧「北京 · 4处」按钮一键聚焦。城市按钮增加图钉计数列（北京4/深圳3/香港5，grid 加 auto 列）。
+- 顺手修掉一个 TDZ bug：orgCity 定义在 overview() 首次调用之后导致初始化抛错、图钉全灭。
+- 验收：PRD 默认视野截图（真瓦片路网+公园+海+图钉；沙盒网络慢导致的零星未加载瓦片块在真实网络无碍）；check.mjs 84 页 0 failures。
+
+### 追加：三语言站（简/繁/EN）+ 版式归一轮
+
+- 新增繁體中文版：`/tw/` 全站 42 页 ×3 语言（共 126 页）。构建期用 opencc-js（cn→hk，OpenCC 詞典級轉換，一簡對多繁不翻車）把 zh 渲染結果整頁轉繁，`lang="zh-Hant"`；tw 專用 `tw/site.mjs`（JS 注入字串同樣轉繁、`data-lang!=='en'` 判定、圖標路徑修正）。node_modules 為構建依賴，不隨站點發佈；部署機首次需 `npm i`。
+- 頁頭語言切換：右上角兩枚連結（简頁顯示「繁 EN」、繁頁顯示「简 EN」、EN 頁顯示「中 繁」），複用 `.language-link` 類保持整頁跳轉。
+- 文字大小按鈕（Aa）從頁腳移到頁頭右上角（主題切換左側），頁腳相關樣式清除。
+- 字號歸一：13.5/12.5/11.5/10.5/9.5/8px 等雜號全部歸入 {9,10,11,12,13} 階梯。
+- 尸山清理：刪 previous-material-build.mjs / previous-material-site.css；移除無用的 --map-land 變量；build 清理循環補上 tw 目錄（修復首輪 tw 跳轉殘留）；tw 頁手機端隱藏頂部導航由 ☰ 目錄承擔。
+- 驗收：tw/index 首頁（curl 驗證 lang=zh-Hant、簡體零殘留、切換器「简 EN」）、手機頁頭（Aa/主題/繁/EN/目錄排布）截圖確認；check.mjs 126 頁 0 failures。

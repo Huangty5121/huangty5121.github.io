@@ -1,0 +1,231 @@
+const zh=document.body.dataset.lang!=='en';
+const t=(a,b)=>zh?a:b;
+const modules=new Map(Object.entries({
+ 'plus':[['path',{d:'M12 5v14M5 12h14'}]],'minus':[['path',{d:'M5 12h14'}]],
+ 'arrow-right':[['path',{d:'M5 12h14m-6-6 6 6-6 6'}]],'chevron-down':[['path',{d:'m6 9 6 6 6-6'}]],
+ 'copy':[['rect',{x:'9',y:'9',width:'11',height:'11',rx:'2'}],['path',{d:'M15 9V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v9a1 1 0 0 0 1 1h4'}]]
+}));
+async function paintIcons(root=document){for(const el of root.querySelectorAll('[data-icon]')){const name=el.dataset.icon;try{if(!modules.has(name))modules.set(name,(await import(`./assets/icons/${name}.js`)).default);if(!el.isConnected)continue;const svg=document.createElementNS('http://www.w3.org/2000/svg','svg');for(const[k,v]of Object.entries({viewBox:'0 0 24 24',fill:'none',stroke:'currentColor','stroke-width':'1.5','stroke-linecap':'round','stroke-linejoin':'round','aria-hidden':'true'}))svg.setAttribute(k,v);for(const[tag,attrs]of modules.get(name)){const path=document.createElementNS('http://www.w3.org/2000/svg',tag);for(const[k,v]of Object.entries(attrs))path.setAttribute(k,v);svg.append(path);}el.replaceChildren(svg);}catch{el.hidden=true;}}}
+const menu=document.querySelector('#site-menu'),menuButton=document.querySelector('[data-menu-toggle]');
+menuButton.addEventListener('click',()=>{menu.showModal();menuButton.setAttribute('aria-expanded','true');});
+document.querySelector('[data-menu-close]').addEventListener('click',()=>menu.close());
+menu.addEventListener('click',e=>{if(e.target===menu&&e.clientX<menu.getBoundingClientRect().left)menu.close();});
+menu.addEventListener('close',()=>{menuButton.setAttribute('aria-expanded','false');menuButton.focus();});
+function preference(key){try{return localStorage.getItem(key);}catch{return null;}}
+function savePreference(key,value){try{localStorage.setItem(key,value);}catch{}}
+const systemTheme=matchMedia('(prefers-color-scheme:dark)');
+function applyTheme(value,{persist=false}={}){document.body.dataset.theme=value;document.querySelector('meta[name="theme-color"]').content=value==='dark'?'#10151c':'#f5f5f7';const button=document.querySelector('[data-theme-toggle]');button.setAttribute('aria-pressed',String(value==='dark'));button.querySelector('[data-icon]').dataset.icon=value==='dark'?'moon':'sun';paintIcons(button);if(persist)savePreference('tyh-theme',value);}
+document.body.dataset.largeText=preference('tyh-large-text')||'false';
+const themeButton=document.querySelector('[data-theme-toggle]'),sizeButton=document.querySelector('[data-text-size]');
+applyTheme(preference('tyh-theme')||(systemTheme.matches?'dark':'light'));
+themeButton.addEventListener('click',()=>applyTheme(document.body.dataset.theme==='dark'?'light':'dark',{persist:true}));
+systemTheme.addEventListener('change',()=>{if(!preference('tyh-theme'))applyTheme(systemTheme.matches?'dark':'light');});
+sizeButton.setAttribute('aria-pressed',document.body.dataset.largeText);
+sizeButton.addEventListener('click',()=>{document.body.dataset.largeText=String(document.body.dataset.largeText!=='true');sizeButton.setAttribute('aria-pressed',document.body.dataset.largeText);savePreference('tyh-large-text',document.body.dataset.largeText);window.ScrollTrigger?.refresh();});
+const music=document.querySelector('#music'),musicButton=document.querySelector('[data-music-toggle]'),audioStatus=document.querySelector('[data-audio-status]');
+const musicDock=document.querySelector('.music-dock'),musicPanel=document.querySelector('#music-panel'),musicSeek=document.querySelector('[data-music-seek]'),musicVolume=document.querySelector('[data-music-volume]');
+music.volume=.55;
+const audioTime=seconds=>`${Math.floor(seconds/60)}:${String(Math.floor(seconds%60)).padStart(2,'0')}`;
+function audioState(){musicButton.setAttribute('aria-pressed',String(!music.paused));musicButton.setAttribute('aria-label',music.paused?t('播放音樂試聽','Play music preview'):t('暫停音樂試聽','Pause music preview'));musicButton.querySelector('[data-icon]').dataset.icon=music.paused?'play':'pause';musicDock.dataset.playing=String(!music.paused);document.querySelector('[data-music-label]').textContent=music.paused?t('聽點音樂','A little music'):t('正在播放 · 塵大師','Playing · 塵大師');paintIcons(musicButton);}
+function audioProgress(){const duration=Number.isFinite(music.duration)?music.duration:0;musicSeek.disabled=!duration;musicSeek.max=duration||30;musicSeek.value=music.currentTime;document.querySelector('[data-music-elapsed]').textContent=audioTime(music.currentTime);if(duration)document.querySelector('[data-music-duration]').textContent=audioTime(duration);}
+musicSeek.addEventListener('input',()=>{if(Number.isFinite(music.duration))music.currentTime=Number(musicSeek.value);audioProgress();});
+musicVolume.addEventListener('input',()=>{music.volume=Number(musicVolume.value);});
+for(const name of ['loadedmetadata','durationchange','timeupdate'])music.addEventListener(name,audioProgress);
+musicPanel.addEventListener('toggle',()=>{document.querySelector('.music-launcher').setAttribute('aria-expanded',String(musicPanel.matches(':popover-open')));});
+musicButton.addEventListener('click',async()=>{if(!music.paused)music.pause();else try{audioStatus.textContent=t('加載試聽…','Loading preview…');await music.play();audioStatus.textContent=t('約 30 秒官方試聽','~30-second official preview');}catch{audioStatus.textContent=t('暫時無法播放試聽','Preview unavailable');}});
+for(const name of ['play','pause','ended'])music.addEventListener(name,audioState);
+music.addEventListener('error',()=>{audioStatus.textContent=t('試聽連接暫不可用','Preview connection unavailable');});
+const contactPanel=document.querySelector('#contact-panel');
+document.addEventListener('click',e=>{if(e.target.closest('[popovertarget="contact-panel"]')&&menu.open)menu.close();});
+document.querySelector('[data-copy-email]').addEventListener('click',async()=>{const status=document.querySelector('[data-copy-status]');try{await navigator.clipboard.writeText('tin-yeh.huang@connect.polyu.hk');status.textContent=t('郵箱已複製','Email copied');}catch{status.textContent=t('請選中上方郵箱複製','Select the email above to copy it');}});
+let viewAbort,animationContext,selectCurrentOrg,focusOrg;
+function revealHash({scroll=true}={}){const id=decodeURIComponent(location.hash.slice(1));if(!id)return;if(id==='contact'){contactPanel.showPopover();return;}if(id.startsWith('org-')){selectCurrentOrg?.(id.slice(4),false);focusOrg?.(id.slice(4));if(scroll)(matchMedia('(max-width:600px)').matches?document.querySelector('#organisation-context'):document.querySelector('.background-board'))?.scrollIntoView({block:'start',behavior:'instant'});return;}const target=document.getElementById(id);if(!target)return;if(target.matches('[data-background-item]'))selectCurrentOrg?.(target.dataset.organisations.split(' ')[0],false);if(target.matches('.entry')){const section=target.closest('[data-work-section]');if(section?.hidden)document.querySelector(`[data-filter="${section.dataset.workSection}"]`)?.click();if(target.hidden){const search=document.querySelector('[data-search-input]');if(search){search.value='';search.dispatchEvent(new Event('input'));}}}for(let parent=target.parentElement;parent;parent=parent.parentElement)if(parent instanceof HTMLDetailsElement)parent.open=true;if(target instanceof HTMLDetailsElement)target.open=true;if(scroll)target.scrollIntoView({block:'start',behavior:'instant'});}
+function initialiseView({scrollToHash=true}={}){
+ viewAbort?.abort();animationContext?.revert();viewAbort=new AbortController();const options={signal:viewAbort.signal};const main=document.querySelector('main');paintIcons(main);
+ const collection=main.querySelector('.collection');
+ if(collection){
+  const search=collection.querySelector('[data-search-input]'),buttons=[...collection.querySelectorAll('[data-filter]')],sections=[...collection.querySelectorAll('[data-work-section]')],sort=collection.querySelector('[data-sort]');
+  const params=new URLSearchParams(location.search),hashTarget=location.hash?collection.querySelector('#'+CSS.escape(decodeURIComponent(location.hash.slice(1)))):null;
+  let filter=hashTarget?.closest('[data-work-section]')?.dataset.workSection||(['papers','projects'].includes(params.get('filter'))?params.get('filter'):'papers');
+  search.value=params.get('q')||'';sort.value=params.get('sort')==='newest'?'newest':'curated';
+  function update(){
+   const q=search.value.trim().toLowerCase();let n=0;
+   for(const section of sections){const active=section.dataset.workSection===filter;section.hidden=!active;for(const row of section.querySelectorAll('[data-search]')){row.hidden=!row.dataset.search.includes(q);if(active&&!row.hidden)n++;}const list=section.querySelector('[data-results]');list.append(...[...list.children].sort((a,b)=>sort.value==='newest'?Number(b.dataset.date)-Number(a.dataset.date)||Number(a.dataset.order)-Number(b.dataset.order):Number(a.dataset.order)-Number(b.dataset.order)));}
+   const count=collection.querySelector('[data-result-count]');count.textContent=`${n} ${t('項內容',n===1?'entry':'entries')}`;count.hidden=!q;
+   collection.querySelector('.empty-state').hidden=n>0;
+   for(const button of buttons)button.setAttribute('aria-pressed',String(button.dataset.filter===filter));
+   const url=new URL(location.href);if(q)url.searchParams.set('q',search.value);else url.searchParams.delete('q');if(filter==='projects')url.searchParams.set('filter','projects');else url.searchParams.delete('filter');if(sort.value==='newest')url.searchParams.set('sort','newest');else url.searchParams.delete('sort');history.replaceState(history.state,'',url);
+  }
+  sort.addEventListener('change',update,options);search.addEventListener('input',update,options);
+  for(const button of buttons)button.addEventListener('click',()=>{filter=button.dataset.filter;search.value='';update();},options);
+  update();
+ }
+ selectCurrentOrg=null;
+ const board=main.querySelector('.background-board');
+ if(board){
+  const directory=board.querySelector('.directory-heading'),layout=board.querySelector('.background-layout');
+  const cityNames={bj:t('北京','Beijing'),sz:t('深圳','Shenzhen'),hk:t('香港','Hong Kong')};
+  const chooseCity=id=>{
+   board.dataset.city=id||'';
+   directory.hidden=!id;
+   for(const item of board.querySelectorAll('[data-city]'))item.setAttribute('aria-pressed',String(!!id&&item.dataset.city===id));
+   for(const org of board.querySelectorAll('[data-city-group]'))org.hidden=!id||org.dataset.cityGroup!==id;
+   board.querySelector('[data-city-name]').textContent=id?cityNames[id]:'';
+   board.querySelector('[data-city-count]').textContent=String(board.querySelectorAll('.organisation-choices [data-org]:not([hidden])').length);
+  };
+  selectCurrentOrg=(id,write=true)=>{
+   const selected=id?board.querySelector(`[data-org="${CSS.escape(id)}"]`):null;
+   if(selected?.dataset.cityGroup)chooseCity(selected.dataset.cityGroup);
+   let n=0;
+   for(const row of board.querySelectorAll('[data-background-item]')){row.hidden=!id||!row.dataset.organisations.split(' ').includes(id);if(!row.hidden)n++;}
+   for(const button of board.querySelectorAll('[data-org]')){button.setAttribute('aria-pressed',String(button===selected));button.setAttribute('aria-expanded',String(button===selected));}
+   board.querySelector('.selected-institution').hidden=!id;
+   board.querySelector('[data-close-org]').hidden=!id;
+   board.querySelector('.board-empty').hidden=!!id||!board.dataset.city;
+   board.dataset.orgOpen=String(!!id);
+   board.querySelector('[data-selected-org]').textContent=selected?.dataset.orgName||'';
+   board.querySelector('[data-background-count]').textContent=`${n} ${t('項記錄',n===1?'record':'records')}`;
+   layout.hidden=!(board.dataset.city||id);
+   if(write){const url=new URL(location.href);url.hash=id?'org-'+id:'';history.replaceState({...history.state,scroll:scrollY},'',url);}
+   window.ScrollTrigger?.refresh();
+  };
+  for(const button of board.querySelectorAll('[data-org]'))button.addEventListener('click',()=>{
+   const id=button.getAttribute('aria-pressed')==='true'?'':button.dataset.org;
+   selectCurrentOrg(id);
+   if(id)focusOrg?.(id);
+   if(id&&matchMedia('(max-width:600px)').matches)board.querySelector('#organisation-context').scrollIntoView({block:'start',behavior:'smooth'});
+  },options);
+  board.querySelector('[data-close-org]').addEventListener('click',()=>{
+   const button=board.querySelector('[data-org][aria-pressed="true"]');selectCurrentOrg('');
+   if(matchMedia('(max-width:600px)').matches)board.querySelector('.institution-selector').scrollIntoView({block:'start',behavior:'smooth'});
+   button?.focus({preventScroll:true});
+  },options);
+  chooseCity(null);selectCurrentOrg('',false);
+  for(const city of board.querySelectorAll('[data-city]'))city.addEventListener('click',()=>{chooseCity(city.dataset.city);selectCurrentOrg('',false);},options);
+  window.addEventListener('resize',()=>{const selected=board.querySelector('[data-org][aria-pressed="true"]');if(selected)selectCurrentOrg(selected.dataset.org,false);},options);
+ }
+ for(const viewport of [main.querySelector('[data-citymap]')]){
+  if(!viewport)break;
+  const L=window.L;if(!L)break;
+  const zhLang=document.body.dataset.lang!=='en';
+  const cities=[['bj',zhLang?'北京':'Beijing'],['sz',zhLang?'深圳':'Shenzhen'],['hk',zhLang?'香港':'Hong Kong']].map(([id,name])=>({id,name,ll:viewport.dataset['city'+id[0].toUpperCase()+id[1]]?.split(',').map(Number),dot:{bj:'#846bb9',sz:'#e07e64',hk:'#3c9c86'}[id]})).filter(c=>c.ll&&c.ll.length===2&&c.ll.every(Number.isFinite));
+  if(!cities.length)break;
+  // Standard WGS-84 -> GCJ-02 shift so WGS city points land correctly on AMap.
+  const transformLat=(x,y)=>{let r=-100+2*x+3*y+.2*y*y+.1*x*y+.2*Math.sqrt(Math.abs(x));r+=(20*Math.sin(6*x*Math.PI)+20*Math.sin(2*x*Math.PI))*2/3;r+=(20*Math.sin(y*Math.PI)+40*Math.sin(y/3*Math.PI))*2/3;r+=(160*Math.sin(y/12*Math.PI)+320*Math.sin(y*Math.PI/30))*2/3;return r;};
+  const transformLng=(x,y)=>{let r=300+x+2*y+.1*x*x+.2*x*y+.1*x*Math.sqrt(Math.abs(x));r+=(20*Math.sin(6*x*Math.PI)+20*Math.sin(2*x*Math.PI))*2/3;r+=(20*Math.sin(x*Math.PI)+40*Math.sin(x/3*Math.PI))*2/3;r+=(150*Math.sin(x/12*Math.PI)+300*Math.sin(x/30*Math.PI))*2/3;return r;};
+  const wgs2gcj=(lat,lng)=>{
+   if(lng<72.004||lng>137.8347||lat<.8293||lat>55.8271)return[lat,lng];
+   const dLat=transformLat(lng-105,lat-35),dLng=transformLng(lng-105,lat-35);
+   const radLat=lat/180*Math.PI;let magic=Math.sin(radLat);magic=1-.006693421622965943*magic*magic;
+   const sqrtMagic=Math.sqrt(magic);
+   return[lat+dLat*180/((6378245*(1-.006693421622965943))/(magic*sqrtMagic)*Math.PI),lng+dLng*180/(6378245/sqrtMagic*Math.cos(radLat)*Math.PI)];
+  };
+  for(const c of cities)c.ll=wgs2gcj(c.ll[0],c.ll[1]);
+  // One pin per organisation position; a key like "x-institute~nan" marks a
+  // second site of the same organisation (both pins select that organisation).
+  const orgs=Object.entries(JSON.parse(viewport.dataset.orgs||'{}')).map(([key,ll])=>({key,id:key.split('~')[0],ll:wgs2gcj(ll[0],ll[1])})).filter(o=>o.ll.length===2&&o.ll.every(Number.isFinite));
+  const orgCity=id=>['polyu','royal-plaza','hksar','cpce','polysmart'].includes(id)?'hk':['smart','x-institute'].includes(id)?'sz':'bj';
+  const dotColor={bj:'#846bb9',sz:'#e07e64',hk:'#3c9c86'};
+  // One real full basemap: AMap's coloured street cartography (style=7) —
+  // land, water, roads and labels all rendered by the tiles themselves.
+  const ATTR='© 高德地圖 AMap';
+  const TILE_URL='https://webst0{s}.is.autonavi.com/appmaptile?lang=zh_cn&size=1&style=7&x={x}&y={y}&z={z}';
+  const tileOpts={maxZoom:17,keepBuffer:4,updateWhenZooming:false,subdomains:['1','2','3','4'],detectRetina:true};
+  const addTiles=(m,withAttribution=true)=>{
+   const layer=L.tileLayer(TILE_URL,{...tileOpts,attribution:withAttribution?ATTR:''}).addTo(m);
+   layer.on('tileerror',e=>{const t=e.tile;if(t.dataset.retry)return;t.dataset.retry='1';setTimeout(()=>{t.src=t.src;},1600);});
+   return layer;
+  };
+  const flyZoom={bj:11,sz:12,hk:12};
+  const map=L.map(viewport,{zoomControl:false,scrollWheelZoom:false});
+  map.attributionControl.setPrefix('');
+  map.addControl(L.control.zoom({position:'bottomright'}));
+  addTiles(map);
+  // Default framing: the Pearl River Delta cluster — the densest, best-looking
+  // group of pins. National zoom on this basemap is empty beige and reads badly.
+  const overview=()=>{
+   const south=orgs.filter(o=>['sz','hk'].includes(orgCity(o.id))).map(o=>o.ll);
+   if(south.length>1)map.fitBounds(L.latLngBounds(south).pad(.25),{animate:false,maxZoom:11});
+   else map.setView([22.42,114.05],9,{animate:false});
+  };
+  overview();
+  // A hidden offscreen map prefetches each city's tiles so jumps feel instant.
+  const warmHost=document.createElement('div');
+  warmHost.style.cssText='position:absolute;left:-99990px;top:0;width:480px;height:340px;visibility:hidden;pointer-events:none';
+  document.body.append(warmHost);
+  const warmMap=L.map(warmHost,{zoomControl:false,attributionControl:false,scrollWheelZoom:false,dragging:false,boxZoom:false,doubleClickZoom:false,keyboard:false,touchZoom:false});
+  addTiles(warmMap,false);
+  let warmed=false;
+  const warmCities=async()=>{if(warmed)return;warmed=true;for(const c of cities){if(!warmMap)return;warmMap.setView(c.ll,flyZoom[c.id]||11,{animate:false});await new Promise(r=>setTimeout(r,900));}};
+  const warmTimer=setTimeout(warmCities,2600);
+  let currentCity=null;
+  // Strategy-map arcs join the cities at overview and fade once zoomed in.
+  const arc=(a,b,bulge)=>{
+   const pts=[];
+   const mx=(a[0]+b[0])/2,my=(a[1]+b[1])/2;
+   const dx=b[1]-a[1],dy=b[0]-a[0],len=Math.hypot(dx,dy)||1;
+   const cx=mx+(-dy/len)*len*bulge,cy=my+(dx/len)*len*bulge;
+   for(let i=0;i<=36;i++){const t=i/36,u=1-t;pts.push([u*u*a[0]+2*u*t*cx+t*t*b[0],u*u*a[1]+2*u*t*cy+t*t*b[1]]);}
+   return pts;
+  };
+  const link=L.polyline([arc(cities[0].ll,cities[1].ll,.16),arc(cities[1].ll,cities[2].ll,.3)],{weight:1.6,dashArray:'1 8',opacity:.65,interactive:false,lineCap:'round',className:'city-link'}).addTo(map);
+  const cssRead=()=>getComputedStyle(document.body).getPropertyValue('--accent').trim();
+  const paintLink=()=>{link.setStyle({color:cssRead(),opacity:map.getZoom()<=(flyZoom.bj-1)?.65:0});};
+  map.on('zoomend',paintLink);
+  // One pin per organisation at its real position; click reads its records.
+  const orgPins={};
+  const SUFFIX_LABEL={nan:zhLang?'南山':'Nanshan',ps:zhLang?'坪山':'Pingshan'};
+  for(const o of orgs){
+   const base=main.querySelector(`[data-org="${CSS.escape(o.id)}"]`)?.dataset.orgName||o.id;
+   const sfx=o.key.split('~')[1];
+   const name=base+(sfx&&SUFFIX_LABEL[sfx]?' · '+SUFFIX_LABEL[sfx]:'');
+   const m=L.marker(o.ll,{icon:L.divIcon({className:'org-pin',html:`<span class="city-dot" style="--dot:${dotColor[orgCity(o.id)]}"></span>`,iconSize:[11,11],iconAnchor:[5,5]}),keyboard:false,title:name,riseOnHover:true});
+   m.bindTooltip(name,{direction:'top',offset:[0,-7],className:'city-tip'});
+   m.on('click',()=>{
+    highlightPins(o.id);
+    map.setView(o.ll,13,{animate:false});
+    selectCurrentOrg?.(o.id);
+   });
+   m.addTo(map);orgPins[o.key]=m;
+  }
+  const highlightPins=id=>{
+   for(const p of Object.values(orgPins))p.getElement()?.firstElementChild?.classList.remove('is-selected');
+   if(id)for(const[key,p]of Object.entries(orgPins))if(key.split('~')[0]===id)p.getElement()?.firstElementChild?.classList.add('is-selected');
+  };
+  focusOrg=id=>{
+   const pts=orgs.filter(o=>o.id===id).map(o=>o.ll);
+   highlightPins(id);
+   if(pts.length===1)map.setView(pts[0],13,{animate:false});
+   else if(pts.length>1)map.fitBounds(L.latLngBounds(pts).pad(.25),{animate:false,maxZoom:13});
+  };
+  const fly=id=>{
+   currentCity=id||null;
+   const pts=orgs.filter(o=>orgCity(o.id)===id).map(o=>o.ll);
+   highlightPins('');
+   if(id&&pts.length)map.fitBounds(L.latLngBounds(pts).pad(.3),{animate:false,maxZoom:13});
+   else if(id){const c=cities.find(x=>x.id===id);if(c)map.setView(c.ll,flyZoom[id]||11,{animate:false});}
+   else overview();
+   paintLink();
+  };
+  for(const b of main.querySelectorAll('.city-index button[data-city]'))b.addEventListener('click',()=>fly(b.dataset.city),options);
+  setTimeout(()=>{const c=main.querySelector('.background-board')?.dataset.city;if(c&&c!==currentCity)fly(c);},0);
+  const mo=new MutationObserver(()=>paintLink());
+  mo.observe(document.body,{attributes:true,attributeFilter:['data-theme']});
+  options.signal.addEventListener('abort',()=>{mo.disconnect();clearTimeout(warmTimer);warmed=true;warmMap.remove();warmHost.remove();map.remove();},{once:true});
+ }
+ if(new URLSearchParams(location.search).get('contact')==='open')contactPanel.showPopover();
+ for(const button of main.querySelectorAll('[data-work-area]'))button.addEventListener('click',()=>{for(const b of main.querySelectorAll('[data-work-area]'))b.setAttribute('aria-pressed',String(b===button));for(const panel of main.querySelectorAll('[data-work-panel]'))panel.hidden=panel.dataset.workPanel!==button.dataset.workArea;},options);
+ updateClock();
+ revealHash({scroll:scrollToHash});
+}
+function updateClock(){const clock=document.querySelector('[data-local-time]');if(clock){const now=new Date();clock.textContent=new Intl.DateTimeFormat('en-GB',{timeZone:'Asia/Hong_Kong',hour:'2-digit',minute:'2-digit',hour12:false}).format(now);clock.dateTime=now.toISOString();}}
+setInterval(updateClock,30000);
+paintIcons();initialiseView();window.addEventListener('hashchange',revealHash);
+// Keep normal HTML URLs and browser history, while retaining the player on same-language navigation.
+let navigationController,navigationId=0,renderedPath=location.pathname;
+let loadingTimer;
+history.scrollRestoration='manual';
+history.replaceState({...history.state,scroll:scrollY},'');
+async function navigate(url,{pop=false,scroll=0}={}){const id=++navigationId;navigationController?.abort();navigationController=new AbortController();clearTimeout(loadingTimer);loadingTimer=setTimeout(()=>document.body.classList.add('is-loading'),140);try{const response=await fetch(url,{signal:navigationController.signal,cache:'no-cache'});if(!response.ok)throw new Error('Navigation failed');const doc=new DOMParser().parseFromString(await response.text(),'text/html');if(!doc.querySelector('main')){location.href=url;return;}const nextScript=doc.querySelector('script[type=module]')?.getAttribute('src'),currentScript=document.querySelector('script[type=module]')?.getAttribute('src');if(nextScript&&currentScript&&nextScript!==currentScript){location.href=url;return;}if(id!==navigationId)return;if(!pop){history.replaceState({...history.state,scroll:scrollY},'');history.pushState({scroll:0},'',url);}menu.close();if(contactPanel.matches(':popover-open'))contactPanel.hidePopover();viewAbort?.abort();animationContext?.revert();document.querySelector('main').replaceChildren(...doc.querySelector('main').childNodes);document.title=doc.title;document.body.dataset.page=doc.body.dataset.page;renderedPath=new URL(url,location.href).pathname;document.querySelector('.desktop-nav').replaceChildren(...doc.querySelector('.desktop-nav').childNodes);document.querySelector('.language-link').href=doc.querySelector('.language-link').href;document.querySelector('#site-menu nav').replaceChildren(...doc.querySelector('#site-menu nav').childNodes);paintIcons(menu);paintIcons(document.querySelector('.site-header'));initialiseView({scrollToHash:!pop});if(pop||!new URL(url,location.href).hash)window.scrollTo({top:scroll,behavior:'instant'});document.querySelector('main').focus({preventScroll:true});const currentMain=document.querySelector('main');currentMain.classList.remove('page-arriving');void currentMain.offsetWidth;currentMain.classList.add('page-arriving');}catch(error){if(error.name!=='AbortError')location.href=url;}finally{if(id===navigationId){clearTimeout(loadingTimer);document.body.classList.remove('is-loading');}}}
+document.addEventListener('click',e=>{const anchor=e.target.closest('a[href]');if(!anchor||e.defaultPrevented||e.button!==0||e.metaKey||e.ctrlKey||e.shiftKey||e.altKey||anchor.target||anchor.hasAttribute('download')||anchor.classList.contains('language-link'))return;const url=new URL(anchor.href),current=new URL(location.href);if(url.origin!==current.origin||url.pathname.split('/').slice(0,-1).join('/')!==current.pathname.split('/').slice(0,-1).join('/')||!url.pathname.endsWith('.html'))return;if(url.pathname===current.pathname&&url.search===current.search)return;e.preventDefault();navigate(url.href);});
+window.addEventListener('popstate',e=>{if(location.pathname===renderedPath){initialiseView({scrollToHash:!!location.hash});if(!location.hash)window.scrollTo({top:e.state?.scroll||0,behavior:'instant'});return;}navigate(location.href,{pop:true,scroll:e.state?.scroll||0});});
