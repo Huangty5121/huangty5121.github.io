@@ -430,9 +430,9 @@ body[data-theme=dark] .chip-rank{border-color:color-mix(in srgb,var(--warm) 34%,
 .landing::before{content:none}
 .hero-photo{position:absolute;inset:0}
 .hero-photo img{width:100%;height:100%;object-fit:cover;object-position:center 62%}
-.hero-photo::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,#0b141dd8 0%,#0b141da1 36%,#0b141d2e 64%,#0b141d12 100%),linear-gradient(0deg,#0b141dcc 0%,transparent 32%),linear-gradient(180deg,#0b141d73 0%,transparent 24%)}
+.hero-photo::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,#0b141dd8 0%,#0b141da1 36%,#0b141d2e 64%,#0b141d12 100%),linear-gradient(0deg,#0b141dcc 0%,transparent 32%),linear-gradient(180deg,#0b141d73 0%,transparent 24%),linear-gradient(115deg,#1c7f6d1f 0%,transparent 52%)}
 .hero-photo figcaption{position:absolute;right:22px;bottom:14px;z-index:2;font-size:10px;letter-spacing:.04em;color:#ffffff99;text-shadow:0 1px 10px #0b141d80}
-.identity{position:relative;z-index:2;display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-end;width:min(1120px,calc(100% - 112px));margin-inline:auto;min-height:inherit;padding-block:76px 58px}
+.identity{position:relative;z-index:2;display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-end;width:min(1120px,calc(100% - 112px));margin-inline:auto;min-height:inherit;padding-block:76px 132px}
 .landing .identity .eyebrow{color:#ffffff9c}
 .hero-name{color:#fdfefe;text-shadow:0 2px 26px #0b141d66}
 .hero-latin{color:#ffffff91}
@@ -531,3 +531,8 @@ body[data-theme=dark] .city-map .map-note{background:#10151ce6;color:#c6d4dc}
 .city-index button small{font-size:10px;color:var(--muted);margin:0;font-variant-numeric:tabular-nums}
 
 .header-actions [data-text-size]{width:36px;height:36px}
+
+/* Poster details: the vertical caption along the hero margin. */
+.edge-note{position:absolute;right:14px;top:50%;transform:translateY(-50%);z-index:3;writing-mode:vertical-rl;font-size:9px;letter-spacing:.34em;color:#ffffff80;text-shadow:0 1px 10px #0b141d90;pointer-events:none}
+@media(max-width:900px){.edge-note{right:8px;letter-spacing:.26em}}
+@media(max-width:600px){.edge-note{display:none}}

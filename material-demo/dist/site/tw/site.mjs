@@ -38,7 +38,7 @@ music.addEventListener('error',()=>{audioStatus.textContent=t('試聽連接暫�
 const contactPanel=document.querySelector('#contact-panel');
 document.addEventListener('click',e=>{if(e.target.closest('[popovertarget="contact-panel"]')&&menu.open)menu.close();});
 document.querySelector('[data-copy-email]').addEventListener('click',async()=>{const status=document.querySelector('[data-copy-status]');try{await navigator.clipboard.writeText('tin-yeh.huang@connect.polyu.hk');status.textContent=t('郵箱已複製','Email copied');}catch{status.textContent=t('請選中上方郵箱複製','Select the email above to copy it');}});
-let viewAbort,animationContext,selectCurrentOrg,focusOrg;
+let viewAbort,animationContext,selectCurrentOrg,focusOrg,closeCity;
 function revealHash({scroll=true}={}){const id=decodeURIComponent(location.hash.slice(1));if(!id)return;if(id==='contact'){contactPanel.showPopover();return;}if(id.startsWith('org-')){selectCurrentOrg?.(id.slice(4),false);focusOrg?.(id.slice(4));if(scroll)(matchMedia('(max-width:600px)').matches?document.querySelector('#organisation-context'):document.querySelector('.background-board'))?.scrollIntoView({block:'start',behavior:'instant'});return;}const target=document.getElementById(id);if(!target)return;if(target.matches('[data-background-item]'))selectCurrentOrg?.(target.dataset.organisations.split(' ')[0],false);if(target.matches('.entry')){const section=target.closest('[data-work-section]');if(section?.hidden)document.querySelector(`[data-filter="${section.dataset.workSection}"]`)?.click();if(target.hidden){const search=document.querySelector('[data-search-input]');if(search){search.value='';search.dispatchEvent(new Event('input'));}}}for(let parent=target.parentElement;parent;parent=parent.parentElement)if(parent instanceof HTMLDetailsElement)parent.open=true;if(target instanceof HTMLDetailsElement)target.open=true;if(scroll)target.scrollIntoView({block:'start',behavior:'instant'});}
 function initialiseView({scrollToHash=true}={}){
  viewAbort?.abort();animationContext?.revert();viewAbort=new AbortController();const options={signal:viewAbort.signal};const main=document.querySelector('main');paintIcons(main);
@@ -103,6 +103,7 @@ function initialiseView({scrollToHash=true}={}){
   chooseCity(null);selectCurrentOrg('',false);
   for(const city of board.querySelectorAll('[data-city]'))city.addEventListener('click',()=>{chooseCity(city.dataset.city);selectCurrentOrg('',false);},options);
   window.addEventListener('resize',()=>{const selected=board.querySelector('[data-org][aria-pressed="true"]');if(selected)selectCurrentOrg(selected.dataset.org,false);},options);
+ closeCity=chooseCity;
  }
  for(const viewport of [main.querySelector('[data-citymap]')]){
   if(!viewport)break;
@@ -207,7 +208,15 @@ function initialiseView({scrollToHash=true}={}){
    else overview();
    paintLink();
   };
-  for(const b of main.querySelectorAll('.city-index button[data-city]'))b.addEventListener('click',()=>fly(b.dataset.city),options);
+  for(const b of main.querySelectorAll('.city-index button[data-city]'))b.addEventListener('click',()=>{
+   if(!b.dataset.city){
+    currentCity=null;highlightPins('');if(closeCity)closeCity('');
+    map.fitBounds(L.latLngBounds(orgs.map(o=>o.ll)).pad(.18),{animate:false,maxZoom:7});
+    paintLink();
+    return;
+   }
+   fly(b.dataset.city);
+  },options);
   setTimeout(()=>{const c=main.querySelector('.background-board')?.dataset.city;if(c&&c!==currentCity)fly(c);},0);
   const mo=new MutationObserver(()=>paintLink());
   mo.observe(document.body,{attributes:true,attributeFilter:['data-theme']});
