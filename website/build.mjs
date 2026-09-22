@@ -13,7 +13,7 @@ const zh2t=OpenCC.Converter({from:'cn',to:'hk'});
 const source=dirname(fileURLToPath(import.meta.url));
 const out=join(source,'../material-demo/dist/site');
 const legacy=join(source,'../material-demo/dist');
-const cacheKey=createHash('sha256').update(await readFile(join(source,'site.css'))).update(await readFile(join(source,'site.mjs'))).update(mapGeometry.overviewPath).digest('hex').slice(0,10);
+const cacheKey=createHash('sha256').update(await readFile(join(source,'site.css'))).update(await readFile(join(source,'site.mjs'))).update(await readFile(join(source,'assets/harbour-night.jpg'))).update(mapGeometry.overviewPath).digest('hex').slice(0,10);
 const h=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 await mkdir(join(out,'assets'),{recursive:true});
 await mkdir(join(out,'en'),{recursive:true});
@@ -56,7 +56,7 @@ for(const lang of ['zh','tw','en']){
  const a=(url,txt,cls='')=>`<a href="${h(url)}" class="${cls}">${txt}</a>`;
  const contactButton=`<button class="contact-trigger" popovertarget="contact-panel">${t('联系','Contact')}${icon('plus')}</button>`;
  const contactPanel=`<aside id="contact-panel" class="contact-panel" popover aria-label="${t('联系名片','Contact card')}"><div class="biz-card"><header class="biz-head"><div class="biz-id"><span class="biz-cn">黄天野</span><span class="biz-en">TIN-YEH “HEAVEN” HUANG</span></div><button class="biz-close" popovertarget="contact-panel" popovertargetaction="hide" aria-label="${t('关闭','Close')}">${icon('x')}</button></header><p class="biz-role">${t('产品工程在读 · 香港理工大学','Product Engineering · The Hong Kong Polytechnic University')}</p><button class="biz-mail" data-copy-email aria-label="${t('复制邮箱','Copy email')}"><span class="contact-logo contact-logo-mail" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m4 7 8 6 8-6"/></svg></span><span class="biz-mail-text"><small>${t('点击复制邮箱','Tap to copy email')}</small><strong>tin-yeh.huang@connect.polyu.hk</strong></span>${icon('copy')}</button></div><div class="biz-actions"><a class="biz-btn" href="mailto:tin-yeh.huang@connect.polyu.hk">${t('写邮件','Email')}</a><a class="biz-btn" href="https://www.linkedin.com/in/tin-yeh-huang-59bba3289/" target="_blank" rel="noopener noreferrer">LinkedIn</a><a class="biz-btn" href="https://github.com/Huangty5121" target="_blank" rel="noopener noreferrer">GitHub</a><a class="biz-btn" href="https://scholar.google.com/citations?user=zrVCdOkAAAAJ&hl=en" target="_blank" rel="noopener noreferrer">Scholar</a></div><div class="biz-foot"><a href="${prefix}card.html">${t('名片页 · 链接可直接发给别人','Card page · share this link')}${icon('arrow-up-right')}</a><span data-copy-status role="status"></span></div></aside>`;
- const views=createViews({lang:genLang,prefix,h,t,icon,a});
+ const views=createViews({lang:genLang,prefix,h,t,icon,a,cacheKey});
  for(const [file,page] of specs){
   const active=page==='news'?'news':page==='card'?'about':page==='writingModern'?'notes':['engineering','social'].includes(page)||page.startsWith('read-')||page.startsWith('work-')?'collection':page;
   const langLinks=lang==='zh'

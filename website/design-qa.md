@@ -184,3 +184,17 @@ Live pre-fix diagnosis on 20 September: both `https://tyhuang.hk/` (Vercel) and 
 - 「○ 总览」行为改为：fitBounds 全部机构图钉（北京↔香港，pad .18 / maxZoom 7）= 整个宏观地图，并取消城市选中与图钉高亮。城市按钮仍为深 zoom 取景。
 - 修复作用域 bug：chooseCity 关在 if(board) 块内，地图块的监听器触发 ReferenceError——经 closeCity 变量带出（与 selectCurrentOrg/focusOrg 同模式）。
 - 验收：深圳选中→总览→全国视野（北京+深港图钉、弧线、取消选中）截图确认；check.mjs 126 页 0 failures。
+
+### 追加：原图存档
+
+- 用户桌面发来两张原图：游船照 2560×1920（真原图，已替换 photos-src/harbour-yacht.jpg）、天际线封面照仍为 1440×1080（微信压缩，无更高清版本）。faces 目录已随章节撤除不存在，无需重生成。封面清晰度天花板 = 1440 源 + Lanczos/锐化处理；如需更清晰可换用 2560 游船原图作封面（待用户定夺）或提供天际线的真原图。
+
+### 追加：封面換用 Unsplash 高清圖
+
+- 60MP 原圖（9433×6289，pourya gohari 攝，Unsplash 授權）縮至 2560×1707 + 輕銳化，替換英雄封面；署名改為「維多利亞港 · 圖片 pourya gohari / Unsplash」（不再是「我拍的」，誠實標註）。原圖存檔 assets/photos-src/harbour-unsplash-original.jpg。
+- 用戶自己的天際線原圖微信端僅 1440（已存檔），遊船 2560 原圖在庫；兩者保留備用。
+- 驗收：2000px 寬屏截圖——建築燈光清晰、銳利；caption/署名正確；check.mjs 126 頁 0 failures。
+
+### 追加：英雄圖納入構建指紋（修復「沒更換」）
+
+- 用戶端未換圖的原因：hero 圖 URL 無版本號，瀏覽器快取了舊圖。修法：harbour-night.jpg 位元組納入 cacheKey 雜湊，img src 帶 `?v=fingerprint`；今後圖片一換 URL 自動失效快取。views 增加cacheKey 參數透傳。
