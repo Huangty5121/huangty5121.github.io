@@ -6,45 +6,6 @@ const modules=new Map(Object.entries({
  'copy':[['rect',{x:'9',y:'9',width:'11',height:'11',rx:'2'}],['path',{d:'M15 9V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v9a1 1 0 0 0 1 1h4'}]]
 }));
 async function paintIcons(root=document){for(const el of root.querySelectorAll('[data-icon]')){const name=el.dataset.icon;try{if(!modules.has(name))modules.set(name,(await import(`./assets/icons/${name}.js`)).default);if(!el.isConnected)continue;const svg=document.createElementNS('http://www.w3.org/2000/svg','svg');for(const[k,v]of Object.entries({viewBox:'0 0 24 24',fill:'none',stroke:'currentColor','stroke-width':'1.5','stroke-linecap':'round','stroke-linejoin':'round','aria-hidden':'true'}))svg.setAttribute(k,v);for(const[tag,attrs]of modules.get(name)){const path=document.createElementNS('http://www.w3.org/2000/svg',tag);for(const[k,v]of Object.entries(attrs))path.setAttribute(k,v);svg.append(path);}el.replaceChildren(svg);}catch{el.hidden=true;}}}
-function initKnowledgeWeb(canvas,signal){
- const ctx=canvas.getContext('2d');if(!ctx)return;
- const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
- const cols=48,rows=25;let frame=0,visible=false,last=0;
- const jitter=(a,b)=>{const n=Math.sin(a*127.1+b*311.7)*43758.5453;return n-Math.floor(n);};
- function draw(time){
-  const w=canvas.clientWidth,h=canvas.clientHeight,dpr=Math.min(devicePixelRatio||1,1.7);
-  if(!w||!h)return;
-  if(canvas.width!==Math.round(w*dpr)||canvas.height!==Math.round(h*dpr)){canvas.width=Math.round(w*dpr);canvas.height=Math.round(h*dpr);}
-  ctx.setTransform(dpr,0,0,dpr,0,0);ctx.clearRect(0,0,w,h);
-  const phase=reduced?0:Math.sin(time*.00012)*.22;
-  const points=[];
-  for(let r=0;r<rows;r++)for(let c=0;c<cols;c++){
-   const u=(c/(cols-1)-.5)*1.8+(jitter(c,r)-.5)*.035;
-   const v=(r/(rows-1)-.5)*1.95+(jitter(r,c+29)-.5)*.04;
-   const z=Math.sin(c*.31+r*.17+phase)*.38+Math.cos(r*.43-c*.13-phase)*.34+Math.sin(c*.13-r*.33)*.18;
-   const depth=1/(1.05-z*.27);
-   points.push({x:w*.5+(u*w*.56+v*w*.08)*depth,y:h*.52+(v*h*.6-u*h*.06)*depth,z});
-  }
-  const at=(r,c)=>points[r*cols+c];
-  for(let r=0;r<rows;r++)for(let c=0;c<cols;c++){
-   const p=at(r,c);if(p.x < -90||p.x>w+90||p.y < -90||p.y>h+90)continue;
-   for(const[dr,dc]of [[0,1],[1,0],[1,1],[1,-1]]){
-    const rr=r+dr,cc=c+dc;if(rr>=rows||cc<0||cc>=cols)continue;
-    if(dr&&dc&&jitter(c+16,r+6)<.57)continue;
-    if(jitter(c+dc*7,r+dr*11)<.09)continue;
-    const q=at(rr,cc),alpha=Math.max(.07,Math.min(.43,.19+(p.z+q.z)*.14));
-    ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(q.x,q.y);ctx.strokeStyle=`rgba(${(c+r)%9===0?'204,183,151':'112,211,220'},${alpha})`;ctx.lineWidth=p.z>.35?.9:.6;ctx.stroke();
-   }
-   if((c+r)%11===0){ctx.beginPath();ctx.arc(p.x,p.y,p.z>.3?2.2:1.4,0,Math.PI*2);ctx.fillStyle=`rgba(171,239,231,${Math.max(.22,.56+p.z*.3)})`;ctx.fill();}
-   else if((c+r)%3===0){ctx.beginPath();ctx.arc(p.x,p.y,.65,0,Math.PI*2);ctx.fillStyle='rgba(174,230,232,.38)';ctx.fill();}
-  }
-  for(let i=0;i<95;i++){const x=jitter(i,80)*w,y=jitter(i,91)*h;ctx.fillStyle=`rgba(205,226,230,${.08+jitter(i,11)*.16})`;ctx.fillRect(x,y,1,1);}
- }
- function tick(time){if(signal.aborted||!visible)return;if(time-last>55){draw(time);last=time;}frame=requestAnimationFrame(tick);}
- const resize=new ResizeObserver(()=>draw(performance.now()));resize.observe(canvas);
- const observe=new IntersectionObserver(entries=>{visible=entries[0]?.isIntersecting||false;cancelAnimationFrame(frame);if(visible){draw(performance.now());if(!reduced)frame=requestAnimationFrame(tick);}},{rootMargin:'120px'});observe.observe(canvas);
- signal.addEventListener('abort',()=>{cancelAnimationFrame(frame);resize.disconnect();observe.disconnect();},{once:true});
-}
 const menu=document.querySelector('#site-menu'),menuButton=document.querySelector('[data-menu-toggle]');
 menuButton.addEventListener('click',()=>{menu.showModal();menuButton.setAttribute('aria-expanded','true');});
 document.querySelector('[data-menu-close]').addEventListener('click',()=>menu.close());
@@ -81,10 +42,14 @@ const contactPanel=document.querySelector('#contact-panel');
 document.addEventListener('click',e=>{if(e.target.closest('[popovertarget="contact-panel"]')&&menu.open)menu.close();});
 document.querySelector('[data-copy-email]').addEventListener('click',async()=>{const status=document.querySelector('[data-copy-status]');try{await navigator.clipboard.writeText('tin-yeh.huang@connect.polyu.hk');status.textContent=t('邮箱已复制','Email copied');}catch{status.textContent=t('请选中上方邮箱复制','Select the email above to copy it');}});
 let viewAbort,selectCurrentOrg,focusOrg,closeCity,updateMapPanel;
-function revealHash({scroll=true}={}){const id=decodeURIComponent(location.hash.slice(1));if(!id)return;if(id==='contact'){contactPanel.showPopover();return;}if(id.startsWith('org-')){selectCurrentOrg?.(id.slice(4),false);focusOrg?.(id.slice(4));if(scroll)(matchMedia('(max-width:600px)').matches?document.querySelector('#organisation-context'):document.querySelector('.background-board'))?.scrollIntoView({block:'start',behavior:'instant'});return;}const target=document.getElementById(id);if(!target)return;if(target.matches('[data-background-item]'))selectCurrentOrg?.(target.dataset.organisations.split(' ')[0],false);for(let parent=target.parentElement;parent;parent=parent.parentElement)if(parent instanceof HTMLDetailsElement)parent.open=true;if(target instanceof HTMLDetailsElement)target.open=true;if(scroll)target.scrollIntoView({block:'start',behavior:'instant'});}
+function revealHash({scroll=true}={}){const id=decodeURIComponent(location.hash.slice(1));if(!id)return;if(id==='contact'){contactPanel.showPopover();return;}if(id.startsWith('org-')){selectCurrentOrg?.(id.slice(4),false);focusOrg?.(id.slice(4));if(scroll)(matchMedia('(max-width:600px)').matches?document.querySelector('#organisation-context'):document.querySelector('.background-board'))?.scrollIntoView({block:'start',behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});return;}const target=document.getElementById(id);if(!target)return;if(target.matches('[data-background-item]'))selectCurrentOrg?.(target.dataset.organisations.split(' ')[0],false);for(let parent=target.parentElement;parent;parent=parent.parentElement)if(parent instanceof HTMLDetailsElement)parent.open=true;if(target instanceof HTMLDetailsElement)target.open=true;if(scroll)target.scrollIntoView({block:'start',behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});}
 function initialiseView({scrollToHash=true}={}){
  viewAbort?.abort();viewAbort=new AbortController();const options={signal:viewAbort.signal};const main=document.querySelector('main');paintIcons(main);
- const web=main.querySelector('[data-knowledge-web]');if(web)initKnowledgeWeb(web,viewAbort.signal);
+ const albumDetail=main.querySelector('[data-album-detail]');
+ if(albumDetail)for(const sleeve of main.querySelectorAll('[data-album-caption]'))for(const event of ['pointerenter','focus'])sleeve.addEventListener(event,()=>{albumDetail.textContent=sleeve.dataset.albumCaption;if(event==='focus')requestAnimationFrame(()=>sleeve.scrollIntoView({block:'nearest',inline:'nearest',behavior:'instant'}));},options);
+ const toolTabs=[...main.querySelectorAll('[data-tool-tab]')];
+ const chooseTool=tab=>{for(const item of toolTabs){const selected=item===tab;item.setAttribute('aria-selected',String(selected));item.tabIndex=selected?0:-1;main.querySelector('#'+item.getAttribute('aria-controls')).hidden=!selected;}};
+ toolTabs.forEach((tab,i)=>{tab.addEventListener('click',()=>chooseTool(tab),options);tab.addEventListener('keydown',e=>{let n;if(e.key==='ArrowRight')n=(i+1)%toolTabs.length;else if(e.key==='ArrowLeft')n=(i+toolTabs.length-1)%toolTabs.length;else if(e.key==='Home')n=0;else if(e.key==='End')n=toolTabs.length-1;else return;e.preventDefault();chooseTool(toolTabs[n]);toolTabs[n].focus();},options);});
  const workTabs=[...main.querySelectorAll('[data-work-tab]')];
  if(workTabs.length){
   const selectWork=kind=>{for(const tab of workTabs)tab.setAttribute('aria-pressed',String(tab.dataset.workTab===kind));for(const panel of main.querySelectorAll('[data-work-panel]'))panel.hidden=panel.dataset.workPanel!==kind;};

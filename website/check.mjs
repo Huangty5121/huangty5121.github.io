@@ -4,7 +4,7 @@ import {fileURLToPath} from 'node:url';
 import {createHash} from 'node:crypto';
 import * as OpenCC from 'opencc-js';
 import {works} from './content.mjs';
-import {aboutContent,aboutAlbums} from './about-content.mjs';
+import {aboutContent,aboutAlbums,aboutWorkbench} from './about-content.mjs';
 const zh2t=OpenCC.Converter({from:'cn',to:'hk'});
 const root=resolve(dirname(fileURLToPath(import.meta.url)),'../material-demo/dist/site');
 const siteOrigin='https://tyhuang.hk';
@@ -16,6 +16,7 @@ for(const [key,value] of Object.entries(aboutContent)){
  const items=Array.isArray(value)?value:[value];
  for(const [index,item] of items.entries())for(const lang of ['zh','en'])if(typeof item?.[lang]!=='string'||!item[lang].trim())failures.push({file:'about-content.mjs',reason:`Missing ${lang} copy for ${key}${Array.isArray(value)?`[${index}]`:''}`});
 }
+for(const item of aboutWorkbench)for(const field of ['name','title','body'])for(const lang of ['zh','en'])if(!item[field]?.[lang])failures.push({file:'about-content.mjs',reason:`Missing ${lang} workbench ${field}`});
 for(const album of aboutAlbums){
  if(!album.title||!album.artist||!album.year||!album.url||!album.cover)failures.push({file:'about-content.mjs',reason:'Incomplete album metadata'});
  try{await stat(join(dirname(fileURLToPath(import.meta.url)),'assets/albums',album.cover));}catch{failures.push({file:'about-content.mjs',reason:`Missing album cover ${album.cover}`});}

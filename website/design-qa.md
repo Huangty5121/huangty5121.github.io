@@ -292,3 +292,35 @@ Live pre-fix diagnosis on 20 September: both `https://tyhuang.hk/` (Vercel) and 
 - 用户上传了 2026-09-25 21:34:49 的旧唱片架截图，明确喜欢三张真封面在浅色架线上紧叠、悬停展开的版本和动画，只要求优化显示。撤销本轮棕色桌景，恢复白色双栏桌边小区域与淡粉架线；现在悬停/键盘聚焦会展开封面、抬起目标并显示标题，手机直接列出三个可点击标题。「站内播放」打开现有播放器。原图保留在用户消息中；`review/about-2026-09-25/album-hover.png` 是当前本地展开状态。
 - 用户澄清开心、难过等只是解释「人有很多面」的比喻，不要被页面整理成八个情绪类别。删除八项标签和场景照片拼贴，将这部分改为连续的私人叙述；「怪人」按用户原话写成偶尔的自我怀疑，不作身份定论。中英两版文字由 `about-content.mjs` 维护，繁体由构建转换。认知网络与事实记录仍是不同章节。
 - 最新构建与静态检查：126 页、1413 个本地引用、0 failures，三份原始 PDF 不变。浏览器覆盖简体、英文、繁体 × 320/390/1440px × 明暗主题 × 14/16px 的 36 条 About 条件，0 脚本错误、0 横向溢出、0 已加载破图。三封面与窄屏标题的链接、悬停标题、播放器打开已实测。当前视觉截图为 `review/about-2026-09-25/` 中的 `zh-*-desk.png`、`zh-*-feelings.png`、`en-1440-dark-*.png` 与 `album-hover.png`；此前的棕色桌景截图已由同名文件覆盖。本地修改未部署，也不代表用户对文案或美术的最终认可。
+
+## 2026-09-25 — integrated About revision and owner correction
+
+Supersedes the earlier side-by-side personal window/music composition. Learning and vulnerable prose are now a single personal note. The separate software-style workbench has three keyboard-operable tabs. Music occupies its own section with six official covers, grouped automatically into rows of three. Added pale pink (single), The Dreamer (with Revisited identified), and The Dark Horse. Official Apple Music release pages and square artwork were checked. No personal listening reaction was fabricated.
+
+All ordinary type uses six semantic CSS tokens with a 13px default root and 15px A+ root. Identity artwork has named display exceptions. Updated file ownership, architecture and the project skill's music workflow. Following the owner's correction, the visible pause control was removed and the personal prose was rewritten without an identity slogan or imposed uplifting conclusion. System reduced-motion still applies.
+
+Verified in real Chromium: 24 About combinations (zh/en/tw × 320/1440px × light/dark × default/A+), no horizontal overflow or JS errors; six loaded covers; click and keyboard tab changes. Separate interaction checks confirm changing Canvas frames, static reduced-motion frames, music-section and back-to-top scroll destinations, sleeve hover caption, preview popover and 15px preference retained after soft navigation. Home, Work, Notes, News and Card also checked at 320px in A+ mode. Build/check: 126 pages, 1479 local references, zero failures; three PDFs identical to originals. Screenshots in `review/about-2026-09-25/` named personal/network/workbench/music show this revision; older desk/feelings images are historical.
+
+These are local implementation and browser checks, not deployment or owner acceptance. Audio playback availability and external music-service playback were not tested in this pass.
+
+### Later owner correction: compact shelf and open network
+
+The grouped three-cover rows above were rejected for excessive space and padding. The current music component is one continuous six-cover shelf, with no numbered catalogue, 132px desktop / 122px narrow shelf height, a shared hover/focus caption and horizontal scrolling on narrow screens. Title, preview link and shelf share the same 660px boundary. Network geometry was replaced with irregular branching filaments with depth, open edges and moving pulses; the spherical latitude construction was rejected. The personal prose also now reflects conflicting educational/cultural influences, ways of thinking, emotions, and the gap between intended and actual behavior, without “学得很杂” as a public-facing label.
+
+Final compact-shelf check at 320/390/1440px: one shelf, sixth cover reachable by horizontal scrolling, shared selected caption, no page overflow, changing network frames and no JavaScript errors. Latest screenshots were inspected at desktop and 390px. Skill frontmatter/reference links were reviewed; the bundled skill validation script could not execute because its Python environment lacks PyYAML.
+
+## Latest About: personal voice and transparent margin doodles
+
+Rewrote the three paired-language paragraphs to preserve contradiction, values and uncertainty without asking readers to appreciate sincerity or effort. Removed the standalone network and its navigation item. Generated and installed three isolated pencil/crayon objects with verified RGBA alpha; rejected watercolor scenes are not used. Increased resting sleeve exposure from 64px to 80px on desktop. Inspected desktop light, 390px light, 320px dark and English desktop dark screenshots: no page overflow, broken loaded images or unwanted image backgrounds. Build/check passed (126 pages, 1485 references, original PDFs unchanged). Prompts and asset boundaries are in references/about-illustrations.md.
+
+## 2026-09-25 — 恢复被字号整理误删的规则（ZCode 会话）
+
+**用户反馈**：让 Codex 整理后感觉架构乱了（地图、News 等），排版也有问题；字号统一管理可能没弄完；要求修复、记录过程，内容文字不动，并注意不显眼的 padding 回归。
+
+**诊断**：Codex 的字号令牌化方向本身成立（`:root` 13px 基准 + `--text-*` 六档 rem 令牌 + A+ 15px，属性挂在 `<html>` 上），但同一轮"清死 CSS"把 18 个仍在使用的类删到零覆盖：`home-time*`（首页时钟挤成一行）、`notes-material`（首页剪贴画失控为 493×1024 并压住文字）、`news-grid`/`news-feature*`（News 剪报墙塌成裸图原始尺寸）、整组 `case-*`（项目页版式消失）、`work-group-head`、`entry-facts .entry-type`、`role-more`、`org-mark`（机构徽标）、`landing-index`、`directory-heading`、以及 About 地图"全宽地图 + 底部横向城市条"的整组末轮规则（退化成早期窄地图+竖列表，城市列表文字被地图压住）。另有新增素材 `had-committee.webp` 顶部"委任紳士"行裁掉一半、底部残行。
+
+**修复**：全部从 `b072d8c` 提取原规则、按新令牌体系换算后追加到 `site.css` 尾部（带注释块），未回滚 Codex 的令牌化与 About 重设计（工作台/音乐角/个人笔记的新类本就有配套 CSS）。`had-committee.webp` 按像素行分析裁成两行完整名单（470×85），`poetry-mention.webp` 去掉底部 2px 残影。Work 卡片封面列 95→124px 是 Codex 有意微调、内部自洽，予以保留。
+
+**验证**：`build.mjs` + `check.mjs` 通过（0 failures）。浏览器实测（Chromium，8741 端口，与 `b072d8c` worktree 8742 端口对照）：首页时钟/剪贴画与旧版一致；News 剪报墙双列统一 170px 纸面框、暗色亮色正常；项目页 case 版式恢复；About 地图全宽 + 横向城市条 + 选中态下划线 + 机构徽标 + 点击城市→机构→记录联动正常；Aa 开关全站等比生效（root 13→15px，导航/正文/标题同步放大）且持久化；390px 窄屏首页/News/About 正常（剪贴画按规则隐藏、城市条保持横排）；名片页与 PDF 阅读页无回归。Work 页新旧盒模型对比：页头/页标题/卡片 padding 完全一致，字号整体 14→13px 为既定缩小方向。
+
+**遗留**：内容文案未动；本地未部署；`e96c99e`（自称 "have bug, fixing"）与未提交改动仍在工作区，建议用户确认后自行提交；News 第一条剪报现为两行名单，"委任紳士"表头行因原图即被裁无法恢复，如需完整表头要重新截取原始公文页。
