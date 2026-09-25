@@ -1,4 +1,15 @@
-# Personal website review — 20 September 2026
+# Personal website review
+
+## Current local review — 25 September 2026
+
+- Read both requested ZCode sessions (`sess_6ef86fda-ae1c-4a7b-a6d3-605a353585cf` and `sess_de39c56e-666e-445b-9a64-8e603732e942`). The owner's recurring direction is small, consistent type; a personal About rather than a generic design statement; a compact three-record shelf with real covers; restrained, source-backed News; and no filler about unfinished CV or site work.
+- Compared the live local Home, Work, Notes, News, About, map and institution view visually in the in-app browser at its desktop width. The About personal copy had lost the owner's description of many sides, the three records occupied an oversized frame, Work had unnecessary row height, and News source strips sat in excessively tall image areas.
+- About now uses the owner's stated themes of interdisciplinary study and human emotion, with a compact record shelf. Work rows have a shorter shared scale and clearer summaries and venue names. News excerpts retain their document proportions. Selecting an institution now changes the map panel to its name and role. The visible About and Work copy no longer says that details will be added to a CV or the site later.
+- Build/check after this review: `node website/build.mjs`, `node website/check.mjs`, and `git diff --check` completed without errors. The browser pass confirmed the new About and News layouts, map institution selection, and dark theme. A 390 × 844 viewport pass checked Home, Work, News, and About's personal section, then restored the default browser viewport. Owner acceptance and public deployment remain pending.
+- A second visual pass found that the framed album block still looked like a generic card. It now uses a single narrow shelf line with three larger covers and readable permanent labels; hover raises a sleeve without moving the surrounding text. The About prose, Work summaries and venue names, News summaries, and lower-page review/award records now use a closer reading scale. The large-text control was checked at desktop and 390px, then returned to its default state.
+- The official Home Affairs Department membership page was opened and its Yau Tsim Mong list checked against the owner's name. A crop from the visible list was added as one source-linked News record, with the same source linked from the committee experience. Only that appointment is supported by this list; the other committees and tutor role still rely on the supplied CV record. Desktop Chinese News and narrow Chinese/English Work and About were inspected after these changes. The source photo currently used by Home is the later selected and credited Unsplash version, matching the subsequent September 2026 record below.
+
+## Historical review — 20 September 2026
 
 ## Current build
 
@@ -259,3 +270,25 @@ Live pre-fix diagnosis on 20 September: both `https://tyhuang.hk/` (Vercel) and 
 - Searched public primary sources for publication status. Elsevier shows the HeDA journal article and IF 4.1 at the journal level; Wiley shows Advanced Science IF 14.1. CCF's 2026 list explicitly excludes workshops from conference classification and lists BIBM as a B-class venue. Restored the BIBM CCF B badge for the proceedings paper, kept workshop papers separate, and did not invent JCR quartiles. An OpenReview-indexed ICLR 2026 PDF appears to be another HeDA version. The owner confirmed on 2026-09-25 that this site should use only the journal version; keep one HeDA entry pointing to the journal DOI and the existing preprint reader.
 - Reworked Work as a lead visual article plus compact rows with right-side type, year and supported metrics. Replaced the tabbed NineToothed page and process-list social page with open case-note layouts. Redrew the heatwave, NineToothed, StrucTrace, and social editorial SVGs; alt text distinguishes them from real output. Fixed legacy `projects.html` to land at the practice group and removed inactive Work filter and project-tab JavaScript.
 - Local build/check passed with 126 pages, 1,392 local references, and original PDF hashes unchanged. Dark-mode browser checks at 320/390/1280 px in all three languages covered Work, both practice pages, and the legacy redirect: no page errors, broken loaded images, or horizontal overflow.
+
+## 2026-09-25 · About 结构、宏观网络、唱片与共享控制
+
+- 按本轮反馈，About 顺序改为个人叙述 → 全幅多层网络 → 情绪的不同面 → 唱片选择 → 可核对的学习、经历与荣誉。旧的五点关系图被取消。网络是 Canvas 2D 编辑性表达，延伸至正文宽度之外；不冒充研究图或精确学科关系图。画布仅在可见时更新，系统减少动态效果时保持静态。
+- 唱片从三张等宽卡片改为一个展示场景和三项显式选择。三张现有真实封面和 Apple Music URL 来自 `about-content.mjs`，点击选择更换封面与链接。实现参考见 `architecture.md`；未启用自动播放。
+- `site.css` 的文本尺寸统一使用 rem，根字号由 14px / 16px 两档控制；版心宽度和左右留白收拢到 `--page-width`、`--page-gutter`。About 的中英长文案、情绪词和唱片元数据集中在 `about-content.mjs`；繁体由构建转换。删除本轮不再使用的旧 About 卡片样式。文件分工和改动规则写入 `architecture.md`、编辑技能及 site map。
+- 静态构建检查：126 个生成页面、1410 个本地引用、0 failures；3 份 PDF 与原件 SHA-256 一致。浏览器检查：简体/英文/繁体 × 320/390/1440px × Home/Work/Notes/News/About，共 45 个默认字号条件与 45 个放大字号条件，均无横向溢出、页面脚本错误或已完成加载的破图。字号按钮在 About 的三语、三宽下从 14px 切到 16px；6 条手机/桌面跨页流程保留放大状态，唱片选择更新到对应链接。About 的网络和唱片在 320/390/1440px 的明暗主题下截屏审阅，选出的证据在 `review/about-2026-09-25/`。
+- 本地浏览器检查没有打开 Apple Music 的外部页面，也不构成部署或用户对视觉方案的最终认可。旧的“唱片架最终定式”记录只是当时版本的决定，已被本轮明确反馈替代。
+
+## 2026-09-25 · 用户再次纠正后的场景与版本对照
+
+- 用户明确否定了大唱盘展示、单纯封面错位和给内容套一个 Mac 窗口的做法；要把架子、颜色、情绪和 About 的整体叙事一起考虑。此前本日记录的「唱片选择场景」已被此反馈取代，不是当前设计。
+- 实际运行并截取了 Git 版本 `a1691c0` 与 `6a33fe9` 的 About 桌边部分，另对照仓库中的 `review/1280-about.png`、`review/current/about-desktop.png`、`review/current/cabinet-final-1440.png`。早期纯文字版承载履历却缺少私人的声音；后来的窗口加叠放封面给出亲密角落，但薄搁板线和外层白盒没有形成真正的空间，且个人部分曾被大地图排到后面。过去的 many-sides 面墙曾被用户要求撤除，所以本轮没有直接复刻旧拼贴。
+- 当前本地 About 依次为：可写下的自述窗口与暖色桌面唱片架；超出正文宽度的深色认知网络；不受窗口框架约束的个人场景照片、情绪词与私人叙述；最后是已有地图、学习经历、荣誉和专业记录。唱片只占桌边的一部分，三张真封面各有直达链接；窄屏另列出三个标题。场景照片不对应某一情绪，也不当作个人事件证据。此结构是根据反馈形成的设计推断，尚未得到用户最终认可。
+- 对照的外部实现包括 `album-shelf` 的内容与模板分离、Album Sweet 的木架和抽取封面交互，以及之前研究的 CSS 唱盘示例；后者放大了唱盘而背离当前需求，因此未采用。链接与实现边界写在 `architecture.md`。
+- 构建与静态检查：126 页、1422 个本地引用、0 failures，三份原始 PDF 与原件一致。浏览器检查覆盖简体、繁体、英文 × 320/390/1440px × 明暗主题 × 14/16px，共 36 条 About 条件；没有脚本错误、横向溢出或破损的已加载图片。三张封面及窄屏标题链接均指向各自 Apple Music 页面，键盘焦点/悬停显示封面标题。最终本地截图在 `review/about-2026-09-25/` 的 `zh-*` 和 `en-*` 文件；旧的 `records-*`、`network-*` 文件是前一轮检查，不能代替当前截图。未部署，视觉方案仍待用户判断。
+
+### 追加：以用户截图为准的唱片架与个人文字修正
+
+- 用户上传了 2026-09-25 21:34:49 的旧唱片架截图，明确喜欢三张真封面在浅色架线上紧叠、悬停展开的版本和动画，只要求优化显示。撤销本轮棕色桌景，恢复白色双栏桌边小区域与淡粉架线；现在悬停/键盘聚焦会展开封面、抬起目标并显示标题，手机直接列出三个可点击标题。「站内播放」打开现有播放器。原图保留在用户消息中；`review/about-2026-09-25/album-hover.png` 是当前本地展开状态。
+- 用户澄清开心、难过等只是解释「人有很多面」的比喻，不要被页面整理成八个情绪类别。删除八项标签和场景照片拼贴，将这部分改为连续的私人叙述；「怪人」按用户原话写成偶尔的自我怀疑，不作身份定论。中英两版文字由 `about-content.mjs` 维护，繁体由构建转换。认知网络与事实记录仍是不同章节。
+- 最新构建与静态检查：126 页、1413 个本地引用、0 failures，三份原始 PDF 不变。浏览器覆盖简体、英文、繁体 × 320/390/1440px × 明暗主题 × 14/16px 的 36 条 About 条件，0 脚本错误、0 横向溢出、0 已加载破图。三封面与窄屏标题的链接、悬停标题、播放器打开已实测。当前视觉截图为 `review/about-2026-09-25/` 中的 `zh-*-desk.png`、`zh-*-feelings.png`、`en-1440-dark-*.png` 与 `album-hover.png`；此前的棕色桌景截图已由同名文件覆盖。本地修改未部署，也不代表用户对文案或美术的最终认可。

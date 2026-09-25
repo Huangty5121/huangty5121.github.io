@@ -2,6 +2,11 @@
 // Do not use another person's biography or a site update as evidence here.
 const L=(zh,en)=>({zh,en});
 export const press=[
+ {id:'had-committee',date:'2025 — 2027',source:L('民政事务总署','Home Affairs Department'),
+  title:L('油尖旺地区青年发展及公民教育委员会','Yau Tsim Mong youth development committee'),
+  summary:L('民政事务总署公布的委员名单列有黄天野。','The department’s membership list includes Tin-Yeh Huang.'),
+  image:'had-committee.webp',imageAlt:L('民政事务总署委员名单中黄天野姓名所在行截图','Crop of the name on the Home Affairs Department membership list'),
+  url:'https://www.had.gov.hk/chs/public_services/youth_participation_initiative/dydce_committee_district.htm?district=ytm'},
  {id:'f1000-review',date:'2025 · 03',source:L('F1000Research','F1000Research'),
   title:L('公开同行评审报告','Public peer review report'),
   summary:L('与王一权共同署名的审稿报告；原始页面列有姓名和审稿记录。','A co-signed review report; the original page lists the reviewer names and report record.'),

@@ -4,6 +4,7 @@ import {fileURLToPath} from 'node:url';
 import {createHash} from 'node:crypto';
 import * as OpenCC from 'opencc-js';
 import {works} from './content.mjs';
+import {aboutContent,aboutAlbums} from './about-content.mjs';
 const zh2t=OpenCC.Converter({from:'cn',to:'hk'});
 const root=resolve(dirname(fileURLToPath(import.meta.url)),'../material-demo/dist/site');
 const siteOrigin='https://tyhuang.hk';
@@ -11,6 +12,14 @@ const files=[],paths=new Set();
 const relOf=p=>relative(root,p).split(sep).join('/');
 async function walk(dir){for(const item of await readdir(dir,{withFileTypes:true})){const p=join(dir,item.name);paths.add(relOf(p));if(item.isDirectory())await walk(p);else if(item.name.endsWith('.html')&&relOf(p).split('/')[0]!=='assets')files.push(p);}}
 await walk(root);let checked=0;const failures=[];
+for(const [key,value] of Object.entries(aboutContent)){
+ const items=Array.isArray(value)?value:[value];
+ for(const [index,item] of items.entries())for(const lang of ['zh','en'])if(typeof item?.[lang]!=='string'||!item[lang].trim())failures.push({file:'about-content.mjs',reason:`Missing ${lang} copy for ${key}${Array.isArray(value)?`[${index}]`:''}`});
+}
+for(const album of aboutAlbums){
+ if(!album.title||!album.artist||!album.year||!album.url||!album.cover)failures.push({file:'about-content.mjs',reason:'Incomplete album metadata'});
+ try{await stat(join(dirname(fileURLToPath(import.meta.url)),'assets/albums',album.cover));}catch{failures.push({file:'about-content.mjs',reason:`Missing album cover ${album.cover}`});}
+}
 // Icons are dynamic imports, so a missing file would not surface as a broken link.
 const INLINE_ICONS=new Set(['plus','minus','arrow-right','chevron-down','copy']);
 const iconStems=new Set(['sun','moon','play','pause']);
