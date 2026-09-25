@@ -111,12 +111,16 @@ function initialiseView({scrollToHash=true}={}){
   // One pin per organisation position; a key like "x-institute~nan" marks a
   // second site of the same organisation (both pins select that organisation).
   const orgs=Object.entries(JSON.parse(viewport.dataset.orgs||'{}')).map(([key,ll])=>({key,id:key.split('~')[0],ll})).filter(o=>o.ll.length===2&&o.ll.every(Number.isFinite));
-  const orgCity=id=>['polyu','royal-plaza','hksar','cpce'].includes(id)?'hk':['smart','x-institute'].includes(id)?'sz':'bj';
+  const orgCity=id=>['polyu','royal-plaza','hksar'].includes(id)?'hk':['smart','x-institute'].includes(id)?'sz':'bj';
   const dotColor={bj:'#846bb9',sz:'#e07e64',hk:'#3c9c86'};
   const ATTR='© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>';
   const TILE_URL='https://tile.openstreetmap.org/{z}/{x}/{y}.png';
   const tileOpts={maxZoom:18,keepBuffer:0,updateWhenZooming:false,detectRetina:true};
-  const map=L.map(viewport,{zoomControl:false,scrollWheelZoom:false});
+  const map=L.map(viewport,{zoomControl:false,scrollWheelZoom:true});
+  // Two-finger pinch reaches Leaflet as ctrl+wheel; plain wheel/two-finger
+  // scroll is stopped here (capture phase, no preventDefault) so the page
+  // keeps scrolling instead of the map trapping it.
+  viewport.parentElement.addEventListener('wheel',e=>{if(!e.ctrlKey)e.stopPropagation();},{capture:true,passive:true});
   map.attributionControl.setPrefix('');
   map.addControl(L.control.zoom({position:'bottomright'}));
   const overviewTiles=L.tileLayer(TILE_URL,{...tileOpts,detectRetina:false,attribution:ATTR}).addTo(map);
@@ -132,7 +136,7 @@ function initialiseView({scrollToHash=true}={}){
   let currentCity=null;
   // One pin per organisation at its real position; click reads its records.
   const orgPins={};
-  const SUFFIX_LABEL={nan:zh?'南山':'Nanshan'};
+  const SUFFIX_LABEL={nan:zh?'南山':'Nanshan',hhb:zh?'紅磡灣':'Hung Hom Bay',west:zh?'西九龍':'West Kowloon',ytm:zh?'油尖旺':'Yau Tsim Mong'};
   for(const o of orgs){
    const base=main.querySelector(`[data-org="${CSS.escape(o.id)}"]`)?.dataset.orgName||o.id;
    const sfx=o.key.split('~')[1];
@@ -146,7 +150,7 @@ function initialiseView({scrollToHash=true}={}){
     selectCurrentOrg?.(o.id);
     if(matchMedia('(max-width:600px)').matches)main.querySelector('#organisation-context')?.scrollIntoView({block:'start',behavior:matchMedia('(prefers-reduced-motion:reduce)').matches?'instant':'smooth'});
    });
-   m.on('mouseover',()=>{writePanel(name,zh?'點擊圓點，查看相關經歷。':'Click the pin to read the related experience.',zh?'機構':'Institution');main.querySelector(`[data-org="${CSS.escape(o.id)}"]`)?.classList.add('is-map-hovered');});
+   m.on('mouseover',()=>{main.querySelector(`[data-org="${CSS.escape(o.id)}"]`)?.classList.add('is-map-hovered');});
    m.on('mouseout',()=>{main.querySelector(`[data-org="${CSS.escape(o.id)}"]`)?.classList.remove('is-map-hovered');updatePanel();});
    orgPins[o.key]=m;
   }
@@ -179,10 +183,9 @@ function initialiseView({scrollToHash=true}={}){
     return;
    }
    if(!currentCity){writePanel(zh?'北京 · 深圳 · 香港':'Beijing · Shenzhen · Hong Kong',zh?'點擊地區標記，進入詳細地圖。':'Select a region pin to open its detailed map.',zh?'地點總覽':'Place overview');return;}
-   const selected=currentCity==='bay'?orgs.filter(o=>['sz','hk'].includes(orgCity(o.id))):orgs.filter(o=>orgCity(o.id)===currentCity);
-   const names=[...new Set(selected.map(o=>main.querySelector(`[data-org="${CSS.escape(o.id)}"]`)?.dataset.orgName).filter(Boolean))];
    const title=currentCity==='bay'?(zh?'香港 · 深圳':'Hong Kong · Shenzhen'):(cities.find(c=>c.id===currentCity)?.name||'');
-   writePanel(title,names.join(' · '),zh?'相關機構':'Institutions');
+   // The panel names a region only; organisation names appear after a pin click.
+   writePanel(title,zh?'點擊機構圓點，查看該機構與相關經歷。':'Tap a pin to see that institution and its experience.',zh?'地區':'Region');
   };
   updateMapPanel=updatePanel;
   const syncPins=()=>{
@@ -195,7 +198,9 @@ function initialiseView({scrollToHash=true}={}){
    if(nextTiles!==activeTiles){map.removeLayer(activeTiles);nextTiles.addTo(map);activeTiles=nextTiles;}
    const pts=orgs.filter(o=>id==='bay'?['sz','hk'].includes(orgCity(o.id)):orgCity(o.id)===id).map(o=>o.ll);
    highlightPins('');
-   if(id&&pts.length)map.fitBounds(L.latLngBounds(pts).pad(.22),{animate:false,maxZoom:id==='bay'?10:13});
+   // Shenzhen's pins span Guangming to Pingshan; one level out keeps Dapeng
+   // peninsula and Shajing inside the default frame.
+   if(id&&pts.length){map.fitBounds(L.latLngBounds(pts).pad(.22),{animate:false,maxZoom:id==='bay'?10:13});if(id==='sz')map.setZoom(map.getZoom()-1,{animate:false});}
    else overview();
    syncPins();updatePanel();
   };

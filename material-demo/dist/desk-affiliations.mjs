@@ -15,7 +15,7 @@ export const experienceTags={
 // Organisation identity is independent of an appointment. A joint internship
 // can belong to two organisations; both open the SAME experience record.
 export const organisations=[
- {id:'polyu',name:L('香港理工大学','The Hong Kong Polytechnic University'),mark:'polyu.png',study:['polyu'],records:['kteo','polyu-representative','polyu-representative-previous','polysmart']},
+ {id:'polyu',name:L('香港理工大学','The Hong Kong Polytechnic University'),mark:'polyu.png',study:['polyu','hkcc'],records:['kteo','polyu-representative','polyu-representative-previous','polysmart','hkcc-representative','cpce-ambassador']},
  {id:'tsinghua',name:L('清华大学','Tsinghua University'),mark:'tsinghua.png',study:['tsinghua'],records:['shi']},
  {id:'smart',name:L('深圳医学科学院（SMART）','Shenzhen Medical Academy of Research and Translation'),mark:'smart-pin.png',records:['smart']},
  {id:'cas',name:L('中科院地理科学与资源研究所','IGSNRR, Chinese Academy of Sciences'),mark:'cas.png',records:['cas']},
@@ -24,7 +24,6 @@ export const organisations=[
  {id:'royal-plaza',name:L('帝京酒店','Royal Plaza Hotel'),mark:'royal-plaza.png',records:['hotel']},
  {id:'x-institute',name:L('深圳零一学院（X-Institute）','X-Institute Shenzhen'),mark:'x-pin.png',records:['x-social','x-microbial']},
  {id:'hksar',name:L('香港特区政府','HKSAR Government'),mark:'hksar.png',records:['gov-committee','gov-tutor']},
- {id:'cpce',name:L('理大专业及持续教育学院 · 香港专上学院','PolyU CPCE · Hong Kong Community College'),mark:'cpce.png',study:['hkcc'],records:['hkcc-representative','cpce-ambassador']},
 ];
 export const filters=[['organisations',L('组织','Organisations')],['all',L('全部经历','All records')],['research',L('研究','Research')],['work',L('实习与工作','Internships & work')],['service',L('服务与代表','Service & representation')],['projects',L('项目参与','Programmes & projects')]];
 export const filteredExperiences=filter=>experiences.filter(e=>filter==='all'||experienceTags[e.id]?.includes(filter));

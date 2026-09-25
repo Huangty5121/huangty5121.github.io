@@ -35,6 +35,6 @@ export const industrialNote={
    'The useful question is what conditions a form responds to. Under an alternative, who benefits and who bears the cost? Once these relationships become visible, form becomes a design decision that can be examined rather than a declaration of taste.'
   ])}
  ],
- editorialNote:L('编辑说明：这篇示范稿只依据目前可核对的网站讨论整理，尚未对应你提到的具体论文；题名、论点和例证待你修订。插图是编辑示意，不是个人作品或论文图稿。',
-  'Editorial note: this provisional text draws only on design discussion currently available in the site records. It has not yet been matched to the paper you mentioned. The illustrations are editorial, not personal work or research figures.')
+ editorialNote:L('编辑说明：这是一篇待修订的整理稿，题名、论点与例证仍需核对原文。插图是编辑示意，不是个人作品或论文图稿。',
+  'Editorial note: this is a provisional text awaiting revision; its title, arguments and examples still need to be checked against the sources. The illustrations are editorial, not personal work or research figures.')
 };
