@@ -198,3 +198,64 @@ Live pre-fix diagnosis on 20 September: both `https://tyhuang.hk/` (Vercel) and 
 ### 追加：英雄圖納入構建指紋（修復「沒更換」）
 
 - 用戶端未換圖的原因：hero 圖 URL 無版本號，瀏覽器快取了舊圖。修法：harbour-night.jpg 位元組納入 cacheKey 雜湊，img src 帶 `?v=fingerprint`；今後圖片一換 URL 自動失效快取。views 增加cacheKey 參數透傳。
+
+### 追加：三语管线代码审计 + 部署守卫（2026-09-24）
+
+- 用户报告繁体版多处显示 bug，要求纯代码校验（不看视觉）+ 部署测试。审计坐实四个逻辑 bug 并修复：
+  1. **tw 全站图标隐身**：build 对 tw/site.mjs 的资产路径替换写成 `'./assets/`（单引号），而 site.mjs 实际用反引号模板串——替换从未生效，动态 import 404→catch→全部 `[data-icon]` hidden（主题/菜单/播放按钮图标全消失）。改为正则 `(['\`])\.\/assets\//` 同时覆盖两种引号。
+  2. **tw 论文页空 `<title>`**：标题索引 `title[lang]` 遇 `lang='tw'` 为 undefined，read/work 页变成「 · Tin-Yeh Huang」。改为 `title[lang==='tw'?'zh':lang]`。
+  3. **tw 跳转页简体 + `lang="tw"`**：跳转页未过 zh2t、lang 码用了循环变量。改为统一 zh-Hans/zh-Hant/en 并对 tw 应用转换。
+  4. **软导航后语言切换链接过期**：navigate() 只更新第一个 `.language-link`，第二个（EN/繁）仍指旧页面。改为同步全部。
+- 死代码清理：ScrollTrigger 残留调用 ×2、地图块重复的 `zhLang` 判定（并入模块级 `zh`）、`SUFFIX_LABEL.ps` 死键、`folio-scene-v3.webp` 死拷贝、cacheKey 中已无用途的 `mapGeometry.overviewPath`。
+- 地图逻辑修正：`polysmart` 图钉为死交互（该经历记录挂在 polyu 机构名下，无对应机构按钮，点击必然空白面板）——移除钉与 orgCity/cityFor 判断，香港按钮计数 5→4。深圳保持 3 处（零一坪山+南山+SMART）。
+- 部署卫生：build 新增资产修剪（dist 已提交进 git，源码侧删除会永久残留线上）——本次清掉 26 个陈旧文件（gsap 两件套、旧英雄图 3 张、faces 3 张、旧论文封面 jpg 3 张、孤儿 logo hkcc/polysmart、未用图标 10 个、.DS_Store×2）；vendor 目录（leaflet/pdfjs/papers）与许可文件不修剪。
+- check.mjs 升级为部署守卫：html lang 白名单、空/畸形 title、tw 目录简体残留（opencc 复检）、tw/site.mjs 模块相对资产路径、图标文件存在性（动态 import 不走链接检查）、大小写敏感链接比对（macOS 本地 FS 不区分大小写会漏报，Pages/Vercel 会 404）。
+- 验证：CI 同款命令 `node website/build.mjs && node website/check.mjs` 126 页 0 失败；`node --check` 两份 site.mjs 通过；本地静态服务冒烟 86 URL 全 200；CSS 未用选择子复审仅剩 Leaflet 运行时类与 wordmark 兜底。
+- 文档对齐：README/SKILL/site-map 由「双语+GSAP+材质封面」改为三语+AMap 地图+照片封面现状。全部改动未提交，等「推送」。
+
+### 追加：语言自动检测 + 三语全功能视觉验证（2026-09-24 续）
+
+- 首访语言自动检测上线：head 内联脚本在无 `tyh-lang` 偏好时按浏览器语言（zh 变体细分：tw/hk/mo/hant→繁，其余 zh→简）判定，非中英浏览器用时区兜底（Asia/Shanghai 等→简、Asia/Hong_Kong|Taipei|Macau→繁，其他→英文）；检测只发生一次并存偏好——分享链接与手动选择永不被劫持。页面语言切换器点击时写入偏好（按链接解析路径段判断目标版）。
+- EN 版语言切换器「中」改「简」；三版切换器现为 繁/EN、簡/EN、简/繁。
+- e2e（IAB）：en-US 浏览器清偏好开 zh 首页→落 /en/ 并存 en；存 tw 开 en→不劫持；点「繁」→tw 且存 tw；点「简」→zh 且存 zh；15 组语言/时区检测单测全过。
+- 三语功能矩阵（浏览器实测）：三版首页 25/25 图标渲染、英雄图、时钟；主题/字号/菜单/联系名片/音乐面板交互全过；关于页 11 钉、城市钮 北京4/深圳3/香港4/總覽、polysmart 钉已消失、钉点击开 5 条理大记录、#org-smart 直达、总览复位；工作页筛选/搜索（1 项内容）/排序；软导航后两个语言链接同步刷新（上轮修复验证）；动态 4 行 1 外链；阅读器 iframe 与返回图标；名片页；writing.html 三语跳转全部落地；404 返回首页。
+- 视觉截图（浅/深、三语首页、关于页地图、动态页）：tw 首页全繁化+图标齐全；地图默认珠三角取景、图钉与计数正确；深色瓦片压暗正常。中途一张 about 截图出现「香港选中」假象，经两次干净加载复测 + 单标签页确认为主观测试链路的点击竞态残留，非代码缺陷。
+- check.mjs 126 页 0 失败保持全绿。全部改动未提交，等「推送」。
+
+## 2026-09-25 · deployed-site diagnosis and local map/directory revision
+
+- Inspected `https://tyhuang.hk/about.html` in Chrome before editing. The deployed AMap view showed blank tile blocks after selecting Beijing; the city button revealed the expected four institutions, and selecting Tsinghua revealed the correct two records. The original institution choices were scattered logo tiles and the empty record column occupied substantial width.
+- The deployed `robots.txt` allowed all paths, `sitemap.xml` returned 404, and the page head had no canonical or language alternates. A web search result still displayed an older “Frosty Neon” home snippet; this is evidence of stale search presentation, not proof that the live site is still serving that design.
+- In the rebuilt local site, replaced the basemap with OpenStreetMap raster tiles and kept the WGS-84 institution coordinates unshifted. Removed hidden tile prewarming, which competed with visible requests. City and organisation selection, dark desktop view, and the 390px English mobile view were inspected. The Beijing tiles filled after loading, and Tsinghua's two records appeared via the directory. Mobile had no horizontal overflow and no page errors in the 390px browser probe.
+- The institution selection now uses text rows with small logos. Before a record is selected, the directory fills the available width; selected records open beside it on desktop and below it on mobile. The three album covers no longer overlap or move neighbouring links on hover.
+- Build and static checks pass after generating canonical URLs, reciprocal language links, sitemap, icon, redirect noindex, and search descriptions. This is local verification only; these changes have not been deployed or recrawled by Google.
+- The About introduction was expanded with contributions already present in the work and experience records. The imitation Markdown window was removed; the design thought is now a short unframed aside beside the three real covers.
+- Removed the first-visit language redirect: direct links and search-result URLs now keep their own language edition. The earlier 24 September note above records the previous implementation, which is superseded by this change.
+- Corrected the News mention link to the specific 18 September 2024 article on the Chinese Poetry Society site; the article names 黄天野. The earlier organisation-homepage link and organisation label were inaccurate.
+
+## 2026-09-25 · content and layout reconstruction
+
+- Confirmed the current public homepage, About, CSS, and JavaScript are byte-for-byte identical to the repository HEAD generated files before revising local sources. This audit used the latest `tyhuang.hk` deployment, not a historical mockup.
+- Visually reviewed the five primary live pages and the local light desktop versions. The main structure problem was that the About map appeared before any education or experience record; Work had search and sorting controls for only nine entries; Home added a clock and numbered section labels without helping the visitor; News included a self-referential redesign update.
+- About now opens with the actual PolyU records selected. The map is shorter and paired with a city list; the directory is text-only, without logo cards. The personal design thought and three static album covers come after the main experience records. City and pin selection still reveal the one canonical set of records.
+- Simplified Home's description and removed the decorative time readout, section numbering, and material cutout. Work keeps its publication/practice tabs and removes search and sort. Notes uses an unframed editorial row. News keeps externally verifiable mention and work updates, without the site redesign entry.
+- Rebuilt all 126 language/route pages and passed `website/check.mjs` (1,347 local references, three source PDFs unchanged). Browser probes on 390px and 1280px in light and dark modes covered Home, Work, Notes, News, and About: zero script errors, broken loaded images, or horizontal overflows. Category tabs and Beijing→Tsinghua selection worked; the latter showed two records. Three languages were separately tested for institution selection.
+- This is local review, not deployment or Google recrawl. The remaining design judgement should be made against rendered screenshots and the owner's preference before publishing.
+- Rechecked ZCode design feedback: the owner asked for the same light map across both site themes. The local rebuild now keeps the OpenStreetMap basemap light in dark mode as well.
+- The three real album covers now have a small position-safe hover/focus lift, with reduced-motion support. Their neighbouring cover positions stayed fixed in browser inspection; album images load eagerly so the About shelf is present in full-page capture as well as normal scrolling.
+- In a reduced-motion mobile browser probe, the music panel opened, the official preview reached readyState 4 and played after a click, while album transforms were disabled. This confirms the local browser interaction; external playback still depends on the remote preview service.
+
+### 2026-09-25 · User correction after first local redesign
+
+- The owner clarified that the map is the main About element, “几项纪录” style counts should disappear, organisation logos should remain, and experience should read naturally below the map. Their ZCode About request also called for a centered Apple-style window title and a compact album shelf.
+- Reordered About to a full-width map, followed by city choices and institution logos. No institution record opens by default; longer role detail is disclosed only on request. Restored a small browser-window composition and the Home Hong Kong clock/material cutout.
+- Work is grouped into journals/proceedings, workshop/preprints, and practice. Removed workshop cards' borrowed main-conference CCF ranks and the unpublished npj impact-factor placeholder. News updates now link to their relevant records; additional updates use existing public site records only.
+- Rebuilt 126 pages with no static-check failures; source PDFs remained unchanged. Browser checks at 320, 390, and 1280 pixels for zh-Hans, zh-Hant, and English found no horizontal overflow, loaded broken images, or script errors across Home, Work, News, and About. Map pins still select records in all three languages at mobile and desktop widths.
+- These are local revisions to the verified latest deploy source; no deploy has been made.
+
+### 2026-09-25 · Google and Projects follow-up
+
+- Checked Google directly for `site:tyhuang.hk "Tin-Yeh Huang"`: current root and `/en/index.html` appear beside obsolete `/about`, `/lab`, and a fabricated `/signal/tailwind-philosophy` result. Live HTTP returns 404 for the three obsolete paths; the live root still serves the older title and lacks the new canonical metadata. The locally authored metadata is therefore not yet reflected in Google. Added permanent Vercel redirects for the meaningful old `/about` and `/lab` paths. The fake Signal page remains 404 so it can age out of the index after recrawl.
+- Searched public primary sources for publication status. Elsevier shows the HeDA journal article and IF 4.1 at the journal level; Wiley shows Advanced Science IF 14.1. CCF's 2026 list explicitly excludes workshops from conference classification and lists BIBM as a B-class venue. Restored the BIBM CCF B badge for the proceedings paper, kept workshop papers separate, and did not invent JCR quartiles. An OpenReview-indexed ICLR 2026 PDF appears to be another HeDA version. The owner confirmed on 2026-09-25 that this site should use only the journal version; keep one HeDA entry pointing to the journal DOI and the existing preprint reader.
+- Reworked Work as a lead visual article plus compact rows with right-side type, year and supported metrics. Replaced the tabbed NineToothed page and process-list social page with open case-note layouts. Redrew the heatwave, NineToothed, StrucTrace, and social editorial SVGs; alt text distinguishes them from real output. Fixed legacy `projects.html` to land at the practice group and removed inactive Work filter and project-tab JavaScript.
+- Local build/check passed with 126 pages, 1,392 local references, and original PDF hashes unchanged. Dark-mode browser checks at 320/390/1280 px in all three languages covered Work, both practice pages, and the legacy redirect: no page errors, broken loaded images, or horizontal overflow.

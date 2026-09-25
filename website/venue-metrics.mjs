@@ -1,12 +1,12 @@
 // Venue-level context only. These figures are not ratings of an individual paper.
-// `if` = impact factor, `rank` = JCR quartile or CCF venue class. Workshop chips
-// name the CCF rank of the HOST conference, not of the workshop itself.
+// `if` = publisher-listed journal impact factor; `rank` is shown only when
+// the named conference classification applies to the proceedings record.
 export const venueMetrics={
- heatwave:{if:'IF 4.1',rank:'JCR Q1',detail:{zh:'2024 JCR 影响因子 4.1；SJR 地球科学 Q1 · 2026.09 查询',en:'JCR 2024 IF 4.1; SJR Q1 in Geosciences · checked Sep 2026'},source:'https://www.sciencedirect.com/journal/physics-and-chemistry-of-the-earth-parts-a-b-c'},
- glm7:{if:'IF 14.1',rank:'JCR Q1',detail:{zh:'Wiley Advanced Science · 综合类 Q1 · 2026.09 查询',en:'Wiley Advanced Science (Q1, multidisciplinary) · checked Sep 2026'},source:'https://advanced.onlinelibrary.wiley.com/journal/21983844'},
- disease:{if:'IF 1.9',rank:null,detail:{zh:'2025 JCR · 2026 年公布',en:'2025 JCR · published 2026'},source:'https://www.jocn-journal.com/'},
- crypto:{if:null,rank:'CCF A · ICLR 2025',detail:{zh:'AI4NA @ ICLR 2025；ICLR 为 CCF A 类会议，workshop 论文另存 arXiv',en:'AI4NA at ICLR 2025; ICLR is a CCF-A conference; the workshop paper also lives on arXiv'},source:'https://www.ccf.org.cn/Academic_Evaluation/Cross_Compre_Emerging/'},
- olympic:{if:null,rank:'CCF A · ICML 2024',detail:{zh:'ICML 2024 New In ML Affinity Event；ICML 为 CCF A 类会议，此为 workshop/affinity 记录，非主会论文',en:'New In ML Affinity Event at ICML 2024; ICML is a CCF-A conference — a workshop record, not a main-conference paper'},source:'https://www.ccf.org.cn/Academic_Evaluation/Cross_Compre_Emerging/'},
- oio:{if:null,rank:'CCF B · BIBM',detail:{zh:'IEEE BIBM 为 CCF B 类会议；不是单篇论文评级',en:'IEEE BIBM is a CCF-B venue; not a paper rating'},source:'https://www.ccf.org.cn/Academic_Evaluation/Cross_Compre_Emerging/'},
- structrace:{if:'IF 待公布',rank:'Nature npj 系列',detail:{zh:'npj 系列新刊暂无影响因子；系列期刊索引后通常位于 Q1',en:'npj-series launch with no IF yet; npj titles typically reach Q1 once indexed'},source:'https://www.nature.com/npjstructbiol/'}
+ heatwave:{if:'JIF 4.1',rank:null,detail:{zh:'期刊影响因子 4.1；分区口径待核实',en:'Journal impact factor 4.1; quartile classification pending verification'},source:'https://www.sciencedirect.com/journal/physics-and-chemistry-of-the-earth-parts-a-b-c'},
+ glm7:{if:'JIF 14.1',rank:null,detail:{zh:'Wiley Advanced Science · 影响因子 14.1',en:'Wiley Advanced Science · impact factor 14.1'},source:'https://advanced.onlinelibrary.wiley.com/journal/21983844'},
+ crypto:{if:null,rank:null,detail:{zh:'AI4NA workshop @ ICLR 2025；另有 arXiv 预印本',en:'AI4NA workshop at ICLR 2025; also available as an arXiv preprint'},source:'https://openreview.net/forum?id=j6ODUDw4vN'},
+ olympic:{if:null,rank:null,detail:{zh:'2025 年国际机器学习大会 New In ML affinity event；另有 arXiv 预印本',en:'New In ML affinity event at the 2025 International Conference on Machine Learning; also available as an arXiv preprint'},source:'https://icml.cc/virtual/2025/50686'},
+ disease:{if:'JIF 1.8',rank:null,detail:{zh:'Elsevier 期刊页面显示的影响因子 1.8；非论文评分',en:'Journal Impact Factor 1.8 shown by Elsevier; not a score for this letter'},source:'https://www.sciencedirect.com/journal/journal-of-clinical-neuroscience/special-issue/10CD6GM31L7'},
+ oio:{if:null,rank:'CCF B · BIBM',detail:{zh:'CCF 将 IEEE BIBM 列为 B 类会议；此条目为 BIBM 2025 论文集论文。',en:'CCF lists IEEE BIBM as a class B conference; this is a BIBM 2025 proceedings paper.'},source:'https://www.ccf.org.cn/Academic_Evaluation/Cross_Compre_Emerging/'},
+ structrace:{if:null,rank:null,detail:{zh:'npj Structural Biology 已接收；目前无期刊影响因子',en:'Accepted at npj Structural Biology; no journal impact factor yet'},source:'https://www.nature.com/npjstructbiol/'}
 };

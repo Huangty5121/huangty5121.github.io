@@ -1,12 +1,12 @@
 // Edit the website here, not in the visitor-facing interface.
 // Public configuration: never put keys, private notes or account details here.
 export const music = {
-  title: '尘大师',
-  artist: '陈奕迅',
+  title: '淺粉紅 pale pink',
+  artist: 'Gareth.T',
   // Official Apple preview, not the complete song. Replace with an authorised
   // local path such as 'audio/my-track.mp3' when you have the file/permission.
-  src: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview126/v4/cf/66/67/cf666757-8fc8-e1c9-ed65-aa087e854952/mzaf_18188607515704561791.plus.aac.p.m4a',
-  sourceUrl: 'https://music.apple.com/hk/album/塵大師/1675204502?i=1675204703',
+  src: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/7e/10/d7/7e10d7f9-aa7b-c48c-f0f4-7f07b4e8e01b/mzaf_3754274154878047153.plus.aac.p.m4a',
+  sourceUrl: 'https://music.apple.com/hk/album/%E6%B7%BA%E7%B2%89%E7%B4%85-pale-pink/6814412776?i=6814412779',
   preview: true,
   volume: 0.55,
 };

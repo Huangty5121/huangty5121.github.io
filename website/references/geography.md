@@ -1,11 +1,7 @@
-# About geographic locator
+# About map: source and limits
 
-The About map uses real land/coastline geometry and populated-place points from [Natural Earth](https://www.naturalearthdata.com/), a public-domain dataset. The source GeoJSON files are:
+The visible map uses [OpenStreetMap raster tiles](https://www.openstreetmap.org/copyright) through the locally hosted Leaflet library. Attribution remains visible on the map. The tile service is external, so map imagery can be delayed or unavailable; the city and institution buttons remain usable without it. The site does not prefetch offscreen tiles.
 
-- [1:50m land](https://github.com/nvkelso/natural-earth-vector/blob/master/geojson/ne_50m_land.geojson) for the regional overview.
-- [1:10m land](https://github.com/nvkelso/natural-earth-vector/blob/master/geojson/ne_10m_land.geojson) for the Pearl River Delta detail.
-- [1:10m populated places](https://github.com/nvkelso/natural-earth-vector/blob/master/geojson/ne_10m_populated_places_simple.geojson) for the city centre points.
+The three city-centre coordinates come from [Natural Earth populated places](https://www.naturalearthdata.com/) through `website/map-geometry.mjs`. Regenerate them with `python3 website/tools/derive-map.py <50m-land.geojson> <10m-land.geojson> <10m-populated-places-simple.geojson> > website/map-geometry.mjs`. These points frame the map only. They do not claim where the owner lived or worked.
 
-`website/map-geometry.mjs` is a small offline derivative. Regenerate it with `python3 website/tools/derive-map.py <50m-land.geojson> <10m-land.geojson> <10m-populated-places-simple.geojson> > website/map-geometry.mjs`. The fixed geographic windows are 103–125°E, 19–43°N for the overview and 113.7–114.6°E, 22–22.9°N for the detail. City points in the source data are Beijing 116.394201°E/39.90172°N, Shenzhen 114.061154°E/22.548097°N, and Hong Kong 114.183064°E/22.306927°N.
-
-These are representative city-centre points, **not** campus, employer, address, or personal-travel locations. The overview marks the Pearl River Delta as a cluster, then the detail separates Shenzhen and Hong Kong at a larger scale. The map contains no travel lines or political boundaries. The city list remains an accessible text alternative and filters the same canonical institution/experience records.
+Organisation coordinates in `website/views.mjs` were checked for the represented campus or office area. They are WGS-84 coordinates, so they align directly with the OpenStreetMap tiles. One institution may have multiple pins (the X-Institute has two sites), but all pins for it open the same set of records. PolySmart is a record under PolyU and has no separate institution pin. The directory is the text alternative to the map and remains usable when tiles do not load.
