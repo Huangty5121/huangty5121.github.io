@@ -1,0 +1,28 @@
+{
+  "about-content.mjs": {
+    "unchangedThisTurn": true,
+    "sha256": "59df75424cb5d7370fe1d93f658234e5b195c22c7e725e5f0b858b82eaa4beb7"
+  },
+  "aboutGeometry": [
+    {
+      "width": 320,
+      "headingsUnchanged": true,
+      "sectionsUnchanged": true
+    },
+    {
+      "width": 1440,
+      "headingsUnchanged": true,
+      "sectionsUnchanged": true
+    }
+  ],
+  "About template fragments in views.mjs": {
+    "personal": {
+      "unchangedThisTurn": true,
+      "sha256": "e0e341761f0a416b2bfd640a9c35e55677e06bee0211cbc8481432c41386aff4"
+    },
+    "records": {
+      "unchangedThisTurn": true,
+      "sha256": "90a3293c721c16f7af2f78eaa914c0b877cfef0305b14c834f19a2e25e3cb234"
+    }
+  }
+}

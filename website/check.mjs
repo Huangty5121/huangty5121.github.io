@@ -3,8 +3,11 @@ import {dirname,join,resolve,relative,sep} from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {createHash} from 'node:crypto';
 import * as OpenCC from 'opencc-js';
-import {works} from './content.mjs';
-import {aboutContent,aboutAlbums,aboutWorkbench} from './about-content.mjs';
+import {works,experiences} from './content.mjs';
+import {entries} from './entries.mjs';
+import {press} from './news.mjs';
+import {industrialNote} from './industrial-note.mjs';
+import {aboutContent,aboutAlbums,aboutWorkbench,aboutPerspective} from './about-content.mjs';
 const zh2t=OpenCC.Converter({from:'cn',to:'hk'});
 const root=resolve(dirname(fileURLToPath(import.meta.url)),'../material-demo/dist/site');
 const siteOrigin='https://tyhuang.hk';
@@ -16,10 +19,41 @@ for(const [key,value] of Object.entries(aboutContent)){
  const items=Array.isArray(value)?value:[value];
  for(const [index,item] of items.entries())for(const lang of ['zh','en'])if(typeof item?.[lang]!=='string'||!item[lang].trim())failures.push({file:'about-content.mjs',reason:`Missing ${lang} copy for ${key}${Array.isArray(value)?`[${index}]`:''}`});
 }
-for(const item of aboutWorkbench)for(const field of ['name','title','body'])for(const lang of ['zh','en'])if(!item[field]?.[lang])failures.push({file:'about-content.mjs',reason:`Missing ${lang} workbench ${field}`});
+for(const item of aboutWorkbench)for(const field of ['name'])for(const lang of ['zh','en'])if(!item[field]?.[lang])failures.push({file:'about-content.mjs',reason:`Missing ${lang} workbench ${field}`});
+for(const item of aboutWorkbench){
+ if(!item.skills?.length)failures.push({file:'about-content.mjs',reason:`Missing skills for ${item.id}`});
+ for(const skill of item.skills||[])for(const field of ['name','detail'])for(const lang of ['zh','en'])if(!skill[field]?.[lang])failures.push({file:'about-content.mjs',reason:`Missing ${lang} skill ${field} in ${item.id}`});
+}
 for(const album of aboutAlbums){
  if(!album.title||!album.artist||!album.year||!album.url||!album.cover)failures.push({file:'about-content.mjs',reason:'Incomplete album metadata'});
  try{await stat(join(dirname(fileURLToPath(import.meta.url)),'assets/albums',album.cover));}catch{failures.push({file:'about-content.mjs',reason:`Missing album cover ${album.cover}`});}
+}
+// Check the shared design contract, including mixed shorthand declarations.
+const css=await readFile(new URL('./site.css',import.meta.url),'utf8');
+const plainCss=css.replace(/\/\*[\s\S]*?\*\//g,'');
+const spacingScale=new Set([...plainCss.matchAll(/--sp-(\d+)\s*:/g)].map(m=>m[1]));
+for(const m of plainCss.matchAll(/(?:^|[;{])\s*(font-size|(?:padding|margin)(?:-[\w]+)?|(?:row-|column-)?gap)\s*:\s*([^;}]+)/g)){
+ const [,property,value]=m;
+ if(property==='font-size'){
+  if(value.trim()!=='0'&&!/^var\(--[\w-]+\)$/.test(value.trim()))failures.push({file:'site.css',reason:`Font size bypasses shared role: ${value}`});
+ }else for(const px of value.matchAll(/(?<![\w.-])(\d+)px/g))if(spacingScale.has(px[1]))failures.push({file:'site.css',reason:`${property} bypasses --sp-${px[1]}: ${value}`});
+}
+// The font shorthand can silently reintroduce a component's own type scale.
+for(const m of plainCss.matchAll(/(?:^|[;{])\s*font\s*:\s*([^;}]+)/g)){
+ const value=m[1].trim();
+ if(value!=='inherit'&&!/var\(--text-[\w-]+\)/.test(value))failures.push({file:'site.css',reason:`Font shorthand bypasses shared role: ${value}`});
+}
+// Paired copy belongs to data, including nested article sections and inherited records.
+function pairedCopy(value,path){
+ if(!value||typeof value!=='object')return;
+ if('zh' in value||'en' in value)for(const lang of ['zh','en']){
+  const copy=value[lang];if(!(typeof copy==='string'&&copy.trim())&&!(Array.isArray(copy)&&copy.length))failures.push({file:path,reason:`Missing ${lang} content`});
+ }
+ for(const [key,child]of Object.entries(value))pairedCopy(child,path+'.'+key);
+}
+for(const [name,data]of Object.entries({works,experiences,entries,press,industrialNote,aboutContent,aboutWorkbench,aboutPerspective}))pairedCopy(data,name);
+for(const [name,data]of Object.entries({works,experiences,entries,press})){
+ const ids=new Set();for(const item of data){if(!item.id||ids.has(item.id))failures.push({file:name,reason:`Missing or duplicate content id: ${item.id}`});ids.add(item.id);}
 }
 // Icons are dynamic imports, so a missing file would not surface as a broken link.
 const INLINE_ICONS=new Set(['plus','minus','arrow-right','chevron-down','copy']);
@@ -27,6 +61,15 @@ const iconStems=new Set(['sun','moon','play','pause']);
 const firstDiff=(a,b)=>{for(let i=0;i<Math.min(a.length,b.length);i++)if(a[i]!==b[i])return JSON.stringify(a.slice(Math.max(0,i-15),i+15));return 'end';};
 for(const file of files){const html=await readFile(file,'utf8');if((html.match(/<h1[ >]/g)||[]).length!==1)failures.push({file,reason:'Expected one h1'});
 const rel=relOf(file),redirect=html.includes('http-equiv="refresh"'),missing=rel.endsWith('404.html');
+// Check the authored content outline; the shared music popover is outside main.
+const main=html.match(/<main\b[^>]*>([\s\S]*?)<\/main>/)?.[1];
+if(main){let previous=0;for(const match of main.matchAll(/<h([1-6])\b[^>]*>([\s\S]*?)<\/h\1>/g)){
+ const level=Number(match[1]);
+ if(level>previous+1)failures.push({file,reason:`Heading skips from h${previous} to h${level}`});
+ // Selected organisation starts empty and is populated only when made visible.
+ if(!match[2].replace(/<[^>]*>/g,'').trim()&&!match[0].includes('data-selected-org'))failures.push({file,reason:'Empty content heading'});
+ previous=level;
+}}
 if(redirect||missing){if(!html.includes('name="robots" content="noindex,follow"'))failures.push({file,reason:'Retired or missing page must be noindex'});}
 else{
  const expected=siteOrigin+'/'+(rel.endsWith('/index.html')?rel.slice(0,-10):rel==='index.html'?'':rel);

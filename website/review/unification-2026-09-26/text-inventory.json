@@ -1,0 +1,4598 @@
+[
+  {
+    "route": "work-glm7.html",
+    "headings": [
+      {
+        "tag": "H1",
+        "text": "Comment on GLM7",
+        "class": "",
+        "parent": "publication-main",
+        "visible": true,
+        "size": "18.0001px",
+        "weight": "500",
+        "skip": false
+      }
+    ],
+    "text": [
+      {
+        "tag": "A",
+        "class": "brand",
+        "parent": "site-header",
+        "size": "15px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "600",
+        "lineHeight": "25.5001px",
+        "sample": "Tin-Yeh Huang"
+      },
+      {
+        "tag": "A",
+        "class": "",
+        "parent": "desktop-nav",
+        "size": "12px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "20.4001px",
+        "sample": "Home"
+      },
+      {
+        "tag": "BUTTON",
+        "class": "contact-trigger",
+        "parent": "desktop-nav",
+        "size": "12px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "20.4001px",
+        "sample": "Contact"
+      },
+      {
+        "tag": "BUTTON",
+        "class": "",
+        "parent": "header-actions",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "A+"
+      },
+      {
+        "tag": "A",
+        "class": "language-link",
+        "parent": "header-actions",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "简"
+      },
+      {
+        "tag": "A",
+        "class": "reader-back",
+        "parent": "publication-page wrap",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "Back to Work"
+      },
+      {
+        "tag": "SPAN",
+        "class": "eyebrow",
+        "parent": "publication-main",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "Publication record / 2026"
+      },
+      {
+        "tag": "H1",
+        "class": "",
+        "parent": "publication-main",
+        "size": "18.0001px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "500",
+        "lineHeight": "23.4001px",
+        "sample": "Comment on GLM7"
+      },
+      {
+        "tag": "STRONG",
+        "class": "",
+        "parent": "venue-line",
+        "size": "12px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "600",
+        "lineHeight": "18.0001px",
+        "sample": "Advanced Science · Correspondence"
+      },
+      {
+        "tag": "SPAN",
+        "class": "chip chip-if",
+        "parent": "chip-set",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "600",
+        "lineHeight": "16.4999px",
+        "sample": "JIF 14.1"
+      },
+      {
+        "tag": "A",
+        "class": "metric-source",
+        "parent": "publication-main",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "16.4999px",
+        "sample": "Wiley Advanced Science · impact factor 14.1"
+      },
+      {
+        "tag": "P",
+        "class": "reader-version",
+        "parent": "publication-main",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "17.0499px",
+        "sample": "Publisher text · 2026"
+      },
+      {
+        "tag": "P",
+        "class": "",
+        "parent": "publication-copy",
+        "size": "13px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "24.7px",
+        "sample": "Discusses methods and interpretation in the GLM7 study, with the authors’ reply."
+      },
+      {
+        "tag": "SPAN",
+        "class": "eyebrow",
+        "parent": "publication-links",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "Sources"
+      },
+      {
+        "tag": "A",
+        "class": "",
+        "parent": "source-links",
+        "size": "12px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "20.4001px",
+        "sample": "Publisher"
+      },
+      {
+        "tag": "SPAN",
+        "class": "",
+        "parent": "",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "© 2026 Tin-Yeh Huang"
+      },
+      {
+        "tag": "A",
+        "class": "back-top",
+        "parent": "",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "Back to top ↑"
+      },
+      {
+        "tag": "BUTTON",
+        "class": "contact-trigger",
+        "parent": "",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "Contact"
+      },
+      {
+        "tag": "A",
+        "class": "footer-email",
+        "parent": "",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "Email"
+      }
+    ],
+    "overflow": false
+  },
+  {
+    "route": "404.html",
+    "headings": [
+      {
+        "tag": "H1",
+        "text": "Page not found",
+        "class": "",
+        "parent": "page-heading wrap",
+        "visible": true,
+        "size": "18.0001px",
+        "weight": "500",
+        "skip": false
+      }
+    ],
+    "text": [
+      {
+        "tag": "A",
+        "class": "brand",
+        "parent": "site-header",
+        "size": "15px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "600",
+        "lineHeight": "25.5001px",
+        "sample": "Tin-Yeh Huang"
+      },
+      {
+        "tag": "A",
+        "class": "",
+        "parent": "desktop-nav",
+        "size": "12px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "20.4001px",
+        "sample": "Home"
+      },
+      {
+        "tag": "BUTTON",
+        "class": "contact-trigger",
+        "parent": "desktop-nav",
+        "size": "12px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "20.4001px",
+        "sample": "Contact"
+      },
+      {
+        "tag": "BUTTON",
+        "class": "",
+        "parent": "header-actions",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "A+"
+      },
+      {
+        "tag": "A",
+        "class": "language-link",
+        "parent": "header-actions",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "简"
+      },
+      {
+        "tag": "P",
+        "class": "eyebrow",
+        "parent": "page-heading wrap",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "404"
+      },
+      {
+        "tag": "H1",
+        "class": "",
+        "parent": "page-heading wrap",
+        "size": "18.0001px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "500",
+        "lineHeight": "23.4001px",
+        "sample": "Page not found"
+      },
+      {
+        "tag": "A",
+        "class": "text-link",
+        "parent": "",
+        "size": "12px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "500",
+        "lineHeight": "20.4001px",
+        "sample": "Back home"
+      },
+      {
+        "tag": "SPAN",
+        "class": "",
+        "parent": "",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "© 2026 Tin-Yeh Huang"
+      },
+      {
+        "tag": "A",
+        "class": "back-top",
+        "parent": "",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "Back to top ↑"
+      },
+      {
+        "tag": "BUTTON",
+        "class": "contact-trigger",
+        "parent": "",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "Contact"
+      },
+      {
+        "tag": "A",
+        "class": "footer-email",
+        "parent": "",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "Email"
+      }
+    ],
+    "overflow": false
+  },
+  {
+    "route": "about.html",
+    "headings": [
+      {
+        "tag": "H1",
+        "text": "Tin-Yeh Huang",
+        "class": "",
+        "parent": "page-heading wrap",
+        "visible": true,
+        "size": "18.0001px",
+        "weight": "500",
+        "skip": false
+      },
+      {
+        "tag": "H2",
+        "text": "About me",
+        "class": "",
+        "parent": "",
+        "visible": true,
+        "size": "18.0001px",
+        "weight": "500",
+        "skip": false
+      },
+      {
+        "tag": "H2",
+        "text": "Workbench",
+        "class": "",
+        "parent": "section-caption",
+        "visible": true,
+        "size": "18.0001px",
+        "weight": "500",
+        "skip": false
+      },
+      {
+        "tag": "H3",
+        "text": "NineToothed / CUDA / Triton",
+        "class": "",
+        "parent": "tool-panel",
+        "visible": true,
+        "size": "15px",
+        "weight": "500",
+        "skip": false
+      },
+      {
+        "tag": "H3",
+        "text": "Questions and evidence",
+        "class": "",
+        "parent": "tool-panel",
+        "visible": false,
+        "size": "15px",
+        "weight": "500",
+        "skip": false
+      },
+      {
+        "tag": "H3",
+        "text": "Starting with people",
+        "class": "",
+        "parent": "tool-panel",
+        "visible": false,
+        "size": "15px",
+        "weight": "500",
+        "skip": false
+      },
+      {
+        "tag": "H2",
+        "text": "Records by my desk",
+        "class": "",
+        "parent": "",
+        "visible": true,
+        "size": "15px",
+        "weight": "500",
+        "skip": false
+      },
+      {
+        "tag": "H2",
+        "text": "Study, experience & honours",
+        "class": "",
+        "parent": "records-intro wrap",
+        "visible": true,
+        "size": "18.0001px",
+        "weight": "500",
+        "skip": false
+      },
+      {
+        "tag": "H2",
+        "text": "Study & experience",
+        "class": "",
+        "parent": "",
+        "visible": true,
+        "size": "18.0001px",
+        "weight": "500",
+        "skip": false
+      },
+      {
+        "tag": "H2",
+        "text": "",
+        "class": "",
+        "parent": "selected-institution",
+        "visible": false,
+        "size": "15px",
+        "weight": "500",
+        "skip": false
+      },
+      {
+        "tag": "H3",
+        "text": "The Hong Kong Polytechnic University",
+        "class": "",
+        "parent": "",
+        "visible": false,
+        "size": "13px",
+        "weight": "500",
+        "skip": false
+      },
+      {
+        "tag": "H3",
+        "text": "Tsinghua University · Xinya College",
+        "class": "",
+        "parent": "",
+        "visible": false,
+        "size": "13px",
+        "weight": "500",
+        "skip": false
+      },
+      {
+        "tag": "H3",
+        "text": "Hong Kong Community College",
+        "class": "",
+        "parent": "",
+        "visible": false,
+        "size": "13px",
+        "weight": "500",
+        "skip": false
+      },
+      {
+        "tag": "H3",
+        "text": "Joint-training intern",
+        "class": "",
+        "parent": "",
+        "visible": false,
+        "size": "15px",
+        "weight": "500",
+        "skip": false
+      },
+      {
+        "tag": "H3",
+        "text": "Research intern",
+        "class": "",
+        "parent": "",
+        "visible": false,
+        "size": "15px",
+        "weight": "500",
+        "skip": false
+      },
+      {
+        "tag": "H3",
+        "text": "Visiting student",
+        "class": "",
+        "parent": "",
+        "visible": false,
+        "size": "15px",
+        "weight": "500",
+        "skip": false
+      },
+      {
+        "tag": "H3",
+        "text": "Research student · Heatwave risks",
+        "class": "",
+        "parent": "",
+        "visible": false,
+        "size": "15px",
+        "weight": "500",
+        "skip": false
+      },
+      {
+        "tag": "H3",
+        "text": "Part-time student assistant",
+        "class": "",
+        "parent": "",
+        "visible": false,
+        "size": "15px",
+        "weight": "500",
+        "skip": false
+      },
+      {
+        "tag": "H3",
+        "text": "Research internship",
+        "class": "",
+        "parent": "",
+        "visible": false,
+        "size": "15px",
+        "weight": "500",
+        "skip": false
+      },
+      {
+        "tag": "H3",
+        "text": "Accounting / IT internship",
+        "class": "",
+        "parent": "",
+        "visible": false,
+        "size": "15px",
+        "weight": "500",
+        "skip": false
+      },
+      {
+        "tag": "H3",
+        "text": "Social innovation projects",
+        "class": "",
+        "parent": "",
+        "visible": false,
+        "size": "15px",
+        "weight": "500",
+        "skip": false
+      },
+      {
+        "tag": "H3",
+        "text": "Microbial systems",
+        "class": "",
+        "parent": "",
+        "visible": false,
+        "size": "15px",
+        "weight": "500",
+        "skip": false
+      },
+      {
+        "tag": "H3",
+        "text": "Committee member",
+        "class": "",
+        "parent": "",
+        "visible": false,
+        "size": "15px",
+        "weight": "500",
+        "skip": false
+      },
+      {
+        "tag": "H3",
+        "text": "National Security Education District Tutor",
+        "class": "",
+        "parent": "",
+        "visible": false,
+        "size": "15px",
+        "weight": "500",
+        "skip": false
+      },
+      {
+        "tag": "H3",
+        "text": "Student representative",
+        "class": "",
+        "parent": "",
+        "visible": false,
+        "size": "15px",
+        "weight": "500",
+        "skip": false
+      },
+      {
+        "tag": "H3",
+        "text": "Student representative · Product and Industrial Engineering scheme",
+        "class": "",
+        "parent": "",
+        "visible": false,
+        "size": "15px",
+        "weight": "500",
+        "skip": false
+      },
+      {
+        "tag": "H3",
+        "text": "Student ambassador",
+        "class": "",
+        "parent": "",
+        "visible": false,
+        "size": "15px",
+        "weight": "500",
+        "skip": false
+      },
+      {
+        "tag": "H3",
+        "text": "Student representative · Statistics and Data Science",
+        "class": "",
+        "parent": "",
+        "visible": false,
+        "size": "15px",
+        "weight": "500",
+        "skip": false
+      },
+      {
+        "tag": "H2",
+        "text": "Honours & professional involvement",
+        "class": "",
+        "parent": "",
+        "visible": true,
+        "size": "18.0001px",
+        "weight": "500",
+        "skip": false
+      },
+      {
+        "tag": "H3",
+        "text": "Honours & scholarships",
+        "class": "",
+        "parent": "",
+        "visible": true,
+        "size": "12px",
+        "weight": "500",
+        "skip": false
+      },
+      {
+        "tag": "H3",
+        "text": "Memberships & credentials",
+        "class": "",
+        "parent": "",
+        "visible": true,
+        "size": "12px",
+        "weight": "500",
+        "skip": false
+      },
+      {
+        "tag": "H3",
+        "text": "Academic peer review",
+        "class": "",
+        "parent": "",
+        "visible": true,
+        "size": "12px",
+        "weight": "500",
+        "skip": false
+      }
+    ],
+    "text": [
+      {
+        "tag": "A",
+        "class": "brand",
+        "parent": "site-header",
+        "size": "15px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "600",
+        "lineHeight": "25.5001px",
+        "sample": "Tin-Yeh Huang"
+      },
+      {
+        "tag": "A",
+        "class": "",
+        "parent": "desktop-nav",
+        "size": "12px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "20.4001px",
+        "sample": "Home"
+      },
+      {
+        "tag": "BUTTON",
+        "class": "contact-trigger",
+        "parent": "desktop-nav",
+        "size": "12px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "20.4001px",
+        "sample": "Contact"
+      },
+      {
+        "tag": "BUTTON",
+        "class": "",
+        "parent": "header-actions",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "A+"
+      },
+      {
+        "tag": "A",
+        "class": "language-link",
+        "parent": "header-actions",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "简"
+      },
+      {
+        "tag": "P",
+        "class": "eyebrow",
+        "parent": "page-heading wrap",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "About"
+      },
+      {
+        "tag": "H1",
+        "class": "",
+        "parent": "page-heading wrap",
+        "size": "18.0001px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "500",
+        "lineHeight": "23.4001px",
+        "sample": "Tin-Yeh Huang"
+      },
+      {
+        "tag": "A",
+        "class": "",
+        "parent": "about-sections wrap",
+        "size": "12px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "20.4001px",
+        "sample": "01The person"
+      },
+      {
+        "tag": "SPAN",
+        "class": "",
+        "parent": "",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "01"
+      },
+      {
+        "tag": "SPAN",
+        "class": "eyebrow",
+        "parent": "",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "A corner of my desk"
+      },
+      {
+        "tag": "H2",
+        "class": "",
+        "parent": "",
+        "size": "18.0001px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "500",
+        "lineHeight": "28.8001px",
+        "sample": "About me"
+      },
+      {
+        "tag": "P",
+        "class": "",
+        "parent": "personal-prose",
+        "size": "13px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "26px",
+        "sample": "I have never quite known how to introduce myself. Different fields, educations and culture"
+      },
+      {
+        "tag": "P",
+        "class": "",
+        "parent": "",
+        "size": "13px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "26px",
+        "sample": "I can become serious and persistent about things. I am not always quiet and serious, thoug"
+      },
+      {
+        "tag": "SPAN",
+        "class": "eyebrow",
+        "parent": "section-caption",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "Learning & making"
+      },
+      {
+        "tag": "H2",
+        "class": "",
+        "parent": "section-caption",
+        "size": "18.0001px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "500",
+        "lineHeight": "23.4001px",
+        "sample": "Workbench"
+      },
+      {
+        "tag": "P",
+        "class": "",
+        "parent": "section-caption",
+        "size": "13px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "22.1px",
+        "sample": "Some methods I use, and things I work on."
+      },
+      {
+        "tag": "SPAN",
+        "class": "",
+        "parent": "desk-window-bar",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "13.1999px",
+        "sample": "tin-yeh / workspace"
+      },
+      {
+        "tag": "BUTTON",
+        "class": "",
+        "parent": "tool-tabs",
+        "size": "12px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "20.4001px",
+        "sample": "⌘Tools & code"
+      },
+      {
+        "tag": "SPAN",
+        "class": "",
+        "parent": "",
+        "size": "12px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "20.4001px",
+        "sample": "⌘"
+      },
+      {
+        "tag": "SPAN",
+        "class": "tool-path",
+        "parent": "tool-panel",
+        "size": "11px",
+        "font": "ui-monospace, monospace",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "workspace / engineering"
+      },
+      {
+        "tag": "H3",
+        "class": "",
+        "parent": "tool-panel",
+        "size": "15px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "500",
+        "lineHeight": "19.5001px",
+        "sample": "NineToothed / CUDA / Triton"
+      },
+      {
+        "tag": "P",
+        "class": "",
+        "parent": "tool-panel",
+        "size": "13px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "24.7px",
+        "sample": "Contributing to tooling and DSL porting, preparing teaching material on CUDA, inference an"
+      },
+      {
+        "tag": "A",
+        "class": "text-link",
+        "parent": "tool-panel",
+        "size": "12px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "500",
+        "lineHeight": "20.4001px",
+        "sample": "Open related work"
+      },
+      {
+        "tag": "SPAN",
+        "class": "",
+        "parent": "tool-status",
+        "size": "11px",
+        "font": "ui-monospace, monospace",
+        "weight": "400",
+        "lineHeight": "17.5999px",
+        "sample": "UTF-8"
+      },
+      {
+        "tag": "H2",
+        "class": "",
+        "parent": "",
+        "size": "15px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "500",
+        "lineHeight": "19.5001px",
+        "sample": "Records by my desk"
+      },
+      {
+        "tag": "BUTTON",
+        "class": "text-link",
+        "parent": "music-room-heading",
+        "size": "12px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "500",
+        "lineHeight": "20.4001px",
+        "sample": "Preview pale pink"
+      },
+      {
+        "tag": "P",
+        "class": "shelf-note",
+        "parent": "music-room",
+        "size": "12px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "20.4001px",
+        "sample": "Eason Chan, Gareth.T, Khalil Fong, Li Ronghao. Pick a record to listen."
+      },
+      {
+        "tag": "SPAN",
+        "class": "",
+        "parent": "shelf-note",
+        "size": "12px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "20.4001px",
+        "sample": "Pick a record to listen."
+      },
+      {
+        "tag": "SPAN",
+        "class": "eyebrow",
+        "parent": "records-intro wrap",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "Other records"
+      },
+      {
+        "tag": "H2",
+        "class": "",
+        "parent": "records-intro wrap",
+        "size": "18.0001px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "500",
+        "lineHeight": "23.4001px",
+        "sample": "Study, experience & honours"
+      },
+      {
+        "tag": "P",
+        "class": "",
+        "parent": "records-intro wrap",
+        "size": "13px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "22.1px",
+        "sample": "Study and experience records below. Explore experience by institution city, followed by ho"
+      },
+      {
+        "tag": "H2",
+        "class": "",
+        "parent": "",
+        "size": "18.0001px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "500",
+        "lineHeight": "23.4001px",
+        "sample": "Study & experience"
+      },
+      {
+        "tag": "SPAN",
+        "class": "",
+        "parent": "leaflet-marker-icon region-pin leaflet-zoom-animated leaflet-interactive",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "600",
+        "lineHeight": "15.3999px",
+        "sample": "Beijing"
+      },
+      {
+        "tag": "SPAN",
+        "class": "",
+        "parent": "leaflet-control-zoom-in",
+        "size": "22px",
+        "font": "\"Lucida Console\", Monaco, monospace",
+        "weight": "700",
+        "lineHeight": "30px",
+        "sample": "+"
+      },
+      {
+        "tag": "SPAN",
+        "class": "",
+        "parent": "leaflet-control-zoom-out",
+        "size": "22px",
+        "font": "\"Lucida Console\", Monaco, monospace",
+        "weight": "700",
+        "lineHeight": "30px",
+        "sample": "−"
+      },
+      {
+        "tag": "DIV",
+        "class": "leaflet-control-attribution leaflet-control",
+        "parent": "leaflet-bottom leaflet-right",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "15.3999px",
+        "sample": "© OpenStreetMap contributors"
+      },
+      {
+        "tag": "A",
+        "class": "",
+        "parent": "leaflet-control-attribution leaflet-control",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "15.3999px",
+        "sample": "OpenStreetMap contributors"
+      },
+      {
+        "tag": "SPAN",
+        "class": "eyebrow",
+        "parent": "map-panel",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "Place overview"
+      },
+      {
+        "tag": "STRONG",
+        "class": "",
+        "parent": "map-panel",
+        "size": "18.0001px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "600",
+        "lineHeight": "23.4001px",
+        "sample": "Beijing · Shenzhen · Hong Kong"
+      },
+      {
+        "tag": "DIV",
+        "class": "",
+        "parent": "map-panel",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.1499px",
+        "sample": "Select a region pin to open its detailed map."
+      },
+      {
+        "tag": "SPAN",
+        "class": "map-note",
+        "parent": "city-map",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "Choose a point to see its organisation and experience"
+      },
+      {
+        "tag": "SPAN",
+        "class": "city-symbol",
+        "parent": "",
+        "size": "12px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "20.4001px",
+        "sample": "●"
+      },
+      {
+        "tag": "H3",
+        "class": "",
+        "parent": "",
+        "size": "12px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "500",
+        "lineHeight": "17.4001px",
+        "sample": "Honours & scholarships"
+      },
+      {
+        "tag": "TIME",
+        "class": "",
+        "parent": "",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "2026"
+      },
+      {
+        "tag": "STRONG",
+        "class": "",
+        "parent": "",
+        "size": "12px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "500",
+        "lineHeight": "17.4001px",
+        "sample": "Best Innovation Award · Team award"
+      },
+      {
+        "tag": "SMALL",
+        "class": "",
+        "parent": "",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "16.4999px",
+        "sample": "“AI for the Young and the Elderly” Innovation Challenge · UNGLEP / X-Institute Shenzhen"
+      },
+      {
+        "tag": "STRONG",
+        "class": "",
+        "parent": "",
+        "size": "12px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "600",
+        "lineHeight": "18.0001px",
+        "sample": "Foundation Models for Science (FM4Science)"
+      },
+      {
+        "tag": "A",
+        "class": "",
+        "parent": "",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "Read report"
+      },
+      {
+        "tag": "A",
+        "class": "back-top",
+        "parent": "",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "Back to top ↑"
+      },
+      {
+        "tag": "BUTTON",
+        "class": "contact-trigger",
+        "parent": "",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "Contact"
+      },
+      {
+        "tag": "A",
+        "class": "footer-email",
+        "parent": "",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "Email"
+      }
+    ],
+    "overflow": false
+  },
+  {
+    "route": "card.html",
+    "headings": [
+      {
+        "tag": "H1",
+        "text": "黄天野",
+        "class": "",
+        "parent": "share-card-name",
+        "visible": true,
+        "size": "63.1428px",
+        "weight": "400",
+        "skip": false
+      }
+    ],
+    "text": [
+      {
+        "tag": "A",
+        "class": "brand",
+        "parent": "site-header",
+        "size": "15px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "600",
+        "lineHeight": "25.5001px",
+        "sample": "Tin-Yeh Huang"
+      },
+      {
+        "tag": "A",
+        "class": "",
+        "parent": "desktop-nav",
+        "size": "12px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "20.4001px",
+        "sample": "Home"
+      },
+      {
+        "tag": "BUTTON",
+        "class": "contact-trigger",
+        "parent": "desktop-nav",
+        "size": "12px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "20.4001px",
+        "sample": "Contact"
+      },
+      {
+        "tag": "BUTTON",
+        "class": "",
+        "parent": "header-actions",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "A+"
+      },
+      {
+        "tag": "A",
+        "class": "language-link",
+        "parent": "header-actions",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "简"
+      },
+      {
+        "tag": "SPAN",
+        "class": "",
+        "parent": "share-card-top",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "TYHUANG.HK"
+      },
+      {
+        "tag": "H1",
+        "class": "",
+        "parent": "share-card-name",
+        "size": "63.1428px",
+        "font": "\"WenKai Essay\", \"PingFang SC\", serif",
+        "weight": "400",
+        "lineHeight": "69.4571px",
+        "sample": "黄天野"
+      },
+      {
+        "tag": "P",
+        "class": "",
+        "parent": "share-card-name",
+        "size": "31.5714px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "600",
+        "lineHeight": "53.6714px",
+        "sample": "TIN-YEH HUANG"
+      },
+      {
+        "tag": "P",
+        "class": "card-role",
+        "parent": "share-card",
+        "size": "12px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "20.4001px",
+        "sample": "Product engineering · Research · Public service"
+      },
+      {
+        "tag": "A",
+        "class": "share-card-email",
+        "parent": "share-card",
+        "size": "13px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "22.1px",
+        "sample": "tin-yeh.huang@connect.polyu.hk"
+      },
+      {
+        "tag": "A",
+        "class": "biz-btn",
+        "parent": "card-actions",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "500",
+        "lineHeight": "18.6999px",
+        "sample": "LinkedIn"
+      },
+      {
+        "tag": "SPAN",
+        "class": "",
+        "parent": "",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "© 2026 Tin-Yeh Huang"
+      },
+      {
+        "tag": "A",
+        "class": "back-top",
+        "parent": "",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "Back to top ↑"
+      },
+      {
+        "tag": "BUTTON",
+        "class": "contact-trigger",
+        "parent": "",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "Contact"
+      },
+      {
+        "tag": "A",
+        "class": "footer-email",
+        "parent": "",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "Email"
+      }
+    ],
+    "overflow": false
+  },
+  {
+    "route": "collection.html",
+    "headings": [
+      {
+        "tag": "H1",
+        "text": "Research & engineering",
+        "class": "",
+        "parent": "page-heading wrap",
+        "visible": true,
+        "size": "18.0001px",
+        "weight": "500",
+        "skip": false
+      },
+      {
+        "tag": "H2",
+        "text": "Journals & proceedings",
+        "class": "",
+        "parent": "work-group-head",
+        "visible": true,
+        "size": "18.0001px",
+        "weight": "500",
+        "skip": false
+      },
+      {
+        "tag": "H3",
+        "text": "Cascading heatwave risks",
+        "class": "",
+        "parent": "entry-overview",
+        "visible": true,
+        "size": "15px",
+        "weight": "500",
+        "skip": false
+      },
+      {
+        "tag": "H3",
+        "text": "StrucTrace",
+        "class": "",
+        "parent": "entry-overview",
+        "visible": true,
+        "size": "15px",
+        "weight": "500",
+        "skip": false
+      },
+      {
+        "tag": "H3",
+        "text": "Comment on GLM7",
+        "class": "",
+        "parent": "entry-overview",
+        "visible": true,
+        "size": "15px",
+        "weight": "500",
+        "skip": false
+      },
+      {
+        "tag": "H3",
+        "text": "Limits of disease prediction",
+        "class": "",
+        "parent": "entry-overview",
+        "visible": true,
+        "size": "15px",
+        "weight": "500",
+        "skip": false
+      },
+      {
+        "tag": "H3",
+        "text": "OIO",
+        "class": "",
+        "parent": "entry-overview",
+        "visible": true,
+        "size": "15px",
+        "weight": "500",
+        "skip": false
+      },
+      {
+        "tag": "H2",
+        "text": "Workshops & preprints",
+        "class": "",
+        "parent": "work-group-head",
+        "visible": true,
+        "size": "18.0001px",
+        "weight": "500",
+        "skip": false
+      },
+      {
+        "tag": "H3",
+        "text": "Crypto-ncRNA",
+        "class": "",
+        "parent": "entry-overview",
+        "visible": true,
+        "size": "15px",
+        "weight": "500",
+        "skip": false
+      },
+      {
+        "tag": "H3",
+        "text": "Olympic medal prediction",
+        "class": "",
+        "parent": "entry-overview",
+        "visible": true,
+        "size": "15px",
+        "weight": "500",
+        "skip": false
+      },
+      {
+        "tag": "H2",
+        "text": "Engineering & practice",
+        "class": "",
+        "parent": "work-group-head",
+        "visible": false,
+        "size": "18.0001px",
+        "weight": "500",
+        "skip": false
+      },
+      {
+        "tag": "H3",
+        "text": "NineToothed",
+        "class": "",
+        "parent": "entry-overview",
+        "visible": false,
+        "size": "15px",
+        "weight": "500",
+        "skip": false
+      },
+      {
+        "tag": "H3",
+        "text": "Social innovation",
+        "class": "",
+        "parent": "entry-overview",
+        "visible": false,
+        "size": "15px",
+        "weight": "500",
+        "skip": false
+      }
+    ],
+    "text": [
+      {
+        "tag": "A",
+        "class": "brand",
+        "parent": "site-header",
+        "size": "15px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "600",
+        "lineHeight": "25.5001px",
+        "sample": "Tin-Yeh Huang"
+      },
+      {
+        "tag": "A",
+        "class": "",
+        "parent": "desktop-nav",
+        "size": "12px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "20.4001px",
+        "sample": "Home"
+      },
+      {
+        "tag": "BUTTON",
+        "class": "contact-trigger",
+        "parent": "desktop-nav",
+        "size": "12px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "20.4001px",
+        "sample": "Contact"
+      },
+      {
+        "tag": "BUTTON",
+        "class": "",
+        "parent": "header-actions",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "A+"
+      },
+      {
+        "tag": "A",
+        "class": "language-link",
+        "parent": "header-actions",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "简"
+      },
+      {
+        "tag": "P",
+        "class": "eyebrow",
+        "parent": "page-heading wrap",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "Work"
+      },
+      {
+        "tag": "H1",
+        "class": "",
+        "parent": "page-heading wrap",
+        "size": "18.0001px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "500",
+        "lineHeight": "23.4001px",
+        "sample": "Research & engineering"
+      },
+      {
+        "tag": "BUTTON",
+        "class": "",
+        "parent": "work-switch",
+        "size": "13px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "500",
+        "lineHeight": "22.1px",
+        "sample": "Research 07"
+      },
+      {
+        "tag": "SPAN",
+        "class": "",
+        "parent": "",
+        "size": "13px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "500",
+        "lineHeight": "22.1px",
+        "sample": "07"
+      },
+      {
+        "tag": "BUTTON",
+        "class": "",
+        "parent": "work-switch",
+        "size": "13px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "22.1px",
+        "sample": "Engineering & practice 02"
+      },
+      {
+        "tag": "SPAN",
+        "class": "",
+        "parent": "",
+        "size": "13px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "22.1px",
+        "sample": "02"
+      },
+      {
+        "tag": "H2",
+        "class": "",
+        "parent": "work-group-head",
+        "size": "18.0001px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "500",
+        "lineHeight": "23.4001px",
+        "sample": "Journals & proceedings"
+      },
+      {
+        "tag": "H3",
+        "class": "",
+        "parent": "entry-overview",
+        "size": "15px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "500",
+        "lineHeight": "20.2501px",
+        "sample": "Cascading heatwave risks"
+      },
+      {
+        "tag": "P",
+        "class": "entry-summary",
+        "parent": "entry-overview",
+        "size": "12px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6001px",
+        "sample": "Examines how extreme heat cascades through ecological and social systems into health risks"
+      },
+      {
+        "tag": "SPAN",
+        "class": "entry-context",
+        "parent": "entry-overview",
+        "size": "12px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.0001px",
+        "sample": "Physics and Chemistry of the Earth, Parts A/B/C"
+      },
+      {
+        "tag": "SPAN",
+        "class": "entry-type",
+        "parent": "entry-facts",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "Journal article"
+      },
+      {
+        "tag": "TIME",
+        "class": "",
+        "parent": "entry-facts",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "2026"
+      },
+      {
+        "tag": "SPAN",
+        "class": "chip chip-if",
+        "parent": "chip-set",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "600",
+        "lineHeight": "18.6999px",
+        "sample": "JIF 4.1"
+      },
+      {
+        "tag": "SPAN",
+        "class": "chip chip-rank",
+        "parent": "chip-set",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "600",
+        "lineHeight": "18.6999px",
+        "sample": "CCF B · BIBM"
+      },
+      {
+        "tag": "SPAN",
+        "class": "",
+        "parent": "",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "© 2026 Tin-Yeh Huang"
+      },
+      {
+        "tag": "A",
+        "class": "back-top",
+        "parent": "",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "Back to top ↑"
+      },
+      {
+        "tag": "BUTTON",
+        "class": "contact-trigger",
+        "parent": "",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "Contact"
+      },
+      {
+        "tag": "A",
+        "class": "footer-email",
+        "parent": "",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "Email"
+      }
+    ],
+    "overflow": false
+  },
+  {
+    "route": "index.html",
+    "headings": [
+      {
+        "tag": "H1",
+        "text": "Tin-Yeh Huang",
+        "class": "hero-name",
+        "parent": "wrap identity",
+        "visible": true,
+        "size": "26px",
+        "weight": "400",
+        "skip": false
+      },
+      {
+        "tag": "H2",
+        "text": "Selected work",
+        "class": "eyebrow",
+        "parent": "",
+        "visible": true,
+        "size": "11px",
+        "weight": "400",
+        "skip": false
+      },
+      {
+        "tag": "H3",
+        "text": "NineToothed",
+        "class": "",
+        "parent": "",
+        "visible": true,
+        "size": "13px",
+        "weight": "500",
+        "skip": false
+      },
+      {
+        "tag": "H3",
+        "text": "Cascading heatwave risks",
+        "class": "",
+        "parent": "",
+        "visible": true,
+        "size": "13px",
+        "weight": "500",
+        "skip": false
+      },
+      {
+        "tag": "H2",
+        "text": "Industrial design and modernization",
+        "class": "",
+        "parent": "",
+        "visible": true,
+        "size": "13px",
+        "weight": "500",
+        "skip": false
+      }
+    ],
+    "text": [
+      {
+        "tag": "A",
+        "class": "brand",
+        "parent": "site-header",
+        "size": "15px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "600",
+        "lineHeight": "25.5001px",
+        "sample": "Tin-Yeh Huang"
+      },
+      {
+        "tag": "A",
+        "class": "",
+        "parent": "desktop-nav",
+        "size": "12px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "20.4001px",
+        "sample": "Home"
+      },
+      {
+        "tag": "BUTTON",
+        "class": "contact-trigger",
+        "parent": "desktop-nav",
+        "size": "12px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "20.4001px",
+        "sample": "Contact"
+      },
+      {
+        "tag": "BUTTON",
+        "class": "",
+        "parent": "header-actions",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "A+"
+      },
+      {
+        "tag": "A",
+        "class": "language-link",
+        "parent": "header-actions",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "简"
+      },
+      {
+        "tag": "FIGCAPTION",
+        "class": "",
+        "parent": "hero-photo",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "Victoria Harbour · photo pourya gohari / Unsplash"
+      },
+      {
+        "tag": "SPAN",
+        "class": "edge-note",
+        "parent": "wrap identity",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "個人網站 / 2026 — Victoria Harbour"
+      },
+      {
+        "tag": "SPAN",
+        "class": "eyebrow",
+        "parent": "wrap identity",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "Hong Kong · Product Engineering student"
+      },
+      {
+        "tag": "H1",
+        "class": "hero-name",
+        "parent": "wrap identity",
+        "size": "26px",
+        "font": "\"WenKai Essay\", \"PingFang SC\", serif",
+        "weight": "400",
+        "lineHeight": "29.9px",
+        "sample": "Tin-Yeh Huang"
+      },
+      {
+        "tag": "P",
+        "class": "hero-latin",
+        "parent": "wrap identity",
+        "size": "12px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "22.8001px",
+        "sample": "黄天野 · “HEAVEN”"
+      },
+      {
+        "tag": "P",
+        "class": "",
+        "parent": "wrap identity",
+        "size": "12px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "22.8001px",
+        "sample": "Product engineering, research and public service.Work and writing collected here."
+      },
+      {
+        "tag": "A",
+        "class": "text-link",
+        "parent": "home-paths",
+        "size": "12px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "500",
+        "lineHeight": "20.4001px",
+        "sample": "Work"
+      },
+      {
+        "tag": "SPAN",
+        "class": "home-time-label",
+        "parent": "home-time",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "Hong Kong time"
+      },
+      {
+        "tag": "TIME",
+        "class": "",
+        "parent": "home-time",
+        "size": "20.4286px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "34.7286px",
+        "sample": "14:00"
+      },
+      {
+        "tag": "SPAN",
+        "class": "home-time-zone",
+        "parent": "home-time",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "UTC+8"
+      },
+      {
+        "tag": "H2",
+        "class": "eyebrow",
+        "parent": "",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "14.2999px",
+        "sample": "Selected work"
+      },
+      {
+        "tag": "A",
+        "class": "text-link",
+        "parent": "",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "500",
+        "lineHeight": "18.6999px",
+        "sample": "All work"
+      },
+      {
+        "tag": "SPAN",
+        "class": "eyebrow",
+        "parent": "",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "Engineering · 2026"
+      },
+      {
+        "tag": "H3",
+        "class": "",
+        "parent": "",
+        "size": "13px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "500",
+        "lineHeight": "16.9px",
+        "sample": "NineToothed"
+      },
+      {
+        "tag": "P",
+        "class": "",
+        "parent": "",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "Tooling, teaching materials, and demonstrations."
+      },
+      {
+        "tag": "H2",
+        "class": "",
+        "parent": "",
+        "size": "13px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "500",
+        "lineHeight": "16.9px",
+        "sample": "Industrial design and modernization"
+      },
+      {
+        "tag": "P",
+        "class": "",
+        "parent": "home-notes wrap",
+        "size": "12px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "20.4001px",
+        "sample": "A draft on form, use, and making."
+      },
+      {
+        "tag": "A",
+        "class": "text-link",
+        "parent": "home-notes wrap",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "500",
+        "lineHeight": "18.6999px",
+        "sample": "Read the notes"
+      },
+      {
+        "tag": "SPAN",
+        "class": "",
+        "parent": "",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "© 2026 Tin-Yeh Huang"
+      },
+      {
+        "tag": "A",
+        "class": "back-top",
+        "parent": "",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "Back to top ↑"
+      },
+      {
+        "tag": "BUTTON",
+        "class": "contact-trigger",
+        "parent": "",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "Contact"
+      },
+      {
+        "tag": "A",
+        "class": "footer-email",
+        "parent": "",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "Email"
+      }
+    ],
+    "overflow": false
+  },
+  {
+    "route": "news.html",
+    "headings": [
+      {
+        "tag": "H1",
+        "text": "Public mentions",
+        "class": "",
+        "parent": "page-heading wrap",
+        "visible": true,
+        "size": "18.0001px",
+        "weight": "500",
+        "skip": false
+      },
+      {
+        "tag": "H2",
+        "text": "Yau Tsim Mong youth development committee",
+        "class": "",
+        "parent": "news-feature-copy",
+        "visible": true,
+        "size": "15px",
+        "weight": "500",
+        "skip": false
+      },
+      {
+        "tag": "H2",
+        "text": "Public peer review report",
+        "class": "",
+        "parent": "news-feature-copy",
+        "visible": true,
+        "size": "15px",
+        "weight": "500",
+        "skip": false
+      },
+      {
+        "tag": "H2",
+        "text": "Second Mid-Autumn recitation gathering",
+        "class": "",
+        "parent": "news-feature-copy",
+        "visible": true,
+        "size": "15px",
+        "weight": "500",
+        "skip": false
+      },
+      {
+        "tag": "H2",
+        "text": "I Am an Inventor finalist team",
+        "class": "",
+        "parent": "news-feature-copy",
+        "visible": true,
+        "size": "15px",
+        "weight": "500",
+        "skip": false
+      },
+      {
+        "tag": "H2",
+        "text": "School video competition merit award",
+        "class": "",
+        "parent": "news-feature-copy",
+        "visible": true,
+        "size": "15px",
+        "weight": "500",
+        "skip": false
+      }
+    ],
+    "text": [
+      {
+        "tag": "A",
+        "class": "brand",
+        "parent": "site-header",
+        "size": "15px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "600",
+        "lineHeight": "25.5001px",
+        "sample": "Tin-Yeh Huang"
+      },
+      {
+        "tag": "A",
+        "class": "",
+        "parent": "desktop-nav",
+        "size": "12px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "20.4001px",
+        "sample": "Home"
+      },
+      {
+        "tag": "BUTTON",
+        "class": "contact-trigger",
+        "parent": "desktop-nav",
+        "size": "12px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "20.4001px",
+        "sample": "Contact"
+      },
+      {
+        "tag": "BUTTON",
+        "class": "",
+        "parent": "header-actions",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "A+"
+      },
+      {
+        "tag": "A",
+        "class": "language-link",
+        "parent": "header-actions",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "简"
+      },
+      {
+        "tag": "P",
+        "class": "eyebrow",
+        "parent": "page-heading wrap",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "News"
+      },
+      {
+        "tag": "H1",
+        "class": "",
+        "parent": "page-heading wrap",
+        "size": "18.0001px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "500",
+        "lineHeight": "23.4001px",
+        "sample": "Public mentions"
+      },
+      {
+        "tag": "SPAN",
+        "class": "",
+        "parent": "news-feature-copy",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "2025 — 2027 · Home Affairs Department"
+      },
+      {
+        "tag": "H2",
+        "class": "",
+        "parent": "news-feature-copy",
+        "size": "15px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "500",
+        "lineHeight": "20.2501px",
+        "sample": "Yau Tsim Mong youth development committee"
+      },
+      {
+        "tag": "P",
+        "class": "",
+        "parent": "news-feature-copy",
+        "size": "12px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "20.4001px",
+        "sample": "Appointed as a committee member for a two-year term."
+      },
+      {
+        "tag": "SMALL",
+        "class": "",
+        "parent": "news-feature-copy",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "Source"
+      },
+      {
+        "tag": "SPAN",
+        "class": "",
+        "parent": "",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "© 2026 Tin-Yeh Huang"
+      },
+      {
+        "tag": "A",
+        "class": "back-top",
+        "parent": "",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "Back to top ↑"
+      },
+      {
+        "tag": "BUTTON",
+        "class": "contact-trigger",
+        "parent": "",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "Contact"
+      },
+      {
+        "tag": "A",
+        "class": "footer-email",
+        "parent": "",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "Email"
+      }
+    ],
+    "overflow": false
+  },
+  {
+    "route": "notes.html",
+    "headings": [
+      {
+        "tag": "H1",
+        "text": "Writing",
+        "class": "",
+        "parent": "page-heading wrap",
+        "visible": true,
+        "size": "18.0001px",
+        "weight": "500",
+        "skip": false
+      },
+      {
+        "tag": "H2",
+        "text": "Industrial design and Chinese modernization: starting with form",
+        "class": "",
+        "parent": "note-feature-copy",
+        "visible": true,
+        "size": "18.0001px",
+        "weight": "500",
+        "skip": false
+      }
+    ],
+    "text": [
+      {
+        "tag": "A",
+        "class": "brand",
+        "parent": "site-header",
+        "size": "15px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "600",
+        "lineHeight": "25.5001px",
+        "sample": "Tin-Yeh Huang"
+      },
+      {
+        "tag": "A",
+        "class": "",
+        "parent": "desktop-nav",
+        "size": "12px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "20.4001px",
+        "sample": "Home"
+      },
+      {
+        "tag": "BUTTON",
+        "class": "contact-trigger",
+        "parent": "desktop-nav",
+        "size": "12px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "20.4001px",
+        "sample": "Contact"
+      },
+      {
+        "tag": "BUTTON",
+        "class": "",
+        "parent": "header-actions",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "A+"
+      },
+      {
+        "tag": "A",
+        "class": "language-link",
+        "parent": "header-actions",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "简"
+      },
+      {
+        "tag": "P",
+        "class": "eyebrow",
+        "parent": "page-heading wrap",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "Notes"
+      },
+      {
+        "tag": "H1",
+        "class": "",
+        "parent": "page-heading wrap",
+        "size": "18.0001px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "500",
+        "lineHeight": "23.4001px",
+        "sample": "Writing"
+      },
+      {
+        "tag": "SPAN",
+        "class": "eyebrow",
+        "parent": "note-feature-copy",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "Design & society / 2026.09"
+      },
+      {
+        "tag": "H2",
+        "class": "",
+        "parent": "note-feature-copy",
+        "size": "18.0001px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "500",
+        "lineHeight": "25.2001px",
+        "sample": "Industrial design and Chinese modernization: starting with form"
+      },
+      {
+        "tag": "P",
+        "class": "",
+        "parent": "note-feature-copy",
+        "size": "12px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "22.2001px",
+        "sample": "A provisional essay about appearance, use, making, and choice; the referenced paper still "
+      },
+      {
+        "tag": "SPAN",
+        "class": "note-draft",
+        "parent": "note-feature-copy",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "Editorial draft · Awaiting revision"
+      },
+      {
+        "tag": "SPAN",
+        "class": "note-read",
+        "parent": "note-feature-copy",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "Read the essay"
+      },
+      {
+        "tag": "SPAN",
+        "class": "",
+        "parent": "",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "© 2026 Tin-Yeh Huang"
+      },
+      {
+        "tag": "A",
+        "class": "back-top",
+        "parent": "",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "Back to top ↑"
+      },
+      {
+        "tag": "BUTTON",
+        "class": "contact-trigger",
+        "parent": "",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "Contact"
+      },
+      {
+        "tag": "A",
+        "class": "footer-email",
+        "parent": "",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "Email"
+      }
+    ],
+    "overflow": false
+  },
+  {
+    "route": "project-ninetoothed.html",
+    "headings": [
+      {
+        "tag": "H1",
+        "text": "NineToothed",
+        "class": "",
+        "parent": "page-heading wrap",
+        "visible": true,
+        "size": "18.0001px",
+        "weight": "500",
+        "skip": false
+      },
+      {
+        "tag": "H2",
+        "text": "My contribution",
+        "class": "",
+        "parent": "",
+        "visible": true,
+        "size": "18.0001px",
+        "weight": "500",
+        "skip": false
+      },
+      {
+        "tag": "H3",
+        "text": "Tooling and porting",
+        "class": "",
+        "parent": "",
+        "visible": true,
+        "size": "15px",
+        "weight": "500",
+        "skip": false
+      },
+      {
+        "tag": "H3",
+        "text": "Teaching materials",
+        "class": "",
+        "parent": "",
+        "visible": true,
+        "size": "15px",
+        "weight": "500",
+        "skip": false
+      },
+      {
+        "tag": "H3",
+        "text": "WebGPU demo",
+        "class": "",
+        "parent": "",
+        "visible": true,
+        "size": "15px",
+        "weight": "500",
+        "skip": false
+      },
+      {
+        "tag": "H2",
+        "text": "Sources",
+        "class": "",
+        "parent": "case-sources",
+        "visible": true,
+        "size": "15px",
+        "weight": "500",
+        "skip": false
+      }
+    ],
+    "text": [
+      {
+        "tag": "A",
+        "class": "brand",
+        "parent": "site-header",
+        "size": "15px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "600",
+        "lineHeight": "25.5001px",
+        "sample": "Tin-Yeh Huang"
+      },
+      {
+        "tag": "A",
+        "class": "",
+        "parent": "desktop-nav",
+        "size": "12px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "20.4001px",
+        "sample": "Home"
+      },
+      {
+        "tag": "BUTTON",
+        "class": "contact-trigger",
+        "parent": "desktop-nav",
+        "size": "12px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "20.4001px",
+        "sample": "Contact"
+      },
+      {
+        "tag": "BUTTON",
+        "class": "",
+        "parent": "header-actions",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "A+"
+      },
+      {
+        "tag": "A",
+        "class": "language-link",
+        "parent": "header-actions",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "简"
+      },
+      {
+        "tag": "P",
+        "class": "eyebrow",
+        "parent": "page-heading wrap",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "QIYUAN × ILUVATAR COREX / 2026"
+      },
+      {
+        "tag": "H1",
+        "class": "",
+        "parent": "page-heading wrap",
+        "size": "18.0001px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "500",
+        "lineHeight": "23.4001px",
+        "sample": "NineToothed"
+      },
+      {
+        "tag": "P",
+        "class": "",
+        "parent": "page-heading wrap",
+        "size": "12px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "20.4001px",
+        "sample": "Tool development and teaching demos"
+      },
+      {
+        "tag": "A",
+        "class": "text-link",
+        "parent": "project-back wrap",
+        "size": "12px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "500",
+        "lineHeight": "20.4001px",
+        "sample": "Back to Work"
+      },
+      {
+        "tag": "SPAN",
+        "class": "eyebrow",
+        "parent": "",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "NINETOOTHED / 2026"
+      },
+      {
+        "tag": "H2",
+        "class": "",
+        "parent": "",
+        "size": "18.0001px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "500",
+        "lineHeight": "23.4001px",
+        "sample": "My contribution"
+      },
+      {
+        "tag": "P",
+        "class": "",
+        "parent": "",
+        "size": "13px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "24.05px",
+        "sample": "During joint training at Qiyuan and Iluvatar CoreX, I contributed to NineToothed tooling, "
+      },
+      {
+        "tag": "SPAN",
+        "class": "",
+        "parent": "",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "01 / TOOLS"
+      },
+      {
+        "tag": "H3",
+        "class": "",
+        "parent": "",
+        "size": "15px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "500",
+        "lineHeight": "20.2501px",
+        "sample": "Tooling and porting"
+      },
+      {
+        "tag": "P",
+        "class": "",
+        "parent": "",
+        "size": "12px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "21.6001px",
+        "sample": "Contributed to NineToothed tooling and DSL porting."
+      },
+      {
+        "tag": "H2",
+        "class": "",
+        "parent": "case-sources",
+        "size": "15px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "500",
+        "lineHeight": "19.5001px",
+        "sample": "Sources"
+      },
+      {
+        "tag": "A",
+        "class": "",
+        "parent": "source-links",
+        "size": "12px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "20.4001px",
+        "sample": "Repository"
+      },
+      {
+        "tag": "A",
+        "class": "text-link",
+        "parent": "case-sources",
+        "size": "12px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "500",
+        "lineHeight": "20.4001px",
+        "sample": "Related experience"
+      },
+      {
+        "tag": "A",
+        "class": "back-top",
+        "parent": "",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "Back to top ↑"
+      },
+      {
+        "tag": "BUTTON",
+        "class": "contact-trigger",
+        "parent": "",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "Contact"
+      },
+      {
+        "tag": "A",
+        "class": "footer-email",
+        "parent": "",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "Email"
+      }
+    ],
+    "overflow": false
+  },
+  {
+    "route": "project-social-innovation.html",
+    "headings": [
+      {
+        "tag": "H1",
+        "text": "Social innovation",
+        "class": "",
+        "parent": "page-heading wrap",
+        "visible": true,
+        "size": "18.0001px",
+        "weight": "500",
+        "skip": false
+      },
+      {
+        "tag": "H2",
+        "text": "From needs to demos",
+        "class": "",
+        "parent": "",
+        "visible": true,
+        "size": "18.0001px",
+        "weight": "500",
+        "skip": false
+      }
+    ],
+    "text": [
+      {
+        "tag": "A",
+        "class": "brand",
+        "parent": "site-header",
+        "size": "15px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "600",
+        "lineHeight": "25.5001px",
+        "sample": "Tin-Yeh Huang"
+      },
+      {
+        "tag": "A",
+        "class": "",
+        "parent": "desktop-nav",
+        "size": "12px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "20.4001px",
+        "sample": "Home"
+      },
+      {
+        "tag": "BUTTON",
+        "class": "contact-trigger",
+        "parent": "desktop-nav",
+        "size": "12px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "20.4001px",
+        "sample": "Contact"
+      },
+      {
+        "tag": "BUTTON",
+        "class": "",
+        "parent": "header-actions",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "A+"
+      },
+      {
+        "tag": "A",
+        "class": "language-link",
+        "parent": "header-actions",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "简"
+      },
+      {
+        "tag": "P",
+        "class": "eyebrow",
+        "parent": "page-heading wrap",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "X-INSTITUTE / 2024 —"
+      },
+      {
+        "tag": "H1",
+        "class": "",
+        "parent": "page-heading wrap",
+        "size": "18.0001px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "500",
+        "lineHeight": "23.4001px",
+        "sample": "Social innovation"
+      },
+      {
+        "tag": "P",
+        "class": "",
+        "parent": "page-heading wrap",
+        "size": "12px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "20.4001px",
+        "sample": "Interviews, testing, prototypes and pitches"
+      },
+      {
+        "tag": "A",
+        "class": "text-link",
+        "parent": "project-back wrap",
+        "size": "12px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "500",
+        "lineHeight": "20.4001px",
+        "sample": "Back to Work"
+      },
+      {
+        "tag": "SPAN",
+        "class": "eyebrow",
+        "parent": "",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "X-INSTITUTE / 2024 —"
+      },
+      {
+        "tag": "H2",
+        "class": "",
+        "parent": "",
+        "size": "18.0001px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "500",
+        "lineHeight": "23.4001px",
+        "sample": "From needs to demos"
+      },
+      {
+        "tag": "P",
+        "class": "",
+        "parent": "",
+        "size": "13px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "24.05px",
+        "sample": "Worked on social innovation projects covering education and skills access, smartphone lear"
+      },
+      {
+        "tag": "P",
+        "class": "case-award",
+        "parent": "case-study wrap",
+        "size": "12px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "21.6001px",
+        "sample": "The Best Innovation Award in the AI for the Young and the Elderly challenge was a team awa"
+      },
+      {
+        "tag": "A",
+        "class": "text-link",
+        "parent": "case-sources",
+        "size": "12px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "500",
+        "lineHeight": "20.4001px",
+        "sample": "Related experience"
+      },
+      {
+        "tag": "SPAN",
+        "class": "",
+        "parent": "",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "© 2026 Tin-Yeh Huang"
+      },
+      {
+        "tag": "A",
+        "class": "back-top",
+        "parent": "",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "Back to top ↑"
+      },
+      {
+        "tag": "BUTTON",
+        "class": "contact-trigger",
+        "parent": "",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "Contact"
+      },
+      {
+        "tag": "A",
+        "class": "footer-email",
+        "parent": "",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "Email"
+      }
+    ],
+    "overflow": false
+  },
+  {
+    "route": "read-crypto.html",
+    "headings": [
+      {
+        "tag": "H1",
+        "text": "Crypto-ncRNA",
+        "class": "",
+        "parent": "reader-identity",
+        "visible": true,
+        "size": "15px",
+        "weight": "500",
+        "skip": false
+      },
+      {
+        "tag": "H2",
+        "text": "Crypto-ncRNA: a bio-inspired post-quantum cryptographic primitive exploiting RNA folding complexity",
+        "class": "",
+        "parent": "reader-aside",
+        "visible": true,
+        "size": "15px",
+        "weight": "500",
+        "skip": false
+      }
+    ],
+    "text": [
+      {
+        "tag": "A",
+        "class": "brand",
+        "parent": "site-header",
+        "size": "15px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "600",
+        "lineHeight": "25.5001px",
+        "sample": "Tin-Yeh Huang"
+      },
+      {
+        "tag": "A",
+        "class": "",
+        "parent": "desktop-nav",
+        "size": "12px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "20.4001px",
+        "sample": "Home"
+      },
+      {
+        "tag": "BUTTON",
+        "class": "contact-trigger",
+        "parent": "desktop-nav",
+        "size": "12px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "20.4001px",
+        "sample": "Contact"
+      },
+      {
+        "tag": "BUTTON",
+        "class": "",
+        "parent": "header-actions",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "A+"
+      },
+      {
+        "tag": "A",
+        "class": "language-link",
+        "parent": "header-actions",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "简"
+      },
+      {
+        "tag": "A",
+        "class": "reader-back",
+        "parent": "reader-bar",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "Work"
+      },
+      {
+        "tag": "SPAN",
+        "class": "eyebrow",
+        "parent": "reader-identity",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "Paper / 2025–26"
+      },
+      {
+        "tag": "H1",
+        "class": "",
+        "parent": "reader-identity",
+        "size": "15px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "500",
+        "lineHeight": "20.2501px",
+        "sample": "Crypto-ncRNA"
+      },
+      {
+        "tag": "A",
+        "class": "reader-open",
+        "parent": "reader-bar",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "Open PDF"
+      },
+      {
+        "tag": "SPAN",
+        "class": "reader-aside-label",
+        "parent": "reader-aside",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "About this paper"
+      },
+      {
+        "tag": "H2",
+        "class": "",
+        "parent": "reader-aside",
+        "size": "15px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "500",
+        "lineHeight": "21.4501px",
+        "sample": "Crypto-ncRNA: a bio-inspired post-quantum cryptographic primitive exploiting RNA folding c"
+      },
+      {
+        "tag": "STRONG",
+        "class": "",
+        "parent": "venue-line",
+        "size": "12px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "600",
+        "lineHeight": "18.0001px",
+        "sample": "AI for Nucleic Acids (AI4NA) Workshop · International Conference on Learning Representatio"
+      },
+      {
+        "tag": "A",
+        "class": "metric-source",
+        "parent": "reader-aside",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "16.4999px",
+        "sample": "AI4NA workshop at ICLR 2025; also available as an arXiv preprint"
+      },
+      {
+        "tag": "P",
+        "class": "reader-version",
+        "parent": "reader-aside",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "17.0499px",
+        "sample": "arXiv v2 · 2 Feb 2026 · Preprint"
+      },
+      {
+        "tag": "P",
+        "class": "reader-lede",
+        "parent": "reader-aside",
+        "size": "12px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "22.2001px",
+        "sample": "Explores RNA folding complexity as a basis for a cryptographic primitive."
+      },
+      {
+        "tag": "P",
+        "class": "reader-authors",
+        "parent": "reader-aside",
+        "size": "13px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "22.1px",
+        "sample": "Xu Wang, Yiquan Wang, Tin-Yeh Huang, Zhaorui Jiang, Kai Wei"
+      },
+      {
+        "tag": "A",
+        "class": "",
+        "parent": "source-links",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "16.4999px",
+        "sample": "arXiv"
+      },
+      {
+        "tag": "SPAN",
+        "class": "",
+        "parent": "",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "© 2026 Tin-Yeh Huang"
+      },
+      {
+        "tag": "A",
+        "class": "back-top",
+        "parent": "",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "Back to top ↑"
+      },
+      {
+        "tag": "BUTTON",
+        "class": "contact-trigger",
+        "parent": "",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "Contact"
+      },
+      {
+        "tag": "A",
+        "class": "footer-email",
+        "parent": "",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "Email"
+      }
+    ],
+    "overflow": false
+  },
+  {
+    "route": "read-heatwave.html",
+    "headings": [
+      {
+        "tag": "H1",
+        "text": "Cascading heatwave risks",
+        "class": "",
+        "parent": "reader-identity",
+        "visible": true,
+        "size": "15px",
+        "weight": "500",
+        "skip": false
+      },
+      {
+        "tag": "H2",
+        "text": "AI Driven Discovery of Bio Ecological Mediation in Cascading Heatwave Risks",
+        "class": "",
+        "parent": "reader-aside",
+        "visible": true,
+        "size": "15px",
+        "weight": "500",
+        "skip": false
+      }
+    ],
+    "text": [
+      {
+        "tag": "A",
+        "class": "brand",
+        "parent": "site-header",
+        "size": "15px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "600",
+        "lineHeight": "25.5001px",
+        "sample": "Tin-Yeh Huang"
+      },
+      {
+        "tag": "A",
+        "class": "",
+        "parent": "desktop-nav",
+        "size": "12px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "20.4001px",
+        "sample": "Home"
+      },
+      {
+        "tag": "BUTTON",
+        "class": "contact-trigger",
+        "parent": "desktop-nav",
+        "size": "12px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "20.4001px",
+        "sample": "Contact"
+      },
+      {
+        "tag": "BUTTON",
+        "class": "",
+        "parent": "header-actions",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "A+"
+      },
+      {
+        "tag": "A",
+        "class": "language-link",
+        "parent": "header-actions",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "简"
+      },
+      {
+        "tag": "A",
+        "class": "reader-back",
+        "parent": "reader-bar",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "Work"
+      },
+      {
+        "tag": "SPAN",
+        "class": "eyebrow",
+        "parent": "reader-identity",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "Paper / 2026"
+      },
+      {
+        "tag": "H1",
+        "class": "",
+        "parent": "reader-identity",
+        "size": "15px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "500",
+        "lineHeight": "20.2501px",
+        "sample": "Cascading heatwave risks"
+      },
+      {
+        "tag": "A",
+        "class": "reader-open",
+        "parent": "reader-bar",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "Open PDF"
+      },
+      {
+        "tag": "SPAN",
+        "class": "reader-aside-label",
+        "parent": "reader-aside",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "About this paper"
+      },
+      {
+        "tag": "H2",
+        "class": "",
+        "parent": "reader-aside",
+        "size": "15px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "500",
+        "lineHeight": "21.4501px",
+        "sample": "AI Driven Discovery of Bio Ecological Mediation in Cascading Heatwave Risks"
+      },
+      {
+        "tag": "STRONG",
+        "class": "",
+        "parent": "venue-line",
+        "size": "12px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "600",
+        "lineHeight": "18.0001px",
+        "sample": "Physics and Chemistry of the Earth, Parts A/B/C"
+      },
+      {
+        "tag": "SPAN",
+        "class": "chip chip-if",
+        "parent": "chip-set",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "600",
+        "lineHeight": "16.4999px",
+        "sample": "JIF 4.1"
+      },
+      {
+        "tag": "A",
+        "class": "metric-source",
+        "parent": "reader-aside",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "16.4999px",
+        "sample": "Journal impact factor 4.1; quartile classification pending verification"
+      },
+      {
+        "tag": "P",
+        "class": "reader-version",
+        "parent": "reader-aside",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "17.0499px",
+        "sample": "arXiv v2 · 11 Feb 2026 · Preprint, not the journal version"
+      },
+      {
+        "tag": "P",
+        "class": "reader-lede",
+        "parent": "reader-aside",
+        "size": "12px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "22.2001px",
+        "sample": "Examines how extreme heat cascades through ecological and social systems into health risks"
+      },
+      {
+        "tag": "P",
+        "class": "reader-authors",
+        "parent": "reader-aside",
+        "size": "13px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "22.1px",
+        "sample": "Yiquan Wang, Tin-Yeh Huang, Qingyun Gao, Yuhan Chang, Jialin Zhang"
+      },
+      {
+        "tag": "A",
+        "class": "",
+        "parent": "source-links",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "16.4999px",
+        "sample": "DOI"
+      },
+      {
+        "tag": "SPAN",
+        "class": "",
+        "parent": "",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "© 2026 Tin-Yeh Huang"
+      },
+      {
+        "tag": "A",
+        "class": "back-top",
+        "parent": "",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "Back to top ↑"
+      },
+      {
+        "tag": "BUTTON",
+        "class": "contact-trigger",
+        "parent": "",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "Contact"
+      },
+      {
+        "tag": "A",
+        "class": "footer-email",
+        "parent": "",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "Email"
+      }
+    ],
+    "overflow": false
+  },
+  {
+    "route": "read-olympic.html",
+    "headings": [
+      {
+        "tag": "H1",
+        "text": "Olympic medal prediction",
+        "class": "",
+        "parent": "reader-identity",
+        "visible": true,
+        "size": "15px",
+        "weight": "500",
+        "skip": false
+      },
+      {
+        "tag": "H2",
+        "text": "STGCN-LSTM for Olympic Medal Prediction: Dynamic Power Modeling and Causal Policy Optimization",
+        "class": "",
+        "parent": "reader-aside",
+        "visible": true,
+        "size": "15px",
+        "weight": "500",
+        "skip": false
+      }
+    ],
+    "text": [
+      {
+        "tag": "A",
+        "class": "brand",
+        "parent": "site-header",
+        "size": "15px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "600",
+        "lineHeight": "25.5001px",
+        "sample": "Tin-Yeh Huang"
+      },
+      {
+        "tag": "A",
+        "class": "",
+        "parent": "desktop-nav",
+        "size": "12px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "20.4001px",
+        "sample": "Home"
+      },
+      {
+        "tag": "BUTTON",
+        "class": "contact-trigger",
+        "parent": "desktop-nav",
+        "size": "12px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "20.4001px",
+        "sample": "Contact"
+      },
+      {
+        "tag": "BUTTON",
+        "class": "",
+        "parent": "header-actions",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "A+"
+      },
+      {
+        "tag": "A",
+        "class": "language-link",
+        "parent": "header-actions",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "简"
+      },
+      {
+        "tag": "A",
+        "class": "reader-back",
+        "parent": "reader-bar",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "Work"
+      },
+      {
+        "tag": "SPAN",
+        "class": "eyebrow",
+        "parent": "reader-identity",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "Paper / 2025"
+      },
+      {
+        "tag": "H1",
+        "class": "",
+        "parent": "reader-identity",
+        "size": "15px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "500",
+        "lineHeight": "20.2501px",
+        "sample": "Olympic medal prediction"
+      },
+      {
+        "tag": "A",
+        "class": "reader-open",
+        "parent": "reader-bar",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "Open PDF"
+      },
+      {
+        "tag": "SPAN",
+        "class": "reader-aside-label",
+        "parent": "reader-aside",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "About this paper"
+      },
+      {
+        "tag": "H2",
+        "class": "",
+        "parent": "reader-aside",
+        "size": "15px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "500",
+        "lineHeight": "21.4501px",
+        "sample": "STGCN-LSTM for Olympic Medal Prediction: Dynamic Power Modeling and Causal Policy Optimiza"
+      },
+      {
+        "tag": "STRONG",
+        "class": "",
+        "parent": "venue-line",
+        "size": "12px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "600",
+        "lineHeight": "18.0001px",
+        "sample": "New In ML Affinity Event · International Conference on Machine Learning (ICML 2025)"
+      },
+      {
+        "tag": "A",
+        "class": "metric-source",
+        "parent": "reader-aside",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "16.4999px",
+        "sample": "New In ML affinity event at the 2025 International Conference on Machine Learning; also av"
+      },
+      {
+        "tag": "P",
+        "class": "reader-version",
+        "parent": "reader-aside",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "17.0499px",
+        "sample": "arXiv v3 · 6 Apr 2025 · Preprint"
+      },
+      {
+        "tag": "P",
+        "class": "reader-lede",
+        "parent": "reader-aside",
+        "size": "12px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "22.2001px",
+        "sample": "Models Olympic medal prediction with a spatiotemporal graph network and LSTM."
+      },
+      {
+        "tag": "P",
+        "class": "reader-authors",
+        "parent": "reader-aside",
+        "size": "13px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "22.1px",
+        "sample": "Yiquan Wang, Jiaying Wang, Tin-Yeh Huang, Jingyi Yang, Zihao Xu"
+      },
+      {
+        "tag": "A",
+        "class": "",
+        "parent": "source-links",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "16.4999px",
+        "sample": "arXiv"
+      },
+      {
+        "tag": "SPAN",
+        "class": "",
+        "parent": "",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "© 2026 Tin-Yeh Huang"
+      },
+      {
+        "tag": "A",
+        "class": "back-top",
+        "parent": "",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "Back to top ↑"
+      },
+      {
+        "tag": "BUTTON",
+        "class": "contact-trigger",
+        "parent": "",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "Contact"
+      },
+      {
+        "tag": "A",
+        "class": "footer-email",
+        "parent": "",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "Email"
+      }
+    ],
+    "overflow": false
+  },
+  {
+    "route": "work-disease.html",
+    "headings": [
+      {
+        "tag": "H1",
+        "text": "Limits of disease prediction",
+        "class": "",
+        "parent": "publication-main",
+        "visible": true,
+        "size": "18.0001px",
+        "weight": "500",
+        "skip": false
+      }
+    ],
+    "text": [
+      {
+        "tag": "A",
+        "class": "brand",
+        "parent": "site-header",
+        "size": "15px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "600",
+        "lineHeight": "25.5001px",
+        "sample": "Tin-Yeh Huang"
+      },
+      {
+        "tag": "A",
+        "class": "",
+        "parent": "desktop-nav",
+        "size": "12px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "20.4001px",
+        "sample": "Home"
+      },
+      {
+        "tag": "BUTTON",
+        "class": "contact-trigger",
+        "parent": "desktop-nav",
+        "size": "12px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "20.4001px",
+        "sample": "Contact"
+      },
+      {
+        "tag": "BUTTON",
+        "class": "",
+        "parent": "header-actions",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "A+"
+      },
+      {
+        "tag": "A",
+        "class": "language-link",
+        "parent": "header-actions",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "简"
+      },
+      {
+        "tag": "A",
+        "class": "reader-back",
+        "parent": "publication-page wrap",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "Back to Work"
+      },
+      {
+        "tag": "SPAN",
+        "class": "eyebrow",
+        "parent": "publication-main",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "Publication record / 2025"
+      },
+      {
+        "tag": "H1",
+        "class": "",
+        "parent": "publication-main",
+        "size": "18.0001px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "500",
+        "lineHeight": "23.4001px",
+        "sample": "Limits of disease prediction"
+      },
+      {
+        "tag": "P",
+        "class": "publication-full-title",
+        "parent": "publication-main",
+        "size": "13px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "20.15px",
+        "sample": "AI for disease prediction: Performance insights and key limitations"
+      },
+      {
+        "tag": "STRONG",
+        "class": "",
+        "parent": "venue-line",
+        "size": "12px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "600",
+        "lineHeight": "18.0001px",
+        "sample": "Journal of Clinical Neuroscience · Letter"
+      },
+      {
+        "tag": "SPAN",
+        "class": "chip chip-if",
+        "parent": "chip-set",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "600",
+        "lineHeight": "16.4999px",
+        "sample": "JIF 1.8"
+      },
+      {
+        "tag": "A",
+        "class": "metric-source",
+        "parent": "publication-main",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "16.4999px",
+        "sample": "Journal Impact Factor 1.8 shown by Elsevier; not a score for this letter"
+      },
+      {
+        "tag": "P",
+        "class": "reader-version",
+        "parent": "publication-main",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "17.0499px",
+        "sample": "Journal letter · 2025"
+      },
+      {
+        "tag": "P",
+        "class": "",
+        "parent": "publication-copy",
+        "size": "13px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "24.7px",
+        "sample": "Discusses performance assessment and limits of AI disease prediction."
+      },
+      {
+        "tag": "SPAN",
+        "class": "eyebrow",
+        "parent": "publication-links",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "Sources"
+      },
+      {
+        "tag": "A",
+        "class": "",
+        "parent": "source-links",
+        "size": "12px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "20.4001px",
+        "sample": "DOI"
+      },
+      {
+        "tag": "SPAN",
+        "class": "",
+        "parent": "",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "© 2026 Tin-Yeh Huang"
+      },
+      {
+        "tag": "A",
+        "class": "back-top",
+        "parent": "",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "Back to top ↑"
+      },
+      {
+        "tag": "BUTTON",
+        "class": "contact-trigger",
+        "parent": "",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "Contact"
+      },
+      {
+        "tag": "A",
+        "class": "footer-email",
+        "parent": "",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "Email"
+      }
+    ],
+    "overflow": false
+  },
+  {
+    "route": "work-oio.html",
+    "headings": [
+      {
+        "tag": "H1",
+        "text": "OIO",
+        "class": "",
+        "parent": "publication-main",
+        "visible": true,
+        "size": "18.0001px",
+        "weight": "500",
+        "skip": false
+      }
+    ],
+    "text": [
+      {
+        "tag": "A",
+        "class": "brand",
+        "parent": "site-header",
+        "size": "15px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "600",
+        "lineHeight": "25.5001px",
+        "sample": "Tin-Yeh Huang"
+      },
+      {
+        "tag": "A",
+        "class": "",
+        "parent": "desktop-nav",
+        "size": "12px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "20.4001px",
+        "sample": "Home"
+      },
+      {
+        "tag": "BUTTON",
+        "class": "contact-trigger",
+        "parent": "desktop-nav",
+        "size": "12px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "20.4001px",
+        "sample": "Contact"
+      },
+      {
+        "tag": "BUTTON",
+        "class": "",
+        "parent": "header-actions",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "A+"
+      },
+      {
+        "tag": "A",
+        "class": "language-link",
+        "parent": "header-actions",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "简"
+      },
+      {
+        "tag": "A",
+        "class": "reader-back",
+        "parent": "publication-page wrap",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "Back to Work"
+      },
+      {
+        "tag": "SPAN",
+        "class": "eyebrow",
+        "parent": "publication-main",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "Publication record / 2025"
+      },
+      {
+        "tag": "H1",
+        "class": "",
+        "parent": "publication-main",
+        "size": "18.0001px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "500",
+        "lineHeight": "23.4001px",
+        "sample": "OIO"
+      },
+      {
+        "tag": "P",
+        "class": "publication-full-title",
+        "parent": "publication-main",
+        "size": "13px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "20.15px",
+        "sample": "Octopus inspired optimization (OIO): A hierarchical framework for navigating protein fitne"
+      },
+      {
+        "tag": "STRONG",
+        "class": "",
+        "parent": "venue-line",
+        "size": "12px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "600",
+        "lineHeight": "18.0001px",
+        "sample": "IEEE International Conference on Bioinformatics and Biomedicine (BIBM 2025)"
+      },
+      {
+        "tag": "SPAN",
+        "class": "chip chip-rank",
+        "parent": "chip-set",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "600",
+        "lineHeight": "16.4999px",
+        "sample": "CCF B · BIBM"
+      },
+      {
+        "tag": "A",
+        "class": "metric-source",
+        "parent": "publication-main",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "16.4999px",
+        "sample": "CCF lists IEEE BIBM as a class B conference; this is a BIBM 2025 proceedings paper."
+      },
+      {
+        "tag": "P",
+        "class": "reader-version",
+        "parent": "publication-main",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "17.0499px",
+        "sample": "Conference paper · 2025"
+      },
+      {
+        "tag": "P",
+        "class": "",
+        "parent": "publication-copy",
+        "size": "13px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "24.7px",
+        "sample": "Proposes a hierarchical optimization framework for protein fitness landscapes."
+      },
+      {
+        "tag": "SPAN",
+        "class": "eyebrow",
+        "parent": "publication-links",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "Sources"
+      },
+      {
+        "tag": "A",
+        "class": "",
+        "parent": "source-links",
+        "size": "12px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "20.4001px",
+        "sample": "IEEE / DOI"
+      },
+      {
+        "tag": "SPAN",
+        "class": "",
+        "parent": "",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "© 2026 Tin-Yeh Huang"
+      },
+      {
+        "tag": "A",
+        "class": "back-top",
+        "parent": "",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "Back to top ↑"
+      },
+      {
+        "tag": "BUTTON",
+        "class": "contact-trigger",
+        "parent": "",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "Contact"
+      },
+      {
+        "tag": "A",
+        "class": "footer-email",
+        "parent": "",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "Email"
+      }
+    ],
+    "overflow": false
+  },
+  {
+    "route": "work-structrace.html",
+    "headings": [
+      {
+        "tag": "H1",
+        "text": "StrucTrace",
+        "class": "",
+        "parent": "publication-main",
+        "visible": true,
+        "size": "18.0001px",
+        "weight": "500",
+        "skip": false
+      }
+    ],
+    "text": [
+      {
+        "tag": "A",
+        "class": "brand",
+        "parent": "site-header",
+        "size": "15px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "600",
+        "lineHeight": "25.5001px",
+        "sample": "Tin-Yeh Huang"
+      },
+      {
+        "tag": "A",
+        "class": "",
+        "parent": "desktop-nav",
+        "size": "12px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "20.4001px",
+        "sample": "Home"
+      },
+      {
+        "tag": "BUTTON",
+        "class": "contact-trigger",
+        "parent": "desktop-nav",
+        "size": "12px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "20.4001px",
+        "sample": "Contact"
+      },
+      {
+        "tag": "BUTTON",
+        "class": "",
+        "parent": "header-actions",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "A+"
+      },
+      {
+        "tag": "A",
+        "class": "language-link",
+        "parent": "header-actions",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "简"
+      },
+      {
+        "tag": "A",
+        "class": "reader-back",
+        "parent": "publication-page wrap",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "Back to Work"
+      },
+      {
+        "tag": "SPAN",
+        "class": "eyebrow",
+        "parent": "publication-main",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "Publication record / 2026"
+      },
+      {
+        "tag": "H1",
+        "class": "",
+        "parent": "publication-main",
+        "size": "18.0001px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "500",
+        "lineHeight": "23.4001px",
+        "sample": "StrucTrace"
+      },
+      {
+        "tag": "P",
+        "class": "publication-full-title",
+        "parent": "publication-main",
+        "size": "13px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "20.15px",
+        "sample": "StrucTrace: A universal Fourier watermark for traceable biomolecular structures"
+      },
+      {
+        "tag": "STRONG",
+        "class": "",
+        "parent": "venue-line",
+        "size": "12px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "600",
+        "lineHeight": "18.0001px",
+        "sample": "npj Structural Biology"
+      },
+      {
+        "tag": "A",
+        "class": "metric-source",
+        "parent": "publication-main",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "16.4999px",
+        "sample": "Accepted at npj Structural Biology; no journal impact factor yet"
+      },
+      {
+        "tag": "P",
+        "class": "reader-version",
+        "parent": "publication-main",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "17.0499px",
+        "sample": "Accepted · 2026"
+      },
+      {
+        "tag": "P",
+        "class": "",
+        "parent": "publication-copy",
+        "size": "13px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "24.7px",
+        "sample": "Uses a Fourier watermark to trace the provenance of biomolecular structures."
+      },
+      {
+        "tag": "P",
+        "class": "publication-authors",
+        "parent": "publication-main",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "Xu Wang, Chi Wang, Tin-Yeh Huang, Yiquan Wang, Siyuan Jiang, Yafei Yuan"
+      },
+      {
+        "tag": "SPAN",
+        "class": "eyebrow",
+        "parent": "publication-links",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "Sources"
+      },
+      {
+        "tag": "A",
+        "class": "",
+        "parent": "source-links",
+        "size": "12px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "20.4001px",
+        "sample": "Code"
+      },
+      {
+        "tag": "SPAN",
+        "class": "",
+        "parent": "",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "© 2026 Tin-Yeh Huang"
+      },
+      {
+        "tag": "A",
+        "class": "back-top",
+        "parent": "",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "Back to top ↑"
+      },
+      {
+        "tag": "BUTTON",
+        "class": "contact-trigger",
+        "parent": "",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "Contact"
+      },
+      {
+        "tag": "A",
+        "class": "footer-email",
+        "parent": "",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "Email"
+      }
+    ],
+    "overflow": false
+  },
+  {
+    "route": "writing-modernization.html",
+    "headings": [
+      {
+        "tag": "H1",
+        "text": "Industrial design and Chinese modernization: starting with form",
+        "class": "",
+        "parent": "",
+        "visible": true,
+        "size": "18.0001px",
+        "weight": "400",
+        "skip": false
+      },
+      {
+        "tag": "H2",
+        "text": "Form is more than a shell",
+        "class": "",
+        "parent": "blog-section",
+        "visible": true,
+        "size": "18.0001px",
+        "weight": "400",
+        "skip": false
+      },
+      {
+        "tag": "H2",
+        "text": "Modernization is not a single style",
+        "class": "",
+        "parent": "blog-section",
+        "visible": true,
+        "size": "18.0001px",
+        "weight": "400",
+        "skip": false
+      },
+      {
+        "tag": "H2",
+        "text": "Making a choice defensible",
+        "class": "",
+        "parent": "blog-section",
+        "visible": true,
+        "size": "18.0001px",
+        "weight": "400",
+        "skip": false
+      }
+    ],
+    "text": [
+      {
+        "tag": "A",
+        "class": "brand",
+        "parent": "site-header",
+        "size": "15px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "600",
+        "lineHeight": "25.5001px",
+        "sample": "Tin-Yeh Huang"
+      },
+      {
+        "tag": "A",
+        "class": "",
+        "parent": "desktop-nav",
+        "size": "12px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "20.4001px",
+        "sample": "Home"
+      },
+      {
+        "tag": "BUTTON",
+        "class": "contact-trigger",
+        "parent": "desktop-nav",
+        "size": "12px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "20.4001px",
+        "sample": "Contact"
+      },
+      {
+        "tag": "BUTTON",
+        "class": "",
+        "parent": "header-actions",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "A+"
+      },
+      {
+        "tag": "A",
+        "class": "language-link",
+        "parent": "header-actions",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "简"
+      },
+      {
+        "tag": "A",
+        "class": "reader-back",
+        "parent": "blog-header",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "Back to Notes"
+      },
+      {
+        "tag": "SPAN",
+        "class": "eyebrow",
+        "parent": "",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "Design & society / 2026.09 / Draft"
+      },
+      {
+        "tag": "H1",
+        "class": "",
+        "parent": "",
+        "size": "18.0001px",
+        "font": "\"WenKai Essay\", \"PingFang SC\", serif",
+        "weight": "400",
+        "lineHeight": "23.4001px",
+        "sample": "Industrial design and Chinese modernization: starting with form"
+      },
+      {
+        "tag": "P",
+        "class": "",
+        "parent": "",
+        "size": "13px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "23.4px",
+        "sample": "A provisional essay about appearance, use, making, and choice; the referenced paper still "
+      },
+      {
+        "tag": "FIGCAPTION",
+        "class": "",
+        "parent": "blog-hero",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "Editorial illustration / form, material and choice"
+      },
+      {
+        "tag": "SPAN",
+        "class": "eyebrow",
+        "parent": "blog-toc",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "In this essay"
+      },
+      {
+        "tag": "A",
+        "class": "",
+        "parent": "blog-toc",
+        "size": "12px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "17.4001px",
+        "sample": "01Form is more than a shell"
+      },
+      {
+        "tag": "SPAN",
+        "class": "",
+        "parent": "",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "15.9499px",
+        "sample": "01"
+      },
+      {
+        "tag": "P",
+        "class": "blog-lead",
+        "parent": "blog-body",
+        "size": "13px",
+        "font": "\"WenKai Essay\", \"PingFang SC\", serif",
+        "weight": "400",
+        "lineHeight": "26.65px",
+        "sample": "It is easy to treat a product’s appearance as a final layer. Yet form rarely arrives only "
+      },
+      {
+        "tag": "SPAN",
+        "class": "blog-section-number",
+        "parent": "blog-section",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "01"
+      },
+      {
+        "tag": "H2",
+        "class": "",
+        "parent": "blog-section",
+        "size": "18.0001px",
+        "font": "\"WenKai Essay\", \"PingFang SC\", serif",
+        "weight": "400",
+        "lineHeight": "23.4001px",
+        "sample": "Form is more than a shell"
+      },
+      {
+        "tag": "P",
+        "class": "",
+        "parent": "blog-section",
+        "size": "13px",
+        "font": "\"WenKai Essay\", \"PingFang SC\", serif",
+        "weight": "400",
+        "lineHeight": "26.65px",
+        "sample": "A small question from our design discussion is whether simpler is always better. Removing "
+      },
+      {
+        "tag": "FIGCAPTION",
+        "class": "",
+        "parent": "blog-sketch",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "From form to structure, then back to observation"
+      },
+      {
+        "tag": "P",
+        "class": "blog-editorial-note",
+        "parent": "blog-body",
+        "size": "13px",
+        "font": "\"WenKai Essay\", \"PingFang SC\", serif",
+        "weight": "400",
+        "lineHeight": "26.65px",
+        "sample": "Editorial note: this is a provisional text awaiting revision; its title, arguments and exa"
+      },
+      {
+        "tag": "SPAN",
+        "class": "",
+        "parent": "",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "© 2026 Tin-Yeh Huang"
+      },
+      {
+        "tag": "A",
+        "class": "back-top",
+        "parent": "",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "Back to top ↑"
+      },
+      {
+        "tag": "BUTTON",
+        "class": "contact-trigger",
+        "parent": "",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "Contact"
+      },
+      {
+        "tag": "A",
+        "class": "footer-email",
+        "parent": "",
+        "size": "11px",
+        "font": "\"DM Sans\", -apple-system, \"system-ui\", \"Helvetica Neue\", \"PingFang SC\", sans-serif",
+        "weight": "400",
+        "lineHeight": "18.6999px",
+        "sample": "Email"
+      }
+    ],
+    "overflow": false
+  }
+]

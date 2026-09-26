@@ -1,0 +1,551 @@
+[
+  {
+    "lang": "tw/",
+    "width": 320,
+    "states": [
+      {
+        "i": 0,
+        "captionVisible": true,
+        "captionInBounds": true,
+        "captionAboveCover": true,
+        "overflow": false,
+        "captionBottom": 210.484375,
+        "coverTop": 222.484375
+      },
+      {
+        "i": 1,
+        "captionVisible": true,
+        "captionInBounds": true,
+        "captionAboveCover": true,
+        "overflow": false,
+        "captionBottom": 210.484375,
+        "coverTop": 222.484375
+      },
+      {
+        "i": 2,
+        "captionVisible": true,
+        "captionInBounds": true,
+        "captionAboveCover": true,
+        "overflow": false,
+        "captionBottom": 210.484375,
+        "coverTop": 222.484375
+      },
+      {
+        "i": 3,
+        "captionVisible": true,
+        "captionInBounds": true,
+        "captionAboveCover": true,
+        "overflow": false,
+        "captionBottom": 210.484375,
+        "coverTop": 222.484375
+      },
+      {
+        "i": 4,
+        "captionVisible": true,
+        "captionInBounds": true,
+        "captionAboveCover": true,
+        "overflow": false,
+        "captionBottom": 210.484375,
+        "coverTop": 222.484375
+      },
+      {
+        "i": 5,
+        "captionVisible": true,
+        "captionInBounds": true,
+        "captionAboveCover": true,
+        "overflow": false,
+        "captionBottom": 210.484375,
+        "coverTop": 222.484375
+      }
+    ],
+    "errors": []
+  },
+  {
+    "lang": "tw/",
+    "width": 390,
+    "states": [
+      {
+        "i": 0,
+        "captionVisible": true,
+        "captionInBounds": true,
+        "captionAboveCover": true,
+        "overflow": false,
+        "captionBottom": 210.484375,
+        "coverTop": 222.484375
+      },
+      {
+        "i": 1,
+        "captionVisible": true,
+        "captionInBounds": true,
+        "captionAboveCover": true,
+        "overflow": false,
+        "captionBottom": 210.484375,
+        "coverTop": 222.484375
+      },
+      {
+        "i": 2,
+        "captionVisible": true,
+        "captionInBounds": true,
+        "captionAboveCover": true,
+        "overflow": false,
+        "captionBottom": 210.484375,
+        "coverTop": 222.484375
+      },
+      {
+        "i": 3,
+        "captionVisible": true,
+        "captionInBounds": true,
+        "captionAboveCover": true,
+        "overflow": false,
+        "captionBottom": 210.484375,
+        "coverTop": 222.484375
+      },
+      {
+        "i": 4,
+        "captionVisible": true,
+        "captionInBounds": true,
+        "captionAboveCover": true,
+        "overflow": false,
+        "captionBottom": 210.484375,
+        "coverTop": 222.484375
+      },
+      {
+        "i": 5,
+        "captionVisible": true,
+        "captionInBounds": true,
+        "captionAboveCover": true,
+        "overflow": false,
+        "captionBottom": 210.484375,
+        "coverTop": 222.484375
+      }
+    ],
+    "errors": []
+  },
+  {
+    "lang": "tw/",
+    "width": 1440,
+    "states": [
+      {
+        "i": 0,
+        "captionVisible": true,
+        "captionInBounds": true,
+        "captionAboveCover": true,
+        "overflow": false,
+        "captionBottom": 214.40625,
+        "coverTop": 226.40625
+      },
+      {
+        "i": 1,
+        "captionVisible": true,
+        "captionInBounds": true,
+        "captionAboveCover": true,
+        "overflow": false,
+        "captionBottom": 214.40625,
+        "coverTop": 226.40625
+      },
+      {
+        "i": 2,
+        "captionVisible": true,
+        "captionInBounds": true,
+        "captionAboveCover": true,
+        "overflow": false,
+        "captionBottom": 214.40625,
+        "coverTop": 226.40625
+      },
+      {
+        "i": 3,
+        "captionVisible": true,
+        "captionInBounds": true,
+        "captionAboveCover": true,
+        "overflow": false,
+        "captionBottom": 214.40625,
+        "coverTop": 226.40625
+      },
+      {
+        "i": 4,
+        "captionVisible": true,
+        "captionInBounds": true,
+        "captionAboveCover": true,
+        "overflow": false,
+        "captionBottom": 214.40625,
+        "coverTop": 226.40625
+      },
+      {
+        "i": 5,
+        "captionVisible": true,
+        "captionInBounds": true,
+        "captionAboveCover": true,
+        "overflow": false,
+        "captionBottom": 214.40625,
+        "coverTop": 226.40625
+      }
+    ],
+    "errors": []
+  },
+  {
+    "lang": "en/",
+    "width": 320,
+    "states": [
+      {
+        "i": 0,
+        "captionVisible": true,
+        "captionInBounds": true,
+        "captionAboveCover": true,
+        "overflow": false,
+        "captionBottom": 233.484375,
+        "coverTop": 245.484375
+      },
+      {
+        "i": 1,
+        "captionVisible": true,
+        "captionInBounds": true,
+        "captionAboveCover": true,
+        "overflow": false,
+        "captionBottom": 233.484375,
+        "coverTop": 245.484375
+      },
+      {
+        "i": 2,
+        "captionVisible": true,
+        "captionInBounds": true,
+        "captionAboveCover": true,
+        "overflow": false,
+        "captionBottom": 233.484375,
+        "coverTop": 245.484375
+      },
+      {
+        "i": 3,
+        "captionVisible": true,
+        "captionInBounds": true,
+        "captionAboveCover": true,
+        "overflow": false,
+        "captionBottom": 233.484375,
+        "coverTop": 245.484375
+      },
+      {
+        "i": 4,
+        "captionVisible": true,
+        "captionInBounds": true,
+        "captionAboveCover": true,
+        "overflow": false,
+        "captionBottom": 233.484375,
+        "coverTop": 245.484375
+      },
+      {
+        "i": 5,
+        "captionVisible": true,
+        "captionInBounds": true,
+        "captionAboveCover": true,
+        "overflow": false,
+        "captionBottom": 233.484375,
+        "coverTop": 245.484375
+      }
+    ],
+    "errors": []
+  },
+  {
+    "lang": "en/",
+    "width": 390,
+    "states": [
+      {
+        "i": 0,
+        "captionVisible": true,
+        "captionInBounds": true,
+        "captionAboveCover": true,
+        "overflow": false,
+        "captionBottom": 210.984375,
+        "coverTop": 222.984375
+      },
+      {
+        "i": 1,
+        "captionVisible": true,
+        "captionInBounds": true,
+        "captionAboveCover": true,
+        "overflow": false,
+        "captionBottom": 210.984375,
+        "coverTop": 222.984375
+      },
+      {
+        "i": 2,
+        "captionVisible": true,
+        "captionInBounds": true,
+        "captionAboveCover": true,
+        "overflow": false,
+        "captionBottom": 210.984375,
+        "coverTop": 222.984375
+      },
+      {
+        "i": 3,
+        "captionVisible": true,
+        "captionInBounds": true,
+        "captionAboveCover": true,
+        "overflow": false,
+        "captionBottom": 210.984375,
+        "coverTop": 222.984375
+      },
+      {
+        "i": 4,
+        "captionVisible": true,
+        "captionInBounds": true,
+        "captionAboveCover": true,
+        "overflow": false,
+        "captionBottom": 210.984375,
+        "coverTop": 222.984375
+      },
+      {
+        "i": 5,
+        "captionVisible": true,
+        "captionInBounds": true,
+        "captionAboveCover": true,
+        "overflow": false,
+        "captionBottom": 210.984375,
+        "coverTop": 222.984375
+      }
+    ],
+    "errors": []
+  },
+  {
+    "lang": "en/",
+    "width": 1440,
+    "states": [
+      {
+        "i": 0,
+        "captionVisible": true,
+        "captionInBounds": true,
+        "captionAboveCover": true,
+        "overflow": false,
+        "captionBottom": 214.40625,
+        "coverTop": 226.40625
+      },
+      {
+        "i": 1,
+        "captionVisible": true,
+        "captionInBounds": true,
+        "captionAboveCover": true,
+        "overflow": false,
+        "captionBottom": 214.40625,
+        "coverTop": 226.40625
+      },
+      {
+        "i": 2,
+        "captionVisible": true,
+        "captionInBounds": true,
+        "captionAboveCover": true,
+        "overflow": false,
+        "captionBottom": 214.40625,
+        "coverTop": 226.40625
+      },
+      {
+        "i": 3,
+        "captionVisible": true,
+        "captionInBounds": true,
+        "captionAboveCover": true,
+        "overflow": false,
+        "captionBottom": 214.40625,
+        "coverTop": 226.40625
+      },
+      {
+        "i": 4,
+        "captionVisible": true,
+        "captionInBounds": true,
+        "captionAboveCover": true,
+        "overflow": false,
+        "captionBottom": 214.40625,
+        "coverTop": 226.40625
+      },
+      {
+        "i": 5,
+        "captionVisible": true,
+        "captionInBounds": true,
+        "captionAboveCover": true,
+        "overflow": false,
+        "captionBottom": 214.40625,
+        "coverTop": 226.40625
+      }
+    ],
+    "errors": []
+  },
+  {
+    "lang": "zh/",
+    "width": 320,
+    "states": [
+      {
+        "i": 0,
+        "captionVisible": true,
+        "captionInBounds": true,
+        "captionAboveCover": true,
+        "overflow": false,
+        "captionBottom": 210.484375,
+        "coverTop": 222.484375
+      },
+      {
+        "i": 1,
+        "captionVisible": true,
+        "captionInBounds": true,
+        "captionAboveCover": true,
+        "overflow": false,
+        "captionBottom": 210.484375,
+        "coverTop": 222.484375
+      },
+      {
+        "i": 2,
+        "captionVisible": true,
+        "captionInBounds": true,
+        "captionAboveCover": true,
+        "overflow": false,
+        "captionBottom": 210.484375,
+        "coverTop": 222.484375
+      },
+      {
+        "i": 3,
+        "captionVisible": true,
+        "captionInBounds": true,
+        "captionAboveCover": true,
+        "overflow": false,
+        "captionBottom": 210.484375,
+        "coverTop": 222.484375
+      },
+      {
+        "i": 4,
+        "captionVisible": true,
+        "captionInBounds": true,
+        "captionAboveCover": true,
+        "overflow": false,
+        "captionBottom": 210.484375,
+        "coverTop": 222.484375
+      },
+      {
+        "i": 5,
+        "captionVisible": true,
+        "captionInBounds": true,
+        "captionAboveCover": true,
+        "overflow": false,
+        "captionBottom": 210.484375,
+        "coverTop": 222.484375
+      }
+    ],
+    "errors": []
+  },
+  {
+    "lang": "zh/",
+    "width": 390,
+    "states": [
+      {
+        "i": 0,
+        "captionVisible": true,
+        "captionInBounds": true,
+        "captionAboveCover": true,
+        "overflow": false,
+        "captionBottom": 210.484375,
+        "coverTop": 222.484375
+      },
+      {
+        "i": 1,
+        "captionVisible": true,
+        "captionInBounds": true,
+        "captionAboveCover": true,
+        "overflow": false,
+        "captionBottom": 210.484375,
+        "coverTop": 222.484375
+      },
+      {
+        "i": 2,
+        "captionVisible": true,
+        "captionInBounds": true,
+        "captionAboveCover": true,
+        "overflow": false,
+        "captionBottom": 210.484375,
+        "coverTop": 222.484375
+      },
+      {
+        "i": 3,
+        "captionVisible": true,
+        "captionInBounds": true,
+        "captionAboveCover": true,
+        "overflow": false,
+        "captionBottom": 210.484375,
+        "coverTop": 222.484375
+      },
+      {
+        "i": 4,
+        "captionVisible": true,
+        "captionInBounds": true,
+        "captionAboveCover": true,
+        "overflow": false,
+        "captionBottom": 210.484375,
+        "coverTop": 222.484375
+      },
+      {
+        "i": 5,
+        "captionVisible": true,
+        "captionInBounds": true,
+        "captionAboveCover": true,
+        "overflow": false,
+        "captionBottom": 210.484375,
+        "coverTop": 222.484375
+      }
+    ],
+    "errors": []
+  },
+  {
+    "lang": "zh/",
+    "width": 1440,
+    "states": [
+      {
+        "i": 0,
+        "captionVisible": true,
+        "captionInBounds": true,
+        "captionAboveCover": true,
+        "overflow": false,
+        "captionBottom": 214.40625,
+        "coverTop": 226.40625
+      },
+      {
+        "i": 1,
+        "captionVisible": true,
+        "captionInBounds": true,
+        "captionAboveCover": true,
+        "overflow": false,
+        "captionBottom": 214.40625,
+        "coverTop": 226.40625
+      },
+      {
+        "i": 2,
+        "captionVisible": true,
+        "captionInBounds": true,
+        "captionAboveCover": true,
+        "overflow": false,
+        "captionBottom": 214.40625,
+        "coverTop": 226.40625
+      },
+      {
+        "i": 3,
+        "captionVisible": true,
+        "captionInBounds": true,
+        "captionAboveCover": true,
+        "overflow": false,
+        "captionBottom": 214.40625,
+        "coverTop": 226.40625
+      },
+      {
+        "i": 4,
+        "captionVisible": true,
+        "captionInBounds": true,
+        "captionAboveCover": true,
+        "overflow": false,
+        "captionBottom": 214.40625,
+        "coverTop": 226.40625
+      },
+      {
+        "i": 5,
+        "captionVisible": true,
+        "captionInBounds": true,
+        "captionAboveCover": true,
+        "overflow": false,
+        "captionBottom": 214.40625,
+        "coverTop": 226.40625
+      }
+    ],
+    "errors": []
+  }
+]

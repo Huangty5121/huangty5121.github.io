@@ -1,0 +1,29 @@
+[
+  {
+    "width": 320,
+    "headingToCaption": 11.703125,
+    "captionToCover": 12,
+    "shelfToDivider": 36,
+    "roomHeight": 267.09375,
+    "overflow": false,
+    "errors": []
+  },
+  {
+    "width": 390,
+    "headingToCaption": 11.703125,
+    "captionToCover": 12,
+    "shelfToDivider": 36,
+    "roomHeight": 267.09375,
+    "overflow": false,
+    "errors": []
+  },
+  {
+    "width": 1440,
+    "headingToCaption": 11.703125,
+    "captionToCover": 12,
+    "shelfToDivider": 44,
+    "roomHeight": 281.09375,
+    "overflow": false,
+    "errors": []
+  }
+]

@@ -45,11 +45,51 @@ let viewAbort,selectCurrentOrg,focusOrg,closeCity,updateMapPanel;
 function revealHash({scroll=true}={}){const id=decodeURIComponent(location.hash.slice(1));if(!id)return;if(id==='contact'){contactPanel.showPopover();return;}if(id.startsWith('org-')){selectCurrentOrg?.(id.slice(4),false);focusOrg?.(id.slice(4));if(scroll)(matchMedia('(max-width:600px)').matches?document.querySelector('#organisation-context'):document.querySelector('.background-board'))?.scrollIntoView({block:'start',behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});return;}const target=document.getElementById(id);if(!target)return;if(target.matches('[data-background-item]'))selectCurrentOrg?.(target.dataset.organisations.split(' ')[0],false);for(let parent=target.parentElement;parent;parent=parent.parentElement)if(parent instanceof HTMLDetailsElement)parent.open=true;if(target instanceof HTMLDetailsElement)target.open=true;if(scroll)target.scrollIntoView({block:'start',behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});}
 function initialiseView({scrollToHash=true}={}){
  viewAbort?.abort();viewAbort=new AbortController();const options={signal:viewAbort.signal};const main=document.querySelector('main');paintIcons(main);
- const albumDetail=main.querySelector('[data-album-detail]');
- if(albumDetail)for(const sleeve of main.querySelectorAll('[data-album-caption]'))for(const event of ['pointerenter','focus'])sleeve.addEventListener(event,()=>{albumDetail.textContent=sleeve.dataset.albumCaption;if(event==='focus')requestAnimationFrame(()=>sleeve.scrollIntoView({block:'nearest',inline:'nearest',behavior:'instant'}));},options);
+ const shelf=main.querySelector('.shelf-stage');
+ if(shelf){
+  const scroller=shelf.querySelector('.shelf-scroll'),caption=shelf.querySelector('.shelf-caption');
+  const sleeves=[...shelf.querySelectorAll('.album-sleeve')];let selected=sleeves[0],frame;
+  const positionCaption=()=>{
+   const base=shelf.getBoundingClientRect(),cover=selected.getBoundingClientRect();
+   const center=cover.left+cover.width/2-base.left;
+   const left=Math.max(0,Math.min(center-caption.offsetWidth/2,base.width-caption.offsetWidth));
+   caption.style.left=left+'px';
+   caption.style.setProperty('--caption-pointer',Math.max(10,Math.min(center-left,caption.offsetWidth-10))+'px');
+   caption.hidden=cover.right<=base.left||cover.left>=base.right;
+  };
+  const followMotion=()=>{cancelAnimationFrame(frame);const until=performance.now()+300;const step=()=>{positionCaption();if(performance.now()<until)frame=requestAnimationFrame(step);};frame=requestAnimationFrame(step);};
+  const selectSleeve=sleeve=>{
+   selected=sleeve;for(const item of sleeves){item.classList.toggle('is-selected',item===sleeve);item.setAttribute('aria-pressed',String(item===sleeve));}
+   caption.querySelector('[data-album-title]').textContent=sleeve.dataset.albumTitle;
+   caption.querySelector('[data-album-artist]').textContent=sleeve.dataset.albumArtist;
+   const track=caption.querySelector('[data-album-track]');track.textContent=sleeve.dataset.albumTrack;track.hidden=!track.textContent;
+   const source=caption.querySelector('[data-album-source]');source.href=sleeve.dataset.albumUrl;source.setAttribute('aria-label',sleeve.dataset.albumTitle+' · Apple Music');
+   followMotion();
+  };
+  // Expanding sleeves move beneath a stationary pointer. Select on actual
+  // pointer movement, so the animation cannot silently choose a neighbour.
+  let pointerX,pointerY;
+  scroller.addEventListener('pointermove',e=>{
+   if(e.pointerType!=='mouse'||e.clientX===pointerX&&e.clientY===pointerY)return;
+   pointerX=e.clientX;pointerY=e.clientY;
+   const sleeve=e.target.closest('.album-sleeve');if(sleeve&&sleeve!==selected)selectSleeve(sleeve);
+  },options);
+  for(const sleeve of sleeves){
+   sleeve.addEventListener('click',()=>selectSleeve(sleeve),options);
+   sleeve.addEventListener('focus',()=>{selectSleeve(sleeve);requestAnimationFrame(()=>{sleeve.scrollIntoView({block:'nearest',inline:'nearest',behavior:'instant'});followMotion();});},options);
+   sleeve.addEventListener('keydown',e=>{let i=sleeves.indexOf(sleeve);if(e.key==='ArrowRight')i=(i+1)%sleeves.length;else if(e.key==='ArrowLeft')i=(i+sleeves.length-1)%sleeves.length;else if(e.key==='Home')i=0;else if(e.key==='End')i=sleeves.length-1;else return;e.preventDefault();sleeves[i].focus();},options);
+  }
+  scroller.addEventListener('scroll',positionCaption,{...options,passive:true});
+  scroller.addEventListener('pointerenter',followMotion,options);
+  scroller.addEventListener('pointerleave',()=>{pointerX=pointerY=undefined;followMotion();},options);
+  scroller.addEventListener('focusout',followMotion,options);
+  const resize=new ResizeObserver(positionCaption);resize.observe(shelf);resize.observe(caption);
+  viewAbort.signal.addEventListener('abort',()=>{resize.disconnect();cancelAnimationFrame(frame);},{once:true});
+  positionCaption();
+ }
  const toolTabs=[...main.querySelectorAll('[data-tool-tab]')];
- const chooseTool=tab=>{for(const item of toolTabs){const selected=item===tab;item.setAttribute('aria-selected',String(selected));item.tabIndex=selected?0:-1;main.querySelector('#'+item.getAttribute('aria-controls')).hidden=!selected;}};
- toolTabs.forEach((tab,i)=>{tab.addEventListener('click',()=>chooseTool(tab),options);tab.addEventListener('keydown',e=>{let n;if(e.key==='ArrowRight')n=(i+1)%toolTabs.length;else if(e.key==='ArrowLeft')n=(i+toolTabs.length-1)%toolTabs.length;else if(e.key==='Home')n=0;else if(e.key==='End')n=toolTabs.length-1;else return;e.preventDefault();chooseTool(toolTabs[n]);toolTabs[n].focus();},options);});
+ const chooseTool=tab=>{const file=main.querySelector('[data-active-file]');if(file)file.textContent=tab.dataset.filename;for(const item of toolTabs){const selected=item===tab;item.setAttribute('aria-selected',String(selected));item.tabIndex=selected?0:-1;main.querySelector('#'+item.getAttribute('aria-controls')).hidden=!selected;}};
+ toolTabs.forEach((tab,i)=>{tab.addEventListener('click',()=>chooseTool(tab),options);tab.addEventListener('keydown',e=>{let n;if(e.key==='ArrowRight'||e.key==='ArrowDown')n=(i+1)%toolTabs.length;else if(e.key==='ArrowLeft'||e.key==='ArrowUp')n=(i+toolTabs.length-1)%toolTabs.length;else if(e.key==='Home')n=0;else if(e.key==='End')n=toolTabs.length-1;else return;e.preventDefault();chooseTool(toolTabs[n]);toolTabs[n].focus();},options);});
  const workTabs=[...main.querySelectorAll('[data-work-tab]')];
  if(workTabs.length){
   const selectWork=kind=>{for(const tab of workTabs)tab.setAttribute('aria-pressed',String(tab.dataset.workTab===kind));for(const panel of main.querySelectorAll('[data-work-panel]'))panel.hidden=panel.dataset.workPanel!==kind;};

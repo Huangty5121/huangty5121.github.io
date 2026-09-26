@@ -1,0 +1,13 @@
+[
+  "Region panel and canonical PolyU grouping",
+  "Three PolyU pins open shared PolyU / CPCE records",
+  "Yau Tsim Mong pin opens the government record",
+  "Normal wheel over the map scrolls the page without zooming",
+  "Ctrl+wheel pinch event reaches Leaflet zoom (simulated event)",
+  "Workbench keyboard tab selection",
+  "All six sleeves update the shared caption with keyboard focus",
+  "Text size, theme and locale links survive soft navigation",
+  "Menu closes with Escape and restores focus",
+  "Contact popover opens and closes",
+  "Footer returns to the top"
+]

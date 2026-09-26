@@ -374,3 +374,57 @@ Rewrote the three paired-language paragraphs to preserve contradiction, values a
 **改动**：`site.mjs` 保留 `scrollWheelZoom:true`（触控板捏合在 Chromium 里以 ctrl+wheel 到达 Leaflet），并在地图容器的父层用捕获阶段监听把**非 ctrl** 的 wheel 事件 stopPropagation（passive、不 preventDefault）——普通滚轮/双指滚动不再触发缩放，页面照常滚动；ctrl+wheel（捏合）放行给 Leaflet。右下角 +/- 按钮与触屏双指缩放不变。
 
 **验证**：build/check 通过；浏览器实测：地图上派发普通 wheel ×8，瓦片层级不变；派发 ctrl+wheel ×8，层级 11→13（放大）。
+
+## 2026-09-26 — 全站分区节奏统一（padding/间隔审计）
+
+**用户反馈**：① Work 页「研讨会与预印本」分组位置排版不好；② About 三个区域（工作台/唱片角/记录区）padding 与间隔不统一、细节割裂；③ 其他页面也要查同类小细节。
+
+**审计方法**：浏览器脚本遍历各页所有可见 border-top 元素，量每条分隔线上方间隙（上一内容底→线）与下方间隙（线→首内容顶），另量各分区容器 padding-block、分组标题间距、事实行垂直对齐、各标题左缘 x。
+
+**发现**：About 五套节奏并存——tool-section 64/40、music-room 38/26、records-intro 上 40/下 4、background-board 25、background-records 29/52 且无分隔线；records-intro 文字与 board 的分隔线只隔 4px（双线贴字的“割裂”细节）；Work 页两个分组之间间距为 **0**（组标题直接贴上一组末条底边）；About 顶部导航有 20px 内缩与全页 160px 左缘错位；首页/Notes/News 的卡片级分隔一致，无页面级问题；Work 事实行（类型/年份/徽章/箭头）实测全部垂直居中，无问题。
+
+**统一标准**（追加到 site.css 尾部注释块）：所有分区分隔线 = 线上 64px / 线下 40px（以 tool-section 为基准）；分组间距 48px（介于条目 8px 与分区 64px 之间）；页尾留白统一 64px（news/collection/notes 原 80/38/45）；移除 background-board 顶线（intro 直接过渡到地图区头）；background-records 补上分隔线（原与上方 0 间距直接贴住）；About 导航去 20px 内缩；about-personal 顶 48→40。
+
+**验证**：build/check 通过（126 页、0 failures）；复测 About 三条分隔线均为 64/41（含 1px 边框）、Work 分组间距 48；截图确认工作台/音乐角/记录区/分组边界四处视觉统一。
+
+## 2026-09-26 — 全站间距令牌化（--sp-* 刻度）
+
+**用户反馈**：上次只统一了分区节奏还不够，整站间距大量不统一不规范、细节凌乱；要求按设计逻辑建立体系（与页面/文字尺寸搭配），改完全站视觉核对。
+
+**设计依据**：业界共识（4pt/8pt 网格 + 有限刻度，参见 kaarwan.com 排版网格指南与 uxdesign.cc 布局网格指南）。与字号体系的关系：**字号用 rem 令牌随 Aa 开关缩放，间距用 px 令牌保持固定网格**——文字放大时版式骨架不动，这是主流做法（如 iOS Dynamic Type 只缩文字不缩布局度量）。
+
+**体系**：`--sp-2/4/6/8/10/12/16/20/24/32/40/48/56/64/80` 十五档（56 为页边距结构常量，1-2px 微调保留原值）。**629 处散值 → 全部吸附**：34 种迁移（18→16×27、5→4×22、13→12×21、25→24×21、7→6×20、14→12×18、22→20×17、9→8×16、30→32×15、28→24×13……）+ 229 处已在刻度上的值改写为 var() 引用；残留裸值仅 1px 微调、负 margin（刻意叠压）与 6 个结构预留（工作台侧栏 115/150/235、剪贴画 140、文章页尾 100/110）。scroll-padding、含 calc/var/百分比的声明不动。
+
+**验证**：build/check 通过（126 页、0 failures）、括号平衡、类名覆盖审计不变；浏览器视觉核对 1440px：About 顶部（导航 20px 内缩已消）/工作台/音乐角/记录区/地图/荣誉区、Work 分组边界、首页选中区、阅读页、文章页均节奏一致无破版；390px 窄屏 About 正常；Aa 开关切换字号 13↔15px 时 padding 骨架保持 16/40 不变。
+
+
+## 2026-09-26 — GLM audit and shared text contract
+
+Preserved the latest About template and personal data. Audited the referenced GLM session and local rendered output. Full findings and the unpublished About editorial analysis: [review/unification-2026-09-26/REPORT.md](review/unification-2026-09-26/REPORT.md).
+
+- Fixed mixed spacing shorthand tokens and introduced section/page-end roles without changing About's measured section geometry.
+- Corrected oversized case headings, unified ordinary detail-page titles and publication venue metadata, restored map font shorthands to shared roles, and aligned News title weight with Work.
+- Checked actual text beyond headings: paragraphs, summaries, dates, sources, captions, controls and status. Added source checks for font shorthands, paired content and the generated heading outline.
+- Browser matrix: 17 routes × three locales × 320/1440px = 102 cases, each at normal and large text. No document overflow, visible ordinary-text scale mismatch or page script exception in the final run. Identity artwork and map zoom glyphs are explicit exceptions. This covers initial page states; expanded controls are separately sampled in the interaction check.
+- Eleven interaction checks passed, including map drill-down, canonical institution grouping, wheel behavior, simulated pinch, workbench, six sleeve captions, persistent preferences, menu focus, contact and back-to-top.
+- Build/check: 126 generated pages, 1482 local references, three byte-identical PDFs, zero failures. No deployment.
+- Supersedes broad earlier wording that token replacement alone established consistency. About wording and repeated records headings remain an analysis item at the owner's request. No re-geocoding or external factual recertification was performed.
+
+
+## 2026-09-26 — Layout spacing follow-up
+
+Owner's mid-page screenshot clarified that the requested unification includes block spacing and composition, not just typography. Replaced 64/40px divider spacing with 40/24px desktop and 32/20px narrow spacing, capped editorial column gaps at 48px, removed parent/sibling spacing duplication, and moved the mobile workbench doodle beside its heading. Home note inset/page-end and closed-map extra spacing were corrected. Removed the late normalization block and updated component owners. About copy is unchanged. The earlier geometry-preservation observation is superseded by this authorized spacing change. See [measurements and screenshots](review/layout-spacing-2026-09-26/REPORT.md).
+
+## 2026-09-26 — Music caption and vertical rhythm
+
+Moved release metadata above its selected cover, retained the spreading shelf, separated touch selection from the external music link, and removed the bottom caption's space. Caption-to-cover gap is 12px; shelf-to-next-divider is 36px mobile / 44px desktop. Fixed hover selection being changed by moving neighbours during the animation. Added the project-local listening-notes skill with collection counts and sourced working analysis. See [music checks and screenshots](review/music-caption-2026-09-26/REPORT.md); this supersedes earlier below-shelf caption/direct-cover-link descriptions.
+
+## 2026-09-26 — Collection note and actual skills
+
+Removed the selected 回留 track line, retaining The Dreamer. Added live-from-data collection counts alongside the chair and shelf, with a compact stacked layout on phones. Workbench categories now list concrete tools/methods and their documented uses instead of project-summary paragraphs. See [24-case checks and screenshots](review/music-skills-2026-09-26/REPORT.md). Personal prose and imagery remain pending conversation-based understanding and owner confirmation.
+
+## 2026-09-26 — Attributed portrait in the workspace
+
+Added the owner-requested GPT-6 Astra impression as the default IDE file, with three factual skill files in the same window. Retained the explicitly requested drinking glass in a wide transparent river scene. Owner first-person prose remains pending review; candidate supplied separately. Browser verification covered 24 cases and 96 file states with no errors or horizontal overflow; build checked 126 pages and 1479 references. See [report and screenshots](review/astra-portrait-2026-09-26/REPORT.md).
+
+Follow-up: owner requested applying the self-description revision. All four first-person paragraphs now updated in Chinese/English, with Traditional Chinese regenerated. Desktop/mobile screenshots inspected; build and static checks passed. Earlier pending-review status is superseded.

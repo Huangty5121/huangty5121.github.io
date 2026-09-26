@@ -1,0 +1,4 @@
+interface:
+  display_name: "Listening notes"
+  short_description: "Music shelf, sourced style analysis and listening notes"
+  default_prompt: "Use $listening-notes to update my music shelf, summarize the collection, and shape the listening feelings I provide."

@@ -1,0 +1,830 @@
+[
+  {
+    "width": 390,
+    "route": "about",
+    "boxes": {
+      ".page-heading": {
+        "top": 65,
+        "bottom": 175.546875,
+        "height": 110.546875,
+        "paddingTop": "32px",
+        "paddingBottom": "20px",
+        "marginTop": "0px",
+        "marginBottom": "0px",
+        "gap": "normal",
+        "x": 20,
+        "w": 350
+      },
+      ".about-sections": {
+        "top": 175.546875,
+        "bottom": 253.609375,
+        "height": 78.0625,
+        "paddingTop": "0px",
+        "paddingBottom": "20px",
+        "marginTop": "0px",
+        "marginBottom": "0px",
+        "gap": "10px 24px",
+        "x": 20,
+        "w": 350
+      },
+      ".personal-note": {
+        "top": 273.609375,
+        "bottom": 1191.609375,
+        "height": 918,
+        "paddingTop": "0px",
+        "paddingBottom": "0px",
+        "marginTop": "0px",
+        "marginBottom": "0px",
+        "gap": "20px",
+        "x": 20,
+        "w": 350
+      },
+      ".personal-prose": {
+        "top": 385.609375,
+        "bottom": 1191.609375,
+        "height": 806,
+        "paddingTop": "0px",
+        "paddingBottom": "0px",
+        "marginTop": "0px",
+        "marginBottom": "0px",
+        "gap": "normal",
+        "x": 20,
+        "w": 350
+      },
+      ".tool-section": {
+        "top": 1223.609375,
+        "bottom": 1738.984375,
+        "height": 515.375,
+        "paddingTop": "20px",
+        "paddingBottom": "0px",
+        "marginTop": "32px",
+        "marginBottom": "0px",
+        "gap": "20px",
+        "x": 20,
+        "w": 350
+      },
+      ".desk-window": {
+        "top": 1360.65625,
+        "bottom": 1738.984375,
+        "height": 378.328125,
+        "paddingTop": "0px",
+        "paddingBottom": "0px",
+        "marginTop": "0px",
+        "marginBottom": "0px",
+        "gap": "normal",
+        "x": 20,
+        "w": 350
+      },
+      ".music-room": {
+        "top": 1770.984375,
+        "bottom": 2028.046875,
+        "height": 257.0625,
+        "paddingTop": "20px",
+        "paddingBottom": "0px",
+        "marginTop": "32px",
+        "marginBottom": "0px",
+        "gap": "normal",
+        "x": 20,
+        "w": 350
+      },
+      ".music-room-heading": {
+        "top": 1791.984375,
+        "bottom": 1845.984375,
+        "height": 54,
+        "paddingTop": "0px",
+        "paddingBottom": "0px",
+        "marginTop": "0px",
+        "marginBottom": "0px",
+        "gap": "16px",
+        "x": 20,
+        "w": 350
+      },
+      ".shelf-note": {
+        "top": 1980.984375,
+        "bottom": 2028.046875,
+        "height": 47.0625,
+        "paddingTop": "0px",
+        "paddingBottom": "0px",
+        "marginTop": "10px",
+        "marginBottom": "0px",
+        "gap": "normal",
+        "x": 20,
+        "w": 350
+      },
+      ".records-intro": {
+        "top": 2060.046875,
+        "bottom": 2224.53125,
+        "height": 164.484375,
+        "paddingTop": "20px",
+        "paddingBottom": "20px",
+        "marginTop": "32px",
+        "marginBottom": "0px",
+        "gap": "normal",
+        "x": 20,
+        "w": 350
+      },
+      ".background-board": {
+        "top": 2224.53125,
+        "bottom": 2781.53125,
+        "height": 557,
+        "paddingTop": "0px",
+        "paddingBottom": "4px",
+        "marginTop": "0px",
+        "marginBottom": "0px",
+        "gap": "normal",
+        "x": 20,
+        "w": 350
+      },
+      ".background-board .section-heading": {
+        "top": 2224.53125,
+        "bottom": 2277.53125,
+        "height": 53,
+        "paddingTop": "0px",
+        "paddingBottom": "0px",
+        "marginTop": "0px",
+        "marginBottom": "20px",
+        "gap": "12px",
+        "x": 20,
+        "w": 350
+      },
+      ".city-atlas": {
+        "top": 2297.53125,
+        "bottom": 2777.53125,
+        "height": 480,
+        "paddingTop": "0px",
+        "paddingBottom": "0px",
+        "marginTop": "0px",
+        "marginBottom": "0px",
+        "gap": "normal",
+        "x": 20,
+        "w": 350
+      },
+      ".background-records": {
+        "top": 2813.53125,
+        "bottom": 4023.484375,
+        "height": 1209.953125,
+        "paddingTop": "20px",
+        "paddingBottom": "32px",
+        "marginTop": "32px",
+        "marginBottom": "0px",
+        "gap": "normal",
+        "x": 20,
+        "w": 350
+      },
+      ".background-records .section-heading": {
+        "top": 2834.53125,
+        "bottom": 2887.53125,
+        "height": 53,
+        "paddingTop": "0px",
+        "paddingBottom": "0px",
+        "marginTop": "0px",
+        "marginBottom": "20px",
+        "gap": "12px",
+        "x": 20,
+        "w": 350
+      },
+      ".records-ledger": {
+        "top": 2907.53125,
+        "bottom": 3991.484375,
+        "height": 1083.953125,
+        "paddingTop": "0px",
+        "paddingBottom": "0px",
+        "marginTop": "0px",
+        "marginBottom": "0px",
+        "gap": "normal",
+        "x": 20,
+        "w": 350
+      },
+      ".site-footer": {
+        "top": 4023.484375,
+        "bottom": 4156.484375,
+        "height": 133,
+        "paddingTop": "16px",
+        "paddingBottom": "80px",
+        "marginTop": "0px",
+        "marginBottom": "0px",
+        "gap": "normal",
+        "x": 0,
+        "w": 390
+      }
+    },
+    "overflow": false
+  },
+  {
+    "width": 390,
+    "route": "index",
+    "boxes": {
+      ".home-selection": {
+        "top": 807,
+        "bottom": 1161.6875,
+        "height": 354.6875,
+        "paddingTop": "20px",
+        "paddingBottom": "32px",
+        "marginTop": "0px",
+        "marginBottom": "0px",
+        "gap": "normal",
+        "x": 20,
+        "w": 350
+      },
+      ".home-notes": {
+        "top": 1161.6875,
+        "bottom": 1303.25,
+        "height": 141.5625,
+        "paddingTop": "20px",
+        "paddingBottom": "32px",
+        "marginTop": "0px",
+        "marginBottom": "0px",
+        "gap": "12px 20px",
+        "x": 20,
+        "w": 350
+      },
+      ".site-footer": {
+        "top": 1303.25,
+        "bottom": 1436.25,
+        "height": 133,
+        "paddingTop": "16px",
+        "paddingBottom": "80px",
+        "marginTop": "0px",
+        "marginBottom": "0px",
+        "gap": "normal",
+        "x": 0,
+        "w": 390
+      }
+    },
+    "overflow": false
+  },
+  {
+    "width": 390,
+    "route": "collection",
+    "boxes": {
+      ".page-heading": {
+        "top": 65,
+        "bottom": 175.546875,
+        "height": 110.546875,
+        "paddingTop": "32px",
+        "paddingBottom": "20px",
+        "marginTop": "0px",
+        "marginBottom": "0px",
+        "gap": "normal",
+        "x": 20,
+        "w": 350
+      },
+      ".collection": {
+        "top": 175.546875,
+        "bottom": 2166.140625,
+        "height": 1990.59375,
+        "paddingTop": "0px",
+        "paddingBottom": "32px",
+        "marginTop": "0px",
+        "marginBottom": "0px",
+        "gap": "normal",
+        "x": 20,
+        "w": 350
+      },
+      ".site-footer": {
+        "top": 2166.140625,
+        "bottom": 2299.140625,
+        "height": 133,
+        "paddingTop": "16px",
+        "paddingBottom": "80px",
+        "marginTop": "0px",
+        "marginBottom": "0px",
+        "gap": "normal",
+        "x": 0,
+        "w": 390
+      }
+    },
+    "overflow": false
+  },
+  {
+    "width": 390,
+    "route": "news",
+    "boxes": {
+      ".page-heading": {
+        "top": 65,
+        "bottom": 175.546875,
+        "height": 110.546875,
+        "paddingTop": "32px",
+        "paddingBottom": "20px",
+        "marginTop": "0px",
+        "marginBottom": "0px",
+        "gap": "normal",
+        "x": 20,
+        "w": 350
+      },
+      ".news-grid": {
+        "top": 175.546875,
+        "bottom": 1908,
+        "height": 1732.453125,
+        "paddingTop": "0px",
+        "paddingBottom": "32px",
+        "marginTop": "0px",
+        "marginBottom": "0px",
+        "gap": "24px",
+        "x": 20,
+        "w": 350
+      },
+      ".site-footer": {
+        "top": 1916,
+        "bottom": 2049,
+        "height": 133,
+        "paddingTop": "16px",
+        "paddingBottom": "80px",
+        "marginTop": "0px",
+        "marginBottom": "0px",
+        "gap": "normal",
+        "x": 0,
+        "w": 390
+      }
+    },
+    "overflow": false
+  },
+  {
+    "width": 390,
+    "route": "notes",
+    "boxes": {
+      ".page-heading": {
+        "top": 65,
+        "bottom": 175.546875,
+        "height": 110.546875,
+        "paddingTop": "32px",
+        "paddingBottom": "20px",
+        "marginTop": "0px",
+        "marginBottom": "0px",
+        "gap": "normal",
+        "x": 20,
+        "w": 350
+      },
+      ".notes-index": {
+        "top": 175.546875,
+        "bottom": 697.453125,
+        "height": 521.90625,
+        "paddingTop": "0px",
+        "paddingBottom": "32px",
+        "marginTop": "0px",
+        "marginBottom": "0px",
+        "gap": "normal",
+        "x": 20,
+        "w": 350
+      },
+      ".site-footer": {
+        "top": 817,
+        "bottom": 950,
+        "height": 133,
+        "paddingTop": "16px",
+        "paddingBottom": "80px",
+        "marginTop": "0px",
+        "marginBottom": "0px",
+        "gap": "normal",
+        "x": 0,
+        "w": 390
+      }
+    },
+    "overflow": false
+  },
+  {
+    "width": 390,
+    "route": "writing-modernization",
+    "boxes": {
+      ".blog-article": {
+        "top": 65,
+        "bottom": 2458.640625,
+        "height": 2393.640625,
+        "paddingTop": "0px",
+        "paddingBottom": "32px",
+        "marginTop": "0px",
+        "marginBottom": "0px",
+        "gap": "normal",
+        "x": 20,
+        "w": 350
+      },
+      ".site-footer": {
+        "top": 2458.640625,
+        "bottom": 2591.640625,
+        "height": 133,
+        "paddingTop": "16px",
+        "paddingBottom": "80px",
+        "marginTop": "0px",
+        "marginBottom": "0px",
+        "gap": "normal",
+        "x": 0,
+        "w": 390
+      }
+    },
+    "overflow": false
+  },
+  {
+    "width": 1440,
+    "route": "about",
+    "boxes": {
+      ".page-heading": {
+        "top": 80,
+        "bottom": 202.546875,
+        "height": 122.546875,
+        "paddingTop": "40px",
+        "paddingBottom": "24px",
+        "marginTop": "0px",
+        "marginBottom": "0px",
+        "gap": "normal",
+        "x": 160,
+        "w": 1120
+      },
+      ".about-sections": {
+        "top": 202.546875,
+        "bottom": 247.078125,
+        "height": 44.53125,
+        "paddingTop": "0px",
+        "paddingBottom": "20px",
+        "marginTop": "0px",
+        "marginBottom": "0px",
+        "gap": "10px 24px",
+        "x": 160,
+        "w": 1120
+      },
+      ".personal-note": {
+        "top": 271.078125,
+        "bottom": 807.078125,
+        "height": 536,
+        "paddingTop": "0px",
+        "paddingBottom": "0px",
+        "marginTop": "0px",
+        "marginBottom": "0px",
+        "gap": "48px",
+        "x": 160,
+        "w": 1120
+      },
+      ".personal-prose": {
+        "top": 271.078125,
+        "bottom": 807.078125,
+        "height": 536,
+        "paddingTop": "0px",
+        "paddingBottom": "0px",
+        "marginTop": "0px",
+        "marginBottom": "0px",
+        "gap": "normal",
+        "x": 620.296875,
+        "w": 636.109375
+      },
+      ".tool-section": {
+        "top": 847.078125,
+        "bottom": 1229.90625,
+        "height": 382.828125,
+        "paddingTop": "24px",
+        "paddingBottom": "0px",
+        "marginTop": "40px",
+        "marginBottom": "0px",
+        "gap": "48px",
+        "x": 160,
+        "w": 1120
+      },
+      ".desk-window": {
+        "top": 872.078125,
+        "bottom": 1229.90625,
+        "height": 357.828125,
+        "paddingTop": "0px",
+        "paddingBottom": "0px",
+        "marginTop": "0px",
+        "marginBottom": "0px",
+        "gap": "normal",
+        "x": 620.296875,
+        "w": 659.703125
+      },
+      ".music-room": {
+        "top": 1269.90625,
+        "bottom": 1540.96875,
+        "height": 271.0625,
+        "paddingTop": "24px",
+        "paddingBottom": "0px",
+        "marginTop": "40px",
+        "marginBottom": "0px",
+        "gap": "normal",
+        "x": 160,
+        "w": 1120
+      },
+      ".music-room-heading": {
+        "top": 1294.90625,
+        "bottom": 1348.90625,
+        "height": 54,
+        "paddingTop": "0px",
+        "paddingBottom": "0px",
+        "marginTop": "0px",
+        "marginBottom": "0px",
+        "gap": "16px",
+        "x": 160,
+        "w": 660
+      },
+      ".shelf-note": {
+        "top": 1493.90625,
+        "bottom": 1540.96875,
+        "height": 47.0625,
+        "paddingTop": "0px",
+        "paddingBottom": "0px",
+        "marginTop": "10px",
+        "marginBottom": "0px",
+        "gap": "normal",
+        "x": 160,
+        "w": 660
+      },
+      ".records-intro": {
+        "top": 1580.96875,
+        "bottom": 1727.953125,
+        "height": 146.984375,
+        "paddingTop": "24px",
+        "paddingBottom": "24px",
+        "marginTop": "40px",
+        "marginBottom": "0px",
+        "gap": "normal",
+        "x": 160,
+        "w": 1120
+      },
+      ".background-board": {
+        "top": 1727.953125,
+        "bottom": 2434.4375,
+        "height": 706.484375,
+        "paddingTop": "0px",
+        "paddingBottom": "4px",
+        "marginTop": "0px",
+        "marginBottom": "0px",
+        "gap": "normal",
+        "x": 160,
+        "w": 1120
+      },
+      ".background-board .section-heading": {
+        "top": 1727.953125,
+        "bottom": 1790.4375,
+        "height": 62.484375,
+        "paddingTop": "0px",
+        "paddingBottom": "0px",
+        "marginTop": "0px",
+        "marginBottom": "24px",
+        "gap": "20px",
+        "x": 160,
+        "w": 1120
+      },
+      ".city-atlas": {
+        "top": 1814.4375,
+        "bottom": 2430.4375,
+        "height": 616,
+        "paddingTop": "0px",
+        "paddingBottom": "0px",
+        "marginTop": "0px",
+        "marginBottom": "0px",
+        "gap": "normal",
+        "x": 160,
+        "w": 1120
+      },
+      ".background-records": {
+        "top": 2474.4375,
+        "bottom": 3137.375,
+        "height": 662.9375,
+        "paddingTop": "24px",
+        "paddingBottom": "40px",
+        "marginTop": "40px",
+        "marginBottom": "0px",
+        "gap": "normal",
+        "x": 160,
+        "w": 1120
+      },
+      ".background-records .section-heading": {
+        "top": 2499.4375,
+        "bottom": 2561.921875,
+        "height": 62.484375,
+        "paddingTop": "0px",
+        "paddingBottom": "0px",
+        "marginTop": "0px",
+        "marginBottom": "24px",
+        "gap": "20px",
+        "x": 160,
+        "w": 1120
+      },
+      ".records-ledger": {
+        "top": 2585.921875,
+        "bottom": 3097.375,
+        "height": 511.453125,
+        "paddingTop": "0px",
+        "paddingBottom": "0px",
+        "marginTop": "0px",
+        "marginBottom": "0px",
+        "gap": "normal",
+        "x": 160,
+        "w": 1120
+      },
+      ".site-footer": {
+        "top": 3137.375,
+        "bottom": 3274.375,
+        "height": 137,
+        "paddingTop": "20px",
+        "paddingBottom": "80px",
+        "marginTop": "0px",
+        "marginBottom": "0px",
+        "gap": "normal",
+        "x": 0,
+        "w": 1440
+      }
+    },
+    "overflow": false
+  },
+  {
+    "width": 1440,
+    "route": "index",
+    "boxes": {
+      ".home-selection": {
+        "top": 901,
+        "bottom": 1154,
+        "height": 253,
+        "paddingTop": "24px",
+        "paddingBottom": "40px",
+        "marginTop": "0px",
+        "marginBottom": "0px",
+        "gap": "normal",
+        "x": 160,
+        "w": 1120
+      },
+      ".home-notes": {
+        "top": 1154,
+        "bottom": 1274,
+        "height": 120,
+        "paddingTop": "24px",
+        "paddingBottom": "40px",
+        "marginTop": "0px",
+        "marginBottom": "0px",
+        "gap": "32px",
+        "x": 160,
+        "w": 1120
+      },
+      ".site-footer": {
+        "top": 1274,
+        "bottom": 1411,
+        "height": 137,
+        "paddingTop": "20px",
+        "paddingBottom": "80px",
+        "marginTop": "0px",
+        "marginBottom": "0px",
+        "gap": "normal",
+        "x": 0,
+        "w": 1440
+      }
+    },
+    "overflow": false
+  },
+  {
+    "width": 1440,
+    "route": "collection",
+    "boxes": {
+      ".page-heading": {
+        "top": 80,
+        "bottom": 202.546875,
+        "height": 122.546875,
+        "paddingTop": "40px",
+        "paddingBottom": "24px",
+        "marginTop": "0px",
+        "marginBottom": "0px",
+        "gap": "normal",
+        "x": 160,
+        "w": 1120
+      },
+      ".collection": {
+        "top": 202.546875,
+        "bottom": 1319.75,
+        "height": 1117.203125,
+        "paddingTop": "0px",
+        "paddingBottom": "40px",
+        "marginTop": "0px",
+        "marginBottom": "0px",
+        "gap": "normal",
+        "x": 160,
+        "w": 1120
+      },
+      ".site-footer": {
+        "top": 1319.75,
+        "bottom": 1456.75,
+        "height": 137,
+        "paddingTop": "20px",
+        "paddingBottom": "80px",
+        "marginTop": "0px",
+        "marginBottom": "0px",
+        "gap": "normal",
+        "x": 0,
+        "w": 1440
+      }
+    },
+    "overflow": false
+  },
+  {
+    "width": 1440,
+    "route": "news",
+    "boxes": {
+      ".page-heading": {
+        "top": 80,
+        "bottom": 202.546875,
+        "height": 122.546875,
+        "paddingTop": "40px",
+        "paddingBottom": "24px",
+        "marginTop": "0px",
+        "marginBottom": "0px",
+        "gap": "normal",
+        "x": 160,
+        "w": 1120
+      },
+      ".news-grid": {
+        "top": 202.546875,
+        "bottom": 1253.21875,
+        "height": 1050.671875,
+        "paddingTop": "0px",
+        "paddingBottom": "40px",
+        "marginTop": "0px",
+        "marginBottom": "0px",
+        "gap": "24px",
+        "x": 160,
+        "w": 1120
+      },
+      ".site-footer": {
+        "top": 1261.21875,
+        "bottom": 1398.21875,
+        "height": 137,
+        "paddingTop": "20px",
+        "paddingBottom": "80px",
+        "marginTop": "0px",
+        "marginBottom": "0px",
+        "gap": "normal",
+        "x": 0,
+        "w": 1440
+      }
+    },
+    "overflow": false
+  },
+  {
+    "width": 1440,
+    "route": "notes",
+    "boxes": {
+      ".page-heading": {
+        "top": 80,
+        "bottom": 202.546875,
+        "height": 122.546875,
+        "paddingTop": "40px",
+        "paddingBottom": "24px",
+        "marginTop": "0px",
+        "marginBottom": "0px",
+        "gap": "normal",
+        "x": 160,
+        "w": 1120
+      },
+      ".notes-index": {
+        "top": 202.546875,
+        "bottom": 592.546875,
+        "height": 390,
+        "paddingTop": "0px",
+        "paddingBottom": "40px",
+        "marginTop": "0px",
+        "marginBottom": "0px",
+        "gap": "normal",
+        "x": 160,
+        "w": 1120
+      },
+      ".site-footer": {
+        "top": 813,
+        "bottom": 950,
+        "height": 137,
+        "paddingTop": "20px",
+        "paddingBottom": "80px",
+        "marginTop": "0px",
+        "marginBottom": "0px",
+        "gap": "normal",
+        "x": 0,
+        "w": 1440
+      }
+    },
+    "overflow": false
+  },
+  {
+    "width": 1440,
+    "route": "writing-modernization",
+    "boxes": {
+      ".blog-article": {
+        "top": 80,
+        "bottom": 2056.0625,
+        "height": 1976.0625,
+        "paddingTop": "0px",
+        "paddingBottom": "40px",
+        "marginTop": "0px",
+        "marginBottom": "0px",
+        "gap": "normal",
+        "x": 160,
+        "w": 1120
+      },
+      ".site-footer": {
+        "top": 2056.0625,
+        "bottom": 2193.0625,
+        "height": 137,
+        "paddingTop": "20px",
+        "paddingBottom": "80px",
+        "marginTop": "0px",
+        "marginBottom": "0px",
+        "gap": "normal",
+        "x": 0,
+        "w": 1440
+      }
+    },
+    "overflow": false
+  }
+]
