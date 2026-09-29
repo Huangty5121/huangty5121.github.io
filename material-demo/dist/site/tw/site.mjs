@@ -1,6 +1,8 @@
 const zh=document.body.dataset.lang!=='en';
 const t=(a,b)=>zh?a:b;
 const modules=new Map(Object.entries({
+ 'message-circle':[['path',{d:'M21 11.5a8.4 8.4 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.4 8.4 0 0 1-3.8-.9L3 21l1.9-5.7a8.4 8.4 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.4 8.4 0 0 1 3.8-.9h.5a8.5 8.5 0 0 1 8 8z'}]],
+ 'maximize':[['path',{d:'M8 3H3v5m13-5h5v5M3 16v5h5m13-5v5h-5'}]],
  'plus':[['path',{d:'M12 5v14M5 12h14'}]],'minus':[['path',{d:'M5 12h14'}]],
  'arrow-right':[['path',{d:'M5 12h14m-6-6 6 6-6 6'}]],'chevron-down':[['path',{d:'m6 9 6 6 6-6'}]],
  'copy':[['rect',{x:'9',y:'9',width:'11',height:'11',rx:'2'}],['path',{d:'M15 9V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v9a1 1 0 0 0 1 1h4'}]]
@@ -41,8 +43,22 @@ music.addEventListener('error',()=>{audioStatus.textContent=t('試聽連接暫�
 const contactPanel=document.querySelector('#contact-panel');
 document.addEventListener('click',e=>{if(e.target.closest('[popovertarget="contact-panel"]')&&menu.open)menu.close();});
 document.querySelector('[data-copy-email]').addEventListener('click',async()=>{const status=document.querySelector('[data-copy-status]');try{await navigator.clipboard.writeText('tin-yeh.huang@connect.polyu.hk');status.textContent=t('郵箱已複製','Email copied');}catch{status.textContent=t('請選中上方郵箱複製','Select the email above to copy it');}});
-let viewAbort,selectCurrentOrg,focusOrg,closeCity,updateMapPanel;
-function revealHash({scroll=true}={}){const id=decodeURIComponent(location.hash.slice(1));if(!id)return;if(id==='contact'){contactPanel.showPopover();return;}if(id.startsWith('org-')){selectCurrentOrg?.(id.slice(4),false);focusOrg?.(id.slice(4));if(scroll)(matchMedia('(max-width:600px)').matches?document.querySelector('#organisation-context'):document.querySelector('.background-board'))?.scrollIntoView({block:'start',behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});return;}const target=document.getElementById(id);if(!target)return;if(target.matches('[data-background-item]'))selectCurrentOrg?.(target.dataset.organisations.split(' ')[0],false);for(let parent=target.parentElement;parent;parent=parent.parentElement)if(parent instanceof HTMLDetailsElement)parent.open=true;if(target instanceof HTMLDetailsElement)target.open=true;if(scroll)target.scrollIntoView({block:'start',behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});}
+let viewAbort;
+function revealHash({scroll=true}={}){
+ const id=decodeURIComponent(location.hash.slice(1));if(!id)return;
+ if(id==='contact'){contactPanel.showPopover();return;}
+ // Preserve incoming bookmarks after moving the self-note and CV records.
+ if(document.body.dataset.page==='about'){
+  const personal=['personal','personal-title','feelings'].includes(id);
+  const record=/^(org-|record-|study-)/.test(id)||['records','experience','education','honours','credentials','peer-review'].includes(id);
+  if(personal||record){location.replace((personal?'index.html':'experience.html')+'#'+encodeURIComponent(id));return;}
+ }
+ let target=document.getElementById(id);if(!target)return;
+ if(target.dataset.recordTarget)target=document.getElementById(target.dataset.recordTarget)||target;
+ for(let parent=target.parentElement;parent;parent=parent.parentElement)if(parent instanceof HTMLDetailsElement)parent.open=true;
+ if(target instanceof HTMLDetailsElement)target.open=true;
+ if(scroll)target.scrollIntoView({block:'start',behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});
+}
 function initialiseView({scrollToHash=true}={}){
  viewAbort?.abort();viewAbort=new AbortController();const options={signal:viewAbort.signal};const main=document.querySelector('main');paintIcons(main);
  const shelf=main.querySelector('.shelf-stage');
@@ -87,9 +103,22 @@ function initialiseView({scrollToHash=true}={}){
   viewAbort.signal.addEventListener('abort',()=>{resize.disconnect();cancelAnimationFrame(frame);},{once:true});
   positionCaption();
  }
- const toolTabs=[...main.querySelectorAll('[data-tool-tab]')];
- const chooseTool=tab=>{const file=main.querySelector('[data-active-file]');if(file)file.textContent=tab.dataset.filename;for(const item of toolTabs){const selected=item===tab;item.setAttribute('aria-selected',String(selected));item.tabIndex=selected?0:-1;main.querySelector('#'+item.getAttribute('aria-controls')).hidden=!selected;}};
- toolTabs.forEach((tab,i)=>{tab.addEventListener('click',()=>chooseTool(tab),options);tab.addEventListener('keydown',e=>{let n;if(e.key==='ArrowRight'||e.key==='ArrowDown')n=(i+1)%toolTabs.length;else if(e.key==='ArrowLeft'||e.key==='ArrowUp')n=(i+toolTabs.length-1)%toolTabs.length;else if(e.key==='Home')n=0;else if(e.key==='End')n=toolTabs.length-1;else return;e.preventDefault();chooseTool(toolTabs[n]);toolTabs[n].focus();},options);});
+ const impressionTabs=[...main.querySelectorAll('[data-impression-tab]')];
+ if(impressionTabs.length){
+  const model=main.querySelector('[data-impression-model]'),scroller=main.querySelector('[data-impression-scroll]');
+  const positions=new Map();let active=impressionTabs[0].dataset.impressionTab;
+  const chooseImpression=id=>{
+   positions.set(active,scroller.scrollTop);active=id;
+   for(const tab of impressionTabs){const selected=tab.dataset.impressionTab===id;tab.setAttribute('aria-selected',String(selected));tab.tabIndex=selected?0:-1;main.querySelector('#'+tab.getAttribute('aria-controls')).hidden=!selected;}
+   model.value=id;scroller.scrollTop=positions.get(id)||0;
+   main.querySelector('[data-impression-status]').textContent=(impressionTabs.findIndex(tab=>tab.dataset.impressionTab===id)+1)+' / '+impressionTabs.length;
+  };
+  model.addEventListener('change',()=>chooseImpression(model.value),options);
+  impressionTabs.forEach((tab,i)=>{
+   tab.addEventListener('click',()=>chooseImpression(tab.dataset.impressionTab),options);
+   tab.addEventListener('keydown',e=>{let n;if(['ArrowDown','ArrowRight'].includes(e.key))n=(i+1)%impressionTabs.length;else if(['ArrowUp','ArrowLeft'].includes(e.key))n=(i+impressionTabs.length-1)%impressionTabs.length;else if(e.key==='Home')n=0;else if(e.key==='End')n=impressionTabs.length-1;else return;e.preventDefault();chooseImpression(impressionTabs[n].dataset.impressionTab);impressionTabs[n].focus();},options);
+  });
+ }
  const workTabs=[...main.querySelectorAll('[data-work-tab]')];
  if(workTabs.length){
   const selectWork=kind=>{for(const tab of workTabs)tab.setAttribute('aria-pressed',String(tab.dataset.workTab===kind));for(const panel of main.querySelectorAll('[data-work-panel]'))panel.hidden=panel.dataset.workPanel!==kind;};
@@ -100,154 +129,76 @@ function initialiseView({scrollToHash=true}={}){
  }
  const clock=main.querySelector('[data-local-time]');
  if(clock){const now=new Date();clock.textContent=new Intl.DateTimeFormat('en-GB',{timeZone:'Asia/Hong_Kong',hour:'2-digit',minute:'2-digit',hour12:false}).format(now);clock.dateTime=now.toISOString();}
- selectCurrentOrg=null;updateMapPanel=null;
- const board=main.querySelector('.background-board');
- if(board){
-  const directory=board.querySelector('.directory-heading'),layout=board.querySelector('.background-layout');
-  const cityNames={bj:t('北京','Beijing'),sz:t('深圳','Shenzhen'),hk:t('香港','Hong Kong')};
-  const chooseCity=id=>{
-   board.dataset.city=id||'';
-   directory.hidden=!id;
-   for(const item of board.querySelectorAll('[data-city]'))item.setAttribute('aria-pressed',String(!!id&&item.dataset.city===id));
-   for(const org of board.querySelectorAll('[data-city-group]'))org.hidden=!id||org.dataset.cityGroup!==id;
-   board.querySelector('[data-city-name]').textContent=id?cityNames[id]:'';
-  };
-  selectCurrentOrg=(id,write=true)=>{
-   const selected=id?board.querySelector(`[data-org="${CSS.escape(id)}"]`):null;
-   if(selected?.dataset.cityGroup)chooseCity(selected.dataset.cityGroup);
-   for(const row of board.querySelectorAll('[data-background-item]'))row.hidden=!id||!row.dataset.organisations.split(' ').includes(id);
-   for(const button of board.querySelectorAll('[data-org]')){button.setAttribute('aria-pressed',String(button===selected));button.setAttribute('aria-expanded',String(button===selected));}
-   board.querySelector('.selected-institution').hidden=!id;
-   board.querySelector('[data-close-org]').hidden=!id;
-   board.querySelector('.board-empty').hidden=!!id||!board.dataset.city;
-   board.dataset.orgOpen=String(!!id);
-   board.querySelector('[data-selected-org]').textContent=selected?.dataset.orgName||'';
-   layout.hidden=!(board.dataset.city||id);
-   updateMapPanel?.();
-   if(write){const url=new URL(location.href);url.hash=id?'org-'+id:'';history.replaceState({...history.state,scroll:scrollY},'',url);}
-  };
-  for(const button of board.querySelectorAll('[data-org]'))button.addEventListener('click',()=>{
-   const id=button.getAttribute('aria-pressed')==='true'?'':button.dataset.org;
-   selectCurrentOrg(id);
-   if(id)focusOrg?.(id);
-   if(id&&matchMedia('(max-width:600px)').matches)board.querySelector('#organisation-context').scrollIntoView({block:'start',behavior:'smooth'});
+ const drawer=main.querySelector('.drinks-drawer');
+ if(drawer){
+  let opener;
+  for(const button of main.querySelectorAll('[data-cabinet-open]'))button.addEventListener('click',()=>{
+   opener=button;const kind=button.dataset.cabinetOpen;
+   for(const panel of drawer.querySelectorAll('[data-cabinet-panel]'))panel.hidden=panel.dataset.cabinetPanel!==kind;
+   drawer.setAttribute('aria-labelledby','drinks-'+kind+'-title');drawer.showModal();
+   document.body.classList.add('drawer-open');
+   if(!matchMedia('(prefers-reduced-motion: reduce)').matches)drawer.animate([{transform:matchMedia('(max-width:700px)').matches?'translateY(100%)':'translateX(100%)',opacity:.4},{transform:'translate(0)',opacity:1}],{duration:350,easing:'cubic-bezier(.2,.8,.2,1)'});
   },options);
-  board.querySelector('[data-close-org]').addEventListener('click',()=>{
-   const button=board.querySelector('[data-org][aria-pressed="true"]');selectCurrentOrg('');
-   if(matchMedia('(max-width:600px)').matches)board.querySelector('.institution-selector').scrollIntoView({block:'start',behavior:'smooth'});
-   button?.focus({preventScroll:true});
-  },options);
-  chooseCity('');selectCurrentOrg('',false);
-  for(const city of board.querySelectorAll('[data-city]'))city.addEventListener('click',()=>{chooseCity(city.dataset.city);selectCurrentOrg('',false);},options);
-  window.addEventListener('resize',()=>{const selected=board.querySelector('[data-org][aria-pressed="true"]');if(selected)selectCurrentOrg(selected.dataset.org,false);},options);
- closeCity=chooseCity;
+  drawer.querySelector('[data-cabinet-close]').addEventListener('click',()=>drawer.close(),options);
+  drawer.addEventListener('click',e=>{if(e.target===drawer){const rect=drawer.getBoundingClientRect();if(e.clientX<rect.left||e.clientX>rect.right||e.clientY<rect.top||e.clientY>rect.bottom)drawer.close();}},options);
+  drawer.addEventListener('close',()=>{document.body.classList.remove('drawer-open');opener?.focus({preventScroll:true});},options);
+  options.signal.addEventListener('abort',()=>{if(drawer.open)drawer.close();document.body.classList.remove('drawer-open');},{once:true});
  }
- for(const viewport of [main.querySelector('[data-citymap]')]){
-  if(!viewport)break;
-  const L=window.L;if(!L)break;
-  const cities=[['bj',zh?'北京':'Beijing'],['sz',zh?'深圳':'Shenzhen'],['hk',zh?'香港':'Hong Kong']].map(([id,name])=>({id,name,ll:viewport.dataset['city'+id[0].toUpperCase()+id[1]]?.split(',').map(Number),dot:{bj:'#846bb9',sz:'#e07e64',hk:'#3c9c86'}[id]})).filter(c=>c.ll&&c.ll.length===2&&c.ll.every(Number.isFinite));
-  if(!cities.length)break;
-  // The authored coordinates and OpenStreetMap tiles both use WGS-84.
-  // One pin per organisation position; a key like "x-institute~nan" marks a
-  // second site of the same organisation (both pins select that organisation).
-  const orgs=Object.entries(JSON.parse(viewport.dataset.orgs||'{}')).map(([key,ll])=>({key,id:key.split('~')[0],ll})).filter(o=>o.ll.length===2&&o.ll.every(Number.isFinite));
-  const orgCity=id=>['polyu','royal-plaza','hksar'].includes(id)?'hk':['smart','x-institute'].includes(id)?'sz':'bj';
-  const dotColor={bj:'#846bb9',sz:'#e07e64',hk:'#3c9c86'};
-  const ATTR='© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>';
-  const TILE_URL='https://tile.openstreetmap.org/{z}/{x}/{y}.png';
-  const tileOpts={maxZoom:18,keepBuffer:0,updateWhenZooming:false,detectRetina:true};
-  const map=L.map(viewport,{zoomControl:false,scrollWheelZoom:true});
-  // Two-finger pinch reaches Leaflet as ctrl+wheel; plain wheel/two-finger
-  // scroll is stopped here (capture phase, no preventDefault) so the page
-  // keeps scrolling instead of the map trapping it.
-  viewport.parentElement.addEventListener('wheel',e=>{if(!e.ctrlKey)e.stopPropagation();},{capture:true,passive:true});
-  map.attributionControl.setPrefix('');
-  map.addControl(L.control.zoom({position:'bottomright'}));
-  const overviewTiles=L.tileLayer(TILE_URL,{...tileOpts,detectRetina:false,attribution:ATTR}).addTo(map);
-  const detailTiles=L.tileLayer(TILE_URL,{...tileOpts,detectRetina:true,attribution:ATTR});
-  let activeTiles=overviewTiles;
-  const panel=main.querySelector('.map-panel');
-  const panelTitle=panel?.querySelector('[data-map-title]');
-  const panelBody=panel?.querySelector('[data-map-organisations]');
-  const panelEyebrow=panel?.querySelector('[data-map-eyebrow]');
-  const writePanel=(title,body,eyebrow)=>{if(panelTitle)panelTitle.textContent=title;if(panelBody)panelBody.textContent=body;if(panelEyebrow)panelEyebrow.textContent=eyebrow;};
-  const overview=()=>{map.setView([25,75],2,{animate:false});writePanel(zh?'北京 · 深圳 · 香港':'Beijing · Shenzhen · Hong Kong',zh?'點擊地區標記，進入詳細地圖。':'Select a region pin to open its detailed map.',zh?'地點總覽':'Place overview');};
-  overview();
-  let currentCity=null;
-  // One pin per organisation at its real position; click reads its records.
-  const orgPins={};
-  const SUFFIX_LABEL={nan:zh?'南山':'Nanshan',hhb:zh?'紅磡灣':'Hung Hom Bay',west:zh?'西九龍':'West Kowloon',ytm:zh?'油尖旺':'Yau Tsim Mong'};
-  for(const o of orgs){
-   const base=main.querySelector(`[data-org="${CSS.escape(o.id)}"]`)?.dataset.orgName||o.id;
-   const sfx=o.key.split('~')[1];
-   const name=base+(sfx&&SUFFIX_LABEL[sfx]?' · '+SUFFIX_LABEL[sfx]:'');
-   const m=L.marker(o.ll,{icon:L.divIcon({className:'org-pin',html:`<span class="city-dot" style="--dot:${dotColor[orgCity(o.id)]}"></span>`,iconSize:[20,20],iconAnchor:[10,10]}),keyboard:true,title:name,riseOnHover:true});
-   m.bindTooltip(name,{direction:'top',offset:[0,-7],className:'city-tip'});
-   m.on('click',()=>{
-    fly(orgCity(o.id));
-    highlightPins(o.id);
-    map.setView(o.ll,13,{animate:false});
-    selectCurrentOrg?.(o.id);
-    if(matchMedia('(max-width:600px)').matches)main.querySelector('#organisation-context')?.scrollIntoView({block:'start',behavior:matchMedia('(prefers-reduced-motion:reduce)').matches?'instant':'smooth'});
-   });
-   m.on('mouseover',()=>{main.querySelector(`[data-org="${CSS.escape(o.id)}"]`)?.classList.add('is-map-hovered');});
-   m.on('mouseout',()=>{main.querySelector(`[data-org="${CSS.escape(o.id)}"]`)?.classList.remove('is-map-hovered');updatePanel();});
-   orgPins[o.key]=m;
-  }
-  const highlightPins=id=>{
-   for(const p of Object.values(orgPins))p.getElement()?.firstElementChild?.classList.remove('is-selected');
-   if(id)for(const[key,p]of Object.entries(orgPins))if(key.split('~')[0]===id)p.getElement()?.firstElementChild?.classList.add('is-selected');
-  };
-  focusOrg=id=>{
-   const pts=orgs.filter(o=>o.id===id).map(o=>o.ll);
-   if(orgs.find(o=>o.id===id)&&currentCity!==orgCity(id))fly(orgCity(id));
-   highlightPins(id);
-   if(pts.length===1)map.setView(pts[0],13,{animate:false});
-   else if(pts.length>1)map.fitBounds(L.latLngBounds(pts).pad(.25),{animate:false,maxZoom:13});
-  };
-  const regionPins=[
-   {id:'bj',name:zh?'北京':'Beijing',ll:[39.9,116.33],color:dotColor.bj},
-   {id:'bay',name:zh?'粵港澳大灣區':'Greater Bay Area',ll:[22.75,113.6],color:dotColor.hk}
-  ].map(r=>{
-   const marker=L.marker(r.ll,{icon:L.divIcon({className:'region-pin',html:`<span style="--region:${r.color}">${r.name}</span>`,iconSize:[120,38],iconAnchor:[60,19]}),title:r.name,keyboard:true});
-   marker.on('click',()=>{if(r.id==='bay')fly('bay');else main.querySelector('[data-city="bj"]')?.click();});
-   marker.on('mouseover',()=>writePanel(r.name,r.id==='bay'?(zh?'香港與深圳的機構':'Institutions in Hong Kong and Shenzhen'):(zh?'北京的機構':'Institutions in Beijing'),zh?'地區':'Region'));
-   marker.on('mouseout',()=>updatePanel());
-   return marker;
-  });
-  const updatePanel=()=>{
-   const selectedOrg=main.querySelector('[data-org][aria-pressed="true"]');
-   if(selectedOrg){
-    const roles=[...main.querySelectorAll('.background-record-list [data-background-item]:not([hidden]) h3')].map(el=>el.textContent.trim()).slice(0,2);
-    writePanel(selectedOrg.dataset.orgName,roles.join(' · '),zh?'機構與經歷':'Institution & experience');
-    return;
+ const journal=main.querySelector('.city-journal');
+ if(journal){
+  const viewport=journal.querySelector('[data-journal-map]'),note=journal.querySelector('.city-note'),stage=journal.querySelector('.journal-stage');
+  const places=JSON.parse(viewport.dataset.places),cityButtons=[...journal.querySelectorAll('[data-place]')];
+  const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let map,selectedCity=null,originButton=null,animation;
+  const markers=new Map();
+  const develop=element=>{animation?.cancel();if(!reduced)animation=element.animate([{opacity:.3,filter:'blur(5px)',transform:'translateY(5px) rotate(.4deg)'},{opacity:1,filter:'blur(0)',transform:'translateY(0) rotate(0)'}],{duration:320,easing:'ease-out'});};
+  const closeNote=({focus=false}={})=>{note.hidden=true;stage.classList.remove('has-note');selectedCity=null;for(const button of cityButtons)button.setAttribute('aria-pressed','false');for(const marker of markers.values())marker.getElement()?.classList.remove('is-selected');if(focus)originButton?.focus({preventScroll:true});};
+  const choosePlace=(id,{focus=false,fromPin=false}={})=>{
+   const city=places.find(place=>place.id===id);if(!city)return;
+   selectedCity=city;originButton=cityButtons.find(button=>button.dataset.place===id);
+   for(const button of cityButtons)button.setAttribute('aria-pressed',String(button.dataset.place===id));
+   for(const panel of journal.querySelectorAll('[data-journal-city-panel]'))panel.hidden=panel.dataset.journalCityPanel!==id;
+   journal.querySelector('[data-journal-city]').textContent=city.name+' / '+city.level;
+   note.hidden=false;stage.classList.add('has-note');develop(note);
+   if(map){
+    // Keep the selected pin in the free part of the map beside the paper.
+    const zoom=fromPin?map.getZoom():['uk','fujian'].includes(id)?5:6;
+    map.stop();map.setView(city.coordinates,zoom,{animate:false});
+    if(!matchMedia('(max-width:700px)').matches)map.panBy([stage.clientWidth*.18,0],{animate:false});
    }
-   if(!currentCity){writePanel(zh?'北京 · 深圳 · 香港':'Beijing · Shenzhen · Hong Kong',zh?'點擊地區標記，進入詳細地圖。':'Select a region pin to open its detailed map.',zh?'地點總覽':'Place overview');return;}
-   const title=currentCity==='bay'?(zh?'香港 · 深圳':'Hong Kong · Shenzhen'):(cities.find(c=>c.id===currentCity)?.name||'');
-   // The panel names a region only; organisation names appear after a pin click.
-   writePanel(title,zh?'點擊機構圓點，查看該機構與相關經歷。':'Tap a pin to see that institution and its experience.',zh?'地區':'Region');
+   for(const [key,marker] of markers)marker.getElement()?.classList.toggle('is-selected',key===id);
+   if(focus)note.querySelector('[data-journal-close]').focus({preventScroll:true});
   };
-  updateMapPanel=updatePanel;
-  const syncPins=()=>{
-   for(const p of regionPins){if(!currentCity)p.addTo(map);else p.remove();}
-   for(const o of orgs){const p=orgPins[o.key];if(currentCity&&(currentCity==='bay'?['sz','hk'].includes(orgCity(o.id)):orgCity(o.id)===currentCity))p.addTo(map);else p.remove();}
-  };
-  const fly=id=>{
-   currentCity=id||null;
-   const nextTiles=id?detailTiles:overviewTiles;
-   if(nextTiles!==activeTiles){map.removeLayer(activeTiles);nextTiles.addTo(map);activeTiles=nextTiles;}
-   const pts=orgs.filter(o=>id==='bay'?['sz','hk'].includes(orgCity(o.id)):orgCity(o.id)===id).map(o=>o.ll);
-   highlightPins('');
-   // Shenzhen's pins span Guangming to Pingshan; one level out keeps Dapeng
-   // peninsula and Shajing inside the default frame.
-   if(id&&pts.length){map.fitBounds(L.latLngBounds(pts).pad(.22),{animate:false,maxZoom:id==='bay'?10:13});if(id==='sz')map.setZoom(map.getZoom()-1,{animate:false});}
-   else overview();
-   syncPins();updatePanel();
-  };
-  for(const b of main.querySelectorAll('.city-index button[data-city]'))b.addEventListener('click',()=>fly(b.dataset.city),options);
-  syncPins();
-  setTimeout(()=>{const c=main.querySelector('.background-board')?.dataset.city;if(c&&c!==currentCity)fly(c);},0);
-  options.signal.addEventListener('abort',()=>map.remove(),{once:true});
+  for(const button of cityButtons)button.addEventListener('click',()=>choosePlace(button.dataset.place),options);
+  journal.querySelector('[data-journal-close]').addEventListener('click',()=>closeNote({focus:true}),options);
+  journal.addEventListener('keydown',e=>{if(e.key==='Escape'&&!note.hidden){e.preventDefault();closeNote({focus:true});}},options);
+  for(const button of journal.querySelectorAll('[data-journal-entry]'))button.addEventListener('click',()=>{
+   const panel=button.closest('[data-journal-city-panel]');
+   for(const item of panel.querySelectorAll('[data-journal-entry]'))item.setAttribute('aria-pressed',String(item===button));
+   for(const page of panel.querySelectorAll('.journal-page'))page.hidden=page.id!==button.getAttribute('aria-controls');
+   develop(panel.querySelector('.journal-page:not([hidden])'));
+  },options);
+  const reset=()=>{closeNote();if(map){map.fitBounds(places.map(place=>place.coordinates),{padding:[55,55],maxZoom:3,animate:false});}};
+  journal.querySelector('[data-place-reset]').addEventListener('click',reset,options);
+  const L=window.L;
+  if(L){
+   map=L.map(viewport,{zoomControl:false,scrollWheelZoom:true,minZoom:1,maxZoom:8});
+   viewport.addEventListener('wheel',e=>{if(!e.ctrlKey)e.stopPropagation();},{capture:true,passive:true,...options});
+   map.attributionControl.setPrefix('');L.control.zoom({position:'bottomleft'}).addTo(map);
+   const tiles=L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,keepBuffer:1,attribution:'© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>'}).addTo(map);
+   const status=journal.querySelector('[data-map-status]');let loadedTiles=0;
+   tiles.on('tileload',()=>{loadedTiles++;status.textContent='';});
+   tiles.on('tileerror',()=>{if(!loadedTiles)status.textContent=t('底圖暫時未能加載，仍可點城市翻閲。','The basemap is unavailable; city notes still open above.');});
+   for(const city of places){
+    const label=document.createElement('span');label.textContent=city.name;
+    const marker=L.marker(city.coordinates,{title:city.name,keyboard:true,riseOnHover:true,icon:L.divIcon({className:'journal-map-pin',html:`<span class="map-pin-head" style="--pin-color:${city.color}"></span>`,iconSize:[36,42],iconAnchor:[18,37]})});
+    marker.bindTooltip(label,{permanent:false,direction:'top',offset:[0,city.id==='hk'?5:-22],className:'journal-map-label'});
+    marker.on('click',()=>choosePlace(city.id,{fromPin:true}));marker.addTo(map);markers.set(city.id,marker);
+   }
+   reset();
+   const resize=new ResizeObserver(()=>map.invalidateSize({pan:false}));resize.observe(viewport);
+   options.signal.addEventListener('abort',()=>{resize.disconnect();animation?.cancel();map.remove();},{once:true});
+  }else journal.querySelector('[data-map-status]').textContent=t('地圖暫時未能加載，仍可點城市翻閲。','The map is unavailable; city notes still open above.');
  }
  if(new URLSearchParams(location.search).get('contact')==='open')contactPanel.showPopover();
  revealHash({scroll:scrollToHash});

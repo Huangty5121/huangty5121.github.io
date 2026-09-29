@@ -2,12 +2,25 @@
 
 The published site is generated. Edit `website/`, then run `node website/build.mjs`. The build writes `material-demo/dist/site/` in Simplified Chinese, `en/`, and `tw/`. Do not hand-edit generated HTML, CSS, or JavaScript.
 
+## Current composition — 29 September 2026
+
+This composition supersedes the older About map/IDE descriptions retained below as design history. The user's latest instructions preserve the self-note and both model-impression texts verbatim.
+
+- Home: harbour image → designed factual student introduction → original self-note → selected work and Notes. The existing transparent river/glass margin scene accompanies the note.
+- About: two attributed impressions in a Codex-like reader → music → drinks → places → tools. `data-impression-tab` and the native model select remain synchronized and retain independent reading positions. The scroll surface opts out of scroll anchoring. The original Astra/GLM signatures and dates remain.
+- The drink artwork is one transparent six-glass strip displayed through six CSS windows. The visible composition is glasses on a pale shelf with small captions, not action cards. Native buttons retain keyboard and screen-reader access. A native `dialog` slides from the side on desktop and from below on mobile; Escape/backdrop/close returns focus to its glass. Sources and personal variations are separate in `about-cabinet.mjs`.
+- `places.mjs` supplies owner-named cities and regions. Every place retains its own pin at overview and detail scales. Hover/focus labels avoid permanently piling up names. Clicking a pin preserves the zoom level; choosing from the city index frames that city. Neither presents an exact personal location or itinerary. City notes and their entries are independent of the external tile provider. A photo may be added only with a confirmed association.
+- `experience.html` owns all canonical education, experience, honours, credential and reviewing records. Organisation aliases navigate to their existing records. Previous `about.html#record-*`, `#study-*`, `#org-*` and section bookmarks remain compatible; the old self-note links resolve to Home. `writing.html` redirects to Home's personal note.
+- All additions are authored in zh/en; tw is generated as before. Shared type and spacing roles still apply. `--text-introduction` is an identity-display exception.
+
 ## Where a change belongs
 
 | Concern | Source | Rule |
 | --- | --- | --- |
-| Page structure, route sections, short interface labels | `views.mjs` | Use the shared page builders and semantic HTML. Keep one visible record set for About experience. |
+| Page structure, route sections, short interface labels | `views.mjs` | Use the shared page builders and semantic HTML. Keep one canonical full record set on Experience. |
 | About's personal voice, personal reflection, album metadata | `about-content.mjs` | Edit the paired `zh` and `en` values together. Do not put long personal copy back into HTML templates. |
+| City memories | `places.mjs` | Owner-supplied places and personal fragments; region-level pins, no invented itineraries. |
+| Drinks and recipes | `about-cabinet.mjs` | Owner-named favourites; attributed references separate from personal recipes. |
 | Verified work and experience descriptions | `content.mjs` over `material-demo/dist/desk-data.mjs` | Keep the public fact boundary and original record identity. |
 | Work order and card metadata | `entries.mjs` | Keep Work categories separate from About's personal material. |
 | Layout, colours, type, responsive rules | `site.css` | Change shared tokens and component rules rather than appending a page-specific correction to the end. |
@@ -64,7 +77,7 @@ Root responsive variables own the small-screen spacing changes. The old closing 
 
 Verification must capture the actual transitions (personal→workbench, workbench→music, music→records, map→honours), not only the top viewport or paragraph spacing. Compare the measured gap above the line and below it separately at desktop and narrow widths, inspect both themes, and check captions/doodles for overlap. Latest spacing evidence: [layout-spacing-2026-09-26](review/layout-spacing-2026-09-26/REPORT.md).
 
-## About architecture and interactions
+## Earlier About architecture and interactions (superseded where noted above)
 
 - `#personal`: one continuous personal note combining learning, uncertainty, vulnerability and the owner's tentative “怪人” thought. Emotions are examples, not classified panels. `#feelings` remains a compatible anchor inside this note.
 - `#workbench`: one full-width VS Code-inspired reading window. The initial `impression.md` file renders `aboutPerspective` from `about-content.mjs`, explicitly authored by GPT-6 Astra and dated 2026.09.26. Three further files render the factual `aboutWorkbench` skill categories. All four files share the existing tab controller, active filename, arrow/Home/End keyboard behavior and one visible panel. The explorer stacks vertically on desktop and scrolls horizontally on phones; the prose follows normal page scrolling. This attributed AI impression is separate from the owner’s first-person self-description.

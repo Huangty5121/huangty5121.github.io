@@ -1,0 +1,232 @@
+{
+  "checks": [
+    "Both impression texts match source exactly.",
+    "Sidebar, select, keyboard navigation, and reading positions stay in sync.",
+    "All six recipe drawers open, Escape closes, focus returns.",
+    "All 12 independent pins are present; pin and city selection, entry switching and reset work.",
+    "Home self-note matches the original five paragraphs exactly.",
+    "Moved records and old About record bookmarks resolve.",
+    "Home, About and Experience: all three languages at 1440, 390 and 320 px, dark + A+, no page overflow.",
+    "Reduced motion disables paper and drawer animations.",
+    "City notes still work when map tiles are blocked."
+  ],
+  "layouts": [
+    {
+      "locale": "zh",
+      "route": "index.html",
+      "width": 1440,
+      "dark": true,
+      "largeText": true,
+      "overflow": false
+    },
+    {
+      "locale": "zh",
+      "route": "about.html",
+      "width": 1440,
+      "dark": true,
+      "largeText": true,
+      "overflow": false
+    },
+    {
+      "locale": "zh",
+      "route": "experience.html",
+      "width": 1440,
+      "dark": true,
+      "largeText": true,
+      "overflow": false
+    },
+    {
+      "locale": "zh",
+      "route": "index.html",
+      "width": 390,
+      "dark": true,
+      "largeText": true,
+      "overflow": false
+    },
+    {
+      "locale": "zh",
+      "route": "about.html",
+      "width": 390,
+      "dark": true,
+      "largeText": true,
+      "overflow": false
+    },
+    {
+      "locale": "zh",
+      "route": "experience.html",
+      "width": 390,
+      "dark": true,
+      "largeText": true,
+      "overflow": false
+    },
+    {
+      "locale": "zh",
+      "route": "index.html",
+      "width": 320,
+      "dark": true,
+      "largeText": true,
+      "overflow": false
+    },
+    {
+      "locale": "zh",
+      "route": "about.html",
+      "width": 320,
+      "dark": true,
+      "largeText": true,
+      "overflow": false
+    },
+    {
+      "locale": "zh",
+      "route": "experience.html",
+      "width": 320,
+      "dark": true,
+      "largeText": true,
+      "overflow": false
+    },
+    {
+      "locale": "en/",
+      "route": "index.html",
+      "width": 1440,
+      "dark": true,
+      "largeText": true,
+      "overflow": false
+    },
+    {
+      "locale": "en/",
+      "route": "about.html",
+      "width": 1440,
+      "dark": true,
+      "largeText": true,
+      "overflow": false
+    },
+    {
+      "locale": "en/",
+      "route": "experience.html",
+      "width": 1440,
+      "dark": true,
+      "largeText": true,
+      "overflow": false
+    },
+    {
+      "locale": "en/",
+      "route": "index.html",
+      "width": 390,
+      "dark": true,
+      "largeText": true,
+      "overflow": false
+    },
+    {
+      "locale": "en/",
+      "route": "about.html",
+      "width": 390,
+      "dark": true,
+      "largeText": true,
+      "overflow": false
+    },
+    {
+      "locale": "en/",
+      "route": "experience.html",
+      "width": 390,
+      "dark": true,
+      "largeText": true,
+      "overflow": false
+    },
+    {
+      "locale": "en/",
+      "route": "index.html",
+      "width": 320,
+      "dark": true,
+      "largeText": true,
+      "overflow": false
+    },
+    {
+      "locale": "en/",
+      "route": "about.html",
+      "width": 320,
+      "dark": true,
+      "largeText": true,
+      "overflow": false
+    },
+    {
+      "locale": "en/",
+      "route": "experience.html",
+      "width": 320,
+      "dark": true,
+      "largeText": true,
+      "overflow": false
+    },
+    {
+      "locale": "tw/",
+      "route": "index.html",
+      "width": 1440,
+      "dark": true,
+      "largeText": true,
+      "overflow": false
+    },
+    {
+      "locale": "tw/",
+      "route": "about.html",
+      "width": 1440,
+      "dark": true,
+      "largeText": true,
+      "overflow": false
+    },
+    {
+      "locale": "tw/",
+      "route": "experience.html",
+      "width": 1440,
+      "dark": true,
+      "largeText": true,
+      "overflow": false
+    },
+    {
+      "locale": "tw/",
+      "route": "index.html",
+      "width": 390,
+      "dark": true,
+      "largeText": true,
+      "overflow": false
+    },
+    {
+      "locale": "tw/",
+      "route": "about.html",
+      "width": 390,
+      "dark": true,
+      "largeText": true,
+      "overflow": false
+    },
+    {
+      "locale": "tw/",
+      "route": "experience.html",
+      "width": 390,
+      "dark": true,
+      "largeText": true,
+      "overflow": false
+    },
+    {
+      "locale": "tw/",
+      "route": "index.html",
+      "width": 320,
+      "dark": true,
+      "largeText": true,
+      "overflow": false
+    },
+    {
+      "locale": "tw/",
+      "route": "about.html",
+      "width": 320,
+      "dark": true,
+      "largeText": true,
+      "overflow": false
+    },
+    {
+      "locale": "tw/",
+      "route": "experience.html",
+      "width": 320,
+      "dark": true,
+      "largeText": true,
+      "overflow": false
+    }
+  ],
+  "errors": []
+}

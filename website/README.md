@@ -1,6 +1,6 @@
 # Tin-Yeh Huang — personal website
 
-Active static output: `material-demo/dist/site/`. Historical experiments remain separate. Local preview: http://127.0.0.1:8772/site/index.html . This is not a deployment.
+Active static output: `material-demo/dist/site/`. Historical experiments remain separate. Current local preview: http://127.0.0.1:4173/index.html . This is not a deployment.
 
 ## Publishing
 
@@ -18,7 +18,11 @@ python3 material-demo/serve-demo.py
 
 ## Architecture
 
-Five primary destinations: Home, Work, Notes, News, and About. Home opens with a Victoria Harbour night photograph (Unsplash, pourya gohari), the owner's name, a Hong Kong clock, two work previews, and a material cutout beside Notes. Work separates seven research records from two engineering and practice records; research entries have equal visual weight, short summaries, full venue names, and sourced venue metrics where available. The two practice pages read as case notes. Notes has its own article route. About brings learning and personal reflection into one note, followed by an interactive workbench, an independent music corner, and verifiable records. Its factual section then moves from a large world map to city and institution pins. Selecting an institution reveals the shared study and experience records, with longer detail folded away; the map panel also names the selected institution and role. Honours, credentials, and reviewing follow the experience directory. The personal copy and album metadata are maintained as paired Chinese/English entries in `about-content.mjs`. Map provenance and limits are in [`references/geography.md`](references/geography.md).
+Six primary destinations: Home, Work, Notes, News, About, and Experience. Home places an identity introduction and the unchanged five-paragraph self-note directly below the harbour photograph, then continues to selected work and Notes. About starts with the Astra / GLM conversation reader; its sidebar and model selector choose the same unchanged, attributed text. A separate music shelf, illustrated drinks shelf, city-memory map and compact tools section follow. Experience now owns the sole full set of education, work/service, honours, credentials and peer-review records. Old About record and personal-note anchors are routed to their new pages.
+
+The city map is a collection of places supplied by the owner, not a reconstructed itinerary. Every location has its own pin; there are no cluster/count markers, venue-address pins or connecting travel routes. Country/province labels remain explicit for the UK and Fujian. Beijing contains the exchange chapter and the owner-confirmed 三杯酒 / Boundary venues. Missing stories are deliberately brief unfinished pages. City selection opens a paper note; reduced-motion preferences suppress its blur. Notes and the city index continue to work without map tiles.
+
+The drinks shelf displays six illustrations directly, with accessible invisible button surfaces on the glasses. A native drawer shows one drink at a time. The four reference recipes have visible source links and are distinct from the owner's unrecorded variations. Peaty Manhattan and Absinthe Martini retain the owner's names without invented proportions. `about-cabinet.mjs` owns the favourites and recipes; `places.mjs` owns personal place notes. The artwork is a generated editorial illustration, not a photograph of the owner's drinks.
 
 Work contains seven publication records and two practice records. Editorial SVG covers are symbolic and never presented as research figures or project screenshots. Notes contains one unpublished industrial-design/modernization draft awaiting the owner's revision. Two practice pages have separate URLs and open directly from Work. Three original PDF readers are embedded within the site using a locally hosted, visually adapted official Mozilla PDF.js viewer. PDF source files are copied without modification. No extracted-page image output or per-page HTML reader exists. Paper records without supplied full text retain source links and accurate status.
 
@@ -29,7 +33,7 @@ The reader opens with an original PDF occupying the main viewport and a compact 
 ## Sources
 
 - `build.mjs`: trilingual documents, shared navigation, original PDFs, viewer skin, tw conversion, asset pruning, cache fingerprinting, compatibility redirects.
-- `views.mjs`: authored home composition, content index, combined about/background, project workspaces, readers.
+- `views.mjs`: authored home composition, content index, personal About and separate experience archive, project workspaces, readers.
 - `content.mjs`: faithful public CV contributions layered over historical source records.
 - `about-content.mjs`: paired About copy, personal reflection and real album metadata; Traditional Chinese is generated from the Chinese entries.
 - `entries.mjs` / `cover-art.mjs`: shared entry records and abstract transparent SVG editorial illustrations; these are not research figures or photographs of personal work.
@@ -50,6 +54,6 @@ Project-local guidance: [`../AGENTS.md`](../AGENTS.md) points future site work t
 
 `tyhuang.hk` is the preferred public domain. Each live page generates a self-referencing canonical URL, reciprocal language links, a page title and description, and a shared SVG icon. Each URL serves its own language without a first-visit redirect. Redirect and 404 pages are `noindex`; `sitemap.xml` lists the primary pages in all three languages. The generated `robots.txt` points to the sitemap. Search engines may retain older snippets until they recrawl.
 
-About uses OpenStreetMap tiles with WGS-84 institution pins. Within the factual records, the map comes first; city filters and organisation names follow it, and no record is expanded on entry. Real album covers occupy an independent music section in a single continuous shelf. They overlap on a pale line and spread on hover, following the owner-supplied visual reference. Each labelled cover selects its release by hover, focus or tap; a caption above that cover shows metadata and an explicit Apple Music link. Selection keeps the shelf height stable, and the next section owns the lower gap. Read `skills/personal-site-editor/references/music.md` and [`listening-notes`](skills/listening-notes/SKILL.md) for future song additions, sourced style analysis, collection statistics and owner-supplied listening notes. Initial analysis lives in [`references/listening-analysis.md`](references/listening-analysis.md), outside the public site. The personal reflection is prose, not a labelled set of emotions. The personal text uses the owner's September 2026 description of studying several disciplines and being a multifaceted person. The separate network visual was removed after owner feedback. Work has no search or sort controls for its nine records; News shows source excerpts and links rather than site-update filler.
+The September 25 institution-map and workbench composition has been superseded by the September 29 personal chapters above. The real album shelf, official preview, independent Work categories and source-based News remain. Read `skills/personal-site-editor/references/music.md` for music updates. Current geography and privacy boundaries are recorded in `references/geography.md`.
 
 Shared layout, typography, language and file ownership rules: [`architecture.md`](architecture.md).

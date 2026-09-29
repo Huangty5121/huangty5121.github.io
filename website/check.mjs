@@ -7,7 +7,9 @@ import {works,experiences} from './content.mjs';
 import {entries} from './entries.mjs';
 import {press} from './news.mjs';
 import {industrialNote} from './industrial-note.mjs';
-import {aboutContent,aboutAlbums,aboutWorkbench,aboutPerspective} from './about-content.mjs';
+import {aboutContent,aboutAlbums,aboutWorkbench,aboutPerspective,aboutGlmPerspective} from './about-content.mjs';
+import {places} from './places.mjs';
+import {drinks} from './about-cabinet.mjs';
 const zh2t=OpenCC.Converter({from:'cn',to:'hk'});
 const root=resolve(dirname(fileURLToPath(import.meta.url)),'../material-demo/dist/site');
 const siteOrigin='https://tyhuang.hk';
@@ -51,12 +53,12 @@ function pairedCopy(value,path){
  }
  for(const [key,child]of Object.entries(value))pairedCopy(child,path+'.'+key);
 }
-for(const [name,data]of Object.entries({works,experiences,entries,press,industrialNote,aboutContent,aboutWorkbench,aboutPerspective}))pairedCopy(data,name);
+for(const [name,data]of Object.entries({works,experiences,entries,press,industrialNote,aboutContent,aboutWorkbench,aboutPerspective,aboutGlmPerspective,places,drinks}))pairedCopy(data,name);
 for(const [name,data]of Object.entries({works,experiences,entries,press})){
  const ids=new Set();for(const item of data){if(!item.id||ids.has(item.id))failures.push({file:name,reason:`Missing or duplicate content id: ${item.id}`});ids.add(item.id);}
 }
 // Icons are dynamic imports, so a missing file would not surface as a broken link.
-const INLINE_ICONS=new Set(['plus','minus','arrow-right','chevron-down','copy']);
+const INLINE_ICONS=new Set(['plus','minus','arrow-right','chevron-down','copy','message-circle','maximize']);
 const iconStems=new Set(['sun','moon','play','pause']);
 const firstDiff=(a,b)=>{for(let i=0;i<Math.min(a.length,b.length);i++)if(a[i]!==b[i])return JSON.stringify(a.slice(Math.max(0,i-15),i+15));return 'end';};
 for(const file of files){const html=await readFile(file,'utf8');if((html.match(/<h1[ >]/g)||[]).length!==1)failures.push({file,reason:'Expected one h1'});

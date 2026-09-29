@@ -428,3 +428,7 @@ Removed the selected 回留 track line, retaining The Dreamer. Added live-from-d
 Added the owner-requested GPT-6 Astra impression as the default IDE file, with three factual skill files in the same window. Retained the explicitly requested drinking glass in a wide transparent river scene. Owner first-person prose remains pending review; candidate supplied separately. Browser verification covered 24 cases and 96 file states with no errors or horizontal overflow; build checked 126 pages and 1479 references. See [report and screenshots](review/astra-portrait-2026-09-26/REPORT.md).
 
 Follow-up: owner requested applying the self-description revision. All four first-person paragraphs now updated in Chinese/English, with Traditional Chinese regenerated. Desktop/mobile screenshots inspected; build and static checks passed. Earlier pending-review status is superseded.
+
+## 2026-09-29 — Personal chapters and live preview
+
+Home now pairs the identity introduction with the unchanged self-note; About starts with a Codex-like Astra/GLM reader, then listening, a six-glass illustrated cabinet, personal places and tools. Full factual records moved to Experience. The latest owner corrections remove map clustering and visible ingredient labels beneath the drinks, reduce the glasses and align each to its centered name. The built-in image tool supplied one truly transparent shelf illustration. See [the scoped verification report](review/personal-chapters-2026-09-29/REPORT.md) and [artwork/recipe provenance](references/cocktail-shelf.md). Local preview only; no publication.
