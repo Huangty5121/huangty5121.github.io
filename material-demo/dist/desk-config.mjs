@@ -1,12 +1,13 @@
 // Edit the website here, not in the visitor-facing interface.
 // Public configuration: never put keys, private notes or account details here.
 export const music = {
-  title: '淺粉紅 pale pink',
-  artist: 'Gareth.T',
+  title: '葉子 Ye Zi',
+  artist: '阿桑',
   // Official Apple preview, not the complete song. Replace with an authorised
   // local path such as 'audio/my-track.mp3' when you have the file/permission.
-  src: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/7e/10/d7/7e10d7f9-aa7b-c48c-f0f4-7f07b4e8e01b/mzaf_3754274154878047153.plus.aac.p.m4a',
-  sourceUrl: 'https://music.apple.com/hk/album/%E6%B7%BA%E7%B2%89%E7%B4%85-pale-pink/6814412776?i=6814412779',
+  // Track: 葉子 (電視劇《薔薇之戀》原聲帶版), from 受了點傷 (2003).
+  src: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/21/ec/e0/21ece06b-cca3-da52-9545-e3e3a3a700d2/mzaf_3469079296122808977.plus.aac.p.m4a',
+  sourceUrl: 'https://music.apple.com/hk/album/%E5%8F%97%E4%BA%86%E9%BB%9E%E5%82%B7/595935896?i=595945871',
   preview: true,
   volume: 0.55,
 };

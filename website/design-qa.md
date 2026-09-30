@@ -598,3 +598,31 @@ Home now pairs the identity introduction with the unchanged self-note; About sta
 **落地**：删除随机 tiers 雾层与主题乘法，正常词实色（1.0），仅 闷/怪人 空心 0.85；洗牌词序、同字号、无重复、彩色分配不变。
 
 **验证**：build/check 0 失败；桌面一行/390 两行 0 溢出；暗色实色正常；镜像同步。未提交、未部署。
+
+## 续⑨ 挑战杯获奖记录 + 拼贴插槽修复 + journal CSS 复原（2026-09-30 深夜）
+
+**挑战杯记录**（用户 supply：新疆大学的朋友拉他进团队）：
+- 经历条目 `challenge-cup-xj`（desk-data.mjs 基础记录）：2026.06 · participation · 疆芯智种 · 团队成员 · 第十五届“挑战杯”自治区大学生创业计划竞赛；正文写明「新疆大学的朋友邀请加入团队」「项目获现代农业与食品科技赛道二等奖，团队奖」；链接=用户给的微信获奖报道。经历页排在 2026 年份组首位。
+- 荣誉台账（views.mjs honours 数组）首行：2026 “挑战杯”自治区大学生创业计划竞赛 二等奖 · 团队奖 / 疆芯智种——基于AI大模型的番茄育种与基因水印防伪系统。
+- 纪律：只用官方文章+用户原话的事实；不发明角色头衔/主力贡献；团队奖显式标注；英文项目名用拼音 JiangXin Zhizhong+描述性翻译。三语字符串断言全过。
+
+**拼贴插槽 inline→CSS 迁移**（修手机端）：
+- 根因：桌面插槽坐标是 span 内联 style，内联永远赢样式表 → 700px 媒体查询的 nth-child 覆盖从未生效，手机端一直用桌面坐标（喝酒的人/交换生相撞）。
+- 修法：views.mjs 只保留 `--r` 内联；桌面 13 条 `.identity-word:nth-child(n){--x;--y}` 进 site.css 基础层，移动端覆盖块生效。
+- 连带抓出移动端覆盖块 `--y:15` 无单位 → top 非法全部塌顶；补 %。
+- 验证：1440 亮/暗 + 390×(zh/en/tw) 程序化重叠检测全零、docW=视口宽。EN 两行词撞 A weirdo → 4 号插槽 x56→62、y14→12。
+
+**journal/city-note CSS 复原**（GPT 清理误删的真回归）：
+- 症状：about 页城市地图高度 0、图钉全在视口外；点图钉后纸笺文字暗色下几乎不可读。
+- 根因：commit 86af81b（“1”，09-30 18:15）把 27 条 journal 桌面规则连同旧按钮行一起删了——stage 框、地图 530px、图钉/标签/状态条、纸笺浮动卡（桌面 350px 右浮 + 暗色 --paper:#282923 + ≤900px 缩小 + ≤700px 落底条）全部丢失；HTML/JS 仍在引用。只剩移动端 3 条漏网。
+- 修法：从 86af81b~1 原文恢复 24 条桌面规则 + 暗色变体 + 900px 块（全部仍被 views/site.mjs 输出，非死代码）；保留既有 700px 块。
+- 验证：1440 地图 530px、12/12 图钉在可视区；点图钉→浮动纸笺卡（亮/暗双主题截图）；总览→纸笺收起+fitBounds 复位；check 全绿。
+
+**验证方法备忘**：本页 html{scroll-behavior:smooth} 会让 JS scrollTo 变异步——自动化里必须 behavior:'instant' 再量坐标，否则量的还是滚动前的位置；IAB 截图偶发把页面滚回顶部抢拍，换新 tab + hash 导航最稳。
+
+## 续⑩ 86af81b 误删 CSS 全量复原（2026-09-30 深夜，接续⑨）
+
+续⑨只修了 journal 一角；用户报「关于我的其他内容排版出问题」后做了全量盘点：以「(媒体上下文, 选择器)」精确比对 86af81b~1 与现文件，**共 112 条规则被删而仍在被 views/site.mjs 输出**，其中 103 条存活恢复、9 条确属旧设计死规则（identity-question 旧版、reading-indicator——本来就是有意移除的）排除。
+- 受灾面远超 journal：印象阅读器（Mac 窗口网格 208px 侧栏、chat-turn/bubble/sign、model-monogram、impression-scroll）、酒柜（架子线、六杯 150px 分栏、杯名、drink-art 精灵切片、drinks-drawer 配比抽屉全无样式）、工具（tool-card 卡片、skills-reel 横卷、skill-tags）、经历页（archive-year 年份线、role-record/study-record 排版、record-anchor）、首页（identity-q 问号色、home-personal-links text-link）、地图（map-pin-head 针头造型——此前图钉其实不可见）。
+- 教训：清理把「桌面规则」删了、「移动端规则」留在媒体查询里，字符串级 diff 看不出缺（选择器还在文件里）；必须按 (media, selector) 键比对。恢复块按 86af81b~1 原文、保留各自 @media，追加在 site.css 末尾（无一处与现存规则冲突，因为恢复的都是整个缺失的键）。
+- 验证：印象窗口（亮色截图）、酒柜架子+六杯杯名、抽屉打开（配比/做法/来源/遮罩模糊）、工具三卡片 reel+chips、经历页左轨+年份线、首页问号青绿、地图彩色针头、全站 12 组（6 页×2 视口）零溢出零坏图。check 全绿。

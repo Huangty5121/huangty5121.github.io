@@ -23,7 +23,8 @@ export const aboutAlbums=[
  {title:'THE PROTÉGÉ',artist:'Gareth.T',year:'2026',url:'https://music.apple.com/us/album/the-prot%C3%A9g%C3%A9/1883630666',cover:'protege.jpg'},
  {title:'浅粉红 · pale pink',artist:'Gareth.T',year:'2026',url:'https://music.apple.com/hk/album/6814412776',cover:'pale-pink.jpg',kind:'single'},
  {title:'梦想家 · The Dreamer',artist:'Khalil Fong',year:'2024',url:'https://music.apple.com/us/album/the-dreamer/1772124855',cover:'dreamer.jpg'},
- {title:'黑马 · The Dark Horse',artist:'Li Ronghao',year:'2024',url:'https://music.apple.com/us/album/the-dark-horse/1773340386',cover:'dark-horse.jpg'}
+ {title:'黑马 · The Dark Horse',artist:'Li Ronghao',year:'2024',url:'https://music.apple.com/us/album/the-dark-horse/1773340386',cover:'dark-horse.jpg'},
+ {title:'受了点伤',artist:'阿桑',year:'2003',url:'https://music.apple.com/hk/album/595935896',cover:'shoushang.jpg',track:'叶子'}
 ];
 
 // Skills are grounded in the published work/experience records in content.mjs.
