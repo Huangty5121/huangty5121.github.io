@@ -5,7 +5,7 @@ const unwritten=()=>[{id:'unwritten',title:L('先记下这个地方','A place to
 export const places=[
  {id:'hk',name:L('香港','Hong Kong'),level:L('城市','City'),coordinates:[22.3193,114.1694],color:'#367968',entries:[
   {id:'growing-up',title:L('我成长的地方','Where I grew up'),body:L(['成长、读书，也在这里生活。'],['Growing up, studying, and living here.'])},
-  {id:'university',title:L('在理大读书','Studying at PolyU'),body:L(['产品工程，第二专业是 Innovation & Entrepreneurship。'],['Product Engineering, with a secondary major in Innovation & Entrepreneurship.']),url:'experience.html#study-polyu'}]},
+  {id:'university',title:L('在理大读书','Studying at PolyU'),body:L(['产品工程学（荣誉）工学学士学位副主修创新及创业。'],['B.Eng. (Hons) in Product Engineering with a Secondary Major in Innovation and Entrepreneurship.']),url:'experience.html#study-polyu'}]},
  {id:'bj',name:L('北京','Beijing'),level:L('城市','City'),coordinates:[39.9042,116.4074],color:'#936456',entries:[
   {id:'exchange',title:L('交换的日子','An exchange chapter'),body:L(['清华大学新雅书院，创意设计与智能工程。'],['Creative Design and Intelligent Engineering at Xinya College, Tsinghua University.']),date:'2025–26',url:'experience.html#study-tsinghua'},
   {id:'three-glasses',title:L('三杯酒','三杯酒'),body:L(['在北京熟悉、常去的一间酒吧。'],['A familiar bar in Beijing, and a regular stop.'])},

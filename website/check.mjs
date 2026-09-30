@@ -45,6 +45,13 @@ for(const m of plainCss.matchAll(/(?:^|[;{])\s*font\s*:\s*([^;}]+)/g)){
  const value=m[1].trim();
  if(value!=='inherit'&&!/var\(--text-[\w-]+\)/.test(value))failures.push({file:'site.css',reason:`Font shorthand bypasses shared role: ${value}`});
 }
+// A scripted edit once replaced rule braces with commas (`.text-link,display:...`),
+// silently killing whole rules. Detect property fragments in selector position.
+{
+ const props=new Set(['font','font-size','grid','grid-template-columns','grid-template-rows','display','padding','padding-inline','padding-block','margin','margin-top','gap','color','background','border','border-bottom','width','height','min-height','max-width','position','align-items','justify-content','flex','flex-direction','letter-spacing','line-height','text-align','text-transform','transform','opacity','overflow','inset','z-index','object-fit','aspect-ratio','place-items','white-space','vertical-align','transition','animation','box-shadow','top','left','right','bottom','content','outline','column-gap','row-gap','scroll-behavior','scrollbar-width','cursor']);
+ const noComments=css.replace(/\/\*[\s\S]*?\*\//g,'');
+ for(const m of noComments.matchAll(/,\s*([a-z-]+)\s*:/g))if(props.has(m[1]))failures.push({file:'site.css',reason:`Selector looks corrupted (missing '{'?): ${m[0].slice(0,50)}`});
+}
 // Paired copy belongs to data, including nested article sections and inherited records.
 function pairedCopy(value,path){
  if(!value||typeof value!=='object')return;

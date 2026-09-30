@@ -58,7 +58,7 @@ for(const lang of ['zh','tw','en']){
  const prefix=lang==='zh'?'':'../';
  const dest=lang==='zh'?out:join(out,lang);
  const t=(zh,en)=>genLang==='zh'?zh:en;
- const nav=[['index.html','home',t('首页','Home')],['collection.html','collection',t('工作','Work')],['notes.html','notes',t('文字','Notes')],['news.html','news',t('动态','News')],['about.html','about',t('关于我','About')],['experience.html','experience',t('经历','Experience')]];
+ const nav=[['index.html','home',t('首页','Home')],['collection.html','collection',t('工作','Work')],['notes.html','notes',t('文字','Notes')],['news.html','news',t('动态','News')],['experience.html','experience',t('经历','Experience')],['about.html','about',t('关于我','About')]];
  const icon=n=>`<span data-icon="${n}" aria-hidden="true"></span>`;
  const a=(url,txt,cls='')=>`<a href="${h(url)}" class="${cls}">${txt}</a>`;
  const contactButton=`<button class="contact-trigger" popovertarget="contact-panel">${t('联系','Contact')}${icon('plus')}</button>`;
@@ -86,7 +86,7 @@ for(const lang of ['zh','tw','en']){
   const out2=lang==='tw'?zh2t(html).replaceAll('傅里葉','傅裏葉').replaceAll('<html lang="zh-Hans"','<html lang="zh-Hant"'):html;
   await writeFile(join(dest,file),out2);
  }
- const redirects=[['writing.html','index.html#personal-title'],['research.html','collection.html?filter=papers'],['projects.html','collection.html#practice'],['contact.html','about.html?contact=open'],...works.filter(w=>w.pdf||w.kind!=='paper').map(w=>[`work-${w.id}.html`,w.pdf?'read-'+w.id+'.html':'project-ninetoothed.html']),...experiences.map(e=>[`experience-${e.id}.html`,`experience.html#record-${e.id}`])];
+ const redirects=[['writing.html','index.html#personal'],['research.html','collection.html?filter=papers'],['projects.html','collection.html#practice'],['contact.html','about.html?contact=open'],...works.filter(w=>w.pdf||w.kind!=='paper').map(w=>[`work-${w.id}.html`,w.pdf?'read-'+w.id+'.html':'project-ninetoothed.html']),...experiences.map(e=>[`experience-${e.id}.html`,`experience.html#record-${e.id}`])];
  const langCode=genLang==='zh'?(lang==='tw'?'zh-Hant':'zh-Hans'):'en';
  for(const [file,target] of redirects){const redirectHtml=`<!doctype html><html lang="${langCode}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="refresh" content="0;url=${target}"><meta name="robots" content="noindex,follow"><link rel="canonical" href="${publicUrl(target.split(/[?#]/)[0],lang)}"><title>Tin-Yeh Huang</title></head><body><h1>${t('进入完整页面','Open the complete page')}</h1><a href="${target}">${t('继续浏览','Continue')}</a></body></html>`;await writeFile(join(dest,file),lang==='tw'?zh2t(redirectHtml):redirectHtml);}
 }

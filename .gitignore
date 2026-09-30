@@ -1,0 +1,8 @@
+# macOS metadata
+.DS_Store
+
+# Local verification artifacts: keep the written REPORT.md records, never
+# track generated screenshots or check output (website/review/).
+website/review/**
+!website/review/**/
+!website/review/**/*.md

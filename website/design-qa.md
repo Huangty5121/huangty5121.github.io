@@ -432,3 +432,102 @@ Follow-up: owner requested applying the self-description revision. All four firs
 ## 2026-09-29 — Personal chapters and live preview
 
 Home now pairs the identity introduction with the unchanged self-note; About starts with a Codex-like Astra/GLM reader, then listening, a six-glass illustrated cabinet, personal places and tools. Full factual records moved to Experience. The latest owner corrections remove map clustering and visible ingredient labels beneath the drinks, reduce the glasses and align each to its centered name. The built-in image tool supplied one truly transparent shelf illustration. See [the scoped verification report](review/personal-chapters-2026-09-29/REPORT.md) and [artwork/recipe provenance](references/cocktail-shelf.md). Local preview only; no publication.
+
+## 2026-09-30 — ZCode 会话：仓库卫生 + 09-29 轮审计
+
+**用户反馈**：感觉架构与内容都没做好；鸡尾酒部分「只有图」、排版奇怪；字体老问题还在；GPT 一轮改动带出很多检查/备份文件并一起提交了。要求先解决不需要视觉判断的部分，保留 localhost 预览，细节视觉留到后续逐页核查。
+
+**审计结论（对照 Codex 会话原始记录与构建产物）**：
+- 构建/静态检查全绿（126 页、0 failures）；GPT 提交后 dist 有 27 个陈旧资源残留（机构 logo 等），本次 build 的资产修剪已清掉。
+- 字体令牌契约完好：site.css 全文件 font 声明除根字号定义外全部走 var(--text-*)，GPT 新增的 cabinet/places 样式无散落 px 字号。「字体问题」属视觉层面，留待逐页核查。
+- 死类审计为零（journal-map-pin/label 为 Leaflet divIcon/tooltip 注入，非死代码）；唯一死 CSS 是 `.cabinet-slot small` 两处（架子标记中无 `<small>`），已删除。
+- 酒柜对齐实测（DOM 量测，非目测）：桌面/390px 六杯杯底距架线 1–5px，仅 Negroni 因雪碧图内基线高 8px 而浮高 ~4px。已加 `--drink-base-shift`（Negroni +1.1%，按 8/724 折算）拉平；其余五杯本就贴线。「只有图」的空旷感是设计密度问题（架子仅杯子图+名字，配比按用户此前要求收进抽屉），属视觉决策，未擅改。
+- 城市地图：图钉无错位；默认视野为框住英国→中国全部图钉（places 含英国），导致中国城市群在右侧聚成一列，是构图取舍而非坐标 bug；瓦片正常加载。留待视觉轮决定默认取景（如默认深港、英国经按钮聚焦）。
+- 首页自述五段原文完好；「桌边一角/关于我」眉题为 09-29 轮内容决定，未动。
+
+**仓库卫生**：新增根 `.gitignore`（.DS_Store；website/review/ 仅保留 *.md）。untrack 254 个文件：241 个检查截图/JSON（website/review/，35MB）与全部 .DS_Store；本地文件保留未删，REPORT.md 报告仍跟踪。website/node_modules（opencc-js，58 文件）为 CI 必需（workflow 不跑 npm install），保留。
+
+**验证**：`node website/build.mjs` + `node website/check.mjs` 通过；浏览器复核 About 酒柜桌面/390px、抽屉开合、首页自述、印象阅读器均正常。未提交、未部署。
+
+## 2026-09-30 晚 — 用户反馈大修 + 两轮完整检查（ZCode）
+
+**用户反馈**：仿 Codex 窗口有两种交互逻辑并存、文字架构不统一；「我是谁/产品工程学生」区字体没设置、链接冗余；「经历」不该放最右边；地图不该有按钮列（点图钉就行）、总览不该去外面二次点、放大地图没颜色；酒柜图缩放和排版没调；工具区被收成折叠框（要常开的卷轴）；大量旧问题复发。要求修完做两轮完整 overall 检查（一轮结束才开始第二轮）。
+
+**根因发现——5 处损坏选择器（旧病复发之源）**：先前的脚本化 CSS 清理把 5 条规则的 `{` 吃成 `,`，整条规则静默失效：`small,time{...}`（全站 time/small 基础字号）、`.text-link{display:inline-flex...}`（全站文字链接布局）、`.text-link [data-icon]{13px}`（链接箭头尺寸）、`.blog-toc a,...{font-size}`（博客目录字号）、手机版 `.personal-note{grid-template-columns}`。这解释了「字体很多没设置/一改又出来」。已全部修复，并在 `check.mjs` 加永久守卫（检测选择器位置的属性片段），126 页构建检查通过。
+
+**按反馈落地**：
+- 印象阅读器：删除底部「模型 select + 1/2」第二通道，左侧对话列表为唯一切换器（Codex 式），移动端列表横排不变。
+- 首页：删除 identity 区三个冗余链接（工程实践/研究/公共服务——hero 已有 工作成果/个人文字 两个入口）；`home-personal-links` 从两端分散改为左对齐成排，「学习与经历」不再孤悬最右。
+- About 城市区：删除标题右侧「完整经历→」（页尾已有同一入口）、删除整个城市按钮列与外部「总览」按钮；交互改为 点图钉=翻开城市纸笺、点地图空白/地图内「总览」控件=复位；总览取景改为框住中国城市群（英国/新加坡平移可达），图钉不再挤成一条；去掉瓦片 `saturate(.4) sepia(.12)` 滤镜恢复底图本色；顺带删除漏网的 `journal-invitation` 邀请条。Leaflet 控件 position 需写在 `options` 里（首版误放顶层导致落到右上）。
+- 酒柜：六杯 210→178px（平板 156、手机 126），名字居中不变，基线仍贴架线 1.1–1.5px。
+- 工具区：三个 `<details>` 折叠夹改为常开横向卷轴 `.skills-reel`（外框+卡片+横向滚动+scroll-snap，手机端卡片占 84% 宽可滚），无点击展开；每卡内的「相关工作」链接删除（标题行保留一句说明，不放大链接）。
+- 文档同步：architecture.md / SKILL.md 更新为单切换器、图钉交互、常开卷轴现状。
+
+**两轮 overall 检查**（每轮均含：build/check、首页、About 四区、地图三交互、抽屉、卷轴、三语言、390px、明暗、A+、10 条路由 h1/溢出/破图、控制台错误——全部 0 失败）：
+- 酒柜基线两轮实测均为 [1.1,1.5,1.1,1.5,1.1,1.1]px；A+（15px root）下不变。
+- 三语言：en/tw 的总览控件文案（Overview/總覽）、12 图钉、无 select、卷轴 3 卡、无溢出。
+- 键盘：图钉 tabindex=0 可聚焦（Leaflet 内建 Enter→click；合成事件无法触发属测试限制）。
+- 死类审计零（journal-map-pin/label 为 Leaflet 注入、journal-overview 为 JS 创建）；字体令牌契约保持（仅根定义一处 px）。
+- 备注：`.text-link` 在 flex 容器内 computed display 显示 flex 系 inline-flex 被 blockify，规范行为非 bug。
+- 镜像目录已同步重建（0 failures）。未提交、未部署。
+
+## 2026-09-30 深夜 — 第二批反馈五连修（ZCode）
+
+**用户反馈（含中途连发）**：① who am I 区不对、字体明显太大（要先查他当时原话）；② 「经历凭什么在顶栏倒数右边——肯定是关于收尾、经历倒数第二」；③ Codex 界面要模仿 Mac 窗口（红绿灯），现在完全不是；④ 酒杯再缩、自己看与其他内容的平衡、酒柜排版架构本身有问题；⑤ 经历页不按时序、没有好的 display/structure，重构；⑥ 「说多少遍」：second major 与本专业并列，整个 major 就叫 PE with secondary major IE，不准把 IE 当 meta。
+
+**当时原话核对**（Codex 会话 2026-09-29）：「先放一个比较有设计感的界面，然后我是谁？然后，什么什么学生，然后 engineer 也好或者其他的，之后就紧贴着现在的关于我的内容」——即 我是谁？→ 学生行 → engineer/其他 → 紧贴自述。
+
+**逐项落地**：
+1. 导航：首页·工作·文字·动态·经历·关于我（关于收尾，经历倒数第二）。三语言 nav 全验证。
+2. who am I：删 HELLO eyebrow；两栏改单列；我是谁？WenKai text-title 26px；学生行从 34px clamp（--text-introduction 已删）降到 text-section 18px；序列=我是谁？→ 香港理工大学 → 产品工程 · 第二主修 Innovation & Entrepreneurship.（IE 并列进主行，不再做 meta 小字）；紧贴自述不变。经历页学习记录与 places.mjs 的理大条目同步并列写法（Management 辅修仍按 check 禁令不上页）。
+3. 印象阅读器 Mac 窗口：新增 `.impression-window-bar`（复用 desk-window-bar：红黄绿灯 + 居中标题 + 右侧对话札记），下接 sidebar/阅读网格；`.impression-app` 改 flex 列、`.impression-body` 承载原 grid；移动端 700px 布局重写。暗色窗口栏实测正常。
+4. 酒柜：货架从全宽 1120 收到居中 860px（--glass-height 210→150，平板 132，手机 126），实测杯宽 96px≈音乐架封面 96px，六杯基线 0.8–1.1px 全贴线；构图从「全宽机械六格」变为居中小酒柜对象，与音乐架/地图节奏平衡。
+5. 经历页重构：experiences 按 period 开始时间降序（periodKey 解析 yyyy.mm），插入 `.archive-year` 年份细线分组（2026/2025/2024/2023）；education 同步降序（清华交换→理大→HKCC）；org 锚点与 #record-/#study-/#org- 兼容不变。
+6. 记忆：IE 并列规则已写入 site-content-decisions（「说多少遍」级）。
+
+**验证**：build/check 126 页 0 失败；桌面/390px × zh/en/tw 全部无溢出；导航顺序三语正确；Mac 窗口红绿灯+标题三语渲染；印象切换、酒柜基线、年份分组（4 组）全实测；暗色窗口栏正常。镜像目录同步重建 0 失败。未提交、未部署。
+
+## 2026-09-30 深夜② — 第三批反馈八连修（ZCode）
+
+**用户反馈**：① 学位名从来不是一个整体加「·」——最终定名：zh「产品工程学（荣誉）工学学士学位副主修创新及创业」（一整串，无分隔符，中途纠正过两次）、en「B.Eng. (Hons) in Product Engineering with a Secondary Major in Innovation and Entrepreneurship」，并质问为什么不写成中文；② 首页个人文字区，图搬过去之后排版不对（纸张图 absolute bottom:-30px 悬出压到页脚链接）；③ 动态页排版难看；④ 经历页「说了修改还是没修改」；⑤ About 顶栏 Mac 窗口不需要任何文字，底下仿 Codex 聊天界面一个不还原、且不该和 record 一样排版；⑥ 酒柜抽屉排版有问题；⑦ 地图要能看到「去过哪」（总览必须框全部图钉），不要 extra 提示文案；⑧ 工具区没分类没交互，工具/技能交叉应可见。
+
+**落地**：
+1. 学位名三处（首页 identity 行、经历页学习记录、places 理大笔记）改为上述最终名；记忆同步为 owner 亲定原文。
+2. `.notes-material` 从 absolute 悬挂改为 flex 行内（120px，右侧对齐，≤600px 隐藏）；`.home-notes` 由三列 grid 改 flex；清掉 140px 右补白等三条过期规则。实测图底 2058 < 页脚顶 2028→不再重叠（修正后 overlap:false）。
+3. 动态页：删 170px 定高灰框，剪报按原始宽高比铺列宽（五图均 2.7–8.8:1 横条，实测高度自适应、灰底消失）。
+4. 经历页：上轮时序+年份分组实际已生效（dist 验证 2026/2025/2024/2023），用户看到的是浏览器缓存的旧页；学习行本次同步新学位名。
+5. Mac 窗口栏只剩红绿灯（文字全删）；阅读区重构为聊天转写：`.chat-turn`（monogram+模型名+日期）+ `.chat-bubble`（3px/12px 圆角气泡承载段落）+ `.chat-sign` 落款，替代原 record 式 eyebrow/h3 排版。
+6. 抽屉图窗 180×230→120×140，雪碧图 base 对齐窗底（实测 imgBottomInFrame=0）。
+7. 总览 fitBounds 恢复全部 places（英国/新加坡回框内，实测 UK 图钉在总览视野内）；删除标题行提示文案。
+8. 工具区：标题行加分类筛选 chips（全部/三类，aria-pressed），点击聚焦对应卡（accent 边框）并淡化其余（实测 focused1/dimmed2/复位OK，平滑滚动到目标卡）；修一个真 bug——`pick()` 把 s.name 摊平成字符串后 `s.name.zh` 查表恒 undefined，导致交叉标记从不渲染；改为字符串键后「跨 · 教学」标记 ×3 正常出现（NineToothed/CUDA/教学内容整理——教学在工程与研究两类间的交叉，来自站内既有事实，未新增个人内容）。
+
+**验证**：build/check 126 页 0 失败；改后经 cache-busting 强刷逐项实测（浏览器启发式缓存曾让旧页顶了三轮，已全部以 ?v= 复验）；390px 四页零溢出；暗色窗口栏正常；镜像同步重建 0 失败。未提交、未部署。
+
+## 2026-10-01 凌晨 — 截图逐条修正 + 中间区重构（ZCode）
+
+**用户反馈（附三张截图）**：仿 Codex 窗口「自己看看这些什么玩意」——气泡把五段围成一面墙（全高描边框）、列两侧留白失衡；上一轮遗留：禮紀/中间UI/我是誰写法。
+
+**处理**：
+- 查证「禮紀」：全站 126 页 ×3 语言文本层无此二字（grep 0 命中），应为对「学位全名履历腔 + 桌边一角仿古眉题」的观感批评；本轮把两个源头都删了。
+- 首页中间重构（按用户 Codex 原话「先我是谁？然后什么什么学生，engineer 也好，紧贴关于我」）：删除 HELLO/桌边一角/关于我 三层标题与左右两栏；现在是 我是谁？（WenKai）→ **产品工程学生。**（text-section）→ 灰色补充行（在香港理工大学读书，写代码、做研究，也参与一些公共服务。）→ 五段自述同一 62ch 阅读列直接紧贴；河畔涂鸦移到左边距（mask 渐隐）；正式学位名只留在经历页学习记录与地图笔记。#personal-title 锚点改 #personal（writing.html 跳转同步，check 抓到并修复）。
+- 印象阅读区去气泡框：段落纯排版（line-height 2、62ch 居中），模型头行下加细线；列由 72ch 收到 62ch 与全站阅读列一致。
+- 修一个真 bug：手机端 .personal-scenery 回到 position:relative 后 span 变 inline、宽 0，overflow 裁切失效 → 文档被 510px 涂鸦撑出横向滚动；补 display:block，390px 恢复 0 溢出。
+- en/tw 快验：我是谁？（A Product Engineering student. / 產品學生行）三语正确、聊天区无边框、无溢出。
+
+**自查仍未做/待用户定的**：① 印象窗口在超宽屏（>1440）列居中后两侧留白仍偏大——是否给 impression-app 设 max-width 待定；② 酒柜「只有图+名字」的密度（加一行小字材料？）待定；③ GLM 印象日期 2026.09.30 是否保留原样；④ 抽屉/工具卡片的暗色视觉只做了功能验证、未逐张截图目检；⑤ 经历页「更多内容」disclosure 的展开态未在本轮重验。未提交、未部署。
+
+## 2026-10-01 — 首页中间排版统一（ZCode，用户「排版你自己看」）
+
+**自查发现**：中间带两条左线——我是谁/学生行/链接行贴版心左缘（160），而五段自述的阅读列居中（起点 444），视觉断裂；且涂鸦右缘 560 横盖进正文列；随后一版涂鸦用 50vw 公式顶出视口右缘。
+
+**修正**：中间带统一为一条左线——身份块、五段自述（max-width 62ch 左对齐）、底部链接行全部同缘；涂鸦改为版心右缘内锚定（right:0，mask 向左渐隐，人物+河流在右留白可见）；身份块与自述间距 24→32px。
+
+**验证**：build/check 0 失败；1440/390/暗色/A+ 全部 0 溢出；镜像同步重建通过。未提交、未部署。
+
+## 2026-10-01 续 — 我是谁与自述重新分开（ZCode，用户纠正）
+
+**用户反馈**：① 我是谁和自述内容要分开，不该合并成一条流；② 人物涂鸦被盖住了；③ 我是谁区应该是「提出一些身份假设+问号」，衔接到正文第一句「我不知道怎么介绍自己」；④ 不该动这一带之前的整体排版。
+
+**落地**：恢复自述区原两栏构图（左：桌边一角/关于我 + 河畔涂鸦，mask 保持人物完整可见；右：五段正文）；我是谁区独立成块（border-bottom 分隔），内容改为三个身份假设堆叠——产品工程学生？/ 工程师？/ 研究者？（--text-title，第二三行 muted，问号 accent 色，EN 用半角 ?），末尾香港理工大学小字；正文首句自然承接问号。
+
+**验证**：build/check 0 失败；390px 0 溢出且涂鸦完整；zh/en/tw 三语假设行正确（en 问号半角）；暗色 0 溢出。镜像同步通过。未提交、未部署。

@@ -105,22 +105,33 @@ function initialiseView({scrollToHash=true}={}){
  }
  const impressionTabs=[...main.querySelectorAll('[data-impression-tab]')];
  if(impressionTabs.length){
-  const model=main.querySelector('[data-impression-model]'),scroller=main.querySelector('[data-impression-scroll]');
+  const scroller=main.querySelector('[data-impression-scroll]');
   const positions=new Map();let active=impressionTabs[0].dataset.impressionTab;
   const chooseImpression=id=>{
    positions.set(active,scroller.scrollTop);active=id;
    for(const tab of impressionTabs){const selected=tab.dataset.impressionTab===id;tab.setAttribute('aria-selected',String(selected));tab.tabIndex=selected?0:-1;main.querySelector('#'+tab.getAttribute('aria-controls')).hidden=!selected;}
-   model.value=id;scroller.scrollTop=positions.get(id)||0;
-   main.querySelector('[data-impression-status]').textContent=(impressionTabs.findIndex(tab=>tab.dataset.impressionTab===id)+1)+' / '+impressionTabs.length;
+   scroller.scrollTop=positions.get(id)||0;
   };
-  model.addEventListener('change',()=>chooseImpression(model.value),options);
   impressionTabs.forEach((tab,i)=>{
    tab.addEventListener('click',()=>chooseImpression(tab.dataset.impressionTab),options);
    tab.addEventListener('keydown',e=>{let n;if(['ArrowDown','ArrowRight'].includes(e.key))n=(i+1)%impressionTabs.length;else if(['ArrowUp','ArrowLeft'].includes(e.key))n=(i+impressionTabs.length-1)%impressionTabs.length;else if(e.key==='Home')n=0;else if(e.key==='End')n=impressionTabs.length-1;else return;e.preventDefault();chooseImpression(impressionTabs[n].dataset.impressionTab);impressionTabs[n].focus();},options);
   });
  }
- const workTabs=[...main.querySelectorAll('[data-work-tab]')];
- if(workTabs.length){
+ const skillFilters=[...main.querySelectorAll('[data-skill-filter]')];
+ if(skillFilters.length){
+  const cards=[...main.querySelectorAll('[data-tool-group]')];
+  const chooseGroup=id=>{
+   for(const chip of skillFilters)chip.setAttribute('aria-pressed',String(chip.dataset.skillFilter===id));
+   for(const card of cards){
+    const match=!id||card.dataset.toolGroup===id;
+    card.classList.toggle('is-focused',!!id&&match);
+    card.classList.toggle('is-dimmed',!!id&&!match);
+    if(match&&id)card.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'nearest',inline:'center'});
+   }
+  };
+  for(const chip of skillFilters)chip.addEventListener('click',()=>chooseGroup(chip.dataset.skillFilter),options);
+ }
+ const workTabs=[...main.querySelectorAll('[data-work-tab]')]; if(workTabs.length){
   const selectWork=kind=>{for(const tab of workTabs)tab.setAttribute('aria-pressed',String(tab.dataset.workTab===kind));for(const panel of main.querySelectorAll('[data-work-panel]'))panel.hidden=panel.dataset.workPanel!==kind;};
   const workKind=()=>location.hash==='#practice'||['ninetoothed','social'].includes(location.hash.slice(1))||new URLSearchParams(location.search).get('filter')==='engineering'?'engineering':'research';
   selectWork(workKind());
@@ -147,16 +158,15 @@ function initialiseView({scrollToHash=true}={}){
  const journal=main.querySelector('.city-journal');
  if(journal){
   const viewport=journal.querySelector('[data-journal-map]'),note=journal.querySelector('.city-note'),stage=journal.querySelector('.journal-stage');
-  const places=JSON.parse(viewport.dataset.places),cityButtons=[...journal.querySelectorAll('[data-place]')];
+  const places=JSON.parse(viewport.dataset.places);
   const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
-  let map,selectedCity=null,originButton=null,animation;
+  let map,selectedCity=null,animation;
   const markers=new Map();
   const develop=element=>{animation?.cancel();if(!reduced)animation=element.animate([{opacity:.3,filter:'blur(5px)',transform:'translateY(5px) rotate(.4deg)'},{opacity:1,filter:'blur(0)',transform:'translateY(0) rotate(0)'}],{duration:320,easing:'ease-out'});};
-  const closeNote=({focus=false}={})=>{note.hidden=true;stage.classList.remove('has-note');selectedCity=null;for(const button of cityButtons)button.setAttribute('aria-pressed','false');for(const marker of markers.values())marker.getElement()?.classList.remove('is-selected');if(focus)originButton?.focus({preventScroll:true});};
+  const closeNote=({focus=false}={})=>{note.hidden=true;stage.classList.remove('has-note');selectedCity=null;for(const marker of markers.values())marker.getElement()?.classList.remove('is-selected');if(focus)viewport.focus({preventScroll:true});};
   const choosePlace=(id,{focus=false,fromPin=false}={})=>{
    const city=places.find(place=>place.id===id);if(!city)return;
-   selectedCity=city;originButton=cityButtons.find(button=>button.dataset.place===id);
-   for(const button of cityButtons)button.setAttribute('aria-pressed',String(button.dataset.place===id));
+   selectedCity=city;
    for(const panel of journal.querySelectorAll('[data-journal-city-panel]'))panel.hidden=panel.dataset.journalCityPanel!==id;
    journal.querySelector('[data-journal-city]').textContent=city.name+' / '+city.level;
    note.hidden=false;stage.classList.add('has-note');develop(note);
@@ -169,7 +179,6 @@ function initialiseView({scrollToHash=true}={}){
    for(const [key,marker] of markers)marker.getElement()?.classList.toggle('is-selected',key===id);
    if(focus)note.querySelector('[data-journal-close]').focus({preventScroll:true});
   };
-  for(const button of cityButtons)button.addEventListener('click',()=>choosePlace(button.dataset.place),options);
   journal.querySelector('[data-journal-close]').addEventListener('click',()=>closeNote({focus:true}),options);
   journal.addEventListener('keydown',e=>{if(e.key==='Escape'&&!note.hidden){e.preventDefault();closeNote({focus:true});}},options);
   for(const button of journal.querySelectorAll('[data-journal-entry]'))button.addEventListener('click',()=>{
@@ -178,17 +187,19 @@ function initialiseView({scrollToHash=true}={}){
    for(const page of panel.querySelectorAll('.journal-page'))page.hidden=page.id!==button.getAttribute('aria-controls');
    develop(panel.querySelector('.journal-page:not([hidden])'));
   },options);
-  const reset=()=>{closeNote();if(map){map.fitBounds(places.map(place=>place.coordinates),{padding:[55,55],maxZoom:3,animate:false});}};
-  journal.querySelector('[data-place-reset]').addEventListener('click',reset,options);
   const L=window.L;
+  const reset=()=>{closeNote();if(map)map.fitBounds(places.map(place=>place.coordinates),{padding:[55,55],maxZoom:5,animate:false});};
   if(L){
    map=L.map(viewport,{zoomControl:false,scrollWheelZoom:true,minZoom:1,maxZoom:8});
    viewport.addEventListener('wheel',e=>{if(!e.ctrlKey)e.stopPropagation();},{capture:true,passive:true,...options});
    map.attributionControl.setPrefix('');L.control.zoom({position:'bottomleft'}).addTo(map);
+   const Overview=L.Control.extend({options:{position:'bottomleft'},onAdd(){const button=L.DomUtil.create('button','journal-overview');button.type='button';button.textContent=t('總覽','Overview');button.addEventListener('click',e=>{L.DomEvent.stop(e);reset();});return button;}});
+   map.addControl(new Overview());
+   map.on('click',()=>{if(selectedCity)reset();});
    const tiles=L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,keepBuffer:1,attribution:'© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>'}).addTo(map);
    const status=journal.querySelector('[data-map-status]');let loadedTiles=0;
    tiles.on('tileload',()=>{loadedTiles++;status.textContent='';});
-   tiles.on('tileerror',()=>{if(!loadedTiles)status.textContent=t('底圖暫時未能加載，仍可點城市翻閲。','The basemap is unavailable; city notes still open above.');});
+   tiles.on('tileerror',()=>{if(!loadedTiles)status.textContent=t('底圖暫時未能加載，仍可點圖釘翻頁。','The basemap is unavailable; pins still open their pages.');});
    for(const city of places){
     const label=document.createElement('span');label.textContent=city.name;
     const marker=L.marker(city.coordinates,{title:city.name,keyboard:true,riseOnHover:true,icon:L.divIcon({className:'journal-map-pin',html:`<span class="map-pin-head" style="--pin-color:${city.color}"></span>`,iconSize:[36,42],iconAnchor:[18,37]})});
@@ -198,7 +209,7 @@ function initialiseView({scrollToHash=true}={}){
    reset();
    const resize=new ResizeObserver(()=>map.invalidateSize({pan:false}));resize.observe(viewport);
    options.signal.addEventListener('abort',()=>{resize.disconnect();animation?.cancel();map.remove();},{once:true});
-  }else journal.querySelector('[data-map-status]').textContent=t('地圖暫時未能加載，仍可點城市翻閲。','The map is unavailable; city notes still open above.');
+  }else journal.querySelector('[data-map-status]').textContent=t('地圖暫時未能加載，暫無法翻閲城市。','The map is unavailable, so city pages cannot open.');
  }
  if(new URLSearchParams(location.search).get('contact')==='open')contactPanel.showPopover();
  revealHash({scroll:scrollToHash});
