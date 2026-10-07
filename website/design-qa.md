@@ -626,3 +626,21 @@ Home now pairs the identity introduction with the unchanged self-note; About sta
 - 受灾面远超 journal：印象阅读器（Mac 窗口网格 208px 侧栏、chat-turn/bubble/sign、model-monogram、impression-scroll）、酒柜（架子线、六杯 150px 分栏、杯名、drink-art 精灵切片、drinks-drawer 配比抽屉全无样式）、工具（tool-card 卡片、skills-reel 横卷、skill-tags）、经历页（archive-year 年份线、role-record/study-record 排版、record-anchor）、首页（identity-q 问号色、home-personal-links text-link）、地图（map-pin-head 针头造型——此前图钉其实不可见）。
 - 教训：清理把「桌面规则」删了、「移动端规则」留在媒体查询里，字符串级 diff 看不出缺（选择器还在文件里）；必须按 (media, selector) 键比对。恢复块按 86af81b~1 原文、保留各自 @media，追加在 site.css 末尾（无一处与现存规则冲突，因为恢复的都是整个缺失的键）。
 - 验证：印象窗口（亮色截图）、酒柜架子+六杯杯名、抽屉打开（配比/做法/来源/遮罩模糊）、工具三卡片 reel+chips、经历页左轨+年份线、首页问号青绿、地图彩色针头、全站 12 组（6 页×2 视口）零溢出零坏图。check 全绿。
+
+## 续⑪ 排版·表达统一轮：移动反杀修复 + 三代死 CSS 清理 + 排版系统收敛 + 文案约定 + 防回归守卫（2026-10-05）
+
+用户报「电脑和手机版大量排版/UIUX 问题、定位没统一」，全站体检（11 路由 × 1440/390/320 × 亮暗 + site.css 全文审计 + views/build 文案盘点 + design-qa 历史挖掘）后分六批执行。工具：`review/typography-2026-10/scan-overrides.mjs` 按 (media, selector, property) 索引全文件，输出「窄上下文被后置宽上下文反杀」与「从未胜出的死声明」两份清单。
+
+**① 移动端反杀（续⑩ 的隐藏代价）**：恢复块按原文追加在旧 ≤700px 块**之后**，同特异性下后置规则在手机宽度反杀移动修复——续⑩「无一处冲突」的判断只在键 completeness 层面成立，漏了顺序冲突。实测受害者：印象阅读器（≤700 堆叠被 809 基础+908 max-900 压回 180px 双列，GLM-5.3 会话项叠压正文）、经历档案（631 单列被 882/883 压回 minmax(170px,25%)，390px 正文列仅 ~157px、study-record 文字列 ~68px 碎断行）、portrait-reading、skills-reel、music-room-heading。修法=三个 ≤700 块（509/617/655）整体移到文件末尾，原文一字未删；顺带修 `personal-prose` 缺点（该规则从未生效）+ `.personal-note` ≤700 折单列（509 块本就把第一格布置为 190px 画台，竖排是原意）。验证：390 实测 impression 单列 348px、archive 单列 389px、personal-prose 350px；701-900 平板档 180px 侧栏正确接管；1440 桌面 208px+792px 不变；320 全绿。
+
+**② 三代死 CSS 清理（死声明 105→20，规则 909→878）**：landing 三代（610/760/550/510/590px min-height 等全死，唯一 owner=408 `min(92svh,820px)`）、identity 三代、contact 三代（78/314/429/90/330/338 的死 width/padding/背景/阴影，唯一 owner=662 min(510px) + biz-card 自带 padding；弹层实测 510px 名片卡正常）、share-card 第一代、site-header 两代毛玻璃（706 solid 为唯一 owner；毛玻璃与否属视觉决策，本轮保持 solid）。附带修复：news-feature img height:auto(特异性)压过 object-fit 的矛盾（删除死声明，接受自然高度）；entry-summary 600px 断点 meta/small 矛盾（归 small 单 owner）；index-list 104px 基础重复声明压扁 29px 手机轨道的回归（删除重复）；page-heading h1 margin 归 sp-10；死 z-index、死 backdrop-filter、`.eyebrow`/`.entry-*` 死碎片。署名移至照片右上（原与音乐钮在首屏右下相撞）；音乐钮 footer-near 淡出（IntersectionObserver→data-footer-near，名片页短页脚不再被压，实测 footerNear=true 时钮消失）。
+
+**③ 排版系统收敛**：行高两级制（UI 正文 1.8 / WenKai 阅读 2.0），1.55/1.65/1.75/1.85/1.9/2.05/2.1 全部归位；reader-lede 从 small/1.85 升 body/1.8（与 publication-copy 同一 w.summary 同一样式）；section-caption p body→small（栏目描述统一 small+28em）；role-record header p 死 meta 声明删除；段落节奏归一 p+p:16（删 blog/publication/journal 局部 margin-bottom 与 listening-note 4px 覆盖）；eyebrow 字距统一 .09em（reader-aside-label .08、case-lines .05 归位）；WenKai 标题显式 +.02em（journal h3、home-intro h2 不再继承 DM Sans 负字距）；行长 730/735 归 735、personal-prose/portrait-reading 62ch→440px（ch 对 CJK 失真）；酒柜手机架线 16px→18px 与桌面一致。缩略图对齐（home 居中 vs 列表顶格）**保留现状**：同视图内已一致，跨视图属构图差异，记录于 architecture.md。身份墙暗色 w-purple/w-brown 补亮色值（原 <3:1）。
+
+**④ 文案表达统一（views/build/content/news/check 层；自述/两份印象/专辑/地点/酒名 frozen 未动）**：About h1 三语落位 `t('黄天野','Tin-Yeh Huang')`；日期 news `2025 · 03`→`2025.03`、prose `2026–2027`→`2026 — 2027`（学术年 `2025–26` 为文档化例外）；眉标 `·`/`/` 分工（论文记录 · 2026 等 5 处；slug 类 01 / EDUCATION 保留斜杠）；01/EDUCATION 等 5 处英文眉标 t() 化；箭头语义：内部链接 3 处 ↗→→、项目页返回键 `→返回工作`→`←返回工作成果`（与论文页统一）；honours 引号 「挑战杯」/「AI 助力一小帮一老」+ AI 前后空格（并与 x-social 页拼写统一）；en 标签一对一（Drinks cabinet 抽屉眉标对齐、Shelf collection aria 对齐）；collection 计数 07/02 动态化、三组空 `<p></p>` 清除、work-social.html 补 stub、?filter=papers 死参数移除、NineToothed 单一公开名（workCopy.title 覆写）；honours 迁 content.mjs 并纳入 check 配对检查（五元组校验）。苦艾马天尼为 owner 命名酒款，未动，待示。
+
+**⑤ 设计意图恢复**：hero 名字三处特异性残留（`.identity h1` 的 margin/1440/1441/min-901/@600 四块）清除，`.hero-name` 完全接管——实测 31.57px WenKai、-.03em、与英文名间距 4px（修复前 26px/16px，`--text-name` 引入以来从未生效）；手机 ≤600 维持 26px+.26em 海报式字距。
+
+**⑥ 防回归守卫（check.mjs 新增三条，负向自检通过）**：括号配平；≤700 声明被后置宽上下文异值覆盖即 fail（注入 `.archive-section` 旧双列规则实测报警）；生成 HTML 内联布局样式禁令（仅 `--r`/`--drink-*` 类自定义属性豁免）。
+
+**验证**：每批 build+check 零失败；最终 scan 反杀 0 组、死声明 20（同值链与 reduced-motion 误报为主）；桌面 1440 + 手机 390 抽样截图逐批比对；弹层/抽屉/页脚避让/暗色身份墙实测；IAB 截图超时与浏览器启发式缓存再次出现——凡文案断言一律 cache-bust 参数重验。未提交、未部署。

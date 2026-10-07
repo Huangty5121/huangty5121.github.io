@@ -25,10 +25,11 @@ const experienceCopy={
  hotel:{body:L(['在帝京酒店会计与 IT 部门实习。制作 Python 与 pandas 工具，将获授权的数据库记录整理为会计与营运所需的 Excel 报表。','维护服务器机房与办公 IT 系统，提供日常技术支持，并参与外部业务发展相关的软件开发会议。'],['Accounting and IT internship at Royal Plaza Hotel. Built Python and pandas tools to transform authorised database records into Excel reports for accounting and operations.','Maintained server-room and office IT systems, provided day-to-day technical support, and joined software-development meetings for external business-development initiatives.'])},
  'x-social':{body:L(['参与教育与技能获取平台、长者智能手机学习与 AI 数字人陪伴相关的社会创新项目，负责过用户访谈、演示开发与测试、原型和路演。'],['Worked on social innovation projects covering education and skills access, smartphone learning for older adults, and AI digital-human companionship, with user interviews, demo development and testing, prototypes, and pitches.'])},
  'gov-committee':{body:L(['担任油尖旺地区青年发展及公民教育委员会委员，也参与旗下的社区体育委员会和推广「一国两制」委员会。'],['Serves on the Yau Tsim Mong District Youth Development and Civic Education Committee and its Community Sports Committee and Committee on the Promotion of “One Country, Two Systems”.']),links:[['民政事务总署委员名单 / HAD membership list','https://www.had.gov.hk/chs/public_services/youth_participation_initiative/dydce_committee_district.htm?district=ytm']]},
- 'gov-tutor':{body:L(['担任国家安全教育地区导师，任期为 2026 至 2027 年。'],['Serves as a National Security Education District Tutor for the 2026–2027 term.'])},
+ 'gov-tutor':{body:L(['担任国家安全教育地区导师，任期为 2026 至 2027 年。'],['Serves as a National Security Education District Tutor for the 2026 — 2027 term.'])},
 };
 export const experiences=originalExperiences.map(e=>({...e,...experienceCopy[e.id]}));
 const workCopy={
+ ninetoothed:{title:L('NineToothed','NineToothed')},
  heatwave:{body:L(['研究热浪风险如何通过生态和社会系统形成连锁健康影响。','参与研究设计、正式分析、数据整理、可视化和论文写作。'],['The study examines how heatwave risks cascade through ecological and social systems into health impacts.','Contributed to study design, formal analysis, data curation, visualisation, and manuscript writing.'])},
  structrace:{authors:'Xu Wang, Chi Wang, Tin-Yeh Huang, Yiquan Wang, Siyuan Jiang, Yafei Yuan',version:L('已接收 · 2026','Accepted · 2026'),body:L(['StrucTrace 利用傅里叶水印追踪生物分子结构的来源。','在 SHI Lab 参与初稿文字和图稿，并在投稿至接收期间修改论文与插图。'],['StrucTrace uses Fourier watermarking to trace biomolecular structures.','At SHI Lab, contributed to initial text and figures and revised the manuscript and illustrations through acceptance.'])},
  crypto:{body:L(['研究 RNA 折叠复杂度能否用于构造密码学原语。','AI4NA 研讨会稿和后来的 arXiv v2 预印本属于同一项研究。'],['Explores whether RNA folding complexity can support a cryptographic primitive.','The AI4NA workshop paper and later arXiv v2 preprint are versions of the same study.'])},
@@ -39,3 +40,13 @@ const workCopy={
  ninetoothed:{version:L('工程实践 · 2026','Engineering work · 2026'),body:experienceCopy.qiyuan.body,links:[...originalWorks.find(w=>w.id==='ninetoothed').links,...experienceCopy.qiyuan.links]},
 };
 export const works=originalWorks.map(w=>({...w,...workCopy[w.id]}));
+// 荣誉台账： zh/en 成对；日期统一为入学年月格式，奖项名引号跟随全站「」约定。
+export const honours=[
+ ['2026','「挑战杯」自治区大学生创业计划竞赛 二等奖 · 团队奖','“Challenge Cup” competition (Xinjiang) · Second prize · Team award','疆芯智种——基于 AI 大模型的番茄育种与基因水印防伪系统','Project JiangXin Zhizhong — AI-model-based tomato breeding with gene-watermark anti-counterfeiting'],
+ ['2026','最佳创意奖 · 团队奖','Best Innovation Award · Team award','「AI 助力一小帮一老」创新挑战赛 · UNGLEP · 深圳零一学院','“AI for the Young and the Elderly” Innovation Challenge · UNGLEP · X-Institute Shenzhen'],
+ ['2026','Ir. Dr. Wong Tit-shing Student Exchange Scholarship','Ir. Dr. Wong Tit-shing Student Exchange Scholarship','香港理工大学工程学院','Faculty of Engineering, PolyU'],
+ ['2025','Scholarship for Student Exchange','Scholarship for Student Exchange','香港理工大学 Global Engagement Office','Global Engagement Office, PolyU'],
+ ['2024','Reaching Out Award','Reaching Out Award','香港特区政府奖学基金','HKSAR Government Scholarship Fund'],
+ ['2024','ISE Department Entry Scholarship','ISE Department Entry Scholarship','香港理工大学','The Hong Kong Polytechnic University'],
+ ['2024','Study Visit Programme Scholarship','Study Visit Programme Scholarship','理大专业及持续教育学院','PolyU CPCE'],
+];

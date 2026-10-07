@@ -27,6 +27,8 @@ syncSizeButton();
 sizeButton.addEventListener('click',()=>{document.documentElement.dataset.largeText=String(document.documentElement.dataset.largeText!=='true');syncSizeButton();savePreference('tyh-large-text',document.documentElement.dataset.largeText);});
 const music=document.querySelector('#music'),musicButton=document.querySelector('[data-music-toggle]'),audioStatus=document.querySelector('[data-audio-status]');
 const musicDock=document.querySelector('.music-dock'),musicPanel=document.querySelector('#music-panel'),musicSeek=document.querySelector('[data-music-seek]'),musicVolume=document.querySelector('[data-music-volume]');
+// 頁腳進入視口時收起懸浮音樂鈕，避免壓住頁腳右側鏈接（名片頁等短頁面尤其明顯）。
+if(musicDock&&document.querySelector('.site-footer')){new IntersectionObserver(([entry])=>{musicDock.dataset.footerNear=String(entry.isIntersecting);}).observe(document.querySelector('.site-footer'));}
 music.volume=.55;
 const audioTime=seconds=>`${Math.floor(seconds/60)}:${String(Math.floor(seconds%60)).padStart(2,'0')}`;
 function audioState(){musicButton.setAttribute('aria-pressed',String(!music.paused));musicButton.setAttribute('aria-label',music.paused?t('播放音樂試聽','Play music preview'):t('暫停音樂試聽','Pause music preview'));musicButton.querySelector('[data-icon]').dataset.icon=music.paused?'play':'pause';musicDock.dataset.playing=String(!music.paused);document.querySelector('[data-music-label]').textContent=music.paused?t('聽點音樂','A little music'):t('正在播放 · 葉子','Playing · Ye Zi');paintIcons(musicButton);}

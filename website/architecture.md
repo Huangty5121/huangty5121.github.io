@@ -76,6 +76,21 @@ About's personal wrapper has **zero bottom padding**. The records introduction o
 
 Root responsive variables own the small-screen spacing changes. The old closing “Section rhythm normalization” override block has been removed; edit the component's existing rule and these root roles. Other historical CSS rules remain and are not claimed to be fully refactored. Border widths, artwork geometry, optical offsets and viewport-based PDF reader heights are separate constraints. A+ changes type size, not the spacing scale; inspect the resulting line wraps rather than assuming the page height stays fixed.
 
+## Breakpoint roles and expression conventions (2026-10-05)
+
+Three documented tiers plus named component exceptions; any other width needs a note here before it is introduced.
+
+| Tier | Width | Owns |
+| --- | --- | --- |
+| Desktop base | >900px | Full layouts; gutters 56px; impression sidebar 208px |
+| Tablet | 701–900px | Gutters 32px; impression sidebar 180px; entry-overview prompt track 60px; cabinet glass 132px |
+| Mobile | ≤700px | Single-column stacking; gutters 20px; the impression reader becomes a horizontal file strip; archive sections and the personal note stack |
+| Phone refinements | ≤600px (650/540/480/360 where content demands) | Header 65px; desktop nav hidden in favour of the menu dialog; study-record year column 72px |
+
+Component-owned exceptions: work-group columns at 790px, music layout at 1100/800px, share-card actions at 540px, ledger at 480px, contact edge case at 360px, brand span hidden at 1000px. When a rule must not leak below 700px, use a range query (`min-width:701px) and (max-width:900px`) — the precedent is the cabinet-glass block. The ≤700px blocks live at the **end** of `site.css`, after the 2026-09-30 restoration block, and must stay last: `check.mjs` fails when a later base rule overrides a ≤700px declaration, when braces are unbalanced, or when generated HTML carries inline layout styles (custom-property registration such as `--r` is the only allowed inline style).
+
+Expression conventions: calendar ranges use spaced em dashes (`2025 — 2027`), month points use `YYYY.MM`, and compact academic years keep the en dash (`2025–26`) as the single documented exception. Fact-pair meta lines use ` · `; slashes are reserved for slug-style eyebrows (`01 / EDUCATION`) and brand marks. `↗` is external targets only; internal links use `→` or no arrow; back links are `← 返回工作成果`. zh quotation marks are corner brackets 「」. The honours ledger lives in `content.mjs` as paired zh/en tuples and is covered by `check.mjs`.
+
 Verification must capture the actual transitions (personal→workbench, workbench→music, music→records, map→honours), not only the top viewport or paragraph spacing. Compare the measured gap above the line and below it separately at desktop and narrow widths, inspect both themes, and check captions/doodles for overlap. Latest spacing evidence: [layout-spacing-2026-09-26](review/layout-spacing-2026-09-26/REPORT.md).
 
 ## Earlier About architecture and interactions (superseded where noted above)

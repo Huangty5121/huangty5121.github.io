@@ -3,7 +3,7 @@ import {dirname,join,resolve,relative,sep} from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {createHash} from 'node:crypto';
 import * as OpenCC from 'opencc-js';
-import {works,experiences} from './content.mjs';
+import {works,experiences,honours} from './content.mjs';
 import {entries} from './entries.mjs';
 import {press} from './news.mjs';
 import {industrialNote} from './industrial-note.mjs';
@@ -52,6 +52,31 @@ for(const m of plainCss.matchAll(/(?:^|[;{])\s*font\s*:\s*([^;}]+)/g)){
  const noComments=css.replace(/\/\*[\s\S]*?\*\//g,'');
  for(const m of noComments.matchAll(/,\s*([a-z-]+)\s*:/g))if(props.has(m[1]))failures.push({file:'site.css',reason:`Selector looks corrupted (missing '{'?): ${m[0].slice(0,50)}`});
 }
+// 86af81b deleted 112 live rules invisible to string diffs, and appending the recovery
+// block silenced the ≤700px rules behind it (2026-10-05 regression). Guard both shapes.
+{const noCm=css.replace(/\/\*[\s\S]*?\*\//g,'');let balance=0;for(const ch of noCm){if(ch==='{')balance++;else if(ch==='}')balance--;}if(balance!==0)failures.push({file:'site.css',reason:`Unbalanced braces (${balance})`});}
+{
+ const src=css.replace(/\/\*[\s\S]*?\*\//g,m=>m.replace(/[^\n]/g,' '));
+ const skipBlock=(s,i)=>{let d=1,j=i+1;for(;j<s.length&&d>0;j++){if(s[j]==='{')d++;else if(s[j]==='}')d--;}return j;};
+ const splitDecls=t=>{const out=[];for(const piece of t.split(';')){const m=piece.match(/^\s*([a-z-]+)\s*:\s*(.+?)\s*$/is);if(m)out.push([m[1].toLowerCase(),m[2].replace(/\s+/g,' ')]);}return out;};
+ const entries=[];
+ for(const m of src.matchAll(/@media[^{]*\{/g)){
+  const openB=m.index+m[0].length-1,closeB=skipBlock(src,openB);
+  const media=src.slice(m.index,openB).trim(),body=src.slice(openB+1,closeB-1);
+  let k=0,rs=0;
+  while(k<body.length){if(body[k]==='{'){const sel=body.slice(rs,k).replace(/\s+/g,' ').trim();const end=skipBlock(body,k);if(sel&&!sel.startsWith('@'))for(const [p,v] of splitDecls(body.slice(k+1,end-1)))entries.push({at:m.index,media,sel,p,v});rs=end;k=end;continue;}k++;}
+ }
+ {let k=0,rs=0;while(k<src.length){const c=src[k];if(/^@(media|keyframes|font-face|supports)/.test(src.slice(k))){const o=src.indexOf('{',k);k=skipBlock(src,o);rs=k;continue;}if(c==='{'){const sel=src.slice(rs,k).replace(/\s+/g,' ').trim();const end=skipBlock(src,k);if(sel)for(const [p,v] of splitDecls(src.slice(k+1,end-1)))entries.push({at:k,media:null,sel,p,v});k=end;rs=end;continue;}k++;}}
+ entries.sort((a,b)=>a.at-b.at);
+ const applies=(media,w)=>{if(!media)return true;if(/prefers-reduced-motion|print/.test(media))return false;let ok=true;for(const cond of media.replace(/^@media/,'').split(/\s+and\s+/)){const min=cond.match(/min-width\s*:\s*(\d+)px/),max=cond.match(/max-width\s*:\s*(\d+)px/);if(min)ok=ok&&w>=+min[1];if(max)ok=ok&&w<=+max[1];}return ok;};
+ const isMobile=media=>{if(!media)return false;const maxes=[...media.matchAll(/max-width\s*:\s*(\d+)px/g)].map(x=>+x[1]);return maxes.length>0&&Math.min(...maxes)<=700;};
+ const byKey=new Map();for(const e of entries){const key=e.sel+' | '+e.p;if(!byKey.has(key))byKey.set(key,[]);byKey.get(key).push(e);}
+ for(const [key,list] of byKey)for(const [i,e] of list.entries()){
+  if(!isMobile(e.media))continue;
+  for(const [j,f] of list.entries())if(j>i&&f.v!==e.v&&!isMobile(f.media)&&applies(f.media,390))
+   failures.push({file:'site.css',reason:`≤700px "${e.v}" for ${key} is overridden by later [${f.media||'base'}] "${f.v}"`});
+ }
+}
 // Paired copy belongs to data, including nested article sections and inherited records.
 function pairedCopy(value,path){
  if(!value||typeof value!=='object')return;
@@ -61,6 +86,8 @@ function pairedCopy(value,path){
  for(const [key,child]of Object.entries(value))pairedCopy(child,path+'.'+key);
 }
 for(const [name,data]of Object.entries({works,experiences,entries,press,industrialNote,aboutContent,aboutWorkbench,aboutPerspective,aboutGlmPerspective,places,drinks}))pairedCopy(data,name);
+// Honours rows are [date, zh, en, detailZh, detailEn] tuples; both languages must be filled.
+for(const [index,row] of honours.entries())if(!Array.isArray(row)||row.length!==5||row.some(cell=>typeof cell!=='string'||!cell.trim()))failures.push({file:'content.mjs',reason:`Honours row ${index} is not five filled zh/en strings`});;
 for(const [name,data]of Object.entries({works,experiences,entries,press})){
  const ids=new Set();for(const item of data){if(!item.id||ids.has(item.id))failures.push({file:name,reason:`Missing or duplicate content id: ${item.id}`});ids.add(item.id);}
 }
@@ -96,6 +123,9 @@ try{await stat(target);const rel=relOf(target);if(!rel.startsWith('..')&&!paths.
 }
 if(/Management 辅修|Minor: Management|fold\.jpg|sketch\.jpg|John Doe|lorem ipsum/i.test(html))failures.push({file,reason:'Excluded or placeholder content'});
 if(/read-[a-z-]+-\d+\.html|assets\/papers\/|paper-page|data-reader-page/.test(html))failures.push({file,reason:'Extracted PDF reading interface must not return'});
+// Inline layout styles beat every media query (the 2026-09-30 collage-slot regression);
+// only custom-property registration such as --r / --drink-offset may be inline.
+for(const m of html.matchAll(/style="([^"]*)"/g))if(/\b(position|top|left|right|bottom|width|height|display|margin|padding|grid-template|inset|float)\s*:/.test(m[1]))failures.push({file,reason:`Inline layout style bypasses the stylesheet: ${m[0].slice(0,60)}`});
 }
 const twJs=await readFile(join(root,'tw/site.mjs'),'utf8');
 const sitemap=await readFile(join(root,'sitemap.xml'),'utf8');
