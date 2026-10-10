@@ -16,7 +16,7 @@ menu.addEventListener('close',()=>{menuButton.setAttribute('aria-expanded','fals
 function preference(key){try{return localStorage.getItem(key);}catch{return null;}}
 function savePreference(key,value){try{localStorage.setItem(key,value);}catch{}}
 const systemTheme=matchMedia('(prefers-color-scheme:dark)');
-function applyTheme(value,{persist=false}={}){document.body.dataset.theme=value;document.querySelector('meta[name="theme-color"]').content=value==='dark'?'#191c1e':'#f7f7f5';const button=document.querySelector('[data-theme-toggle]');button.setAttribute('aria-pressed',String(value==='dark'));button.querySelector('[data-icon]').dataset.icon=value==='dark'?'moon':'sun';paintIcons(button);if(persist)savePreference('tyh-theme',value);}
+function applyTheme(value,{persist=false}={}){document.body.dataset.theme=value;document.querySelector('meta[name="theme-color"]').content=value==='dark'?'#202124':'#f7f7f5';const button=document.querySelector('[data-theme-toggle]');button.setAttribute('aria-pressed',String(value==='dark'));button.querySelector('[data-icon]').dataset.icon=value==='dark'?'moon':'sun';paintIcons(button);if(persist)savePreference('tyh-theme',value);}
 document.documentElement.dataset.largeText=preference('tyh-large-text')||'false';
 const themeButton=document.querySelector('[data-theme-toggle]'),sizeButton=document.querySelector('[data-text-size]');
 applyTheme(preference('tyh-theme')||(systemTheme.matches?'dark':'light'));
@@ -43,6 +43,8 @@ music.addEventListener('playing',()=>{audioStatus.textContent=t('约 30 秒官�
 music.addEventListener('waiting',()=>{audioStatus.textContent=t('正在缓冲试听…','Buffering preview…');});
 music.addEventListener('error',()=>{audioStatus.textContent=t('试听连接暂不可用','Preview connection unavailable');});
 const contactPanel=document.querySelector('#contact-panel');
+// Click-only construction avoids a plain phone link in HTML, not determined scraping.
+document.addEventListener('click',e=>{if(e.target.closest('[data-whatsapp]'))window.open('https://wa.me/'+[852,9449,8934].join(''),'_blank','noopener,noreferrer');});
 document.addEventListener('click',e=>{if(e.target.closest('[popovertarget="contact-panel"]')&&menu.open)menu.close();});
 document.querySelector('[data-copy-email]').addEventListener('click',async()=>{const status=document.querySelector('[data-copy-status]');try{await navigator.clipboard.writeText('tin-yeh.huang@connect.polyu.hk');status.textContent=t('邮箱已复制','Email copied');}catch{status.textContent=t('请选中上方邮箱复制','Select the email above to copy it');}});
 let viewAbort;
@@ -52,30 +54,62 @@ function revealHash({scroll=true}={}){
  // Preserve incoming bookmarks after moving the self-note and CV records.
  if(document.body.dataset.page==='about'){
   const personal=['personal','personal-title','feelings'].includes(id);
-  const record=/^(org-|record-|study-)/.test(id)||['records','experience','education','honours','credentials','peer-review'].includes(id);
+  const record=/^(org-|record-|study-)/.test(id)||['records','experience','education','honours','credentials','peer-review','tools','skills'].includes(id);
   if(personal||record){location.replace((personal?'index.html':'experience.html')+'#'+encodeURIComponent(id));return;}
  }
  let target=document.getElementById(id);if(!target)return;
  if(target.dataset.recordTarget)target=document.getElementById(target.dataset.recordTarget)||target;
  for(let parent=target.parentElement;parent;parent=parent.parentElement)if(parent instanceof HTMLDetailsElement)parent.open=true;
  if(target instanceof HTMLDetailsElement)target.open=true;
- if(scroll)target.scrollIntoView({block:'start',behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});
+ if(scroll)target.scrollIntoView({block:'start',behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'instant'});
 }
 function initialiseView({scrollToHash=true}={}){
  viewAbort?.abort();viewAbort=new AbortController();const options={signal:viewAbort.signal};const main=document.querySelector('main');paintIcons(main);
+ document.body.classList.toggle('reading-pdf',!!main.querySelector('.pdf-viewer'));
+ document.body.classList.remove('city-note-open');
+ // Loading transition, matching Order's 750 ms filter / 500 ms opacity timing.
+ // Cached/decoded images stay sharp; scrolling never restarts the transition.
+ for(const img of main.querySelectorAll('.hero-bg,.moment-photo img,.album-sleeve img')){
+  if(img.complete||matchMedia('(prefers-reduced-motion: reduce)').matches)continue;
+  img.classList.add('image-pending');
+  const ready=async()=>{try{await img.decode();}catch{}if(img.isConnected)img.classList.remove('image-pending');};
+  img.addEventListener('load',ready,{once:true,signal:options.signal});
+  img.addEventListener('error',()=>img.classList.remove('image-pending'),{once:true,signal:options.signal});
+ }
+ const experience=main.querySelector('.exp-page');
+ if(experience){
+  const density=experience.querySelector('[data-exp-density]');
+  density.addEventListener('click',()=>{const compact=experience.classList.toggle('is-compact');density.setAttribute('aria-pressed',String(compact));density.textContent=compact?t('显示说明','Show descriptions'):t('简览','Compact view');},options);
+  const anchors=[...experience.querySelectorAll('.exp-index a')];
+  const chapters=[...experience.querySelectorAll('.exp-section')];
+  const markChapter=()=>{const current=[...chapters].reverse().find(e=>e.getBoundingClientRect().top<160)||chapters[0];for(const a of anchors){if(a.hash==='#'+current.id)a.setAttribute('aria-current','location');else a.removeAttribute('aria-current');}};
+  window.addEventListener('scroll',markChapter,{...options,passive:true});markChapter();
+ }
+ const photoDialog=main.querySelector('#photo-viewer');
+ if(photoDialog){
+  let opener;
+  for(const button of main.querySelectorAll('[data-photo-open]'))button.addEventListener('click',()=>{
+   opener=button;const original=button.querySelector('img'),img=photoDialog.querySelector('[data-photo-image]');
+   img.src=original.src;img.alt=original.alt;photoDialog.querySelector('[data-photo-caption]').textContent=button.dataset.photoCaption;photoDialog.showModal();document.body.classList.add('photo-open');
+  },options);
+  photoDialog.querySelector('[data-photo-close]').addEventListener('click',()=>photoDialog.close(),options);
+  photoDialog.addEventListener('click',e=>{if(e.target===photoDialog){const r=photoDialog.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)photoDialog.close();}},options);
+  photoDialog.addEventListener('close',()=>{document.body.classList.remove('photo-open');opener?.focus({preventScroll:true});},options);
+  options.signal.addEventListener('abort',()=>{photoDialog.close();document.body.classList.remove('photo-open');},{once:true});
+  for(const gallery of main.querySelectorAll('.moment-gallery')){
+   const strip=gallery.querySelector('.moment-photos');
+   const controls=gallery.querySelector('.gallery-controls');
+   const syncGallery=()=>{const movable=strip.scrollWidth>strip.clientWidth+2;for(const button of controls.querySelectorAll('button')){button.hidden=!movable;button.disabled=Number(button.dataset.galleryStep)<0?strip.scrollLeft<2:strip.scrollLeft+strip.clientWidth>=strip.scrollWidth-2;}};
+   strip.addEventListener('scroll',syncGallery,{...options,passive:true});const observer=new ResizeObserver(syncGallery);observer.observe(strip);options.signal.addEventListener('abort',()=>observer.disconnect(),{once:true});syncGallery();
+   for(const button of gallery.querySelectorAll('[data-gallery-step]'))button.addEventListener('click',()=>strip.scrollBy({left:Number(button.dataset.galleryStep)*(strip.querySelector('button').getBoundingClientRect().width+16),behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'}),options);
+  }
+ }
  const shelf=main.querySelector('.shelf-stage');
  if(shelf){
   const scroller=shelf.querySelector('.shelf-scroll'),caption=shelf.querySelector('.shelf-caption');
   const sleeves=[...shelf.querySelectorAll('.album-sleeve')];let selected=sleeves[0],frame;
-  const positionCaption=()=>{
-   const base=shelf.getBoundingClientRect(),cover=selected.getBoundingClientRect();
-   const center=cover.left+cover.width/2-base.left;
-   const left=Math.max(0,Math.min(center-caption.offsetWidth/2,base.width-caption.offsetWidth));
-   caption.style.left=left+'px';
-   caption.style.setProperty('--caption-pointer',Math.max(10,Math.min(center-left,caption.offsetWidth-10))+'px');
-   caption.hidden=cover.right<=base.left||cover.left>=base.right;
-  };
-  const followMotion=()=>{cancelAnimationFrame(frame);const until=performance.now()+300;const step=()=>{positionCaption();if(performance.now()<until)frame=requestAnimationFrame(step);};frame=requestAnimationFrame(step);};
+  const positionCaption=()=>{caption.hidden=false;};
+  const followMotion=positionCaption;
   const selectSleeve=sleeve=>{
    selected=sleeve;for(const item of sleeves){item.classList.toggle('is-selected',item===sleeve);item.setAttribute('aria-pressed',String(item===sleeve));}
    caption.querySelector('[data-album-title]').textContent=sleeve.dataset.albumTitle;
@@ -84,14 +118,6 @@ function initialiseView({scrollToHash=true}={}){
    const source=caption.querySelector('[data-album-source]');source.href=sleeve.dataset.albumUrl;source.setAttribute('aria-label',sleeve.dataset.albumTitle+' · Apple Music');
    followMotion();
   };
-  // Expanding sleeves move beneath a stationary pointer. Select on actual
-  // pointer movement, so the animation cannot silently choose a neighbour.
-  let pointerX,pointerY;
-  scroller.addEventListener('pointermove',e=>{
-   if(e.pointerType!=='mouse'||e.clientX===pointerX&&e.clientY===pointerY)return;
-   pointerX=e.clientX;pointerY=e.clientY;
-   const sleeve=e.target.closest('.album-sleeve');if(sleeve&&sleeve!==selected)selectSleeve(sleeve);
-  },options);
   for(const sleeve of sleeves){
    sleeve.addEventListener('click',()=>selectSleeve(sleeve),options);
    sleeve.addEventListener('focus',()=>{selectSleeve(sleeve);requestAnimationFrame(()=>{sleeve.scrollIntoView({block:'nearest',inline:'nearest',behavior:'instant'});followMotion();});},options);
@@ -99,7 +125,7 @@ function initialiseView({scrollToHash=true}={}){
   }
   scroller.addEventListener('scroll',positionCaption,{...options,passive:true});
   scroller.addEventListener('pointerenter',followMotion,options);
-  scroller.addEventListener('pointerleave',()=>{pointerX=pointerY=undefined;followMotion();},options);
+  scroller.addEventListener('pointerleave',()=>{followMotion();},options);
   scroller.addEventListener('focusout',followMotion,options);
   const resize=new ResizeObserver(positionCaption);resize.observe(shelf);resize.observe(caption);
   viewAbort.signal.addEventListener('abort',()=>{resize.disconnect();cancelAnimationFrame(frame);},{once:true});
@@ -128,7 +154,7 @@ function initialiseView({scrollToHash=true}={}){
     const match=!id||card.dataset.toolGroup===id;
     card.classList.toggle('is-focused',!!id&&match);
     card.classList.toggle('is-dimmed',!!id&&!match);
-    if(match&&id)card.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'nearest',inline:'center'});
+    if(match&&id)card.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'instant',block:'nearest',inline:'center'});
    }
   };
   for(const chip of skillFilters)chip.addEventListener('click',()=>chooseGroup(chip.dataset.skillFilter),options);
@@ -142,6 +168,8 @@ function initialiseView({scrollToHash=true}={}){
  }
  const clock=main.querySelector('[data-local-time]');
  if(clock){const now=new Date();clock.textContent=new Intl.DateTimeFormat('en-GB',{timeZone:'Asia/Hong_Kong',hour:'2-digit',minute:'2-digit',hour12:false}).format(now);clock.dateTime=now.toISOString();}
+ const printLink=main.querySelector('[data-print]');
+ if(printLink)printLink.addEventListener('click',event=>{event.preventDefault();window.print();},{...options,passive:false});
  const drawer=main.querySelector('.drinks-drawer');
  if(drawer){
   let opener;
@@ -150,7 +178,7 @@ function initialiseView({scrollToHash=true}={}){
    for(const panel of drawer.querySelectorAll('[data-cabinet-panel]'))panel.hidden=panel.dataset.cabinetPanel!==kind;
    drawer.setAttribute('aria-labelledby','drinks-'+kind+'-title');drawer.showModal();
    document.body.classList.add('drawer-open');
-   if(!matchMedia('(prefers-reduced-motion: reduce)').matches)drawer.animate([{transform:matchMedia('(max-width:700px)').matches?'translateY(100%)':'translateX(100%)',opacity:.4},{transform:'translate(0)',opacity:1}],{duration:350,easing:'cubic-bezier(.2,.8,.2,1)'});
+   if(!matchMedia('(prefers-reduced-motion: reduce)').matches)drawer.animate([{transform:matchMedia('(max-width:700px)').matches?'translateY(100%)':'translateX(100%)',opacity:.4},{transform:'translate(0)',opacity:1}],{duration:220,easing:'cubic-bezier(.2,.8,.2,1)'});
   },options);
   drawer.querySelector('[data-cabinet-close]').addEventListener('click',()=>drawer.close(),options);
   drawer.addEventListener('click',e=>{if(e.target===drawer){const rect=drawer.getBoundingClientRect();if(e.clientX<rect.left||e.clientX>rect.right||e.clientY<rect.top||e.clientY>rect.bottom)drawer.close();}},options);
@@ -162,16 +190,17 @@ function initialiseView({scrollToHash=true}={}){
   const viewport=journal.querySelector('[data-journal-map]'),note=journal.querySelector('.city-note'),stage=journal.querySelector('.journal-stage');
   const places=JSON.parse(viewport.dataset.places);
   const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
-  let map,selectedCity=null,animation;
+  let map,selectedCity=null,animation,noteOpener;
   const markers=new Map();
-  const develop=element=>{animation?.cancel();if(!reduced)animation=element.animate([{opacity:.3,filter:'blur(5px)',transform:'translateY(5px) rotate(.4deg)'},{opacity:1,filter:'blur(0)',transform:'translateY(0) rotate(0)'}],{duration:320,easing:'ease-out'});};
-  const closeNote=({focus=false}={})=>{note.hidden=true;stage.classList.remove('has-note');selectedCity=null;for(const marker of markers.values())marker.getElement()?.classList.remove('is-selected');if(focus)viewport.focus({preventScroll:true});};
+  const develop=element=>{animation?.cancel();if(!reduced)animation=element.animate([{opacity:.3,filter:'blur(5px)',transform:'translateY(5px) rotate(.4deg)'},{opacity:1,filter:'blur(0)',transform:'translateY(0) rotate(0)'}],{duration:220,easing:'ease-out'});};
+  const closeNote=({focus=false}={})=>{note.hidden=true;stage.classList.remove('has-note');document.body.classList.remove('city-note-open');selectedCity=null;for(const marker of markers.values())marker.getElement()?.classList.remove('is-selected');if(focus)(noteOpener||viewport).focus({preventScroll:true});};
   const choosePlace=(id,{focus=false,fromPin=false}={})=>{
    const city=places.find(place=>place.id===id);if(!city)return;
-   selectedCity=city;
+   selectedCity=city;noteOpener=markers.get(id)?.getElement()||document.activeElement;
    for(const panel of journal.querySelectorAll('[data-journal-city-panel]'))panel.hidden=panel.dataset.journalCityPanel!==id;
    journal.querySelector('[data-journal-city]').textContent=city.name+' / '+city.level;
-   note.hidden=false;stage.classList.add('has-note');develop(note);
+   note.hidden=false;stage.classList.add('has-note');document.body.classList.add('city-note-open');develop(note);
+   if(matchMedia('(max-width:700px)').matches)requestAnimationFrame(()=>note.scrollIntoView({block:'start',behavior:'instant'}));
    if(map){
     // Keep the selected pin in the free part of the map beside the paper.
     const zoom=fromPin?map.getZoom():['uk','fujian'].includes(id)?5:6;
@@ -189,6 +218,9 @@ function initialiseView({scrollToHash=true}={}){
    for(const page of panel.querySelectorAll('.journal-page'))page.hidden=page.id!==button.getAttribute('aria-controls');
    develop(panel.querySelector('.journal-page:not([hidden])'));
   },options);
+  const fallback=journal.querySelector('[data-map-fallback]');
+  const showFallback=()=>{fallback.hidden=false;};
+  for(const button of journal.querySelectorAll('[data-place-open]'))button.addEventListener('click',()=>choosePlace(button.dataset.placeOpen,{focus:true}),options);
   const L=window.L;
   const reset=()=>{closeNote();if(map)map.fitBounds(places.map(place=>place.coordinates),{padding:[55,55],maxZoom:5,animate:false});};
   if(L){
@@ -201,17 +233,20 @@ function initialiseView({scrollToHash=true}={}){
    const tiles=L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,keepBuffer:1,attribution:'© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>'}).addTo(map);
    const status=journal.querySelector('[data-map-status]');let loadedTiles=0;
    tiles.on('tileload',()=>{loadedTiles++;status.textContent='';});
-   tiles.on('tileerror',()=>{if(!loadedTiles)status.textContent=t('底图暂时未能加载，仍可点图钉翻页。','The basemap is unavailable; pins still open their pages.');});
+   tiles.on('tileerror',()=>{showFallback();if(!loadedTiles)status.textContent=t('底图暂时未能加载，仍可点图钉翻页。','The basemap is unavailable; pins still open their pages.');});
+   reset();
    for(const city of places){
     const label=document.createElement('span');label.textContent=city.name;
-    const marker=L.marker(city.coordinates,{title:city.name,keyboard:true,riseOnHover:true,icon:L.divIcon({className:'journal-map-pin',html:`<span class="map-pin-head" style="--pin-color:${city.color}"></span>`,iconSize:[36,42],iconAnchor:[18,37]})});
+    const marker=L.marker(city.coordinates,{title:city.name,keyboard:true,riseOnHover:true,icon:L.divIcon({className:'journal-map-pin',html:`<span class="map-pin-head" style="--pin-color:${city.color}"></span>`,iconSize:[44,44],iconAnchor:[22,39]})});
     marker.bindTooltip(label,{permanent:false,direction:'top',offset:[0,city.id==='hk'?5:-22],className:'journal-map-label'});
-    marker.on('click',()=>choosePlace(city.id,{fromPin:true}));marker.addTo(map);markers.set(city.id,marker);
+    marker.on('click',()=>choosePlace(city.id,{fromPin:true}));markers.set(city.id,marker);
+    marker.on('add',()=>marker.getElement().addEventListener('keydown',event=>{if(event.key==='Enter'||event.key===' '){event.preventDefault();event.stopPropagation();choosePlace(city.id,{fromPin:true,focus:true});}},options));
+    marker.addTo(map);
    }
    reset();
    const resize=new ResizeObserver(()=>map.invalidateSize({pan:false}));resize.observe(viewport);
    options.signal.addEventListener('abort',()=>{resize.disconnect();animation?.cancel();map.remove();},{once:true});
-  }else journal.querySelector('[data-map-status]').textContent=t('地图暂时未能加载，暂无法翻阅城市。','The map is unavailable, so city pages cannot open.');
+  }else{showFallback();viewport.hidden=true;journal.querySelector('[data-map-status]').textContent=t('可以使用上方地名打开记录。','Choose a place above to open its notes.');}
  }
  if(new URLSearchParams(location.search).get('contact')==='open')contactPanel.showPopover();
  revealHash({scroll:scrollToHash});

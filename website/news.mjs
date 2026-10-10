@@ -2,6 +2,7 @@
 // Do not use another person's biography or a site update as evidence here.
 const L=(zh,en)=>({zh,en});
 export const press=[
+ {id:'lanzhou-sharing',date:'2026.07',source:L('九源智能计算生态联合体','InfiniTensor'),title:L('在兰州大学分享工程实践经历','Sharing engineering experience at Lanzhou University'),summary:L('作为实习生，在交流活动中分享培训与工程实践经历。','Shared training and engineering experience as an intern during the university visit.'),url:'https://www.infinitensor.com/news/52'},
  {id:'had-committee',date:'2025 — 2027',source:L('民政事务总署','Home Affairs Department'),
   title:L('油尖旺地区青年发展及公民教育委员会','Yau Tsim Mong youth development committee'),
   summary:L('获委任为委员会委员，任期两年。','Appointed as a committee member for a two-year term.'),

@@ -644,3 +644,20 @@ Home now pairs the identity introduction with the unchanged self-note; About sta
 **⑥ 防回归守卫（check.mjs 新增三条，负向自检通过）**：括号配平；≤700 声明被后置宽上下文异值覆盖即 fail（注入 `.archive-section` 旧双列规则实测报警）；生成 HTML 内联布局样式禁令（仅 `--r`/`--drink-*` 类自定义属性豁免）。
 
 **验证**：每批 build+check 零失败；最终 scan 反杀 0 组、死声明 20（同值链与 reduced-motion 误报为主）；桌面 1440 + 手机 390 抽样截图逐批比对；弹层/抽屉/页脚避让/暗色身份墙实测；IAB 截图超时与浏览器启发式缓存再次出现——凡文案断言一律 cache-bust 参数重验。未提交、未部署。
+
+## 2026-10-08 — selected experience spread
+
+- Compared the supplied master CV and fact register with the website; retained the later Management-minor removal. Added supervisor links, volunteer leadership and IAMCP service. Kept newer site awards and existing publication boundaries.
+- Replaced the flat CV timeline with an education strip and a two-column spread. Principal research records are paired; older appointments, extra contributions, campus/event service and additional scholarships use disclosure. Skills moved from About into the Experience spread. Existing institution logos identify records.
+- Removed local Experience/About jump bars, Work category switches and article TOC. Global navigation remains. All nine Work entries are visible without selecting a category.
+- `node website/build.mjs` and `node website/check.mjs` passed: 138 pages, 1,725 local references, all three original PDFs byte-identical.
+- Browser checked Experience in zh/en/tw at 1280, 390 and 320px; no horizontal overflow. Verified the old hotel anchor expands its disclosure and About#tools redirects correctly. Reviewed desktop/mobile screenshots and actual dark/A+ rendering; institution images loaded.
+- Checked Experience, About, Work and the article at 1280/390px after navigation removal: no horizontal overflow, no page errors, no remaining local jump bars. Final Chinese Experience height: 2,040px desktop; 4,666px at 390px. The preceding list layout was 4,170px desktop. Mobile remains a natural single-column reading order.
+- Local preview only; no deployment. Captures: `website/review/experience-2026-10-07/`.
+
+
+## 10 October 2026 redesign verification
+
+Final local Chrome build: 864/864 page combinations passed overflow, identity collision, main-heading, header target, runtime and local-request checks. 33/33 interaction scenarios passed, including photo dialogs, six drink drawers, album keyboard selection, map notes, collapsed detail compatibility, Experience contents/compact controls, resource failures and print. 36/36 axe scans have no reported WCAG A/AA violations. Static checker passed 138 HTML / 1,731 local references; all three original PDFs remain byte-identical. Original self-note/impression source hash matches the pre-redesign snapshot.
+
+These are scoped checks, not proof of complete external factual verification, physical mobile/Safari compatibility or user aesthetic approval. See `review/redesign-2026-10-10/REPORT.md` and JSON evidence. New personal copy, WeChat QR, and some external appointment/acceptance evidence remain pending as explicitly recorded there. No push or publication.

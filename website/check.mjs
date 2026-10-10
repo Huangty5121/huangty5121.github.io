@@ -4,6 +4,7 @@ import {fileURLToPath} from 'node:url';
 import {createHash} from 'node:crypto';
 import * as OpenCC from 'opencc-js';
 import {works,experiences,honours} from './content.mjs';
+import {education,cvSkills} from './cv-content.mjs';
 import {entries} from './entries.mjs';
 import {press} from './news.mjs';
 import {industrialNote} from './industrial-note.mjs';
@@ -85,7 +86,7 @@ function pairedCopy(value,path){
  }
  for(const [key,child]of Object.entries(value))pairedCopy(child,path+'.'+key);
 }
-for(const [name,data]of Object.entries({works,experiences,entries,press,industrialNote,aboutContent,aboutWorkbench,aboutPerspective,aboutGlmPerspective,places,drinks}))pairedCopy(data,name);
+for(const [name,data]of Object.entries({education,cvSkills,works,experiences,entries,press,industrialNote,aboutContent,aboutWorkbench,aboutPerspective,aboutGlmPerspective,places,drinks}))pairedCopy(data,name);
 // Honours rows are [date, zh, en, detailZh, detailEn] tuples; both languages must be filled.
 for(const [index,row] of honours.entries())if(!Array.isArray(row)||row.length!==5||row.some(cell=>typeof cell!=='string'||!cell.trim()))failures.push({file:'content.mjs',reason:`Honours row ${index} is not five filled zh/en strings`});;
 for(const [name,data]of Object.entries({works,experiences,entries,press})){

@@ -18,7 +18,7 @@ python3 material-demo/serve-demo.py
 
 ## Architecture
 
-Six primary destinations: Home, Work, Notes, News, About, and Experience. Home places an identity introduction and the unchanged five-paragraph self-note directly below the harbour photograph, then continues to selected work and Notes. About starts with the Astra / GLM conversation reader; its sidebar and model selector choose the same unchanged, attributed text. A separate music shelf, illustrated drinks shelf, city-memory map and compact tools section follow. Experience now owns the sole full set of education, work/service, honours, credentials and peer-review records. Old About record and personal-note anchors are routed to their new pages.
+Six primary destinations: Home, Work, Notes, News, About, and Experience. Home places an identity introduction and the unchanged five-paragraph self-note directly below the harbour photograph, then continues to selected work and Notes. About starts with the Astra / GLM conversation reader; its sidebar and model selector choose the same unchanged, attributed text. A separate music shelf, illustrated drinks shelf and city-memory map follow. Experience presents selected education, research/internships, research programmes, public/campus service, honours, credentials and skills. Education forms a horizontal strip, followed by a two-column spread with paired research entries, service, honours and skills. Supervisor links and existing institution logos accompany the principal records. Page-level jump bars and category switches are removed; all Work categories render directly. Earlier work/service and additional scholarships are collapsed; old record anchors reveal them. Skills live only on Experience. Old About record and personal-note anchors are routed to their new pages.
 
 The city map is a collection of places supplied by the owner, not a reconstructed itinerary. Every location has its own pin; there are no cluster/count markers, venue-address pins or connecting travel routes. Country/province labels remain explicit for the UK and Fujian. Beijing contains the exchange chapter and the owner-confirmed 三杯酒 / Boundary venues. Missing stories are deliberately brief unfinished pages. City selection opens a paper note; reduced-motion preferences suppress its blur. Notes and the city index continue to work without map tiles.
 
@@ -34,7 +34,8 @@ The reader opens with an original PDF occupying the main viewport and a compact 
 
 - `build.mjs`: trilingual documents, shared navigation, original PDFs, viewer skin, tw conversion, asset pruning, cache fingerprinting, compatibility redirects.
 - `views.mjs`: authored home composition, content index, personal About and separate experience archive, project workspaces, readers.
-- `content.mjs`: faithful public CV contributions layered over historical source records.
+- `content.mjs`: public CV contributions, appointments and supervisors layered over historical source records.
+- `cv-content.mjs`: selected education and skills from the master CV, preserving subsequent owner corrections.
 - `about-content.mjs`: paired About copy, personal reflection and real album metadata; Traditional Chinese is generated from the Chinese entries.
 - `entries.mjs` / `cover-art.mjs`: shared entry records and abstract transparent SVG editorial illustrations; these are not research figures or photographs of personal work.
 - `site.css` / `site.mjs`: responsive composition, local typography, browsing and disclosure, preferences, audio continuity, Leaflet map behaviour.
