@@ -1,5 +1,9 @@
 # Personal site source map and design rules
 
+## Targeted correction — 11 October 2026
+
+The broad editorial trial was rejected and restored. The subsequent owner request targets mobile navigation, oversized typography, the star/river illustration, and the current Student label. Current body is 15px / 17px A+, metadata 13px and small text 14px at normal size. The self-note uses the body size without an extra enlargement. At widths up to 1100px, the existing theme, size and language controls move into the menu; the phone header stays one row. A single control group retains its listeners and state across navigation and resize. Mobile current identities use aligned role/institution columns. `currentRole` supplies Student for the PolyU current identity without rewriting historical representative records. The river artwork uses its original transparent asset, with the figure, meteor and reflection shown together in the margin; no replacement image or prose was created. Evidence is in `review/mobile-fix-2026-10-11/`.
+
 ## Active composition — 10 October 2026
 
 This section supersedes all older layout/type directions below. The source and factual boundaries remain in force. Implementation and limits: `review/redesign-2026-10-10/REPORT.md`; reference inspection: `references/redesign-2026-10.md`.

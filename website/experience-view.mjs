@@ -22,6 +22,7 @@ const roles = {
   'x-microbial': L('暑期项目学生', 'Summer programme student'),
 };
 export const currentIds = ['qiyuan','x-social','gov-committee','gov-tutor','polyu-representative','union-head'];
+export const currentRole = e => e.id === 'polyu-representative' ? L('学生','Student') : roles[e.id] || e.role;
 export const researchIds = Object.keys(topics);
 export const dateKey = value => {
   const match = String(value).match(/^(\d{4})(?:\.(\d{1,2}))?/);
@@ -63,7 +64,7 @@ export function renderExperience({lang='zh', prefix=''}) {
   ];
   const skillCopy = s => s.items.map(item => `<p>${h(pick(item.detail))}</p>`).join('');
   const skillsBody = `<div class="exp-skills-grid">${skills.map(s=>`<section><h3>${h(pick(s.title))}</h3>${skillCopy(s)}</section>`).join('')}<section><h3>${t('语言','Languages')}</h3><p>${h(pick(cvSkills[4].detail))}</p></section></div>`;
-  const appointment = id => {const e=experiences.find(e=>e.id===id);return `<li data-current="${id}"><span class="exp-current-role">${h(pick(roles[id] || e.role))}</span><span class="exp-current-org">${h(pick(e.name))}</span></li>`;};
+  const appointment = id => {const e=experiences.find(e=>e.id===id);return `<li data-current="${id}"><span class="exp-current-role">${h(pick(currentRole(e)))}</span><span class="exp-current-org">${h(pick(e.name))}</span></li>`;};
   const profile = `<section class="exp-profile" aria-labelledby="profile-name"><div class="exp-identity"><div class="exp-name"><h1 id="profile-name">${t('黄天野','Tin-Yeh Huang')}</h1><p class="exp-name-secondary">${t('Tin-Yeh Huang','黄天野')}</p></div><p class="exp-student">${t('香港理工大学 · 本科生','Undergraduate · The Hong Kong Polytechnic University')}</p><small>${t('2024 — 在读','2024 — In progress')}</small><a class="exp-print" href="experience.html" data-print>${t('打印这份经历','Print this record')}</a></div><div class="exp-current"><h2>${t('现有身份','Current appointments')}</h2><ul>${currentIds.map(appointment).join('')}</ul></div></section>`;
   const study = e => `<article class="exp-record exp-study" id="study-${e.id}" data-start="${dateKey(e.date)}">${marks(e.id,true)}<div class="exp-record-body"><div class="exp-record-heading"><h3>${h(pick(e.name))}</h3><time>${h(e.date)}</time></div><p>${h(pick(e.course))}</p><small>${h(e.id === 'hkcc' ? t('修读一年后转入香港理工大学，未获颁此副学士学位。','Completed Year 1 before transferring to PolyU; the associate degree was not conferred.') : pick(e.detail))}</small></div></article>`;
   const honour = ([date,zh,en,dz,de],i) => `<article class="exp-ledger" ${i===0?'id="record-challenge-cup-xj"':''} data-start="${dateKey(date)}"><time>${date}</time><div><h3>${h(t(zh,en))}</h3><p>${h(t(dz,de))}</p></div>${i===0?link(experiences.find(e=>e.id==='challenge-cup-xj').links[0][1],t('获奖报道','Award report')):''}</article>`;

@@ -3,6 +3,10 @@ name: personal-site-editor
 description: Edit Tin-Yeh Huang's trilingual personal website (zh-Hans / zh-Hant / en), including Work, Notes, About, assets, interactions, and verification. Use only for the website in this workspace.
 ---
 
+## Latest targeted corrections — 2026-10-11
+
+The owner rejected the broad editorial trial; it was restored before the latest corrections. Follow the targeted 11 October section in architecture.md: 15px / 17px A+, mobile display controls inside the menu, unchanged self-note at body size, and current PolyU identity “Student”. Preserve historical Student Representative records. Do not restore the rejected trial as a baseline. These changes do not constitute acceptance of the entire redesign.
+
 ## Current override — 2026-10-10
 
 Read the active 10 October composition in `website/architecture.md` before the historical rules below. The owner's latest requests supersede the old 13px root, full-bleed dark portrait, hidden “other” records and removed chapter-index rules. Current body is 16px / 18px A+, neutral grey/white palette, compact headings, transparent face at right of the name, sourced photo strips beside narrative text, small cabinet and record shelf. Experience exposes all records by category and offers a sticky section index plus compact view. Vertical text is limited to short desktop marginal labels. Preserve source boundaries and the five original paragraph fields (`introBody`, `backgroundBody`, `feelingsBody`, `feelingsClose`, `personalEnd`) exactly; do not replace them with a newly assembled `note` array. Keep impressions unchanged. New QR/account facts still require owner-supplied material. See `website/review/redesign-2026-10-10/REPORT.md` for actual verification and limits.

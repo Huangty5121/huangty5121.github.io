@@ -9,20 +9,29 @@ const modules=new Map(Object.entries({
 }));
 async function paintIcons(root=document){for(const el of root.querySelectorAll('[data-icon]')){const name=el.dataset.icon;try{if(!modules.has(name))modules.set(name,(await import(`../assets/icons/${name}.js`)).default);if(!el.isConnected)continue;const svg=document.createElementNS('http://www.w3.org/2000/svg','svg');for(const[k,v]of Object.entries({viewBox:'0 0 24 24',fill:'none',stroke:'currentColor','stroke-width':'1.5','stroke-linecap':'round','stroke-linejoin':'round','aria-hidden':'true'}))svg.setAttribute(k,v);for(const[tag,attrs]of modules.get(name)){const path=document.createElementNS('http://www.w3.org/2000/svg',tag);for(const[k,v]of Object.entries(attrs))path.setAttribute(k,v);svg.append(path);}el.replaceChildren(svg);}catch{el.hidden=true;}}}
 const menu=document.querySelector('#site-menu'),menuButton=document.querySelector('[data-menu-toggle]');
-menuButton.addEventListener('click',()=>{menu.showModal();menuButton.setAttribute('aria-expanded','true');});
+// Move the same controls into the mobile menu so state and focus stay shared.
+const displayControls=document.querySelector('.display-controls');
+const mobileNavigation=matchMedia('(max-width:1100px)');
+function arrangeNavigation(){
+ const target=mobileNavigation.matches?document.querySelector('.menu-preferences'):document.querySelector('.header-actions');
+ if(mobileNavigation.matches)target.append(displayControls);else target.prepend(displayControls);
+ if(!mobileNavigation.matches&&menu.open)menu.close();
+}
+arrangeNavigation();mobileNavigation.addEventListener('change',arrangeNavigation);
+menuButton.addEventListener('click',()=>{menu.showModal();document.body.classList.add('menu-open');menuButton.setAttribute('aria-expanded','true');});
 document.querySelector('[data-menu-close]').addEventListener('click',()=>menu.close());
 menu.addEventListener('click',e=>{if(e.target===menu&&e.clientX<menu.getBoundingClientRect().left)menu.close();});
-menu.addEventListener('close',()=>{menuButton.setAttribute('aria-expanded','false');menuButton.focus();});
+menu.addEventListener('close',()=>{document.body.classList.remove('menu-open');menuButton.setAttribute('aria-expanded','false');if(document.activeElement===document.body||menu.contains(document.activeElement))menuButton.focus();});
 function preference(key){try{return localStorage.getItem(key);}catch{return null;}}
 function savePreference(key,value){try{localStorage.setItem(key,value);}catch{}}
 const systemTheme=matchMedia('(prefers-color-scheme:dark)');
-function applyTheme(value,{persist=false}={}){document.body.dataset.theme=value;document.querySelector('meta[name="theme-color"]').content=value==='dark'?'#202124':'#f7f7f5';const button=document.querySelector('[data-theme-toggle]');button.setAttribute('aria-pressed',String(value==='dark'));button.querySelector('[data-icon]').dataset.icon=value==='dark'?'moon':'sun';paintIcons(button);if(persist)savePreference('tyh-theme',value);}
+function applyTheme(value,{persist=false}={}){document.body.dataset.theme=value;document.querySelector('meta[name="theme-color"]').content=value==='dark'?'#202124':'#f7f7f5';const button=document.querySelector('[data-theme-toggle]');button.setAttribute('aria-pressed',String(value==='dark'));button.querySelector('[data-icon]').dataset.icon=value==='dark'?'moon':'sun';document.querySelector('[data-theme-label]').textContent=value==='dark'?t('深色','Dark'):t('淺色','Light');paintIcons(button);if(persist)savePreference('tyh-theme',value);}
 document.documentElement.dataset.largeText=preference('tyh-large-text')||'false';
 const themeButton=document.querySelector('[data-theme-toggle]'),sizeButton=document.querySelector('[data-text-size]');
 applyTheme(preference('tyh-theme')||(systemTheme.matches?'dark':'light'));
 themeButton.addEventListener('click',()=>applyTheme(document.body.dataset.theme==='dark'?'light':'dark',{persist:true}));
 systemTheme.addEventListener('change',()=>{if(!preference('tyh-theme'))applyTheme(systemTheme.matches?'dark':'light');});
-function syncSizeButton(){const large=document.documentElement.dataset.largeText==='true';sizeButton.setAttribute('aria-pressed',String(large));sizeButton.setAttribute('aria-label',large?t('使用較小字號','Use smaller text'):t('使用較大字號','Use larger text'));sizeButton.textContent=large?'A−':'A+';}
+function syncSizeButton(){const large=document.documentElement.dataset.largeText==='true';sizeButton.setAttribute('aria-pressed',String(large));sizeButton.setAttribute('aria-label',large?t('使用較小字號','Use smaller text'):t('使用較大字號','Use larger text'));sizeButton.textContent=large?'A−':'A+';document.querySelector('[data-size-label]').textContent=large?t('放大','Larger'):t('標準','Standard');}
 syncSizeButton();
 sizeButton.addEventListener('click',()=>{document.documentElement.dataset.largeText=String(document.documentElement.dataset.largeText!=='true');syncSizeButton();savePreference('tyh-large-text',document.documentElement.dataset.largeText);});
 const music=document.querySelector('#music'),musicButton=document.querySelector('[data-music-toggle]'),audioStatus=document.querySelector('[data-audio-status]');
@@ -69,7 +78,7 @@ function initialiseView({scrollToHash=true}={}){
  document.body.classList.remove('city-note-open');
  // Loading transition, matching Order's 750 ms filter / 500 ms opacity timing.
  // Cached/decoded images stay sharp; scrolling never restarts the transition.
- for(const img of main.querySelectorAll('.hero-bg,.moment-photo img,.album-sleeve img')){
+ for(const img of main.querySelectorAll('.hero-bg,.origin-harbour,.moment-photo img')){
   if(img.complete||matchMedia('(prefers-reduced-motion: reduce)').matches)continue;
   img.classList.add('image-pending');
   const ready=async()=>{try{await img.decode();}catch{}if(img.isConnected)img.classList.remove('image-pending');};
@@ -85,51 +94,84 @@ function initialiseView({scrollToHash=true}={}){
   const markChapter=()=>{const current=[...chapters].reverse().find(e=>e.getBoundingClientRect().top<160)||chapters[0];for(const a of anchors){if(a.hash==='#'+current.id)a.setAttribute('aria-current','location');else a.removeAttribute('aria-current');}};
   window.addEventListener('scroll',markChapter,{...options,passive:true});markChapter();
  }
+ // Horizontal media keeps its own scroll position; a swipe is never a click.
+ const reduced=()=>matchMedia('(prefers-reduced-motion: reduce)').matches;
+ const preventDragClick=element=>{
+  let start=null,moved=false;
+  element.addEventListener('pointerdown',e=>{start={x:e.clientX,y:e.clientY};moved=false;},options);
+  element.addEventListener('pointermove',e=>{if(start&&Math.hypot(e.clientX-start.x,e.clientY-start.y)>8)moved=true;},{...options,passive:true});
+  element.addEventListener('pointercancel',()=>{start=null;moved=true;},options);
+  element.addEventListener('pointerup',()=>{start=null;},options);
+  element.addEventListener('click',e=>{if(moved){e.preventDefault();e.stopImmediatePropagation();moved=false;}},{...options,capture:true});
+ };
  const photoDialog=main.querySelector('#photo-viewer');
  if(photoDialog){
-  let opener;
-  for(const button of main.querySelectorAll('[data-photo-open]'))button.addEventListener('click',()=>{
-   opener=button;const original=button.querySelector('img'),img=photoDialog.querySelector('[data-photo-image]');
-   img.src=original.src;img.alt=original.alt;photoDialog.querySelector('[data-photo-caption]').textContent=button.dataset.photoCaption;photoDialog.showModal();document.body.classList.add('photo-open');
-  },options);
+  let opener,photos=[],photoIndex=0;
+  const image=photoDialog.querySelector('[data-photo-image]');
+  const showPhoto=()=>{
+   const button=photos[photoIndex],original=button.querySelector('img');
+   photoDialog.querySelector('[data-photo-error]').textContent='';
+   image.src=original.currentSrc||original.src;image.alt=original.alt;
+   photoDialog.querySelector('[data-photo-caption]').textContent=button.dataset.photoCaption;
+   photoDialog.querySelector('[data-photo-position]').textContent=`${photoIndex+1} / ${photos.length}`;
+   for(const control of photoDialog.querySelectorAll('[data-photo-step]'))control.disabled=Number(control.dataset.photoStep)<0?photoIndex===0:photoIndex===photos.length-1;
+  };
+  image.addEventListener('error',()=>{photoDialog.querySelector('[data-photo-error]').textContent=t('照片暫時無法載入','Photograph unavailable');},options);
+  for(const gallery of main.querySelectorAll('.moment-gallery')){
+   const strip=gallery.querySelector('.moment-photos'),controls=gallery.querySelector('.gallery-controls');
+   const buttons=[...strip.querySelectorAll('[data-photo-open]')];preventDragClick(strip);
+   const nearest=()=>buttons.reduce((best,el,i)=>Math.abs(el.offsetLeft-buttons[0].offsetLeft-strip.scrollLeft)<Math.abs(buttons[best].offsetLeft-buttons[0].offsetLeft-strip.scrollLeft)?i:best,0);
+   const syncGallery=()=>{
+    const movable=strip.scrollWidth>strip.clientWidth+2;
+    controls.querySelector('[data-gallery-count]').textContent=movable?`${nearest()+1} / ${buttons.length}`:'';
+    for(const button of controls.querySelectorAll('button')){button.hidden=!movable;button.disabled=Number(button.dataset.galleryStep)<0?strip.scrollLeft<2:strip.scrollLeft+strip.clientWidth>=strip.scrollWidth-2;}
+   };
+   strip.addEventListener('scroll',syncGallery,{...options,passive:true});const observer=new ResizeObserver(syncGallery);observer.observe(strip);options.signal.addEventListener('abort',()=>observer.disconnect(),{once:true});syncGallery();
+   for(const button of controls.querySelectorAll('[data-gallery-step]'))button.addEventListener('click',()=>{
+    const next=Math.max(0,Math.min(buttons.length-1,nearest()+Number(button.dataset.galleryStep)));
+    strip.scrollTo({left:buttons[next].offsetLeft-buttons[0].offsetLeft,behavior:reduced()?'instant':'smooth'});
+   },options);
+   for(const button of buttons){
+    const img=button.querySelector('img');
+    img.addEventListener('error',()=>{button.classList.add('photo-unavailable');button.setAttribute('aria-label',img.alt+' · '+t('暫時無法載入','Unavailable'));},options);
+    button.addEventListener('click',()=>{opener=button;photos=buttons;photoIndex=buttons.indexOf(button);showPhoto();photoDialog.showModal();document.body.classList.add('photo-open');},options);
+   }
+  }
+  for(const button of photoDialog.querySelectorAll('[data-photo-step]'))button.addEventListener('click',()=>{photoIndex=Math.max(0,Math.min(photos.length-1,photoIndex+Number(button.dataset.photoStep)));showPhoto();},options);
+  photoDialog.addEventListener('keydown',e=>{if(e.key==='ArrowLeft'||e.key==='ArrowRight'){e.preventDefault();photoIndex=Math.max(0,Math.min(photos.length-1,photoIndex+(e.key==='ArrowLeft'?-1:1)));showPhoto();}},options);
   photoDialog.querySelector('[data-photo-close]').addEventListener('click',()=>photoDialog.close(),options);
   photoDialog.addEventListener('click',e=>{if(e.target===photoDialog){const r=photoDialog.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)photoDialog.close();}},options);
-  photoDialog.addEventListener('close',()=>{document.body.classList.remove('photo-open');opener?.focus({preventScroll:true});},options);
+  photoDialog.addEventListener('close',()=>{document.body.classList.remove('photo-open');if(document.activeElement===document.body||photoDialog.contains(document.activeElement))opener?.focus({preventScroll:true});},options);
   options.signal.addEventListener('abort',()=>{photoDialog.close();document.body.classList.remove('photo-open');},{once:true});
-  for(const gallery of main.querySelectorAll('.moment-gallery')){
-   const strip=gallery.querySelector('.moment-photos');
-   const controls=gallery.querySelector('.gallery-controls');
-   const syncGallery=()=>{const movable=strip.scrollWidth>strip.clientWidth+2;for(const button of controls.querySelectorAll('button')){button.hidden=!movable;button.disabled=Number(button.dataset.galleryStep)<0?strip.scrollLeft<2:strip.scrollLeft+strip.clientWidth>=strip.scrollWidth-2;}};
-   strip.addEventListener('scroll',syncGallery,{...options,passive:true});const observer=new ResizeObserver(syncGallery);observer.observe(strip);options.signal.addEventListener('abort',()=>observer.disconnect(),{once:true});syncGallery();
-   for(const button of gallery.querySelectorAll('[data-gallery-step]'))button.addEventListener('click',()=>strip.scrollBy({left:Number(button.dataset.galleryStep)*(strip.querySelector('button').getBoundingClientRect().width+16),behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'}),options);
-  }
  }
  const shelf=main.querySelector('.shelf-stage');
  if(shelf){
   const scroller=shelf.querySelector('.shelf-scroll'),caption=shelf.querySelector('.shelf-caption');
-  const sleeves=[...shelf.querySelectorAll('.album-sleeve')];let selected=sleeves[0],frame;
-  const positionCaption=()=>{caption.hidden=false;};
-  const followMotion=positionCaption;
-  const selectSleeve=sleeve=>{
-   selected=sleeve;for(const item of sleeves){item.classList.toggle('is-selected',item===sleeve);item.setAttribute('aria-pressed',String(item===sleeve));}
+  const sleeves=[...shelf.querySelectorAll('.album-sleeve')];let selected=0;
+  preventDragClick(scroller);
+  const revealSleeve=index=>{
+   const r=sleeves[index].getBoundingClientRect(),v=scroller.getBoundingClientRect();
+   const delta=r.left<v.left+8?r.left-v.left-8:r.right>v.right-8?r.right-v.right+8:0;
+   if(delta)scroller.scrollBy({left:delta,behavior:reduced()?'instant':'smooth'});
+  };
+  const selectSleeve=(index,reveal=true)=>{
+   selected=index;const sleeve=sleeves[index];
+   for(const item of sleeves){item.classList.toggle('is-selected',item===sleeve);item.setAttribute('aria-pressed',String(item===sleeve));item.tabIndex=item===sleeve?0:-1;}
    caption.querySelector('[data-album-title]').textContent=sleeve.dataset.albumTitle;
    caption.querySelector('[data-album-artist]').textContent=sleeve.dataset.albumArtist;
    const track=caption.querySelector('[data-album-track]');track.textContent=sleeve.dataset.albumTrack;track.hidden=!track.textContent;
    const source=caption.querySelector('[data-album-source]');source.href=sleeve.dataset.albumUrl;source.setAttribute('aria-label',sleeve.dataset.albumTitle+' · Apple Music');
-   followMotion();
+   shelf.querySelector('[data-album-position]').textContent=`${index+1} / ${sleeves.length}`;
+   for(const button of shelf.querySelectorAll('[data-album-step]'))button.disabled=Number(button.dataset.albumStep)<0?index===0:index===sleeves.length-1;
+   if(reveal)revealSleeve(index);
   };
-  for(const sleeve of sleeves){
-   sleeve.addEventListener('click',()=>selectSleeve(sleeve),options);
-   sleeve.addEventListener('focus',()=>{selectSleeve(sleeve);requestAnimationFrame(()=>{sleeve.scrollIntoView({block:'nearest',inline:'nearest',behavior:'instant'});followMotion();});},options);
-   sleeve.addEventListener('keydown',e=>{let i=sleeves.indexOf(sleeve);if(e.key==='ArrowRight')i=(i+1)%sleeves.length;else if(e.key==='ArrowLeft')i=(i+sleeves.length-1)%sleeves.length;else if(e.key==='Home')i=0;else if(e.key==='End')i=sleeves.length-1;else return;e.preventDefault();sleeves[i].focus();},options);
+  for(const [i,sleeve] of sleeves.entries()){
+   sleeve.addEventListener('click',()=>selectSleeve(i),options);
+   sleeve.addEventListener('focus',()=>selectSleeve(i),options);
+   sleeve.addEventListener('keydown',e=>{let next=selected;if(e.key==='ArrowRight')next=Math.min(sleeves.length-1,next+1);else if(e.key==='ArrowLeft')next=Math.max(0,next-1);else if(e.key==='Home')next=0;else if(e.key==='End')next=sleeves.length-1;else return;e.preventDefault();selectSleeve(next);sleeves[next].focus({preventScroll:true});},options);
   }
-  scroller.addEventListener('scroll',positionCaption,{...options,passive:true});
-  scroller.addEventListener('pointerenter',followMotion,options);
-  scroller.addEventListener('pointerleave',()=>{followMotion();},options);
-  scroller.addEventListener('focusout',followMotion,options);
-  const resize=new ResizeObserver(positionCaption);resize.observe(shelf);resize.observe(caption);
-  viewAbort.signal.addEventListener('abort',()=>{resize.disconnect();cancelAnimationFrame(frame);},{once:true});
-  positionCaption();
+  for(const button of shelf.querySelectorAll('[data-album-step]'))button.addEventListener('click',()=>selectSleeve(Math.max(0,Math.min(sleeves.length-1,selected+Number(button.dataset.albumStep)))),options);
+  selectSleeve(0,false);
  }
  const impressionTabs=[...main.querySelectorAll('[data-impression-tab]')];
  if(impressionTabs.length){
@@ -182,7 +224,7 @@ function initialiseView({scrollToHash=true}={}){
   },options);
   drawer.querySelector('[data-cabinet-close]').addEventListener('click',()=>drawer.close(),options);
   drawer.addEventListener('click',e=>{if(e.target===drawer){const rect=drawer.getBoundingClientRect();if(e.clientX<rect.left||e.clientX>rect.right||e.clientY<rect.top||e.clientY>rect.bottom)drawer.close();}},options);
-  drawer.addEventListener('close',()=>{document.body.classList.remove('drawer-open');opener?.focus({preventScroll:true});},options);
+  drawer.addEventListener('close',()=>{document.body.classList.remove('drawer-open');if(document.activeElement===document.body||drawer.contains(document.activeElement))opener?.focus({preventScroll:true});},options);
   options.signal.addEventListener('abort',()=>{if(drawer.open)drawer.close();document.body.classList.remove('drawer-open');},{once:true});
  }
  const journal=main.querySelector('.city-journal');
