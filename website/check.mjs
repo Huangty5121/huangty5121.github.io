@@ -11,13 +11,14 @@ import {industrialNote} from './industrial-note.mjs';
 import {aboutContent,aboutAlbums,aboutWorkbench,aboutPerspective,aboutGlmPerspective} from './about-content.mjs';
 import {places} from './places.mjs';
 import {drinks} from './about-cabinet.mjs';
+import {checkNotes} from './notes-check.mjs';
 const zh2t=OpenCC.Converter({from:'cn',to:'hk'});
 const root=resolve(dirname(fileURLToPath(import.meta.url)),'../material-demo/dist/site');
 const siteOrigin='https://tyhuang.hk';
 const files=[],paths=new Set();
 const relOf=p=>relative(root,p).split(sep).join('/');
 async function walk(dir){for(const item of await readdir(dir,{withFileTypes:true})){const p=join(dir,item.name);paths.add(relOf(p));if(item.isDirectory())await walk(p);else if(item.name.endsWith('.html')&&relOf(p).split('/')[0]!=='assets')files.push(p);}}
-await walk(root);let checked=0;const failures=[];
+await walk(root);let checked=0;const failures=await checkNotes(root);
 for(const [key,value] of Object.entries(aboutContent)){
  const items=Array.isArray(value)?value:[value];
  for(const [index,item] of items.entries())for(const lang of ['zh','en'])if(typeof item?.[lang]!=='string'||!item[lang].trim())failures.push({file:'about-content.mjs',reason:`Missing ${lang} copy for ${key}${Array.isArray(value)?`[${index}]`:''}`});

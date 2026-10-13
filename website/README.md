@@ -11,6 +11,7 @@ The custom domain is currently served by Vercel; GitHub Pages should keep its `g
 ## Build and check
 
 ```sh
+npm ci --prefix website --ignore-scripts
 node website/build.mjs
 node website/check.mjs
 python3 material-demo/serve-demo.py
@@ -49,7 +50,7 @@ The persistent music corner opens in place with playback, seeking, and volume co
 
 Design decisions, examined display sites, and cover prompt: `reconstruction.md`. Current verification: `design-qa.md`, [layout spacing follow-up](review/layout-spacing-2026-09-26/REPORT.md), and [text/content audit](review/unification-2026-09-26/REPORT.md). `review/quiet-home/` records the earlier home inspection. `review/navigation/` retains earlier About/Contact/reader checks. `review/editorial/` and `review/reconstruction/` show superseded homepage layouts.
 
-Project-local guidance: [`../AGENTS.md`](../AGENTS.md) points future site work to [`skills/personal-site-editor/SKILL.md`](skills/personal-site-editor/SKILL.md), with short references for page ownership and Notes editing. The current Notes article remains a draft in `industrial-note.mjs`; a Markdown source should become canonical when the owner approves a revision or new piece.
+Project-local guidance: [`../AGENTS.md`](../AGENTS.md) points future site work to [`skills/personal-site-editor/SKILL.md`](skills/personal-site-editor/SKILL.md), with short references for page ownership and Notes editing. The current Notes register is `notes.mjs`; each article body has a single Markdown source under `notes/`, rendered at build time by `notes-renderer.mjs`. See [Notes verification and pending editorial work](review/notes-2026-10-12/REPORT.md).
 
 ## Search and map, 25 September 2026
 

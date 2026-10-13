@@ -1,6 +1,10 @@
 # macOS metadata
 .DS_Store
 
+# Private editorial provenance and author-review notes; never publish or commit.
+.private-notes/
+website/node_modules/
+
 # Local verification artifacts: keep the written REPORT.md records, never
 # track generated screenshots or check output (website/review/).
 website/review/**

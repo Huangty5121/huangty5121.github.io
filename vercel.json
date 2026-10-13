@@ -1,6 +1,6 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "buildCommand": "node website/build.mjs && node website/check.mjs",
+  "buildCommand": "npm ci --prefix website --ignore-scripts && node website/build.mjs && node website/check.mjs",
   "outputDirectory": "material-demo/dist/site",
   "redirects": [
     { "source": "/about", "destination": "/about.html", "permanent": true },

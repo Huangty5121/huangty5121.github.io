@@ -6,8 +6,10 @@ export const identityWords=[
  ['怪人','A weirdo','ink',true],['工程师','Engineer','blue'],['学生','Student','ink'],
  ['志愿者','Volunteer','ink'],['喝酒的人','Drinker','blue'],['理大人','PolyUer','ink'],
  ['闷','Quiet','ink',true],['委员','Committee member','ink'],['交换生','Exchange student','blue'],
- ['导师','Tutor','ink'],['实习生','Intern','ink']
-].map(([zh,en,tone,hollow=false])=>({label:L(zh,en),tone,hollow}));
+ ['导师','Tutor','ink'],['实习生','Intern','ink'],
+ ['理想主义','Idealist','ink'],['不听话','Defiant','ink'],['嘉豪','嘉豪','ink']
+].map(([zh,en,tone,hollow=false],index)=>({label:L(zh,en),tone,hollow,
+  emphasis:['strong','quiet','soft','strong','soft','strong','quiet','strong','soft','quiet','soft','quiet','soft','quiet','strong','strong','soft'][index]}));
 export const aboutOpening={
  title:L('这里是我的家，','This is home,'),place:L('香港。','Hong Kong.'),
  body:L(['我在香港成长、读书，也在这里生活。'],['I grew up in Hong Kong, and this is where I study and live.']),

@@ -661,3 +661,8 @@ Home now pairs the identity introduction with the unchanged self-note; About sta
 Final local Chrome build: 864/864 page combinations passed overflow, identity collision, main-heading, header target, runtime and local-request checks. 33/33 interaction scenarios passed, including photo dialogs, six drink drawers, album keyboard selection, map notes, collapsed detail compatibility, Experience contents/compact controls, resource failures and print. 36/36 axe scans have no reported WCAG A/AA violations. Static checker passed 138 HTML / 1,731 local references; all three original PDFs remain byte-identical. Original self-note/impression source hash matches the pre-redesign snapshot.
 
 These are scoped checks, not proof of complete external factual verification, physical mobile/Safari compatibility or user aesthetic approval. See `review/redesign-2026-10-10/REPORT.md` and JSON evidence. New personal copy, WeChat QR, and some external appointment/acceptance evidence remain pending as explicitly recorded there. No push or publication.
+
+
+## 12 October 2026 — Notes drafts
+
+Three Chinese drafts and shared Home/index/article rendering added. Build/check: 147 pages, 2,175 local references, zero failures, original PDFs unchanged. Scoped Chrome verification: 120 page states plus mobile navigation/language/theme/A+ interactions passed. Existing non-Notes content is unchanged apart from asset cache hashes. English prose remains pending Chinese author confirmation; the English routes state this explicitly. Source provenance remains local and excluded from output. No push or publication. See [report](review/notes-2026-10-12/REPORT.md).
