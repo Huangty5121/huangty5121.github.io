@@ -25,15 +25,17 @@ menu.addEventListener('close',()=>{document.body.classList.remove('menu-open');m
 function preference(key){try{return localStorage.getItem(key);}catch{return null;}}
 function savePreference(key,value){try{localStorage.setItem(key,value);}catch{}}
 const systemTheme=matchMedia('(prefers-color-scheme:dark)');
-function applyTheme(value,{persist=false}={}){document.body.dataset.theme=value;document.querySelector('meta[name="theme-color"]').content=value==='dark'?'#202124':'#f7f7f5';const button=document.querySelector('[data-theme-toggle]');button.setAttribute('aria-pressed',String(value==='dark'));button.querySelector('[data-icon]').dataset.icon=value==='dark'?'moon':'sun';document.querySelector('[data-theme-label]').textContent=value==='dark'?t('深色','Dark'):t('淺色','Light');paintIcons(button);if(persist)savePreference('tyh-theme',value);}
+function applyTheme(value,{persist=false}={}){document.body.dataset.theme=value;document.querySelector('meta[name="theme-color"]').content=value==='dark'?'#202124':'#f7f7f5';const button=document.querySelector('[data-theme-toggle]');button.setAttribute('aria-pressed',String(value==='dark'));button.querySelector('[data-icon]').dataset.icon=value==='dark'?'moon':'sun';document.querySelectorAll('[data-theme-choice]').forEach(el=>el.setAttribute('aria-pressed',String(el.dataset.themeChoice===value)));document.querySelector('[data-theme-label]').textContent=value==='dark'?t('深色','Dark'):t('淺色','Light');paintIcons(button);if(persist)savePreference('tyh-theme',value);}
 document.documentElement.dataset.largeText=preference('tyh-large-text')||'false';
 const themeButton=document.querySelector('[data-theme-toggle]'),sizeButton=document.querySelector('[data-text-size]');
 applyTheme(preference('tyh-theme')||(systemTheme.matches?'dark':'light'));
 themeButton.addEventListener('click',()=>applyTheme(document.body.dataset.theme==='dark'?'light':'dark',{persist:true}));
 systemTheme.addEventListener('change',()=>{if(!preference('tyh-theme'))applyTheme(systemTheme.matches?'dark':'light');});
-function syncSizeButton(){const large=document.documentElement.dataset.largeText==='true';sizeButton.setAttribute('aria-pressed',String(large));sizeButton.setAttribute('aria-label',large?t('使用較小字號','Use smaller text'):t('使用較大字號','Use larger text'));sizeButton.textContent=large?'A−':'A+';document.querySelector('[data-size-label]').textContent=large?t('放大','Larger'):t('標準','Standard');}
+function syncSizeButton(){document.querySelectorAll('[data-size-choice]').forEach(el=>el.setAttribute('aria-pressed',String(el.dataset.sizeChoice===document.documentElement.dataset.largeText)));const large=document.documentElement.dataset.largeText==='true';sizeButton.setAttribute('aria-pressed',String(large));sizeButton.setAttribute('aria-label',large?t('使用較小字號','Use smaller text'):t('使用較大字號','Use larger text'));sizeButton.textContent=large?'A−':'A+';document.querySelector('[data-size-label]').textContent=large?t('放大','Larger'):t('標準','Standard');}
 syncSizeButton();
 sizeButton.addEventListener('click',()=>{document.documentElement.dataset.largeText=String(document.documentElement.dataset.largeText!=='true');syncSizeButton();savePreference('tyh-large-text',document.documentElement.dataset.largeText);});
+document.querySelectorAll('[data-theme-choice]').forEach(el=>el.addEventListener('click',()=>applyTheme(el.dataset.themeChoice,{persist:true})));
+document.querySelectorAll('[data-size-choice]').forEach(el=>el.addEventListener('click',()=>{document.documentElement.dataset.largeText=el.dataset.sizeChoice;syncSizeButton();savePreference('tyh-large-text',el.dataset.sizeChoice);}));
 const music=document.querySelector('#music'),musicButton=document.querySelector('[data-music-toggle]'),audioStatus=document.querySelector('[data-audio-status]');
 const musicDock=document.querySelector('.music-dock'),musicPanel=document.querySelector('#music-panel'),musicSeek=document.querySelector('[data-music-seek]'),musicVolume=document.querySelector('[data-music-volume]');
 // 頁腳進入視口時收起懸浮音樂鈕，避免壓住頁腳右側鏈接（名片頁等短頁面尤其明顯）。
@@ -54,8 +56,15 @@ music.addEventListener('error',()=>{audioStatus.textContent=t('試聽連接暫�
 const contactPanel=document.querySelector('#contact-panel');
 // Click-only construction avoids a plain phone link in HTML, not determined scraping.
 document.addEventListener('click',e=>{if(e.target.closest('[data-whatsapp]'))window.open('https://wa.me/'+[852,9449,8934].join(''),'_blank','noopener,noreferrer');});
-document.addEventListener('click',e=>{if(e.target.closest('[popovertarget="contact-panel"]')&&menu.open)menu.close();});
-document.querySelector('[data-copy-email]').addEventListener('click',async()=>{const status=document.querySelector('[data-copy-status]');try{await navigator.clipboard.writeText('tin-yeh.huang@connect.polyu.hk');status.textContent=t('郵箱已複製','Email copied');}catch{status.textContent=t('請選中上方郵箱複製','Select the email above to copy it');}});
+document.addEventListener('click',e=>{if(e.target.closest('[popovertarget="contact-panel"]')&&menu.open){menu.close();requestAnimationFrame(()=>contactPanel.querySelector('.biz-close').focus({preventScroll:true}));}});
+document.addEventListener('click',async e=>{const button=e.target.closest('[data-copy-email]');if(!button)return;const status=button.closest('.contact-methods').querySelector('[data-copy-status]');try{await navigator.clipboard.writeText('tin-yeh.huang@connect.polyu.hk');status.textContent=t('郵箱已複製','Email copied');}catch{status.textContent=t('請選中郵箱地址複製','Select the email address to copy it');}});
+let restoringView=false,stateTimer;
+function captureView(){if(restoringView)return;const main=document.querySelector('main');const ui={path:location.pathname,album:[...main.querySelectorAll('.album-sleeve')].findIndex(e=>e.classList.contains('is-selected')),shelf:main.querySelector('.shelf-scroll')?.scrollLeft,impression:main.querySelector('[data-impression-tab][aria-selected=true]')?.dataset.impressionTab,impressionScroll:main.querySelector('[data-impression-scroll]')?.scrollTop,compact:main.querySelector('.exp-page')?.classList.contains('is-compact'),details:[...main.querySelectorAll('details')].map(e=>e.open),galleries:[...main.querySelectorAll('.moment-photos')].map(e=>e.scrollLeft)};history.replaceState({...history.state,scroll:scrollY,ui},'');}
+function restoreView(main){const ui=history.state?.ui;if(!ui||ui.path!==location.pathname)return;restoringView=true;try{const albums=main.querySelectorAll('.album-sleeve');if(ui.album>=0)albums[ui.album]?.click();const shelf=main.querySelector('.shelf-scroll');if(shelf)shelf.scrollLeft=ui.shelf||0;main.querySelectorAll('[data-impression-tab]').forEach(e=>{if(e.dataset.impressionTab===ui.impression)e.click();});const reader=main.querySelector('[data-impression-scroll]');if(reader)reader.scrollTop=ui.impressionScroll||0;if(ui.compact&&!main.querySelector('.exp-page')?.classList.contains('is-compact'))main.querySelector('[data-exp-density]')?.click();main.querySelectorAll('details').forEach((e,i)=>e.open=!!ui.details?.[i]);main.querySelectorAll('.moment-photos').forEach((e,i)=>e.scrollLeft=ui.galleries?.[i]||0);}finally{restoringView=false;}}
+for(const event of ['click','change','toggle','scroll'])document.addEventListener(event,()=>{if(restoringView)return;clearTimeout(stateTimer);const path=location.pathname;stateTimer=setTimeout(()=>{if(path===location.pathname)captureView();},100);},{capture:true,passive:true});
+window.addEventListener('pagehide',captureView);
+// PDF.js announces its window before run(); set localization before its l10n service is created.
+document.addEventListener('webviewerloaded',event=>{const viewer=event.detail?.source;viewer?.PDFViewerApplicationOptions?.set('localeProperties',{lang:document.documentElement.lang==='zh-Hant'?'zh-TW':document.documentElement.lang==='zh-Hans'?'zh-CN':'en-US'});});
 let viewAbort;
 function revealHash({scroll=true}={}){
  const id=decodeURIComponent(location.hash.slice(1));if(!id)return;
@@ -74,16 +83,16 @@ function revealHash({scroll=true}={}){
 }
 function initialiseView({scrollToHash=true}={}){
  viewAbort?.abort();viewAbort=new AbortController();const options={signal:viewAbort.signal};const main=document.querySelector('main');paintIcons(main);
- document.body.classList.toggle('reading-pdf',!!main.querySelector('.pdf-viewer'));
+ document.body.classList.toggle('reading-pdf',!!main.querySelector('.pdf-viewer'));document.body.classList.toggle('reading-text',!!main.querySelector('.blog-article'));
+ const pdf=main.querySelector('.pdf-viewer');if(pdf)pdf.addEventListener('load',()=>{try{pdf.contentDocument.documentElement.lang=document.documentElement.lang;}catch{}},options);
  document.body.classList.remove('city-note-open');
- // Loading transition, matching Order's 750 ms filter / 500 ms opacity timing.
- // Cached/decoded images stay sharp; scrolling never restarts the transition.
- for(const img of main.querySelectorAll('.hero-bg,.origin-harbour,.moment-photo img')){
-  if(img.complete||matchMedia('(prefers-reduced-motion: reduce)').matches)continue;
-  img.classList.add('image-pending');
-  const ready=async()=>{try{await img.decode();}catch{}if(img.isConnected)img.classList.remove('image-pending');};
-  img.addEventListener('load',ready,{once:true,signal:options.signal});
-  img.addEventListener('error',()=>img.classList.remove('image-pending'),{once:true,signal:options.signal});
+ // Only unloaded narrative images develop from a local preview. No scroll replay.
+ for(const img of main.querySelectorAll('img[data-preview]')){
+  if(!img.dataset.preview||img.complete||matchMedia('(prefers-reduced-motion: reduce)').matches)continue;
+  const original=img.src,full=new Image();full.decoding='async';full.src=original;
+  if(full.complete&&full.naturalWidth)continue;
+  img.src=img.dataset.preview;img.classList.add('image-pending');
+  full.decode().then(()=>{if(!img.isConnected)return;img.src=original;requestAnimationFrame(()=>requestAnimationFrame(()=>img.classList.remove('image-pending')));}).catch(()=>{if(!img.isConnected)return;img.src=original;img.classList.remove('image-pending');img.classList.add('image-failed');});
  }
  const experience=main.querySelector('.exp-page');
  if(experience){
@@ -214,17 +223,13 @@ function initialiseView({scrollToHash=true}={}){
  if(printLink)printLink.addEventListener('click',event=>{event.preventDefault();window.print();},{...options,passive:false});
  const drawer=main.querySelector('.drinks-drawer');
  if(drawer){
-  let opener;
-  for(const button of main.querySelectorAll('[data-cabinet-open]'))button.addEventListener('click',()=>{
-   opener=button;const kind=button.dataset.cabinetOpen;
-   for(const panel of drawer.querySelectorAll('[data-cabinet-panel]'))panel.hidden=panel.dataset.cabinetPanel!==kind;
-   drawer.setAttribute('aria-labelledby','drinks-'+kind+'-title');drawer.showModal();
-   document.body.classList.add('drawer-open');
-   if(!matchMedia('(prefers-reduced-motion: reduce)').matches)drawer.animate([{transform:matchMedia('(max-width:700px)').matches?'translateY(100%)':'translateX(100%)',opacity:.4},{transform:'translate(0)',opacity:1}],{duration:220,easing:'cubic-bezier(.2,.8,.2,1)'});
-  },options);
+  let opener,index=0;const buttons=[...main.querySelectorAll('[data-cabinet-open]')],panels=[...drawer.querySelectorAll('[data-cabinet-panel]')];
+  const selectDrink=i=>{index=i;const panel=panels[i];for(const p of panels)p.hidden=p!==panel;drawer.querySelector('#drawer-title').textContent=panel.querySelector('h2').textContent;drawer.dataset.short=String(!!panel.querySelector('.drink-personal-note'));drawer.querySelector('.drawer-content').scrollTop=0;drawer.querySelector('[data-drink-position]').textContent=`${i+1} / ${panels.length}`;for(const b of drawer.querySelectorAll('[data-drink-step]'))b.disabled=Number(b.dataset.drinkStep)<0?i===0:i===panels.length-1;};
+  buttons.forEach((button,i)=>button.addEventListener('click',()=>{opener=button;selectDrink(i);drawer.showModal();document.body.classList.add('drawer-open');drawer.querySelector('[data-cabinet-close]').focus({preventScroll:true});},options));
+  drawer.querySelectorAll('[data-drink-step]').forEach(button=>button.addEventListener('click',()=>selectDrink(Math.max(0,Math.min(panels.length-1,index+Number(button.dataset.drinkStep)))),options));
   drawer.querySelector('[data-cabinet-close]').addEventListener('click',()=>drawer.close(),options);
-  drawer.addEventListener('click',e=>{if(e.target===drawer){const rect=drawer.getBoundingClientRect();if(e.clientX<rect.left||e.clientX>rect.right||e.clientY<rect.top||e.clientY>rect.bottom)drawer.close();}},options);
-  drawer.addEventListener('close',()=>{document.body.classList.remove('drawer-open');if(document.activeElement===document.body||drawer.contains(document.activeElement))opener?.focus({preventScroll:true});},options);
+  drawer.addEventListener('click',e=>{if(e.target===drawer){const r=drawer.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)drawer.close();}},options);
+  drawer.addEventListener('close',()=>{document.body.classList.remove('drawer-open');opener?.focus({preventScroll:true});},options);
   options.signal.addEventListener('abort',()=>{if(drawer.open)drawer.close();document.body.classList.remove('drawer-open');},{once:true});
  }
  const journal=main.querySelector('.city-journal');
@@ -238,7 +243,7 @@ function initialiseView({scrollToHash=true}={}){
   const closeNote=({focus=false}={})=>{note.hidden=true;stage.classList.remove('has-note');document.body.classList.remove('city-note-open');selectedCity=null;for(const marker of markers.values())marker.getElement()?.classList.remove('is-selected');if(focus)(noteOpener||viewport).focus({preventScroll:true});};
   const choosePlace=(id,{focus=false,fromPin=false}={})=>{
    const city=places.find(place=>place.id===id);if(!city)return;
-   selectedCity=city;noteOpener=markers.get(id)?.getElement()||document.activeElement;
+   selectedCity=city;noteOpener=fromPin?markers.get(id)?.getElement():document.activeElement;
    for(const panel of journal.querySelectorAll('[data-journal-city-panel]'))panel.hidden=panel.dataset.journalCityPanel!==id;
    journal.querySelector('[data-journal-city]').textContent=city.name+' / '+city.level;
    note.hidden=false;stage.classList.add('has-note');document.body.classList.add('city-note-open');develop(note);
@@ -273,9 +278,13 @@ function initialiseView({scrollToHash=true}={}){
    map.addControl(new Overview());
    map.on('click',()=>{if(selectedCity)reset();});
    const tiles=L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,keepBuffer:1,attribution:'© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>'}).addTo(map);
-   const status=journal.querySelector('[data-map-status]');let loadedTiles=0;
-   tiles.on('tileload',()=>{loadedTiles++;status.textContent='';});
-   tiles.on('tileerror',()=>{showFallback();if(!loadedTiles)status.textContent=t('底圖暫時未能加載，仍可點圖釘翻頁。','The basemap is unavailable; pins still open their pages.');});
+   const status=journal.querySelector('[data-map-status]');let loadedTiles=0,failedTiles=0,pendingTimer;
+   const beginTiles=()=>{clearTimeout(pendingTimer);loadedTiles=0;failedTiles=0;status.textContent=t('正在加載底圖…','Loading map…');pendingTimer=setTimeout(()=>{status.textContent=t('底圖加載較慢，可以直接選擇上方地點。','The map is taking longer. Choose a place above.');},5000);};
+   tiles.on('loading',beginTiles);beginTiles();
+   tiles.on('tileload',()=>{loadedTiles++;});
+   tiles.on('tileerror',()=>{failedTiles++;showFallback();});
+   tiles.on('load',()=>{clearTimeout(pendingTimer);status.textContent=failedTiles?(loadedTiles?t('部分底圖未能加載，地點記錄仍可打開。','Some map tiles are unavailable. Place notes still work.'):t('底圖暫不可用，請選擇上方地點。','Map unavailable. Choose a place above.')):'';});
+   options.signal.addEventListener('abort',()=>clearTimeout(pendingTimer),{once:true});
    reset();
    for(const city of places){
     const label=document.createElement('span');label.textContent=city.name;
@@ -291,7 +300,7 @@ function initialiseView({scrollToHash=true}={}){
   }else{showFallback();viewport.hidden=true;journal.querySelector('[data-map-status]').textContent=t('可以使用上方地名打開記錄。','Choose a place above to open its notes.');}
  }
  if(new URLSearchParams(location.search).get('contact')==='open')contactPanel.showPopover();
- revealHash({scroll:scrollToHash});
+ restoreView(main);revealHash({scroll:scrollToHash});
 }
 paintIcons();initialiseView();window.addEventListener('hashchange',revealHash);
 setInterval(()=>{const clock=document.querySelector('[data-local-time]');if(!clock)return;const now=new Date();clock.textContent=new Intl.DateTimeFormat('en-GB',{timeZone:'Asia/Hong_Kong',hour:'2-digit',minute:'2-digit',hour12:false}).format(now);clock.dateTime=now.toISOString();},30000);
@@ -299,12 +308,12 @@ setInterval(()=>{const clock=document.querySelector('[data-local-time]');if(!clo
 let navigationController,navigationId=0,renderedPath=location.pathname;
 let loadingTimer;
 history.scrollRestoration='manual';
-history.replaceState({...history.state,scroll:scrollY},'');
+history.replaceState({...history.state,scroll:history.state?.scroll??scrollY},'');
 function syncHead(doc){
  const selector='meta[name="description"],meta[name="robots"],meta[property^="og:"],link[rel="canonical"],link[rel="alternate"][hreflang],script[type="application/ld+json"]';
  document.head.querySelectorAll(selector).forEach(node=>node.remove());
  doc.head.querySelectorAll(selector).forEach(node=>document.head.append(node.cloneNode(true)));
 }
-async function navigate(url,{pop=false,scroll=0}={}){const id=++navigationId;navigationController?.abort();navigationController=new AbortController();clearTimeout(loadingTimer);loadingTimer=setTimeout(()=>document.body.classList.add('is-loading'),140);try{const response=await fetch(url,{signal:navigationController.signal,cache:'no-cache'});if(!response.ok)throw new Error('Navigation failed');const doc=new DOMParser().parseFromString(await response.text(),'text/html');if(!doc.querySelector('main')){location.href=url;return;}const nextScript=doc.querySelector('script[type=module]')?.getAttribute('src'),currentScript=document.querySelector('script[type=module]')?.getAttribute('src');if(nextScript&&currentScript&&nextScript!==currentScript){location.href=url;return;}if(id!==navigationId)return;if(!pop){history.replaceState({...history.state,scroll:scrollY},'');history.pushState({scroll:0},'',url);}menu.close();if(contactPanel.matches(':popover-open'))contactPanel.hidePopover();viewAbort?.abort();document.querySelector('main').replaceChildren(...doc.querySelector('main').childNodes);document.title=doc.title;syncHead(doc);document.body.dataset.page=doc.body.dataset.page;renderedPath=new URL(url,location.href).pathname;document.querySelector('.desktop-nav').replaceChildren(...doc.querySelector('.desktop-nav').childNodes);const nextLangLinks=[...doc.querySelectorAll('.language-link')];document.querySelectorAll('.language-link').forEach((link,i)=>{if(nextLangLinks[i])link.href=nextLangLinks[i].href;});document.querySelector('#site-menu nav').replaceChildren(...doc.querySelector('#site-menu nav').childNodes);paintIcons(menu);paintIcons(document.querySelector('.site-header'));initialiseView({scrollToHash:!pop});if(pop||!new URL(url,location.href).hash)window.scrollTo({top:scroll,behavior:'instant'});document.querySelector('main').focus({preventScroll:true});}catch(error){if(error.name!=='AbortError')location.href=url;}finally{if(id===navigationId){clearTimeout(loadingTimer);document.body.classList.remove('is-loading');}}}
+async function navigate(url,{pop=false,scroll=0}={}){clearTimeout(stateTimer);if(!pop)captureView();const id=++navigationId;navigationController?.abort();navigationController=new AbortController();clearTimeout(loadingTimer);loadingTimer=setTimeout(()=>document.body.classList.add('is-loading'),140);try{const response=await fetch(url,{signal:navigationController.signal,cache:'no-cache'});if(!response.ok)throw new Error('Navigation failed');const doc=new DOMParser().parseFromString(await response.text(),'text/html');if(!doc.querySelector('main')){location.href=url;return;}const nextScript=doc.querySelector('script[type=module]')?.getAttribute('src'),currentScript=document.querySelector('script[type=module]')?.getAttribute('src');if(nextScript&&currentScript&&nextScript!==currentScript){location.href=url;return;}if(id!==navigationId)return;if(!pop){history.replaceState({...history.state,scroll:scrollY},'');history.pushState({scroll:0},'',url);}menu.close();if(contactPanel.matches(':popover-open'))contactPanel.hidePopover();viewAbort?.abort();document.querySelector('main').replaceChildren(...doc.querySelector('main').childNodes);document.title=doc.title;syncHead(doc);document.body.dataset.page=doc.body.dataset.page;renderedPath=new URL(url,location.href).pathname;document.querySelector('.desktop-nav').replaceChildren(...doc.querySelector('.desktop-nav').childNodes);const nextLangLinks=[...doc.querySelectorAll('.language-link')];document.querySelectorAll('.language-link').forEach(link=>{const next=nextLangLinks.find(e=>e.lang===link.lang);if(next)link.href=next.href;});document.querySelector('#site-menu nav').replaceChildren(...doc.querySelector('#site-menu nav').childNodes);paintIcons(menu);paintIcons(document.querySelector('.site-header'));initialiseView({scrollToHash:!pop});if(pop||!new URL(url,location.href).hash)window.scrollTo({top:scroll,behavior:'instant'});document.querySelector('main').focus({preventScroll:true});}catch(error){if(error.name!=='AbortError')location.href=url;}finally{if(id===navigationId){clearTimeout(loadingTimer);document.body.classList.remove('is-loading');}}}
 document.addEventListener('click',e=>{const anchor=e.target.closest('a[href]');if(!anchor||e.defaultPrevented||e.button!==0||e.metaKey||e.ctrlKey||e.shiftKey||e.altKey||anchor.target||anchor.hasAttribute('download')||anchor.classList.contains('language-link'))return;const url=new URL(anchor.href),current=new URL(location.href);if(url.origin!==current.origin||url.pathname.split('/').slice(0,-1).join('/')!==current.pathname.split('/').slice(0,-1).join('/')||!url.pathname.endsWith('.html'))return;if(url.pathname===current.pathname&&url.search===current.search)return;e.preventDefault();navigate(url.href);});
-window.addEventListener('popstate',e=>{if(location.pathname===renderedPath){initialiseView({scrollToHash:!!location.hash});if(!location.hash)window.scrollTo({top:e.state?.scroll||0,behavior:'instant'});return;}navigate(location.href,{pop:true,scroll:e.state?.scroll||0});});
+window.addEventListener('popstate',e=>{clearTimeout(stateTimer);if(location.pathname===renderedPath){initialiseView({scrollToHash:!!location.hash});if(!location.hash)window.scrollTo({top:e.state?.scroll||0,behavior:'instant'});return;}navigate(location.href,{pop:true,scroll:e.state?.scroll||0});});
